@@ -1,0 +1,91 @@
+{
+    
+    "output_format": {
+        "contracts": {
+            "SerialNumber": {
+                "actual_datasoure_name": "SerialNumber",
+                "output_format": "text : upper"
+            },
+            "ContractNumber": {
+                "actual_datasoure_name": "ContractNumber",
+                "output_format": ""
+            },
+            "ContractCoverage": {
+                "actual_datasoure_name": "Eaton_ContractType",
+                "output_format": "text : capitalize each word"
+            },
+            "ContractCoverageDescription": {
+                "actual_datasoure_name": "",
+                "output_format": "text : capitalize each word"
+            },
+            "ContractStatus": {
+                "actual_datasoure_name": "Contract_Status",
+                "output_format": "text : capitalize each word"
+            },
+            "Contract_StartDate": {
+                "actual_datasoure_name": "Contract_Start_Date",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "Contract_EndDate": {
+                "actual_datasoure_name": "Contract_Expiration_Date",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "WarrantyNumber": {
+                "actual_datasoure_name": "ContractNumber",
+                "output_format": ""
+            },
+            "WarrantyStatus": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "Warranty_StartDate": {
+                "actual_datasoure_name": "Warranty_Start_Date",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "Warranty_EndDate": {
+                "actual_datasoure_name": "Warranty_Expiration_Date",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "Warranty_Conversion": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "was_startedup": {
+                "actual_datasoure_name": "was_startedup",
+                "output_format": "bool"
+            },
+            "startup_date": {
+                "actual_datasoure_name": "startup_date",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "BillTo_Address_1": {
+                "actual_datasoure_name": "BillingStreet",
+                "output_format": "text : capitalize each word"
+            },
+            "BillTo_Address_2": {
+                "actual_datasoure_name": "BillingAddress",
+                "output_format": "text : capitalize each word"
+            },
+            "BillTo_City": {
+                "actual_datasoure_name": "BillingCity",
+                "output_format": "text : capitalize each word"
+            },
+            "BillTo_State": {
+                "actual_datasoure_name": "BillingState",
+                "output_format": "text : capitalize each word"
+            },
+            "BillTo_PostalCode": {
+                "actual_datasoure_name": "BillingPostalCode",
+                "output_format": "text : capitalize each word"
+            },
+            "BillTo_Country": {
+                "actual_datasoure_name": "BillingCountry",
+                "output_format": "text : capitalize each word"
+            },
+            "Contract_Amount": {
+                "actual_datasoure_name": "Contract_Amount",
+                "output_format": ""
+            }
+        }
+    }
+}

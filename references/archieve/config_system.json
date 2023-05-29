@@ -1,0 +1,9 @@
+{
+ "log_level": "Debug",
+  "log_level_options": [
+    "Debug",
+    "Info"
+  ],
+  "log_var_size": false,
+  "key_vault": ""
+}

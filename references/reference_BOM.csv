@@ -1,0 +1,784 @@
+Part_Number,Product,Description,Type
+BCMS Monitor             ,BCMS,Color touch screen ,BCMS
+BCMS Monitor             ,Spare Parts,Color touch screen ,BCMS
+BCMS-COLD KIT            ,BCMS,2 Panel BCMS Kit wi,BCMS
+BCMS-COLD KIT            ,BCMS,BCMS 84-Pole Solid ,BCMS
+BCMS-COLD KIT            ,BCMS,2 Panel Square D So,BCMS
+BCMS-COLD KIT            ,BCMS,1 Panel BCMS Kit wi,BCMS
+BCMS-COLD KIT            ,OTHER,1 Panelboard Split ,BCMS
+MOD16134                 ,BCMS,"WS,10 INCH SCREEN A",BCMS
+225A Busway End-Feed     ,BUSWAY - Other,225A Bus End Feeds ,OTHER
+225A Busway Feeder       ,BUSWAY - Other,HPW-225-4PG-4-EN-RH,OTHER
+225A Busway Feeder       ,BUSWAY - Other,"""YOU MUST COMPLETE ",OTHER
+225A Busway Feeder       ,BUSWAY - Other,HPW-225-4PG-4-EN-LH,OTHER
+225A Busway Section      ,BUSWAY - Other,225A Bus Sections ,OTHER
+250A Busway Feeder       ,BUSWAY - Other,HPW-225-4PG-4-EN-RH,OTHER
+Busway Accessory 160-250A,BUSWAY - Other,HPW-225-4EC-CMSTB,OTHER
+Busway Accessory 160-250A,BUSWAY - Other,EXTRA SPLICE,OTHER
+Busway Accessory 160-250A,BUSWAY - Other,HPW-225-4EC-CMSTP,OTHER
+Busway Accessory 160-250A,BUSWAY - Other,"""YOU MUST COMPLETE ",OTHER
+Busway Accessory 160-250A,BUSWAY - Other,HPW-225-EC,OTHER
+Busway Hanger (160A-400A),BUSWAY - Other,"""YOU MUST COMPLETE ",OTHER
+Busway Hanger (160A-400A),BUSWAY - Other,HPW-225-4-H38-2-CMS,OTHER
+Busway Hanger (160A-400A),BUSWAY - Other,HPW-225-VH38,OTHER
+MIS0509                  ,BUSWAY - Other,HAR-PORT SEALING CO,OTHER
+PCB32109                 ,BUSWAY - Other,"PCA,BREAKER I/O, GP",OTHER
+13100746,BUSWAY - RAIL,HPW2-250-4PG-DG-4-E,BUSWAY - RAIL
+13100747,BUSWAY - RAIL,HPW2-250-4PG-DG-4-E,BUSWAY - RAIL
+13100750,BUSWAY - RAIL,HPW2-400-4PG-DG-4-E,BUSWAY - RAIL
+13100751,BUSWAY - RAIL,HPW2-400-4PG-DG-4-E,BUSWAY - RAIL
+13100752,BUSWAY - RAIL,HPW2-400-4PG-DG-4-E,BUSWAY - RAIL
+13100753,BUSWAY - RAIL,HPW2-400-4PG-DG-4-E,BUSWAY - RAIL
+225A Busway Rail         ,BUSWAY - Other,HPW-225-4PG-4-120-C,BUSWAY - RAIL
+225A Busway Starter Rail ,BUSWAY - Other,HPW-225-4PG-4-SR-LH,BUSWAY - RAIL
+225A Busway Starter Rail ,BUSWAY - Other,"""YOU MUST COMPLETE ",BUSWAY - RAIL
+225A Busway Starter Rail ,BUSWAY - Other,HPW-225-4PG-4-SR-RH,BUSWAY - RAIL
+250A BUS RUN - LH        ,BUSWAY - RAIL,COMPLETE 250A BUS R,BUSWAY - RAIL
+250A BUS RUN - RH        ,BUSWAY - RAIL,COMPLETE 250A BUS R,BUSWAY - RAIL
+400A BUS RUN - LH        ,BUSWAY - RAIL,COMPLETE 400A BUS R,BUSWAY - RAIL
+400A BUS RUN - RH        ,BUSWAY - RAIL,COMPLETE 400A BUS R,BUSWAY - RAIL
+13401930,BUSWAY - TOB,V422SG-SM-1-460C9-0,BUSWAY - TOB
+13404610,BUSWAY - TOB,V722SG-JG-1-E1016-2,BUSWAY - TOB
+13406510,BUSWAY - TOB,V422SG-S8-1-460C9-0,BUSWAY - TOB
+13407120,BUSWAY - TOB,V465SD-GF-2-L2130C-,BUSWAY - TOB
+13407140,BUSWAY - TOB,V465SD-GF-2-L2130C-,BUSWAY - TOB
+13404610-REF             ,BUSWAY - TOB,V722SG-JG-1-E1016-2,BUSWAY - TOB
+Bus Tap Off Box          ,BUSWAY - Other,TOB for 225A/400A B,Busway - TOB
+Bus Tap Off Box          ,BUSWAY - Other,Tap-Off Boxes for 2,Busway - TOB
+Bus Tap Off Box          ,BUSWAY - Other,TOB for Vertical Bu,Busway - TOB
+Bus Tap Off Box          ,BUSWAY - Other,TOB for 225A Vertic,Busway - TOB
+Bus Tap Off Box          ,BUSWAY - Other,Tap-Off Box for Ver,Busway - TOB
+Bus Tap Off Box          ,BUSWAY - Other,Tap-Off Box for 225,Busway - TOB
+MOD66971                 ,MISC STEEL PARTS,KICK PLATE ENCLOSUR,OTHER
+MOD70972-BK01            ,MISC STEEL PARTS,"FLRSTD,85.5""WX57""DX",OTHER
+MOD73234                 ,MISC STEEL PARTS,"BKT,SPRT,GLASTIC BA",OTHER
+13100688,OTHER,HPW2-400-4PG-DG-8-B,OTHER
+13100697,OTHER,HPW2-400-4PG-DG-4-E,OTHER
+13100698,OTHER,HPW2-400-4PG-DG-8-S,OTHER
+13100700,OTHER,HPW2-400-4PG-DG-8-B,OTHER
+13100708,OTHER,HPW2-250-4PG-DG-8-S,OTHER
+13100782,OTHER,HPW2-400-DG-4PG-8-B,OTHER
+13300008,OTHER,HPW2-400-VH38      ,OTHER
+13300009,OTHER,HPW2-400-4EC       ,OTHER
+13300051,OTHER,HPW2-250-VH38      ,OTHER
+13300052,OTHER,HPW2-250-EC        ,OTHER
+13300208,OTHER,HPW2-250-4PG-SP    ,OTHER
+13300216,OTHER,HPW2-400-4PG-SP    ,OTHER
+04-32050-100             ,OTHER,TUBING HEATSHRINK 1,OTHER
+05-00016-005             ,OTHER,"BOLT, PPH, 1420, 0.",OTHER
+05-00080-001             ,OTHER,LABEL CB-1         ,OTHER
+05-00080-002             ,OTHER,LABEL CB-2         ,OTHER
+05-00080-003             ,OTHER,LABEL CB-3         ,OTHER
+05-00080-004             ,OTHER,LABEL CB-4         ,OTHER
+05-00080-005             ,OTHER,LABEL CB-5         ,OTHER
+05-00080-006             ,OTHER,LABEL CB-6         ,OTHER
+05-00080-007             ,OTHER,LABEL CB-7         ,OTHER
+05-00080-008             ,OTHER,LABEL CB-8         ,OTHER
+05-00080-009             ,OTHER,LABEL CB-9         ,OTHER
+1st Year Warranty        ,OTHER,Catalog # UPS A,OTHER
+4 Hour Response Year One ,OTHER,XX4NXXX-1100,OTHER
+5P550R                   ,OTHER,5P 550 R Rack model,OTHER
+71-PAINT-00              ,OTHER,SPECIAL PAINT      ,OTHER
+8-00132-09               ,OTHER,"JUMP,24/TAP,1/0AWG ",OTHER
+9395-1100-1100-CW        ,Spare Parts,labor for UPS commi,OTHER
+9395-1100-1100-CW        ,Spare Parts,EH384BAA04  - 5x ,OTHER
+97-120056-00             ,OTHER,"POST, HORIZONTAL, F",OTHER
+97-150246-02             ,OTHER,"WELD, PANEL, REAR T",OTHER
+97-150247-02             ,OTHER,"WELD, PANEL, REAR B",OTHER
+97-150247-XX             ,OTHER,"WELD, PANEL, REAR B",OTHER
+97-180054-00             ,OTHER,"INSULATION, INPUT C",OTHER
+97-190330-BK01           ,MISC STEEL PARTS,"FLRSTD,60""W X 42""D ",OTHER
+97-190330-BK01           ,OTHER,"FLRSTD,60""W X 42""D ",OTHER
+97-190334-01             ,OTHER,MTG PLATE ASSY     ,OTHER
+97-190334-XX             ,OTHER,MTG PLATE ASSY     ,OTHER
+97-190522-02             ,MISC STEEL PARTS,"FLRSTD, 60""W X 42""D",OTHER
+97-190522-02             ,Powerhub Low Voltage,"FLRSTD, 60""W X 42""D",OTHER
+97-190527-XX             ,MISC STEEL PARTS,"FLRSTD, 60""W X 42""D",OTHER
+97-190675-XX             ,OTHER,"FLRSTD, COVER PLATE",OTHER
+97-WSTARPDU-702          ,OTHER,POWER SUPPLY 120WAT,OTHER
+984-00020-05             ,OTHER,CT 800:5 SQD#3090SC,OTHER
+98-90596-413             ,PDU,SKIRT ASSY         ,OTHER
+98-90596-414             ,PDU,500 KVA SKIRT ASSY ,OTHER
+98-90596-900             ,MISC STEEL PARTS,FLOOR STAND ASSY 48,OTHER
+98-90596-950             ,MISC STEEL PARTS,FLOOR STAND ASSY 48,OTHER
+98-90596-975             ,MISC STEEL PARTS,FLOOR STAND ASSY 36,OTHER
+98-90596-975             ,PDU,FLOOR STAND ASSY 36,OTHER
+98-90596-975             ,Powerhub Low Voltage - other,FLOOR STAND ASSY 36,OTHER
+ALLOTMENT OF CABLES      ,Spare Parts, (1) 32' L520R 10a,OTHER
+BAT09260                 ,OTHER,"Lithium,3V,2/3AG   ",OTHER
+Battery                  ,OTHER,Catalog # NSB12-730,OTHER
+Battery Cabinet          ,OTHER,Catalog # EFC52AA40,OTHER
+BCB06439                 ,Spare Parts,"1P,20A,22k/120V,SQD",OTHER
+BCB06440                 ,Spare Parts,"2P,20A,22k/240V,SQD",OTHER
+BCB06440                 ,Spare Parts,"SQ-D, 2P, 20A, 22KA",OTHER
+BCB06441                 ,OTHER,"2P,30A,22k/240V,SQD",OTHER
+BCB06441                 ,Spare Parts,"2P,30A,22k/240V,SQD",OTHER
+BCB06441                 ,Spare Parts,"SQ-D, 2P, 30A, 22KA",OTHER
+BCB06442                 ,OTHER,"3P,30A,22k/240V,SQD",OTHER
+BCB06442                 ,Spare Parts,"3P,30A,22k/240V,SQD",OTHER
+BCB06442                 ,Spare Parts,"SQ-D, 3P, 30A, 22KA",OTHER
+BCB06443                 ,Spare Parts,"3P,50A,22k/240V,SQD",OTHER
+BCB06444                 ,OTHER,"3P,60A,22k/240V,SQD",OTHER
+BCB06444                 ,Spare Parts,"3P,60A,22k/240V,SQD",OTHER
+BCB06444                 ,Spare Parts,"SQ-D, 3P, 60A, 22KA",OTHER
+BCB06509                 ,Spare Parts,"1P,30A,22k/120V,SQD",OTHER
+BCB06509                 ,Spare Parts,"SQ-D, 1P, 30A, 22KA",OTHER
+BCB06510                 ,Spare Parts,"SQ-D, 3P, 15A, 22KA",OTHER
+BCB06511                 ,Spare Parts,"SQ-D, 2P, 15A, 22KA",OTHER
+BCB06585                 ,Spare Parts,"3P,20A,22k/240V,SQD",OTHER
+BCB08229                 ,Spare Parts,"2P,50A,22k/240V,SQD",OTHER
+BCB08613                 ,Spare Parts,"2P,60A,22k/240V,SQD",OTHER
+BCB11902                 ,Spare Parts,"SQ-D, 2P, 20A, 22KA",OTHER
+BCB11903                 ,Spare Parts,"SQ-D, 3P, 30A, 22KA",OTHER
+BCB12099                 ,Spare Parts,"SQ-D, 1P, 15A, 22KA",OTHER
+BCB12367                 ,Spare Parts,"SQD, 3P, 20A, 22kAI",OTHER
+BCB12443                 ,Spare Parts,"SQ-D, 1P, 20A, 22KA",OTHER
+BCB12508                 ,Spare Parts,"1P,30A,35k/480V,SQD",OTHER
+BCB12508                 ,Spare Parts,SQD-480V-NF-EGB-1P-,OTHER
+BCB12554                 ,OTHER,SQD-480V-NF-EGB-3P-,OTHER
+BCB15051                 ,Spare Parts,"SQ-D, 2P, 50A, 22KA",OTHER
+BCB19050                 ,Spare Parts,SQD-480V-NF-EDB-3P-,OTHER
+BCB19106                 ,Spare Parts,"1P,30A,18k/480V,SQD",OTHER
+BCB20411                 ,OTHER,"30A,3P,35KAIC,480VA",OTHER
+BCB57308                 ,Spare Parts,"2P,30A,22k/240V,SQD",OTHER
+BCB57399                 ,Spare Parts,"1P,15A,10k/120V,SQD",OTHER
+BCB57401                 ,Spare Parts,"1P,30A,10k/120V,SQD",OTHER
+BCB57406                 ,Spare Parts,"2P,15A,10k/240V,SQD",OTHER
+BCB57407                 ,Spare Parts,"2P,20A,10k/240V,SQD",OTHER
+BCB57408                 ,Spare Parts,"2P,30A,10k/240V,SQD",OTHER
+BCB57410                 ,Spare Parts,"2P,50A,10k/240V,SQD",OTHER
+BCB57411                 ,Spare Parts,"2P,60A,10k/240V,SQD",OTHER
+BCB57413                 ,Spare Parts,"3P,100A,10k/240V,SQ",OTHER
+BCB57414                 ,Spare Parts,"3P,15A,10k/240V,SQD",OTHER
+BCB57415                 ,Spare Parts,"3P,20A,10k/240V,SQD",OTHER
+BCB57418                 ,Spare Parts,"3P,50A,10k/240V,SQD",OTHER
+BKT14132                 ,SBR FRONT - other,"BRACKET,SEISMIC,MTG",OTHER
+BKT14133                 ,SBR FRONT - other,"BRACKET,SEISMIC,MTG",OTHER
+BKT18415                 ,OTHER,"LOCKING CLIP, U-CHA",OTHER
+BLT0191                  ,OTHER,"#10-32,5/8"",CS,HH,S",OTHER
+BLT18713                 ,OTHER,".16-32,0.75,PAN,PH,",OTHER
+BLT68831                 ,OTHER,"BLT,4-40X .5L,THUMP",OTHER
+BLT69909                 ,OTHER,".25-20,0.50,PAN,PH,",OTHER
+BLT70133                 ,OTHER,"BOLT,M4X0.7,10,TAP,",OTHER
+BLT70197                 ,OTHER,".313-18,1.00,PEM,CL",OTHER
+BLTB0479                 ,OTHER,"5/16-18X1""HIGHSTREN",OTHER
+Branch Circuit Breaker   ,OTHER,1 Lot of Branch Cir,OTHER
+Branch Circuit Breaker   ,OTHER,"Qty (84) 1-Pole, 20",OTHER
+Bus Kit                  ,OTHER,400A STS Output Bus,OTHER
+BUS57994                 ,OTHER,"BRANCH,L-PLG,A/C-PH",OTHER
+BUS57995                 ,OTHER,"BRANCH,L-PLG,B-PH  ",OTHER
+BUS57997                 ,OTHER,"BRANCH,L-PLG,A/C-PH",OTHER
+BUSB0190                 ,OTHER,"JUMPER,DG,250-400A,",OTHER
+CBL00001                 ,Spare Parts,"ASY,6WRE/24AWG/SHLD",OTHER
+CBL0414                  ,OTHER,EATON PXM DISPLAY C,OTHER
+CBL09292                 ,OTHER,"ETHERNET CABLE,SHEI",OTHER
+CHS66968-H36             ,SBR FRONT - other,"FLRSTND,1000A,STS-E",OTHER
+CHS68248                 ,PDU - other,"54 X 60,PDU FLOOR S",OTHER
+CKB05554                 ,Spare Parts,"SHNT TRIP,LC/LE/LI/",OTHER
+CKB09704                 ,Spare Parts,"SQ.D,250A, 240 VOLT",OTHER
+CKB09783                 ,OTHER,"AUX SWT,6A/24V,SQD,",OTHER
+CKB09783                 ,Spare Parts,"AUX SWT,6A/24V,SQD,",OTHER
+CKB11110                 ,OTHER,"HDL,T6,ROTARY,DRAW-",OTHER
+CKB11600                 ,OTHER,"KEY LOCKS,T6,OPEN,K",OTHER
+CKB11601                 ,OTHER,"KEY LOCKS,T6,OPEN,K",OTHER
+CKB14125                 ,OTHER,"SQD-LLN,3P,600A MCS",OTHER
+CKB14126                 ,OTHER,"SQD-LLN, 600A, 3P, ",OTHER
+CKB14126                 ,Spare Parts,"SQD-LLN, 600A, 3P, ",OTHER
+CKB15430                 ,OTHER,"3P,250A,18k/600V,SQ",OTHER
+CKB56521                 ,Spare Parts,"AUX CONTACT,LC/LE/L",OTHER
+CKB57157                 ,PDU - other,"3P,400A,18k/600V,SQ",OTHER
+CKB57157T                ,OTHER,"TEST,3P,400A,18K/60",OTHER
+CKB57181                 ,OTHER,400A LDP36400U33X 2,OTHER
+CKB57843                 ,OTHER,"SHNT TRIP,H/J-FRM,S",OTHER
+CKB66011                 ,Spare Parts,"SQD, LSI CKB MICROL",OTHER
+CKB66028                 ,OTHER,"3P,400A,65KA,480V,S",OTHER
+CKB66228                 ,OTHER,"AUX,3P,T5,600V,600A",OTHER
+CKB66739                 ,Spare Parts,"3P,800A,50KA,600V,S",OTHER
+CKB70406                 ,Upgrade,"3P,60A,35KA,480V,SQ",OTHER
+CKB72172                 ,Spare Parts,"MAGNUM DS BREAKER, ",OTHER
+CKBP0507T                ,OTHER,"3P600VAC,1200AF\800",OTHER
+Compact RPP              ,RPP - other,400A Moduclar Compa,OTHER
+CTD                      ,OTHER,Catalog # CTD9395,OTHER
+DIS72183                 ,OTHER,"EATON,PXM1300,DISP ",OTHER
+DOC58301                 ,OTHER,2nd Year Warranty f,OTHER
+DOC58301                 ,OTHER,Level 1b for (2) PD,OTHER
+DOR69487                 ,OTHER,"DOOR,INPUT,LEXAN   ",OTHER
+ENC18018                 ,BUSWAY - Other,"ENCLOSURE, 400A, ST",OTHER
+ENC73413                 ,OTHER,"STORAGE CABINET,BLA",OTHER
+Extended Warranty        ,OTHER,2ND YEAR FOR (4) PD,OTHER
+Extended Warranty        ,OTHER,2nd year extended w,OTHER
+Extended Warranty        ,OTHER,1 Year Extended War,OTHER
+Extended Warranty        ,OTHER,2ND YR Extended War,OTHER
+Extended Warranty        ,OTHER,1 YR EW ,OTHER
+Extended Warranty        ,OTHER,QTS 2 years        ,OTHER
+Extended Warranty        ,OTHER,1 YR EW of 8 Ph2PDU,OTHER
+Extended Warranty        ,OTHER,2ND year warranty  ,OTHER
+Extended Warranty        ,OTHER,(1) year extended f,OTHER
+Extended Warranty        ,OTHER,Type Level         ,OTHER
+Extended Warranty        ,OTHER,2nd YR EW ,OTHER
+Extended Warranty        ,OTHER,1 YR Extended Warra,OTHER
+Extended Warranty        ,OTHER,2nd year only      ,OTHER
+Extended Warranty        ,OTHER,Extended (1) year w,OTHER
+Extended Warranty        ,OTHER,2 years            ,OTHER
+Extended Warranty        ,OTHER,2ND YEAR WARRANTY F,OTHER
+Extended Warranty        ,OTHER,2nd year           ,OTHER
+Extended Warranty        ,OTHER,2nd year EW        ,OTHER
+Extended Warranty        ,OTHER,1 YR EW for 6 PH2PD,OTHER
+Extended Warranty        ,OTHER,1 YR EW of 6 PP2 PD,OTHER
+Extended Warranty        ,OTHER,2 Year Extended War,OTHER
+Extended Warranty        ,OTHER,1 YR EW of 6 PH2PDU,OTHER
+Extended Warranty        ,OTHER,One extended warran,OTHER
+Extended Warranty        ,OTHER,1 YR EW of 6 STS   ,OTHER
+Extended Warranty        ,OTHER,1 YR Warranty      ,OTHER
+Extended Warranty        ,OTHER,(1) year extended w,OTHER
+Factory Witness Testing  ,PDU - other,Factory Witness Tes,OTHER
+FAS-12-11017-11          ,OTHER,SOUTHCO-12-11017-11,OTHER
+FAS-121120511            ,OTHER,SOUTHCO-SLOTTED-STU,OTHER
+FAS-12-6-1               ,OTHER,SOUTHCO RETAINER   ,OTHER
+FAS-85-46-10141          ,OTHER,SOUTHCO-85-46-101-4,OTHER
+Flex 4 Hour 7x24         ,OTHER,XX4NXXX-1100,OTHER
+Floorskirt               ,PDU - other,Solid floorskirt fo,OTHER
+Floorstand               ,PDU - other,"24"" PDU Floorstand",OTHER
+Floorstand               ,PDU - other,Qty(2) STS-Front HO,OTHER
+Floorstand               ,PDU - other,STS Rear Panels ,OTHER
+Floorstand               ,PDU - other,44-52 Adjustable He,OTHER
+Floorstand               ,PDU - other,"48"" High Adjustable",OTHER
+Floorstand               ,PDU - other,"24"" Floorstand for ",OTHER
+Floorstand               ,SBR FRONT - other,Floorstand for STS,OTHER
+FLP12254                 ,OTHER,SQD-NF BRANCH BREAK,OTHER
+FLP12254                 ,RPP - other,SQD-NF BRANCH BREAK,OTHER
+FREIGHT                  ,OTHER,FREIGHT            ,OTHER
+FREIGHT                  ,OTHER,FREIGHT FOR (6) PDU,OTHER
+FREIGHT                  ,OTHER,FREIGHT NOT INCLUDE,OTHER
+Freight Battery          ,OTHER,Freight Included,OTHER
+Freight Equipment        ,OTHER,Freight Included,OTHER
+Freight Included         ,OTHER,Freight Included   ,OTHER
+Freight Included         ,OTHER,1 shipment from Ric,OTHER
+Freight Included         ,OTHER,"FOB Jobsite, Dock-t",OTHER
+Freight Included         ,OTHER,Freight Included PD,OTHER
+Freight Included         ,OTHER,1 shipment of PDUs ,OTHER
+Freight Job Site         ,OTHER,Freight Included,OTHER
+Freight Not Included     ,OTHER,Prepay & Add       ,OTHER
+Freight Not Included     ,OTHER,Prepay & Add      ,OTHER
+Freight Not Included     ,OTHER,Freight Not Include,OTHER
+Freight Not Included     ,OTHER,Prepay & Add     ,OTHER
+Freight Not Included     ,OTHER,Prepay & Add Attn:,OTHER
+Freight Not Included     ,OTHER,Prepay and add     ,OTHER
+Freight Not Included     ,OTHER,Prepay & Add    ,OTHER
+FUS00001                 ,OTHER,"UL,HLDR,FA,2.5A,600",OTHER
+FUS07888                 ,OTHER,"HLDR,MIDGET/DIN,CHM",OTHER
+FUS20003                 ,OTHER,"UL,HLDR,FA,1A,600V ",OTHER
+FUS57263                 ,OTHER,"Midget,TD,5A,500V  ",OTHER
+FUS57269                 ,OTHER,"Midget,HLDR,TD,3A,6",OTHER
+FUS57505                 ,OTHER,"Midget,HLDR,TD,0.5A",OTHER
+FUS57508                 ,OTHER,"UL,HLDR,FA,3A,600V ",OTHER
+HIN19886-BK              ,OTHER,"HIN,ADJ TORQ,POSITI",OTHER
+HIN19886-BK              ,OTHER,"ADJ-TORQ,DOR,POS CO",OTHER
+HNS0508                  ,BUSWAY - Other,HAR-PORT RJ45 Cat.6,OTHER
+HNS0508                  ,OTHER,HAR-PORT RJ45 Cat.6,OTHER
+HNS57024                 ,OTHER,"PH2,SUBFEED 4CB HAR",OTHER
+HPW-TOOL KIT             ,BUSWAY - Other,HPW-TOOL KIT-160-40,OTHER
+HPW-TOOL KIT             ,BUSWAY - Other,HPW-TOOLKIT-160-400,OTHER
+HPW-TOOL KIT             ,BUSWAY - Other,TOOL KIT           ,OTHER
+IND56561                 ,Spare Parts,"LED,RED,22MM,120V,2",OTHER
+IND56562                 ,Spare Parts,"LED,GRN,22MM,120V,2",OTHER
+IND56563                 ,Spare Parts,"LED,YEL,22MM,120V,2",OTHER
+IND56564                 ,Spare Parts,"LED,BLU,22MM,120V,2",OTHER
+IND56565                 ,Spare Parts,"LED,WH,22MM,120V,24",OTHER
+INS73213                 ,OTHER,GLASTIC PROTECTION ,OTHER
+INS73217                 ,OTHER,GLASTIC PROTECTION ,OTHER
+"JCOMM BOX, 2 PANEL BOARD ",Upgrade,"JCOMM BOX, 2 PANEL ",OTHER
+"JCOMM BOX, 3 PANEL BOARD ",Upgrade,"JCOMM BOX, 3 PANEL ",OTHER
+KNB21356                 ,OTHER,"KNOB,1/4-20X1/2""STU",OTHER
+LAB20535                 ,OTHER,84P SQD PANELBOARD ,OTHER
+LAB21055                 ,OTHER,84P SQD PANELBOARD ,OTHER
+LAB57313                 ,OTHER,LABEL PWRWAVE BUS S,OTHER
+Labor                    ,Labor,Training          ,OTHER
+Labor                    ,Labor,Labor and Travel du,OTHER
+Labor                    ,Labor,ATL1-DC2 DH1200 6M,OTHER
+Labor                    ,Labor,"Labor,   2 man te",OTHER
+Labor                    ,Labor,COMMISSIONING Labor,OTHER
+Labor                    ,Labor,"Labor,   Troubles",OTHER
+Labor                    ,Labor,"Labor, Travel   t",OTHER
+Labor                    ,Labor,ASH Trident -- Re-t,OTHER
+Labor                    ,Labor,"Labor, re-tap PDUs ",OTHER
+Labor                    ,Labor,"Labor,    Two da",OTHER
+Labor                    ,Labor,"Labor,   breaker ",OTHER
+Labor                    ,Labor,6 grid connect     ,OTHER
+Labor                    ,Labor,"Labor,    Scope ",OTHER
+Labor                    ,Labor,"Labor,   Labor to",OTHER
+Labor                    ,Labor,"Labor,   1 day of",OTHER
+Labor                    ,Labor,"Labor,    4 days",OTHER
+Labor                    ,Labor,Monday - Friday 8am,OTHER
+Labor                    ,Labor,"Labor, Travel and P",OTHER
+Labor                    ,Labor,PM Only of 4 STS 4,OTHER
+Labor                    ,Labor,"Labor,  change ta",OTHER
+Labor                    ,Labor,ATL1-DC2 Day 1 PDI ,OTHER
+Labor                    ,Labor,Labor to start up 6,OTHER
+Labor                    ,Labor,"Labor,   labor co",OTHER
+Labor                    ,Labor,Full Day During Bus,OTHER
+Labor                    ,Labor,Breaker swap - week,OTHER
+Labor                    ,Labor,Commissioning of AS,OTHER
+Labor                    ,Labor,"Labor,   commissi",OTHER
+Labor                    ,Labor,"Labor,  4 days co",OTHER
+Labor                    ,Labor,"Labor,  Labor  c",OTHER
+Labor                    ,Labor,ATL1-DC2- DH1150 H,OTHER
+Labor                    ,Labor,QTS Rates  Startup,OTHER
+Labor                    ,Labor,Commissioning & Mec,OTHER
+Labor                    ,Labor,labor for start up ,OTHER
+Labor                    ,Labor,"Labor,   Serial ",OTHER
+Labor                    ,Labor,"Labor,  commissio",OTHER
+Labor                    ,Labor,"Labor,   upgrade ",OTHER
+Labor                    ,Labor,PM Only of 87 STS ,OTHER
+Labor                    ,Labor,factory labor to in,OTHER
+Labor                    ,Labor,FULL DAY TO   CTs,OTHER
+Labor                    ,Labor,"Labor,   3 days o",OTHER
+Labor                    ,Labor,ATL1-DC2- DH2150/2,OTHER
+Labor                    ,Labor,"Labor,  install T",OTHER
+Labor                    ,Labor,Extra Commissioning,OTHER
+Labor                    ,Labor,Labor and parts,OTHER
+Labor                    ,Labor,commissioning suppo,OTHER
+Labor                    ,Labor,"Labor,  breaker u",OTHER
+Labor                    ,Labor,PM ONLY ON PDUS T1,OTHER
+Labor                    ,Labor,Labor - OT adder,OTHER
+Labor                    ,Labor,P-0179 ATL1 - DC2 ,OTHER
+Labor                    ,Labor,Installation of the,OTHER
+Labor                    ,Labor,MAN1-PH2A PDI CX Su,OTHER
+Labor                    ,Labor,Commissioning  2 ,OTHER
+Labor                    ,Labor,Labor  4 days of ,OTHER
+Labor                    ,Labor,"Labor,   2nd star",OTHER
+Labor                    ,Labor,"Labor,   Request ",OTHER
+Labor                    ,Labor,Labor  Inspect 3 ,OTHER
+Labor                    ,Labor,Labor  install Q,OTHER
+Labor                    ,Labor,PM Only of 5 PDU 4,OTHER
+Labor                    ,OTHER,Return Shipment of ,OTHER
+Labor                    ,Upgrade,"Labor, Travel and P",OTHER
+LCH06774                 ,OTHER,"Lever,Key/LK,ZN,BK,",OTHER
+LCH08854                 ,OTHER,"SOUTHCO, GRABBER CA",OTHER
+LCH19830                 ,OTHER,"PSH/CL,KEY/LK,PL,BK",OTHER
+LUG15389                 ,OTHER,LUG KIT FOR SQ'D M/,OTHER
+LUG56804                 ,Spare Parts,"MECH,350KCMIL,AL,NO",OTHER
+LUG57550                 ,OTHER,LUG MECH 3-HOLE 6-2,OTHER
+Lugs                     ,SBR FRONT - other,Compression Lugs fo,OTHER
+Lugs                     ,SBR FRONT - other,Lugs & Insulators f,OTHER
+MET57845                 ,OTHER,"PWR MTR,SQD,SER-800",OTHER
+MET72184                 ,OTHER,"EATON,PXM1300,NO DI",OTHER
+MIS0189                  ,OTHER,"TAPE,DOUBLE SIDED,1",OTHER
+MIS0509                  ,OTHER,HAR-PORT SEALING CO,OTHER
+MIS08896                 ,OTHER,SOUTHCO-FLUSH MOUNT,OTHER
+MIS09042                 ,OTHER,"NUTBAR,BUS09021    ",OTHER
+MIS12509                 ,OTHER,GRID CONNECT RS485 ,OTHER
+MIS18025                 ,OTHER,"CLIP,LOCKING,BSWY  ",OTHER
+MIS19876                 ,OTHER,"PLG,CAP,NY,1-3/32,D",OTHER
+MIS56086                 ,OTHER,"PLUG,HOLE,PLSTC,HEY",OTHER
+MIS58995                 ,OTHER,"EPO PLUG,LOCKING,PS",OTHER
+MIS66818                 ,OTHER,"INSUL,OUTPUT BUS,PP",OTHER
+MIS72763                 ,OTHER,"CLIP,DEDICATED GROU",OTHER
+MISB0478                 ,OTHER,RJ45 COUPLER CAP-OF,OTHER
+MOD0154                  ,OTHER,EATON 1300 SERIES K,OTHER
+MOD0161                  ,OTHER,EATON 1000 ETHERNET,OTHER
+MOD15465                 ,OTHER,"ASY,ISOLATED GND,CM",OTHER
+MOD16134                 ,OTHER,"WS,10 INCH SCREEN A",OTHER
+MOD16888                 ,OTHER,FAN sA16062V1HBL AS,OTHER
+MOD20905                 ,OTHER,"FLOOR SKIRTS,600AMP",OTHER
+MOD56130                 ,OTHER,RPP spare kit **wit,OTHER
+MOD56139                 ,OTHER,"SPARE PARTS,WAVESTA",OTHER
+MOD56140                 ,OTHER,"SPARE PARTS,WAVESTA",OTHER
+MOD66122-WH04            ,OTHER,"KIT,PH2,500KVA,SOLI",OTHER
+MOD66148-WH04            ,OTHER,"KIT,PH2,SLOTTED SKI",OTHER
+MOD67481                 ,OTHER,EPO Switch Assembly,OTHER
+MOD68442                 ,OTHER,"KIT,UPGRADE,COLOVOR",OTHER
+MOD68475                 ,OTHER,"KIT,STS DIS,FIBER C",OTHER
+MOD68487                 ,OTHER,"KIT,SAS,FIBER CONTR",OTHER
+MOD70889                 ,OTHER,SBR STS PWS-LPQ172 ,OTHER
+MOD71041-WH00            ,OTHER,"KIT,SKIRT,54X40,SLO",OTHER
+MOD73264                 ,OTHER,"KIT ASSY,BARRIER PA",OTHER
+MODB0202                 ,OTHER,"SR, DG HARNESS     ",OTHER
+PCA16209                 ,OTHER,"WAVESTR TOUCH SCRN,",OTHER
+PCA16209                 ,OTHER,WAVESTAR MINI-7 GUI,OTHER
+PCB08028                 ,OTHER,"DC GATE DRIVER,MOD0",OTHER
+PCB08383                 ,OTHER,WAVESTR TRI REDUNDA,OTHER
+PCB08504                 ,OTHER,"BCMS CT BOARD,HOT F",OTHER
+PCB08553                 ,OTHER,"DCPS-OUT,TOP,PCB   ",OTHER
+PCB08555                 ,OTHER,"DCPS-S1/S2,TOP,PCB,",OTHER
+PCB08555                 ,OTHER,"DCPS-S1/S2,TOP,PCB ",OTHER
+PCB08728                 ,OTHER,"CT 60/100A PCB,GE, ",OTHER
+PCB08728                 ,OTHER,"BCMS, CT 60-100 AMP",OTHER
+PCB08961                 ,OTHER,"WAVESTR CONTRACTOR,",OTHER
+PCB09815                 ,OTHER,"BREAKER CT PCB,PCB1",OTHER
+PCB10897                 ,OTHER,"PCB, BCMS PLUS     ",OTHER
+PCB11555                 ,OTHER,"DATA MOD,WAVESTAR  ",OTHER
+PCB11639                 ,OTHER,DUAL PULSE GATE DRI,OTHER
+PCB11734                 ,OTHER,"BCMS PLUS LV/HV,PCB",OTHER
+PCB11734                 ,OTHER,BCMS PLUS LV AND HV,OTHER
+PCB13074                 ,OTHER,"SMAC BREAKER I/O,PC",OTHER
+PCB13241                 ,OTHER,DCPS 480V OUTP - 40,OTHER
+PCB15632                 ,OTHER,pcb11555-hvDATA HVP,OTHER
+PCB15632                 ,OTHER,pcb11556-hvDATA HVP,OTHER
+PCB15632                 ,OTHER,"DATA HVP,WAVESTAR  ",OTHER
+PCB17492                 ,OTHER,"BCMS-SQD,42 CT, 100",OTHER
+PCB17493                 ,OTHER,"BCMS-SQD,42 CT,100 ",OTHER
+PCB17734                 ,OTHER,"BCMS,42 CIRCUIT,100",OTHER
+PCB32109                 ,OTHER,"PCA,BREAKER I/O, GP",OTHER
+PCB56557                 ,OTHER,SPLIT CORE SUBFEED ,OTHER
+PCB65509                 ,OTHER,"V2 SNUBBER,SLOTTED,",OTHER
+PNL17075                 ,OTHER,"FACEPLATE, 150A, ST",OTHER
+PNL68329                 ,OTHER,"COMP,MOUNT,4 SQD J-",OTHER
+PNL69162-WH00            ,OTHER,"PNL, SIDE COVER TOP",OTHER
+PNL69167-WH00            ,OTHER,"PNL,SIDE COVER BOTT",OTHER
+PNL69281-WH00            ,OTHER,"PNL, REAR COVER TOP",OTHER
+PNL69282-WH00            ,OTHER,"PNL,REAR COVER BOTT",OTHER
+PNL69958                 ,OTHER,"SIDE PANEL, 14"" EXT",OTHER
+PNL69990                 ,OTHER,"SIDE PANEL, 14"" EXT",OTHER
+PNL72207                 ,OTHER,"PNL,COND,BLNK,TOP  ",OTHER
+Predict Pulse Insight - 1,OTHER,XXXXNIXX-1100,OTHER
+PWS00012                 ,Spare Parts,STATIC RAM REPLACES,OTHER
+PWS19989                 ,OTHER,"AC/DC SWTING,24V   ",OTHER
+PWS19989                 ,OTHER,24VDC AC/DC SWITCHI,OTHER
+PWS19989                 ,OTHER,"AC/DC SWTING,24V,OU",OTHER
+PWS20260                 ,OTHER,"24VDC AC/DC PS, 550",OTHER
+RIV17054                 ,OTHER,"RIVET, NY, 0.250 DI",OTHER
+RLY20300                 ,OTHER,"24VDC,10A,SPDT     ",OTHER
+ROD17345                 ,OTHER,"ROD, CAM ACTUATOR, ",OTHER
+RPP                      ,RPP - other,RPP-01-0-441-D2,OTHER
+SA-PCB0049 COMPLETE      ,Spare Parts,COMPLETE DCM PROCES,OTHER
+Seismic Bracing Brackets ,OTHER,Floor mounting brac,OTHER
+Seismic Bracing Brackets ,OTHER,BKT16125-12 no     ,OTHER
+Seismic Bracing Brackets ,SBR FRONT - other,Floor mounting brac,OTHER
+SERVICE START-UP         ,OTHER,Start-up for (12) P,OTHER
+SERVICE START-UP         ,OTHER,SERVICE START-UP   ,OTHER
+SERVICE START-UP         ,OTHER,SERVICE START-UP fo,OTHER
+SERVICE START-UP         ,OTHER,SERVICE START-UP of,OTHER
+SERVICE START-UP         ,OTHER,SERVICE START-UP  f,OTHER
+SERVICE START-UP         ,OTHER,SERVICE START-UP  6,OTHER
+SERVICE START-UP         ,OTHER,Start-up for (12) T,OTHER
+SERVICE START-UP         ,OTHER,Qty (24) STS Startu,OTHER
+SERVICE START-UP         ,OTHER,SERVICE START-UP  o,OTHER
+Service Training         ,OTHER,Commissioning surpp,OTHER
+Service Training         ,OTHER,Service Training   ,OTHER
+SPARE PARTS              ,OTHER,GE Solid Core CT St,OTHER
+SPARE PARTS              ,OTHER,(34)  BCB12554     ,OTHER
+SPARE PARTS              ,OTHER,labels       ,OTHER
+SPARE PARTS              ,OTHER,(1) PNL18409-WH (1,OTHER
+SPARE PARTS              ,Spare Parts,(30)   BCB06441    ,OTHER
+SPARE PARTS              ,Spare Parts,Qty. 8 - BKT11979 ,OTHER
+SPARE PARTS              ,Spare Parts,Floorstand for ASB0,OTHER
+SPARE PARTS              ,Spare Parts,BCB06442           ,OTHER
+SPARE PARTS              ,Spare Parts,BCB06441 - Circuit ,OTHER
+SPARE PARTS              ,Spare Parts,(2) QOB120     ,OTHER
+SPARE PARTS              ,Spare Parts,"Qty (1)	  BKT07546	",OTHER
+SPARE PARTS              ,Spare Parts,(18)  LUG16238    7,OTHER
+SPARE PARTS              ,Spare Parts,(10) BCB06443  (1,OTHER
+SPARE PARTS              ,Spare Parts,BCB06442        ,OTHER
+SPARE PARTS              ,Spare Parts,PCB08706           ,OTHER
+SPARE PARTS              ,Upgrade,CKB15430 BUS18613,OTHER
+SPARE PARTS Service      ,OTHER,RPP door assembly (,OTHER
+SPARE PARTS Service      ,Spare Parts,(20)  BCB06585 (10,OTHER
+SPARE PARTS Service      ,Spare Parts,(20) BCB06440,OTHER
+SPARE PARTS Service      ,Spare Parts,Breakers  (20) BC,OTHER
+SPARE PARTS Service      ,Spare Parts,Wavestar PDU spare ,OTHER
+Spill Containment        ,OTHER,Catalog # SCS-EFC52,OTHER
+Start UP                 ,OTHER,Catalog # UPS A,OTHER
+START-UP                 ,OTHER,START UP           ,OTHER
+SWT00006                 ,OTHER,"ENCLOSURE,GUARD,16m",OTHER
+TIME                     ,Labor,Labor and Travel   ,OTHER
+TIME                     ,Labor,start up & commissi,OTHER
+TIME                     ,Labor,Commissioning Suppo,OTHER
+TIME                     ,OTHER,(4) Days Commission,OTHER
+TIME                     ,OTHER,Commissioning,OTHER
+TIME                     ,OTHER,Start Up of 4 RPPs ,OTHER
+TIME                     ,OTHER,Commisioing   10 Da,OTHER
+TIME                     ,OTHER,Commissioning      ,OTHER
+TIME                     ,OTHER,4-Day SITE TESTING/,OTHER
+TIME                     ,OTHER,Labor and Travel   ,OTHER
+TIME                     ,OTHER,3 days for commissi,OTHER
+TIME                     ,OTHER,1 day of testing an,OTHER
+TIME                     ,OTHER,(3) Days test for 1,OTHER
+TIME                     ,OTHER,(6) days test/comm ,OTHER
+TIME                     ,OTHER,Onsite Cx Tech Supp,OTHER
+TIME                     ,OTHER,Labor and Travel to,OTHER
+TIME                     ,OTHER,(3) Days IST for 16,OTHER
+TIME                     ,OTHER,Labor and Travel fo,OTHER
+TIME                     ,OTHER,Integrated systems ,OTHER
+TIME                     ,OTHER,two days of commisi,OTHER
+TIME                     ,OTHER,Training for 108 bu,OTHER
+TIME                     ,OTHER,2 Days for Integrat,OTHER
+TIME                     ,OTHER,Commisioning,OTHER
+TIME                     ,OTHER,Site Testing/commis,OTHER
+TIME                     ,OTHER,Insall JCOMM mounte,OTHER
+TIME                     ,OTHER,Site Support Servic,OTHER
+TIME                     ,OTHER,1-Day Site Testing/,OTHER
+TIME                     ,OTHER,Commissioning of 1 ,OTHER
+TIME                     ,OTHER,(10) Days for commi,OTHER
+TIME                     ,OTHER,Commisioning       ,OTHER
+TIME                     ,OTHER,(4) days for testin,OTHER
+TIME                     ,OTHER,Site Testing / Comm,OTHER
+TIME                     ,OTHER,Integrated Site Tes,OTHER
+TIME                     ,OTHER,Site Testing & Comm,OTHER
+TIME                     ,OTHER,(3) Days comm for 1,OTHER
+TIME                     ,OTHER,On site testing/com,OTHER
+TIME                     ,OTHER,2 days for commissi,OTHER
+TIME                     ,OTHER,Traning            ,OTHER
+TIME                     ,OTHER,commissioning suppo,OTHER
+TIME                     ,OTHER,PowerPak2 PDU On-Si,OTHER
+TIME                     ,OTHER,(3) Days of Commiss,OTHER
+TIME                     ,OTHER,Testing and Commisi,OTHER
+Time                     ,OTHER,3 Days for integrat,OTHER
+TSP20001                 ,OTHER,TBLK MOD.DNRL BLK  ,OTHER
+TSP56520                 ,OTHER,"DinRail,30A,600VAC,",OTHER
+TSP56527                 ,OTHER,"DinRail,end-stop,sc",OTHER
+TSP71405                 ,OTHER,"TB JUMPER, 5POS, PH",OTHER
+TVS66479                 ,OTHER,"TVSS 208, 4W+G, 200",OTHER
+TVS66479                 ,Spare Parts,"TVSS 208, 4W+G, 200",OTHER
+TVS66484                 ,OTHER,"TVSS 480, 4W+G, 200",OTHER
+TVS66484                 ,Spare Parts,"TVSS 480, 4W+G, 200",OTHER
+UPGRADE                  ,Spare Parts,Upgrade from Qty (5,OTHER
+UPGRADE                  ,Spare Parts,upgrade CTs for PDU,OTHER
+UPGRADE                  ,Spare Parts,PCB32109 x 2  97-1,OTHER
+UPGRADE                  ,Spare Parts,PDU breaker upgrade,OTHER
+UPGRADE                  ,Upgrade,2 Panel Wall Mount ,OTHER
+UPGRADE                  ,Upgrade,"(1) Square D, S163A",OTHER
+UPGRADE                  ,Upgrade,(17) 3 Panel Split ,OTHER
+UPGRADE                  ,Upgrade,On Top Of Box Jcomm,OTHER
+UPGRADE                  ,Upgrade,4 Panel Liebert Top,OTHER
+UPGRADE                  ,Upgrade,(2) 2-Panel Split C,OTHER
+UPGRADE                  ,Upgrade,Time to install Gri,OTHER
+UPGRADE                  ,Upgrade,(1) Jcomm (3) 84 c,OTHER
+UPGRADE                  ,Upgrade,JC0H2PMK           ,OTHER
+UPGRADE                  ,Upgrade,1-PCB32109 – Breake,OTHER
+UPGRADE                  ,Upgrade,JCOMM Sub Feed Moni,OTHER
+UPGRADE                  ,Upgrade,Qty. 5040 - XMR1244,OTHER
+UPGRADE                  ,Upgrade,3 Panel Liebert Top,OTHER
+UPGRADE                  ,Upgrade,3 Panel Wall Mount ,OTHER
+UPGRADE                  ,Upgrade,(1) 1 panel split c,OTHER
+UPGRADE                  ,Upgrade,Upgrade 500 kVa PDU,OTHER
+UPGRADE                  ,Upgrade,JCOMM Top Mounted W,OTHER
+UPGRADE                  ,Upgrade,XMR08246 CTs,OTHER
+UPGRADE Service          ,PDU - other,PDU Change Order on,OTHER
+UPGRADE Service          ,Upgrade,Upgrade existing PD,OTHER
+UPGRADE Service          ,Upgrade,upgrade 3 PDUs   ,OTHER
+UPGRADE Service          ,Upgrade,Breaker upgrade    ,OTHER
+UPGRADE Service          ,Upgrade,Subfeed Monitoring ,OTHER
+UPGRADE Service          ,Upgrade,ASH Trident -- PDI ,OTHER
+UPGRADE Service          ,Upgrade,upgrade 3 PDUs  u,OTHER
+UPGRADE Service          ,Upgrade,Units need to be up,OTHER
+UPGRADE Service          ,Upgrade,transformer change ,OTHER
+UPGRADE Service          ,Upgrade,(8) PCB10897 with m,OTHER
+UPGRADE Service          ,Upgrade,Upgrade STS from 40,OTHER
+UPGRADE Service          ,Upgrade,Upgrade 180-1922 ,OTHER
+UPGRADE Service          ,Upgrade,Grid Connect upgrad,OTHER
+UPS Industiral Relay Card,OTHER,Catalog # E10300305,OTHER
+UPS System               ,OTHER,Eaton 1000kVA UPS p,OTHER
+VAR09821                 ,OTHER,"PEARL WH PAINT, 12 ",OTHER
+VAR10582                 ,OTHER,"CARBIDE BK PAINT,12",OTHER
+Warranty - RPP           ,OTHER,Qty. 2 PCB10853,OTHER
+Warranty - RPP           ,OTHER,(3) DOR19367-WH (3,OTHER
+Warranty - RPP           ,OTHER,7 inch mini-hubs fo,OTHER
+Warranty - RPP           ,OTHER,(2) PCB08728  180,OTHER
+Warranty - RPP           ,OTHER,CBL14214-10        ,OTHER
+Warranty - RPP           ,OTHER,PNL13928           ,OTHER
+Warranty - RPP           ,OTHER,Qty. 38 - PNL11293 ,OTHER
+Warranty - RPP           ,OTHER,(112)  LUG-AU-250 ,OTHER
+Warranty - RPP           ,OTHER,(3) FUS20003  ,OTHER
+Warranty - RPP           ,OTHER,(31) BCB12554  18,OTHER
+Warranty - RPP           ,OTHER,(3) MIS17575,OTHER
+Warranty - RPP           ,OTHER,PCB12488           ,OTHER
+Warranty - RPP           ,OTHER,(2)  PCB11734      ,OTHER
+Warranty - RPP           ,OTHER,Qty. 1 - PCB10853  ,OTHER
+Warranty - RPP           ,OTHER,(1) MIS12509  ,OTHER
+Warranty - RPP           ,OTHER,(30) BCB12554  SQ-D,OTHER
+Warranty - RPP           ,OTHER,Qty. 2 - CT Termina,OTHER
+Warranty - RPP           ,OTHER,(1) XMRC0001  180,OTHER
+Warranty - SBR           ,OTHER,(1) CKB13946 411-0,OTHER
+Warranty - SBR           ,OTHER,(12) MOD16016,OTHER
+Warranty - SBR           ,OTHER,(12) MOD16016  ,OTHER
+Warranty - SBR           ,OTHER,(1) MOD16134 seria,OTHER
+Warranty - SBR           ,OTHER,(1) CKB13945  411,OTHER
+Warranty - SBR           ,OTHER,(1) MOD16134 for s,OTHER
+Warranty - SBR           ,OTHER,(1) PCB13243 (5) F,OTHER
+Warranty - SBR           ,OTHER,(1) PCB09411  411,OTHER
+Warranty - SBR           ,OTHER,(1) PCB11639 (1) P,OTHER
+Warranty - SBR           ,OTHER,(1) MOD16134 (1) P,OTHER
+Warranty - SBR           ,OTHER,(60) LAB09388 (60),OTHER
+Warranty - SBR           ,OTHER,(1) MOD16134 411-0,OTHER
+Warranty - Std PDU       ,OTHER,CKB09783           ,OTHER
+Warranty - Std PDU       ,OTHER,Rework PDU on RMA 5,OTHER
+Warranty - Std PDU       ,OTHER,04 -89080    1/0AWG,OTHER
+Warranty - Std PDU       ,OTHER,WRE-018-TFFN-BKx 13,OTHER
+Warranty - Std PDU       ,OTHER,WRE-018-TFFN-BKx 15,OTHER
+Warranty - Std PDU       ,OTHER,(1) PCB11734  13 se,OTHER
+Warranty - Std PDU       ,OTHER,"Qty	Part number			 ",OTHER
+Warranty - Std PDU       ,OTHER,Rework RMA 5574    ,OTHER
+Warranty - Std PDU       ,OTHER,(1) PCB15632C  (1,OTHER
+Warranty - Std PDU       ,OTHER,Rework / repair PDU,OTHER
+Warranty - Std PDU       ,OTHER,PCB15632C,OTHER
+Warranty - Std PDU       ,OTHER,PNL11293         ,OTHER
+Warranty - Std PDU       ,OTHER,PNL13928,OTHER
+Warranty - Std PDU       ,OTHER,"XMR12442	 ",OTHER
+Warranty - Std PDU       ,OTHER,(2) PCB11734  (1),OTHER
+Warranty - Std PDU       ,OTHER,Warranty - Standard,OTHER
+Warranty - TOB           ,OTHER,Rework of TLPN 1340,OTHER
+Warranty - TOB           ,OTHER,case 20694 - repair,OTHER
+Warranty - TOB           ,OTHER,9/28/20 - loadbanks,OTHER
+Warranty - TOB           ,OTHER,Rework of 1 TOB    ,OTHER
+Warranty - TOB           ,OTHER,Rework of RMA 5413 ,OTHER
+Warranty - TOB           ,OTHER,REWORK OF RMA 5466 ,OTHER
+Warranty - TOB           ,OTHER,Rework TOB from RMA,OTHER
+Warranty - TOB           ,OTHER,Rework  of 3 boxes ,OTHER
+Warranty - TOB           ,OTHER,Rework of RMA 5991 ,OTHER
+Warranty - TOB           ,OTHER,Rework of RMA 5589 ,OTHER
+Warranty - TOB           ,OTHER,One has a broken pl,OTHER
+Warranty - TOB           ,OTHER,Rework RMA 5628   ,OTHER
+Warranty - TOB           ,OTHER,Rework RMA 5598   ,OTHER
+Warranty - TOB           ,OTHER,Rework of RMA 5438 ,OTHER
+Warranty - TOB           ,OTHER,repair loadbank on ,OTHER
+Warranty - TOB           ,OTHER,Rework of TOB A51-1,OTHER
+Warranty - TOB           ,OTHER,repair 5 loadbanks ,OTHER
+Warranty - TOB           ,OTHER,Rework of qty 5 TLP,OTHER
+Warranty - TOB           ,OTHER,Rework of RMA 5703 ,OTHER
+Warranty - TOB           ,OTHER,(1) #2AWG tap box g,OTHER
+Warranty - TOB           ,OTHER,Rework of 1 TOB   ,OTHER
+Warranty - TOB           ,OTHER,9.29.20 - Rework of,OTHER
+Witness Testing          ,OTHER,Factory Witness Tes,OTHER
+WRE-018-TFFN-OR          ,OTHER,#18 TFFN ORANGE WIR,OTHER
+WRE-018-TFFN-WT          ,OTHER,#18 TFFN WHITE WIRE,OTHER
+XMR04189                 ,Spare Parts,"600V,600:1,RT:1.33,",OTHER
+XMR0430                  ,OTHER,"CT,400:5,1.56"",0.3%",OTHER
+XMR08001                 ,OTHER,"3500V,75A(MAX),CR-M",OTHER
+XMR10048                 ,OTHER,"600V,400:5,CROMPTON",OTHER
+XMR10048                 ,Spare Parts,"400:5 DONUT CT, ID ",OTHER
+XMR57280                 ,OTHER,"1600:5,RT:1.33,SQD,",OTHER
+XMR57777                 ,Upgrade,"600V,100:5,FOOTMTG,",OTHER
+XMR57779                 ,Spare Parts,"600V,100:5,RT:1.33,",OTHER
+XMR57783                 ,OTHER,"CT,400:5,2.50HOLE"" ",OTHER
+XMR57785                 ,OTHER,"600V,600:5,GE,30VA ",OTHER
+XMR57785                 ,Spare Parts,"600V,600:5,GE,30VA,",OTHER
+XMR66133                 ,OTHER,"250:1,SPLIT CORE,1.",OTHER
+11000058,PDU,11000WH00F9ED5CD/2I,PDU
+11300004,PDU,PH2 500KVA 3 OUTPUT,PDU
+11300017,PDU,PH2 500KVA 3 OUTPUT,PDU
+11300028,PDU,PH2 500KVA 480D 3-O,PDU
+11300028,Powerhub Low Voltage,PH2 500KVA 480D 3-O,PDU
+11300029,Powerhub Low Voltage,PH2 500KVA 480D 3-O,PDU
+11300031,Powerhub Low Voltage,PH2 500KVA 575V 3 O,PDU
+11300040,Powerhub Low Voltage,PH2 500KVA 480D 3-O,PDU
+11300054,PDU,PH2-0500-7D-80025DF,PDU
+11300054,Powerhub Low Voltage,PH2 500KVA 575D 1X7,PDU
+11300064,PDU,PH2 400KVA 1X600A 6,PDU
+11300070,Powerhub Low Voltage,PH2 600KVA 1X1000A ,PDU
+11300079,Powerhub Low Voltage,PH2-0500-6E-80065DF,PDU
+11300097,PDU,PH2 400KVA 6 SUBFEE,PDU
+11300099,PDU,"500kVA,1X800,8X400,",PDU
+11300107,PDU,PH2-0500-6A-80035DF,PDU
+11300123,PDU,PH2-600            ,PDU
+11300130,PDU,PH2-500            ,PDU
+11300136,PDU,PH2-0500-6D-80065DF,PDU
+11300137,PDU,PH2-0500-6E-80065DF,PDU
+11300142,PDU,PH2-0500-6A-80065DF,PDU
+11300143,PDU,PH2-0500-65-80065DF,PDU
+11300150,PDU,PH2-0500-7A-80050DF,PDU
+11300160,PDU,PH2-0500-7B-80050DF,PDU
+11700022,PRIMARY RPS,MDP-0400-84-50018DF,PDU
+11800002,PDU,11800WH00K9ED5SD/6J,PDU
+11800011,PDU,PS1-0500-6A-80065DF,PDU
+11800013,PDU,PS1-0400-6A-70065DF,PDU
+11800015,PDU,PS1-0500-65-80065DF,PDU
+11800018,PDU,PS1-0500-65-80065DF,PDU
+11800020,PDU,P2X-0500-6B-80065DF,PDU
+11800024,PDU,P2X-0500-6A-80065DF,PDU
+11800029,PDU,PS-0400-6B-80065DF8,PDU
+11800032,PDU,P2X-0300-7B-40050DF,PDU
+98-90596-01              ,PDU,PDU 500KVA 1X700A 8,PDU
+98-90596-02              ,PDU,PDU 300KVA 1X500A 6,PDU
+PowerPak 2               ,PDU - other,300kVA PowerPak2 PD,PDU
+PowerPak 2               ,PDU - other,PP2-12-WSC-300-E-64,PDU
+PowerPak Freestanding RPP,RPP - other,225 Amp Freestandin,PDU
+PowerPak STANDARD PDU    ,PDU - other,300 kVA PowerPak PD,PDU
+MIS09304                 ,PDU - other,"STND,FLR,32-40,PDU-",OTHER
+MOD66122-WH04            ,PDU - other,"KIT,PH2,500KVA,SOLI",OTHER
+MOD66122-WH04            ,PDU - other,"226.0KIT,PH2,500KVA",OTHER
+MOD68442                 ,PDU - other,"KIT,UPGRADE,COLOVOR",OTHER
+MOD69661-WH00            ,PDU - other,"KIT,BOTTOM,SKIRT,CO",OTHER
+MOD70101-H36             ,PDU - other,PH2 60W X 40D      ,OTHER
+MOD70101-H36             ,PDU - other,PH2 60W X 40D     ,OTHER
+MOD70101-H48             ,PDU - other,PH2 60W X 40D      ,OTHER
+MOD70103-H36             ,PDU - other,PP2 54W X 40D      ,OTHER
+MOD70103-H48             ,PDU - other,PP2 54W X 40D      ,OTHER
+MOD71041-WH00            ,PDU - other,"KIT,SKIRT,54X40,SLO",OTHER
+MOD71042-WH00            ,PDU - other,"KIT,SKIRT,24X40,SLO",OTHER
+MOD66574                 ,Powerhub Low Voltage,MOD QTS WAVESTAR OP,OTHER
+MOD70104-H40             ,Primary RPS - other,PP2 42W X 40D      ,OTHER
+MOD71309-WH00            ,Primary RPS - other,"KIT,BOTTOM,SKIRT,SO",OTHER
+12200007,RPP,RMC-225L-4-65DF0-8T,RPP
+12200011,RPP,RMC-4000-4-0000-0-M,RPP
+12200011,RPP,RMC-1-MSL-400NA0000,RPP
+12217004,RPP,225A MODULAR COMPAC,RPP
+12217007,RPP,RMC-400L-6-0000-0-M,RPP
+12217007,RPP,MCRPP 400A (1)84P P,RPP
+MCRPP-084002-25227       ,RPP - other,MCRPP-0-1X400A42PPB,RPP
+Branch Circuit Breaker   ,RPP - other,Qty (1220) EGB34030,OTHER
+Branch Circuit Breaker   ,RPP - other,1 Lot of Branch Cir,OTHER
+Branch Circuit Breaker   ,RPP - other,One Lot Branch Circ,OTHER
+Branch Circuit Breaker   ,RPP - other,1 Lot Branch Circui,OTHER
+PCB17734                 ,RPP - other,"BCMS,42 CIRCUIT,100",OTHER
+PCB17735                 ,RPP - other,"BCMS,42 CIRCUIT,100",OTHER
+MOD000151-WH00           ,SBR FRONT - other,"KIT, BOTT SKIRT 50""",OTHER
+MOD20905                 ,SBR FRONT - other,"FLOOR SKIRTS,600AMP",OTHER
+MOD69434                 ,SBR FRONT - other,"LUG KIT,600A STS,LE",OTHER
+MOD70108-H36             ,SBR FRONT - other,LEGACY STS 34.75W X,OTHER
+13404610,Spare Parts,V722SG-JG-E1016-225,OTHER
+44000001,Spare Parts,"JCOM,NO DSP,1BCMS,M",OTHER
+44000002,Spare Parts,"JCOM,NO DSP,2BCMS,M",OTHER
+44000006,Spare Parts,"BCMS-D,1 PB,SPLIT C",OTHER
+44000008,Spare Parts,"BCMS-D,2 PB,SPLIT C",OTHER
+44000010,Spare Parts,"BCMS-D,3 PB,SPLIT C",OTHER
+44000012,Spare Parts,"MAIN/SUBFEED CT, BC",OTHER
+MIS58995                 ,Spare Parts,"EPO PLUG,LOCKING,PS",OTHER
+MOD09476                 ,Spare Parts,WAVESTAR SPARE PART,OTHER
+MOD16134                 ,Spare Parts,"WS,10 INCH SCREEN A",OTHER
+MOD18389                 ,Spare Parts,"KIT,LUG(3),2/0-500,",OTHER
+MOD66122-WH04            ,Spare Parts,"226.0KIT,PH2,500KVA",OTHER
+MOD67155                 ,Spare Parts,"QTS 400A, MOD KIT 4",OTHER
+MOD70101-H24             ,Spare Parts,PH2 60W X 40D      ,OTHER
+PCA16209                 ,Spare Parts,"WAVESTR TOUCH SCRN,",OTHER
+PCB04587                 ,Spare Parts,NINE INPUT VOLTAGE ,OTHER
+PCB08028                 ,Spare Parts,DC GATE DRIVER     ,OTHER
+PCB08383                 ,Spare Parts,WAVESTR TRI REDUNDA,OTHER
+PCB08553                 ,Spare Parts,"DCPS-OUT,TOP,PCB   ",OTHER
+PCB08555                 ,Spare Parts,"DCPS-S1/S2,TOP,PCB ",OTHER
+PCB10897                 ,Spare Parts,"BCMS PLUS,PCB      ",OTHER
+PCB11639                 ,Spare Parts,DUAL PULSE GATE DRI,OTHER
+PCB13243                 ,Spare Parts,DCPS 600V OUTP - 40,OTHER
+PCB32109                 ,Spare Parts,"PCA,BREAKER I/O, GP",OTHER
+PCB57702                 ,Spare Parts,"ASIM BOARD,COMPLETE",OTHER
+PCB58984                 ,Spare Parts,LINKED LOGIC 2000  ,OTHER
+14000002,SBR FRONT,"STS,WS,STD,1S,408,1",SWITCH
+14000025,SBR FRONT,"STS,2S,480V,250A,65",SWITCH
+14000028,SBR FRONT,"STS,2ST,480V,250A,6",SWITCH
+14000036,SBR FRONT,"STS,2S,480,600,65K,",SWITCH
+14000038,SBR FRONT,"STS,2S,480,600,65K,",SWITCH
+14000042,SBR FRONT,"STS,2S,575V,600,65,",SWITCH
+14017036,SBR FRONT,"STS,1S,480V,800A,65",SWITCH
+14017080,SBR FRONT,"STS,WS,STD,2,575,60",SWITCH
+14017300,SBR FRONT,"STS,2S,480V,600A,65",SWITCH
+14200001,"STS SECONDARY	SYSTEM","SSS,WS,STD,2S,480V,",SWITCH
+14400006,SBR FRONT,"SST,2S,480V,600A,65",SWITCH
+14400016,SBR FRONT,"SST,2S,480V,800A,65",SWITCH
+14400051,SBR FRONT,"SST,2S,480V,600A,65",SWITCH
+14417001,SBR FRONT,"SST,2S,480V,600A,65",SWITCH
+WaveStar SBR             ,SBR FRONT - other,STS-WS-STD-2-575-40,SWITCH
+WaveStar SBR             ,SBR FRONT - other,600 Amp 3-Pole Wave,SWITCH
+WaveStar SBR             ,SBR FRONT - other,STS-WS-STD-2-480-40,SWITCH
+WaveStar SBR             ,SBR FRONT - other,"STS-WS	-STD-2-575-6",SWITCH
+WaveStar SBR             ,SBR FRONT - other,600 Amp Rated 3-Pol,SWITCH
+WaveStar SBR             ,SBR FRONT - other,"STS	-WS-STD-2-575-4",SWITCH
+8-109-050077-00          ,LV THREE COPPER,"XFMR,500KVA,575D/48",Transformer
+8-109-050077-00          ,OTHER,"XFMR,500KVA,575D/48",Transformer
+C6K1-110074-00           ,OTHER MAGNETICS,"TA,1100kVA575/480Y,",Transformer
+C6K1-150074-01           ,OTHER MAGNETICS,ASSY1500KVA415Y-480,Transformer
+MIS12509                 ,Upgrade,GRID CONNECT RS485 ,OTHER
+MOD0161                  ,Upgrade,EATON 1000 ETHERNET,OTHER
+MOD67155                 ,Upgrade,"QTS 400A, MOD KIT 4",OTHER
+NF400FTL                 ,Upgrade,"NF Panelboard accy,",OTHER
+PCB09268                 ,Upgrade,"MICROCTRL,ADD-ON,FO",OTHER
+PNB57022                 ,Upgrade,"480VAC,400A,42SP,SQ",OTHER

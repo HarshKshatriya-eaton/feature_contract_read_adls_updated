@@ -1,0 +1,70 @@
+{
+  "Raw": {
+    "services" : {
+      "directory": "",
+      "file": "",
+      "local_file": "case_data.csv"
+    },
+    "M2M": {
+      "directory": "",
+      "file": "",
+      "local_file": "M2M_data.csv"
+    },
+    "SerialNumber": {
+      "directory": "",
+      "file": "",
+      "local_file": "SerialNumber.csv"
+    },
+    "SalesForce": {
+      "directory": "",
+      "file": "",
+      "local_file": "SalesForce_InstallBase.csv"
+    },
+    "bom": {
+      "directory": "",
+      "file": "",
+      "local_file": "BOM_data.csv"
+    },
+    "contracts": {
+      "directory": "",
+      "file": "",
+      "local_file": "contract.csv"
+    },
+    "renewal": {
+      "directory": "",
+      "file": "",
+      "local_file": "RenewalContract.csv"
+    }
+  },
+  "Reference": {
+    "bom": "reference_BOM.csv",
+    "customer": "AccountManagerListing.csv",
+    "lead_opprtunities" : "ref_lead_opportunities.csv"
+  },
+  "Processed": {
+    "customer": {
+      "local_file": "customer_list.csv",
+      "validation": "customer_list_validation.csv"
+    },
+    "output_iLead": {
+      "local_file": "output_iLead.csv"
+    },
+    "processed_install": {
+      "local_file": "processed_install.csv"
+    },
+    "processed_m2m_shipment": {
+      "local_file": "processed_m2m_shipment.csv"
+    },
+    "processed_serialnum": {
+      "local_file": "processed_serialnum.csv"
+    },
+  "contracts": {
+      "local_file": "processed_contract.csv",
+      "validation": "processed_contract_validation.csv"
+    },
+    "services": {
+      "local_file": "processed_services.csv",
+      "validation": "processed_services_validation.csv"
+    }
+  }
+}

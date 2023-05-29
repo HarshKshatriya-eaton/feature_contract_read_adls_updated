@@ -1,0 +1,120 @@
+fpc_number,fpc_name,Type,Margin,Planning Type
+10,PDU'S,Product,0.29,PDU
+11,PDU,Product,0.29,PDU
+12,PP9000,Product,0.29,PDU
+13,PP1000,Product,0.29,PDU
+14,CS,Product,0.29,Trans
+15,PP1000/2,Product,0.29,PDU
+16,CS9000,Product,0.29,Trans
+17,TRIPLEN TRAP,Product,0.29,Trans
+18,RPP,Product,0.38,RPP
+19,LC,Product,0.3,Trans
+1a,RACKMOUNT,Product,0.35,RPP
+1b,WALLMT RPP,Product,0.35,RPP
+1c,PDU,Product,0.29,PDU
+1d,PP9000,Product,0.29,PDU
+1e,RACKMOUNT,Product,0.35,RPP
+1f,BCMS RACK,Product,0.4,RPP
+1g,RECEPT RACK,Product,0.4,RPP
+1h,PNLBRD RACK,Product,0.4,RPP
+1J,POWERHUB LV,Product,0.28,PDU
+1K,POWERCUBE LV,Product,0.26,PDU
+20,HARMONICS,Product,0.29,PDU
+21,OLD PP9000,Product,0.29,PDU
+22,OLD CS9000,Product,0.29,PDU
+23,OLD PP1000/2,Product,0.29,PDU
+24,OLD TRIPTRAP,Product,0.29,PDU
+25,HCS,Product,0.3,Trans
+26,REDHCS,Product,0.3,Trans
+27,SEHCS,Product,0.3,Trans
+30,RPS,Product,0.32,STS
+31,OLD LC,Product,0.3,Trans
+32,DO NOT USE,Other,0.29,
+35,PRIMARY RPS,Product,0.32,PDU
+36,SECOND RPS,Product,0.32,PDU
+37,HIGH SPEED,Product,0.32,STS
+3a,PRIMARY RPS,Product,0.32,STS
+3b,SECOND RPS,Product,0.32,STS
+40,SWITCH,Product,0.32,STS
+41,SBR FRONT,Product,0.32,STS
+42,SBR FR/REAR,Product,0.32,STS
+43,RCS SERIES,Product,0.29,STS
+44,STS PRIMARY,Product,0.29,STS
+45,STS SECOND,Product,0.29,STS
+46,QWIKSWITCH,Product,0.3,STS
+47,WSLLMTSWITCH,Product,0.3,STS
+4a,WW SBR,Product,0.29,STS
+4b,WW PRIMARY,Product,0.29,STS
+4c,WW SECOND,Product,0.29,STS
+4z,DEMO FLOOR,Other,0.35,Other
+50,OTHER PROD,Other,0.35,Other
+51,CABLES,Other,0.35,Other
+52,OTHER,Service,0.35,SVC-Spares
+53,DC VOLTAGE,Other,0.35,Other
+54,UPGRADES,Service,0.5,SVC-Upgrade
+55,SPARE PARTS,Service,0.5,SVC-Spares
+56,BCMS,Product,0.4,BCM
+57,PDP,Product,,BCM
+58,TVSS,Other,0.3,Other
+59,BYPASS,Other,0.29,Other
+60,WARRANTY,Service,0,SVC-Contract
+61,WARRANTY,Service,0,SVC-Contract
+62,WARRANTY,Service,0,SVC-Contract
+63,WARRANTY,Service,0,SVC-Contract
+64,WARRANTY,Product,0,RPP
+65,WARRANTY,Service,0,SVC-Contract
+66,WARRANTY,Service,0,SVC-Contract
+67,WARRANTY,Service,0,SVC-Contract
+68,WARRANTY,Service,0,SVC-Contract
+69,WARRANTY,Service,0,SVC-Contract
+6a,Rental,Service,0,SVC-Contract
+6b,CONTRACTS,Service,0,SVC-Contract
+6c,CONTRACTS,Service,0,SVC-Contract
+6d,Service Labor,Service,0,SVC-Contract
+6E,Spare Parts,Service,0,SVC-Contract
+6F,Service Upgrades,Service,0,SVC-Contract
+6I,SERVICE START-UP,Service,0,SVC-Contract
+70,Rental,Service,0.6,SVC-Rental
+71,CONTRACTS,Other,0.6,
+72,CONTRACTS,Other,0.6,
+73,Service Labor,Service,0.6,SVC-T&M
+74,SPARE PARTS,Service,0.6,SVC-Spares
+75,SERV-UPGRADE,Service,0.6,SVC-Upgrade
+76,SVC START-UP,Other,0.6,
+77,EXTENDED,Service,0.6,SVC-Contract
+78,CONT - DEF,Other,0.6,
+79,Service Time - Commissioning/ Training,Other,0.6,
+7A,PM WARRANTY,Service,0.6,SVC-Rental
+80,TRANSFORMERS,Product,0.25,Trans
+81,TRNS LV S AL,Product,0.25,Trans
+82,TRNS LV 3 AL,Product,0.25,Trans
+83,TRNS MED VOL,Product,0.25,Trans
+84,INDUCTORS,Product,0.25,Trans
+85,TRNS OTHER,Product,0.25,Trans
+8A,LV 1 PHASE,Product,0.25,Trans
+8B,TRNS LV 3 CU,Product,0.25,Trans
+90,SHARED INV,Product,1,RAWS
+91,CONTRACT,Service,0,SVC-Contract
+93,CA RAW,Product,0,PDU
+98,SERV-SPARE,Service,0.6,SVC-Spares
+99,RAW/COMP,Product,0.6,PDU
+9a,RETURN PARTS,Service,0,
+9b,SALES CONC,Product,0,
+9C,SALES CONC,Service,0.18,
+A1,SM MISC,Product,0.18,Other
+A2,CABINET,Product,0.18,Other
+A3,BUS,Product,0.25,Other
+A4,GLASTIC,Product,0.18,Other
+A5,BUSWAY,Product,0.26,TOB
+B1,CONTROLS,Product,0.28,Trans
+B3,INVERTERS,Product,0.28,Trans
+B4,CONTROLS,Product,0.25,Trans
+CN,CONTAINER,Other,0.3,Other
+FR,SHIPPING,Other,0,
+ON,ONYX WARR,Service,0,SVC-Spares
+PI,WARRANTY PDI,Service,0,SVC-Contract
+SH,SHIPPING,Other,1,
+A6,Busway-Rail,Product,,Busway-Rail
+C1,UPS,Product,,UPS
+C2,Eaton Pow-R-Way III,Product,,Eaton Pow-R-Way III
+BX,BX,Product,,

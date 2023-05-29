@@ -1,0 +1,53 @@
+{
+    "services_data_overall": {
+        "Status": {
+            "report": "no",
+            "type": "text",
+            "text_match_pattern": "closed,in car"
+        }
+    },
+    "Component_replacement": {
+        "Display": {
+            "Customer_Issue_Summary": {
+                "report": "no",
+                "type": "text",
+                "text_match_pattern": "display,m4 ,monochrome,color"
+            },
+            "Customer_Issue": {
+                "report": "no",
+                "type": "text",
+                "text_match_exact": "pcba - software issue,installation request,pcba - hardware issue,pcba,hardware issue - rpp,hardware issue - pdu,hardware issue - sts,hardware issue faulty part"
+            }
+        },
+        "BCMS": {
+            "Customer_Issue_Summary": {
+                "report": "no",
+                "type": "text",
+                "text_match_pattern": "bcms"
+            },
+            "Customer_Issue": {
+                "report": "no",
+                "type": "text",
+                "text_match_exact": "PCBA,PCBA - Hardware Issue,Installation Request,Hardware Issue - RPP,Hardware Issue - PDU"
+            }
+        },
+        "Breaker": {
+            "Customer_Issue_Summary": {
+                "report": "no",
+                "type": "text",
+                "text_match_pattern": "breaker"
+            },
+            "Customer_Issue": {
+                "report": "no",
+                "type": "text",
+                "text_match_exact": "Hardware Issue - RPP,Hardware Issue - PDU,Hardware Issue - STS,Non Functioning,Installation Request,Hardware Issue - Physical Damage On Site,Hardware Issue - Wrong Hardware"
+            }
+        }
+    },
+    "SerialNumberColumns": {
+        "Product_1": "Qty_1",
+        "Product_2": "Qty_2",
+        "Product_3": "Qty_3",
+        "Serial_Date_Lot_Code": ""
+    }
+}

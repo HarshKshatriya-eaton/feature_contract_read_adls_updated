@@ -1,0 +1,1082 @@
+Index,PartNumber_TLN_BOM,PartNumber_BOM_BOM,Match,Component,Description,End of Prod,Status,Life__Years,EOSL,flag_raise_in_gp,Remark
+-2,PDU,,contains,PDU,,,Active,40,,TRUE,
+-1,RPP,,contains,PDU,,,Active,30,,TRUE,
+0,STS,,contains,PDU,,,Active,30,,TRUE,
+1,110,,begins_with,PDU,"Power Pak 1, 50 - 300kVA",,Active,40,,TRUE,
+2,111,,begins_with,PDU,"Power Pak 2, 100 to 400kVA",,Active,40,,TRUE,
+3,113,,begins_with,PDU,"PowerHub 2, 400 - 1250kVA",,Active,40,,TRUE,
+4,117,,begins_with,PDU,PDU Special,,Active,40,,TRUE,
+5,118,,begins_with,PDU,Power Safe 300 - 625kVA,,Active,40,,TRUE,
+6,119,,begins_with,PDU,PDU Special,,Active,40,,TRUE,
+7,98-904,,begins_with,PDU,Server PDU 50-150kVA,2013,Obsoleted,40,,TRUE,
+8,98-905,,begins_with,PDU,,,Obsoleted,40,,TRUE,
+9,,PDU,contains,PDU,,,Active,40,,TRUE,
+10,120,,begins_with,RPP,"FS RPP 24"" and 38""W",,Active,30,,TRUE,
+11,121,,begins_with,RPP,"FS RPP 24"" and 38""W",,Active,30,,TRUE,
+12,122,,begins_with,RPP,MC RPP,,Active,30,,TRUE,
+13,126,,begins_with,RPP,"FS RPP 24"" and 38""W Special ",,Active,30,,TRUE,
+14,127,,begins_with,RPP,"FS RPP 24"" and 38""W Special ",,Active,30,,TRUE,
+15,152,,begins_with,RPP,Special RPP META,,Active,30,,TRUE,
+16,98-10500,,begins_with,RPP,Server Line,2016,Obsoleted,30,,TRUE,
+17,98-11000,,begins_with,RPP,Special RPP META,,Active,30,,TRUE,
+18,98-11200,,begins_with,RPP,Server Rack,,Active,30,,TRUE,
+19,,RPP,contains,RPP,,,,30,,TRUE,
+20,140,,begins_with,STS,STS Legacy 150 - 1600A,,Active,30,,TRUE,
+21,141,,begins_with,STS,STS Legacy 150 - 1600A,,Active,30,,TRUE,
+22,142,,begins_with,STS,STS Legacy 150 - 1600A,,Active,30,,TRUE,
+23,143,,begins_with,STS,STS Legacy 150 - 1600A,,Active,30,,TRUE,
+24,144,,begins_with,STS,STS TFA 250 - 1200A,,Active,30,,TRUE,
+25,,STS,contains,STS,,,,30,,TRUE,
+26,,PCB11556,exact,Display,Monochrome Display,2013,Obsoleted,,2022,TRUE,
+27,,PCA16209,exact,Display,Color Display,,Active,8,,TRUE,
+28,,PCB11555,exact,Display,M4G Display (ETL M4G),,Obsoleted,,2022,TRUE,
+29,,PCB15632,exact,Display,M4G Display (UL M4G),,Obsoleted,,2022,TRUE,
+30,,PCB08212,exact,Display,8212 Display,,Obsoleted,,2022,TRUE,
+31,,PCB57701,exact,Display,M4 Display,,Obsoleted,,2022,TRUE,
+32,,PCB9507,exact,Display,M4 Display,,Obsoleted,,2022,TRUE,
+33,,PCB0047,exact,Display,M4 Display,,Obsoleted,,2022,TRUE,
+34,,PBA74159,exact,BCMS,ETL BCMS,,Active,8,,TRUE,
+35,,PCB11734,exact,BCMS,UL BCMS,,Active,8,,TRUE,
+36,,CKB0262,exact,Circuit Breaker,"3P,PD3,600A,65KA@480V,MCSW,NO LUG  ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+37,,CKB0419,exact,Circuit Breaker,"3P,PD4,800A,65K@480V,MCSW          ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+38,,CKB04524,exact,Circuit Breaker,SBR 250A 5 BREAKER ASSEMBLY        ,,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+39,,CKB04591,exact,Circuit Breaker,"250A MCSW,2NO 2NC AUX, 24VDC       ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+40,,CKB04866,exact,Circuit Breaker,DISCONNECT ASSY. MCSW 400 AMP SBR  ,,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+41,,CKB05069,exact,Circuit Breaker,"MOD,6 MCSW,400A,65KAIC,DOC A05069A1",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+42,,CKB05338,exact,Circuit Breaker,"DISCONNECT ASSY,625 SBR            ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+43,,CKB05339,exact,Circuit Breaker,"DISCONNECT ASSY,400 SBR            ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+44,,CKB06007,exact,Circuit Breaker,400A SBR ASSY 6 MCSW ROT HAND      ,,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+45,,CKB06012,exact,Circuit Breaker,"800A CKB ASSY, ABB, SBR, 4CKB 1MCSW",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+46,,CKB06013,exact,Circuit Breaker,"250A CKB ASSY, ABB, SBR, 4CKB 2MCSW",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+47,,CKB06126,exact,Circuit Breaker,"250A CKB ASSY, ABB, SBR, 6MCSW     ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+48,,CKB06172,exact,Circuit Breaker,"ABB,800A,MCSW,W/ST,AUX&MOTOR OP CON",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+49,,CKB06211,exact,Circuit Breaker,"600A CKB ASSY, SBR, 6 MCSW         ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+50,,CKB06224,exact,Circuit Breaker,"250A CKB ASSY, ABB, SBR, 5 MCSW    ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+51,,CKB06276,exact,Circuit Breaker,"MCSW, ABB S4, 250A W/ST            ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+52,,CKB06325,exact,Circuit Breaker,"ABB, 1000A MCSW W/ ST & AUX        ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+53,,CKB06333,exact,Circuit Breaker,"600A CKB ASSY, SBR, 5 MCSW         ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+54,,CKB06383,exact,Circuit Breaker,"1000A CKB ASSY, ABB, SBR,4CKB 1MCSW",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+55,,CKB06714,exact,Circuit Breaker,"M.G.-NJHN 600A MCSW, 65KAIC,120VST ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+56,,CKB06715,exact,Circuit Breaker,"M.G.-NJHN 600A MCSW, 65KAIC,W/ AUX ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+57,,CKB06881,exact,Circuit Breaker,"250A,3P,100k/480V,SQD,MCS,Lugs",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+58,,CKB06889,exact,Circuit Breaker,"800A CKB ASSY. SBR,(6) MCSW,LESS CB",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+59,,CKB07388,exact,Circuit Breaker,"M.G.-NJHN 600A MCSW, 65KAIC, AUX/ST",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+60,,CKB07408,exact,Circuit Breaker,ABB-400A 4 POLE PLUG-IN MCSW       ,,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+61,,CKB07409,exact,Circuit Breaker,ABB-250A 3 POLE PLUG-IN MCSW       ,,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+62,,CKB07609,exact,Circuit Breaker,"1200 AMP MCSW P-FRAME PROVISIONS,  ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+63,,CKB07613,exact,Circuit Breaker,1200 AMP CRADLE W/BACKMOLD         ,,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+64,,CKB07739,exact,Circuit Breaker,"MCSW,4POLE,250A,100%RATED,65KAICAUX",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+65,,CKB07768,exact,Circuit Breaker,"M.G.-NJHN 400A MCSW, 65 KAIC,AUX/ST",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+66,,CKB07769,exact,Circuit Breaker,"M.G.-NJHN 400A MCSW, 65 KAIC, AUX  ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+67,,CKB07831,exact,Circuit Breaker,"ABB-800A MCSW W/AUX, 4 POLE        ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+68,,CKB07862,exact,Circuit Breaker,GE MCSW 250A Frame                 ,,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+69,,CKB08180,exact,Circuit Breaker,"1200A,25k/600V,SQD,80%,DRAWOUT",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+70,,CKB08183,exact,Circuit Breaker,"CRADLE,3P,SQD,250-1200A,600V",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+71,,CKB08430,exact,Circuit Breaker,"MG-NJHL 600A MCSW, 65KAIC, AUX/ST  ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+72,,CKB09047,exact,Circuit Breaker,"MG,MCSW,150A,65K@480V,120VST,      ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+73,,CKB09252,exact,Circuit Breaker,"250A,3P,100k/480V,SQD,MCS,PLGN",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+74,,CKB09253,exact,Circuit Breaker,"M.G.-NJHN 400A MCSW, 65 KAIC,AUX/ST",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+75,,CKB09254,exact,Circuit Breaker,"M.G.-NJHN 600A MCSW, 65KAIC, AUX/ST",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+76,,CKB09788,exact,Circuit Breaker,"M.G.-NJHL 400A MCSW,3P,480V,65KAIC ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+77,,CKB10407,exact,Circuit Breaker,MG 3P 400A MLDED CSE SWITCH W/BASE ,,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+78,,CKB11195,exact,Circuit Breaker,"SQD-DJL,3P,400A,600V,65KA,MCS,120V ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+79,,CKB11526,exact,Circuit Breaker,"M.G.NJHN 600A MCSW,65KAIC,2A/2B AUX",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+80,,CKB11529,exact,Circuit Breaker,"M.G.NJHN 600A MCSW,65KAIC,24VST,AUX",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+81,,CKB11650,exact,Circuit Breaker,"GE-SGDA,3P,400AF,600V, MCS         ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+82,,CKB12021,exact,Circuit Breaker,"ABB, T3, 225A,  MCSW, 35k @ 480V   ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+83,,CKB12135,exact,Circuit Breaker,"ABB T5,600A MCSW, 65K @ 480 VOLT   ",,Obsoleted,14,,FALSE,Ref sheet ( MCSW Tola) overal with abb
+84,,CKB12225,exact,Circuit Breaker,"ABB-T5,3P,400A,600V,65KAIC,MCSW    ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+85,,CKB12247,exact,Circuit Breaker,"SQD-DJN,3P,400A MCSW,AUX/24v SHUNT ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+86,,CKB12248,exact,Circuit Breaker,"SQD-DJN, 400A, 3P, MCSW, W/AUX     ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+87,,CKB12249,exact,Circuit Breaker,"SQD-DJN,600A,3P,MCSW,AUX/24v SHUNT ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+88,,CKB12250,exact,Circuit Breaker,"SQD-DJN, 3P, 600A, MCSW, AUX       ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+89,,CKB13362,exact,Circuit Breaker,"SQD-DJL,3P,600A,MCSW,120V ST/AUX   ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+90,,CKB13541,exact,Circuit Breaker,"SQD,HLL,150A,MCSW,120V ST,65K@480V ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+91,,CKB13945,exact,Circuit Breaker,"3P,400A,50k/600V,SQD,80%,PLGN",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+92,,CKB13946,exact,Circuit Breaker,"3P,400A,50k/600V,SQD,80%,PLGN",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+93,,CKB14125,exact,Circuit Breaker,"SQD-LLN,3P,600A MCSW,AUX/24v SHUNT ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+94,,CKB14126,exact,Circuit Breaker,"SQD-LLN, 600A, 3P, MCSW, W/AUX     ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+95,,CKB14142,exact,Circuit Breaker,"SQD-JLL,3P,250A,480V,100KA,MCSW,   ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+96,,CKB15663,exact,Circuit Breaker,"SQD-LLL,3P,400A,480V,100KA,MCS,120V",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+97,,CKB18687,exact,Circuit Breaker,"SQD-LGL,3P,600A,480V,355KA,MCSW    ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+98,,CKB57178,exact,Circuit Breaker,"3P,600A,50k/600V,SQD,80%,LUGS,MCSW ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+99,,CKB69644,exact,Circuit Breaker,"3P,1000A,65KA,480V,SQD,MCS,LUGS,   ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+100,,CKB72447,exact,Circuit Breaker,"SWITCH,1600A,3P,PDG5,MCSW,ETN",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+101,,CKB73161,exact,Circuit Breaker,"800A,3P,65K,480V,MCSW,ETN          ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+102,,CKB73178,exact,Circuit Breaker,"1200A,3P,65K,480V,MCSW,ETN         ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+103,,CKB74607,exact,Circuit Breaker,"3P,PD3,400A,65KA@480V,MCSW,NO LUG  ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+104,,CKB74712,exact,Circuit Breaker,"3P,PD2,225A,65KA@480V,MCSW,NO LUG  ",,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+105,,CKB75301,exact,Circuit Breaker,XT7H-D 1200 MCS 3P F F UL/CSA      ,,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+106,,CKB75302,exact,Circuit Breaker,XT7H-D 1200 MCS 3P F F UL/CSA      ,,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+107,,CKB75400,exact,Circuit Breaker,XT5L-D 600 MCS 3P F F UL/CSA + AUX ,,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+108,,CKB75402,exact,Circuit Breaker,XT5L-D 600 MCS 3P F F UL/CSA+AUX&ST,,Active,14,,TRUE,Ref sheet ( MCSW Tola)
+109,,CKB11022,exact,Circuit Breaker,OBSOLETE -USE CKB15387,2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+110,,CKB11153,exact,Circuit Breaker,ABB 225A-T3-CIRCUIT BREAKER-FIXED,2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+111,,CKB11570,exact,Circuit Breaker,"ABB-T6,4P,800A,600V,35kAIC/480V,4P",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+112,,CKB11571,exact,Circuit Breaker,"ABB-T5,4P,400A,600V,25kAIC/480V,TM",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+113,,CKB11931,exact,Circuit Breaker,"ABB-T4,3P,200AT,600V,65kAIC,MCCB",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+114,,CKB11996,exact,Circuit Breaker,"ABB-T5,3P,400A,480V,65kAIC, T/M",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+115,,CKB11996T,exact,Circuit Breaker,"ABB-T5,3P,400A,480V,65kAIC, T/M",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+116,,CKB12001,exact,Circuit Breaker,"ABB,T3,225A,3P, MCSW, FIXED MOUNT",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+117,,CKB12004,exact,Circuit Breaker,"ABB-T5,3P,600A,480V,65kAIC,MCSW",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+118,,CKB12049,exact,Circuit Breaker,"ABB, T3, 225A, 35k @ 480v",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+119,,CKB12134,exact,Circuit Breaker,"ABB T5,600A MCCB, 65K @ 480 VOLT",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+120,,CKB12139,exact,Circuit Breaker,"ABB-T5,3P,400A,480V,65kAIC, E-TRIP",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+121,,CKB12142,exact,Circuit Breaker,"ABB-T5,4P,400A,600V,100% RATED,T/M",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+122,,CKB12379,exact,Circuit Breaker,"ABB-T5,4P,300A,600V,25kAIC/480V,TM",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+123,,CKB12576,exact,Circuit Breaker,"ABB-T7,3P,1000AF,600V,25kAIC,100%",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+124,,CKB12781,exact,Circuit Breaker,"ABB,T4, MCSW, 250A, 65K @ 480 AX/ST",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+125,,CKB13344,exact,Circuit Breaker,"ABB-T6,3P,600AF,480V,35K,100%,LSI",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+126,,CKB13862,exact,Circuit Breaker,"ABB-T5,3P,400A,480V,65kAIC, T/M",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+127,,CKB14135,exact,Circuit Breaker,"ABB-T5,3P,400A,480V,25kAC, E/T,100%",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+128,,CKB14315,exact,Circuit Breaker,"ABB-T3,3P,125A,480V,35KAIC, FIX MNT",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+129,,CKB15096,exact,Circuit Breaker,"ABB-T6,3P,600V,600AF,20kAIC,MCB",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+130,,CKB15366,exact,Circuit Breaker,"ABB-T6,3P,600AF,480V,100kAIC,100%",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+131,,CKB19900,exact,Circuit Breaker,"3P,600A,35k/600V,ABB,100%,Lugs",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+132,,CKB20151,exact,Circuit Breaker,"3P,600A,35k/480V,ABB,100%,Lugs",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+133,,CKB31290,exact,Circuit Breaker,"CIRCUIT BREAKER, MOLDED CASE, MCB1A",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+134,,CKB31291,exact,Circuit Breaker,"CIRCUIT BREAKER, MOLDED CASE, MCB2",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+135,,CKB58827,exact,Circuit Breaker,"400A,18K/480VAC,ABB,LUGS",2022,Obsoleted,14,,FALSE,ABB (end of Prod)
+136,,CKB00001,exact,MoldedBreaker,"3P,30A,480V,AIC18K,MX10,120VST     ",,Active,14,,TRUE,Molded Breaker
+137,,CKB00002,exact,MoldedBreaker,"3P,50A,480V,AIC18K,MX10,120VST     ",,Active,14,,TRUE,Molded Breaker
+138,,CKB00003,exact,MoldedBreaker,"3P,60A,480,AIC18K,MX10,120VST      ",,Active,14,,TRUE,Molded Breaker
+139,,CKB000036,exact,MoldedBreaker,"CB,3P 800AF\800AT,65KAIC@480V,LSI  ",,Active,14,,TRUE,Molded Breaker
+140,,CKB00004,exact,MoldedBreaker,"3P,80A,480V,AIC18K,MX10,120VST     ",,Active,14,,TRUE,Molded Breaker
+141,,CKB000045,exact,MoldedBreaker,"3P,350A,65KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+142,,CKB00005,exact,MoldedBreaker,"3P100A,600V,AIC22K,MX10,120VST     ",,Active,14,,TRUE,Molded Breaker
+143,,CKB000057,exact,MoldedBreaker,"3P,150A,35KA,480V,ETN,80%,LUGS,LSI ",,Active,14,,TRUE,Molded Breaker
+144,,CKB00006,exact,MoldedBreaker,"3P110A,600,AIC22K,MX10,120VST      ",,Active,14,,TRUE,Molded Breaker
+145,,CKB00007,exact,MoldedBreaker,"3P125A,600V,AIC22K,MX10,120VST     ",,Active,14,,TRUE,Molded Breaker
+146,,CKB000072,exact,MoldedBreaker,"3P,80A,65KA,480V,ETN,80%,LUGS,T/M  ",,Active,14,,TRUE,Molded Breaker
+147,,CKB00008,exact,MoldedBreaker,"3P175A,600V,AIC22K,MX10,120VST     ",,Active,14,,TRUE,Molded Breaker
+148,,CKB00009,exact,MoldedBreaker,"3P200A,600V,AIC22K,MX10,120VST     ",,Active,14,,TRUE,Molded Breaker
+149,,CKB00010,exact,MoldedBreaker,"3P250A,600V,AIC22K,MX10,120VST     ",,Active,14,,TRUE,Molded Breaker
+150,,CKB00011,exact,MoldedBreaker,"3P300A,600V,AIC22K,MX10,NT         ",,Active,14,,TRUE,Molded Breaker
+151,,CKB000127,exact,MoldedBreaker,"3P,225A,25KA,480V,ETN,80%,LUGS,LSI ",,Active,14,,TRUE,Molded Breaker
+152,,CKB000128,exact,MoldedBreaker,"3P,400A,65k/480V,SQD,80%,NoLugs,LI ",,Active,14,,TRUE,Molded Breaker
+153,,CKB00013,exact,MoldedBreaker,"3P,400A,22k/600V,SQD,Lugs",,Active,14,,TRUE,Molded Breaker
+154,,CKB000131,exact,MoldedBreaker,"3P,400A,35K,480V,ETN,80%,NO LUGS,TM",,Active,14,,TRUE,Molded Breaker
+155,,CKB000132,exact,MoldedBreaker,"3P,250A,35K,480V,ETN,80%,NO LUGS,TM",,Active,14,,TRUE,Molded Breaker
+156,,CKB00014,exact,MoldedBreaker,"3P500A,600V,AIC22K,MX10,NT         ",,Active,14,,TRUE,Molded Breaker
+157,,CKB00015,exact,MoldedBreaker,"3P600A,600V,AIC22K,MX10,NT         ",,Active,14,,TRUE,Molded Breaker
+158,,CKB000150,exact,MoldedBreaker,"3P,400A,35KA,480V,ETN,80(2)350,LS1 ",,Active,14,,TRUE,Molded Breaker
+159,,CKB00017,exact,MoldedBreaker,"3P800A,600V,AIC22K,MX10,NT         ",,Active,14,,TRUE,Molded Breaker
+160,,CKB00022,exact,MoldedBreaker,"3P,50A,480V,AIC22K,MX10,NT         ",,Active,14,,TRUE,Molded Breaker
+161,,CKB00023,exact,MoldedBreaker,"3P,60A,600V,AIC22K,MX10,NT         ",,Active,14,,TRUE,Molded Breaker
+162,,CKB00025,exact,MoldedBreaker,"3P,80A,480V,AIC22K,MX10,NT         ",,Active,14,,TRUE,Molded Breaker
+163,,CKB00028,exact,MoldedBreaker,"3P,100A,600V,AIC22K,MX10,NT        ",,Active,14,,TRUE,Molded Breaker
+164,,CKB00030,exact,MoldedBreaker,"3P,125A,600V,AIC22K,MX10,NT        ",,Active,14,,TRUE,Molded Breaker
+165,,CKB00031,exact,MoldedBreaker,"3P,150A,600V,AIC22K,MX10,NT        ",,Active,14,,TRUE,Molded Breaker
+166,,CKB00032,exact,MoldedBreaker,"3P,175A,600V,AIC22K,MX10,NT        ",,Active,14,,TRUE,Molded Breaker
+167,,CKB00033,exact,MoldedBreaker,"3P,200A,600V,AIC22K,MX10,NT        ",,Active,14,,TRUE,Molded Breaker
+168,,CKB00035,exact,MoldedBreaker,"3P,250A,600V,AIC22K,MX10,NT KA     ",,Active,14,,TRUE,Molded Breaker
+169,,CKB00036,exact,MoldedBreaker,"3P,200A,600V,AIC22K,MX10,W/AUX     ",,Active,14,,TRUE,Molded Breaker
+170,,CKB00037,exact,MoldedBreaker,"3P,250A,600V,AIC22K,MX10,NT LA     ",,Active,14,,TRUE,Molded Breaker
+171,,CKB00050,exact,MoldedBreaker,"3P,50A,600V,AIC14K,MX10,ST         ",,Active,14,,TRUE,Molded Breaker
+172,,CKB00052,exact,MoldedBreaker,"3P,70A,600V,AIC22K,MX15,120VST     ",,Active,14,,TRUE,Molded Breaker
+173,,CKB00105,exact,MoldedBreaker,"3P,90A,480,AIC18K,MX10,120VST      ",,Active,14,,TRUE,Molded Breaker
+174,,CKB00108,exact,MoldedBreaker,"3P150A,600V,AIC22K,MX10,120VST     ",,Active,14,,TRUE,Molded Breaker
+175,,CKB00110,exact,MoldedBreaker,"3P225A,600V,AIC22K,MX10,120VST     ",,Active,14,,TRUE,Molded Breaker
+176,,CKB00114,exact,MoldedBreaker,"3P450A,600V,AIC22K,MX10,NT         ",,Active,14,,TRUE,Molded Breaker
+177,,CKB0085T,exact,MoldedBreaker,"T,3P,600V,600A,50KAIC@600V,P FRAME",,Active,14,,TRUE,Molded Breaker
+178,,CKB0122,exact,MoldedBreaker,"PLGN KIT,T5,3P,ABB,MOVE",,Active,14,,TRUE,Molded Breaker
+179,,CKB0123,exact,MoldedBreaker,"PLGN KIT,T5,3P,ABB,FIX",,Active,14,,TRUE,Molded Breaker
+180,,CKB0446,exact,MoldedBreaker,"3P,T5,400A,65k/480V,ABB,100%",,Active,14,,TRUE,Molded Breaker
+181,,CKB05451,exact,MoldedBreaker,"SQD-LCL,3P,350A,600V,65KAIC        ",,Active,14,,TRUE,Molded Breaker
+182,,CKB05524,exact,MoldedBreaker,"CB,MC,TM,500A,3P,600V,SQ-D         ",,Active,14,,TRUE,Molded Breaker
+183,,CKB05546,exact,MoldedBreaker,"400A,35KAIC,PLUGIN,3P,600V,120V,ST ",,Active,14,,TRUE,Molded Breaker
+184,,CKB05655,exact,MoldedBreaker,"CKB,3P,200A,600V,22K,120VST,W/AUX  ",,Active,14,,TRUE,Molded Breaker
+185,,CKB06274,exact,MoldedBreaker,"SQ-D,3P,600V, 250A,120V ST, 35 KAIC",,Active,14,,TRUE,Molded Breaker
+186,,CKB06275,exact,MoldedBreaker,"SQ-D,3P,600V, 125A, 120V ST,35 KAIC",,Active,14,,TRUE,Molded Breaker
+187,,CKB06342,exact,MoldedBreaker,"SQ-D, 3P, 400A, 65KAIC @ 480V      ",,Active,14,,TRUE,Molded Breaker
+188,,CKB06385,exact,MoldedBreaker,"3P, 250A, 600V, 120V ST, AUX       ",,Active,14,,TRUE,Molded Breaker
+189,,CKB06403,exact,MoldedBreaker,"3P, 175A, 120V ST, AUX, 22KAIC,600V",,Active,14,,TRUE,Molded Breaker
+190,,CKB06422,exact,MoldedBreaker,"3P,250A,480V,65KAIC,120VST,AUXNOLUG",,Active,14,,TRUE,Molded Breaker
+191,,CKB06423,exact,MoldedBreaker,"3P,400A,480V, 65KAIC,NO LUGS,SQ-D  ",,Active,14,,TRUE,Molded Breaker
+192,,CKB06438,exact,MoldedBreaker,"GE,MC CKB,3P,225A,240V,22KAIC,NOLUG",,Active,14,,TRUE,Molded Breaker
+193,,CKB06452,exact,MoldedBreaker,"3P,175A,120V ST,AUX, 65KAIC,480V   ",,Active,14,,TRUE,Molded Breaker
+194,,CKB06475,exact,MoldedBreaker,"3P, 70A, 600V, 100K AIC, 120V ST   ",,Active,14,,TRUE,Molded Breaker
+195,,CKB06494,exact,MoldedBreaker,"3P, 175A, 480V, 65KAIC, 120V ST    ",,Active,14,,TRUE,Molded Breaker
+196,,CKB06508,exact,MoldedBreaker,"3P300A, 600V, AIC100K, MX10, NT    ",,Active,14,,TRUE,Molded Breaker
+197,,CKB06552,exact,MoldedBreaker,"3P125A,480V,AIC65K,120VST          ",,Active,14,,TRUE,Molded Breaker
+198,,CKB06639,exact,MoldedBreaker,"3P,80A,480,AIC65K,120VST           ",,Active,14,,TRUE,Molded Breaker
+199,,CKB06753,exact,MoldedBreaker,"SQD,3P,200A,480V,65K,120VST,1A1BAUX",,Active,14,,TRUE,Molded Breaker
+200,,CKB06823,exact,MoldedBreaker,"3P,250A,600V,AIC200K, 120VST       ",,Active,14,,TRUE,Molded Breaker
+201,,CKB07270,exact,MoldedBreaker,"3P125A,600V,AIC35K,120VST,1A/1B AUX",,Active,14,,TRUE,Molded Breaker
+202,,CKB07271,exact,MoldedBreaker,"3P 125A, 600V, AIC35K, NO SHUNT    ",,Active,14,,TRUE,Molded Breaker
+203,,CKB07376,exact,MoldedBreaker,"SQ D,3P80A,600V 35KAIC,W/1A1B AUX  ",,Active,14,,TRUE,Molded Breaker
+204,,CKB07377,exact,MoldedBreaker,"SQ D,3P80A,600V 35KAIC,NT          ",,Active,14,,TRUE,Molded Breaker
+205,,CKB07378,exact,MoldedBreaker,"SQ D,3P80A,600V 35KAIC,W/1A1B AUX, ",,Active,14,,TRUE,Molded Breaker
+206,,CKB07417,exact,MoldedBreaker,"SQD,3P,80A,480V,AIC65K,120VST      ",,Active,14,,TRUE,Molded Breaker
+207,,CKB07418,exact,MoldedBreaker,"SQD,3P,50A,480V,AIC65K,120VST      ",,Active,14,,TRUE,Molded Breaker
+208,,CKB07553,exact,MoldedBreaker,"3P,250A,600V,100% RATED,MG,NT      ",,Active,14,,TRUE,Molded Breaker
+209,,CKB07611,exact,MoldedBreaker,"3P,1200A,25k/600V,GE,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+210,,CKB07640,exact,MoldedBreaker,"GE,3P,600V,200AMP MAIN BREAKER     ",,Active,14,,TRUE,Molded Breaker
+211,,CKB07645,exact,MoldedBreaker,"SQD,3P,175A,600V,35K,W/1A1B AUX    ",,Active,14,,TRUE,Molded Breaker
+212,,CKB07646,exact,MoldedBreaker,"SQD,3P,250A,600V,35K,W/1A1B AUX    ",,Active,14,,TRUE,Molded Breaker
+213,,CKB07686,exact,MoldedBreaker,"GE,3P,600A,600V,250AMP,MAIN BREAKER",,Active,14,,TRUE,Molded Breaker
+214,,CKB07856,exact,MoldedBreaker,"SWITCH,1600A, 3P, UL, MASTERPACT NW",,Active,14,,TRUE,Molded Breaker
+215,,CKB07858,exact,MoldedBreaker,"SWITCH,1600A, 3P, UL, MASTERPACT NW",,Active,14,,TRUE,Molded Breaker
+216,,CKB07898,exact,MoldedBreaker,"SQD,3P,600A,600V,65KAIC,W/AUX      ",,Active,14,,TRUE,Molded Breaker
+217,,CKB07899,exact,MoldedBreaker,"SQD,3P,600A,600V,65KAIC            ",,Active,14,,TRUE,Molded Breaker
+218,,CKB07911,exact,MoldedBreaker,"SQD,3P,110A,600A,120VST,W/AUX      ",,Active,14,,TRUE,Molded Breaker
+219,,CKB07919,exact,MoldedBreaker,"PLG,RATING,3P,225A,F-FRM,GE,600V",,Active,14,,TRUE,Molded Breaker
+220,,CKB07920,exact,MoldedBreaker,"GE-SFHA,3P,480V,250AF,LSI,35K,80%  ",,Active,14,,TRUE,Molded Breaker
+221,,CKB07925,exact,MoldedBreaker,"SQD,3P,200A,600V,100KAIC,120VAC ST ",,Active,14,,TRUE,Molded Breaker
+222,,CKB07951,exact,MoldedBreaker,"SQD,3P,225A,600V,400AF I-LINE PB   ",,Active,14,,TRUE,Molded Breaker
+223,,CKB07957,exact,MoldedBreaker,"GE,3P,250A,600V,MAIN BRKR,TFJ      ",,Active,14,,TRUE,Molded Breaker
+224,,CKB07970,exact,MoldedBreaker,"SQD,3P,175A,600V,35K AIC W/O SHUNT ",,Active,14,,TRUE,Molded Breaker
+225,,CKB08040,exact,MoldedBreaker,"GE,3P,225A,600V,MAIN BRKR,TFJ      ",,Active,14,,TRUE,Molded Breaker
+226,,CKB08064,exact,MoldedBreaker,"SQD, 3P200A,600V35KA1C,W/1A1BAUX,  ",,Active,14,,TRUE,Molded Breaker
+227,,CKB08065,exact,MoldedBreaker,"SQD,3P225A,600V,35KA1C,W/1A1BAUX   ",,Active,14,,TRUE,Molded Breaker
+228,,CKB08107,exact,MoldedBreaker,"SQD, 3P125A,600V,120VST,1A/1B AUX  ",,Active,14,,TRUE,Molded Breaker
+229,,CKB08123,exact,MoldedBreaker,"SQD, 3P100A,600V,NT,KA FRAME       ",,Active,14,,TRUE,Molded Breaker
+230,,CKB08161,exact,MoldedBreaker,"GE,MC CKB,3P,125A,240V,22KAIC      ",,Active,14,,TRUE,Molded Breaker
+231,,CKB08182,exact,MoldedBreaker,"CRADLE,3P,SQD,250-1200A,600V",,Active,14,,TRUE,Molded Breaker
+232,,CKB08228,exact,MoldedBreaker,"SQD,3P,480V,65KAIC,200A,N/ST       ",,Active,14,,TRUE,Molded Breaker
+233,,CKB08230,exact,MoldedBreaker,"CB,3P,600V,35KAIC,60-150MG,N/ST    ",,Active,14,,TRUE,Molded Breaker
+234,,CKB08231,exact,MoldedBreaker,"CB,3P,600V,65KAIC,160-400A,MG,W/ST ",,Active,14,,TRUE,Molded Breaker
+235,,CKB08232,exact,MoldedBreaker,"CB,3P,600V,65KAIC,100-250A,MG,W/ST ",,Active,14,,TRUE,Molded Breaker
+236,,CKB08233,exact,MoldedBreaker,"CB,3P,600V,65KAIC,60-150A,MG,W/ST  ",,Active,14,,TRUE,Molded Breaker
+237,,CKB08245,exact,MoldedBreaker,"SQD,3P,250A,600V,35K AIC W/O SHUNT ",,Active,14,,TRUE,Molded Breaker
+238,,CKB08290,exact,MoldedBreaker,"SQD,3P,125A,600V,35K,120VST,2A2B AU",,Active,14,,TRUE,Molded Breaker
+239,,CKB08342,exact,MoldedBreaker,"SQD-LCL,3P,500A,600V,65KAIC/480V   ",,Active,14,,TRUE,Molded Breaker
+240,,CKB08400,exact,MoldedBreaker,"3P,2000A,18k/600V,SQD,80%,NoTerm",,Active,14,,TRUE,Molded Breaker
+241,,CKB08422,exact,MoldedBreaker,"CB,3P,600V,65KAIC,400A,MG, AUX/ST  ",,Active,14,,TRUE,Molded Breaker
+242,,CKB08462,exact,MoldedBreaker,"3P,225A,22K/240V,GE,LUGS           ",,Active,14,,TRUE,Molded Breaker
+243,,CKB08564,exact,MoldedBreaker,"3P125A,480V,65KAIC,120VST,1A/1B AUX",,Active,14,,TRUE,Molded Breaker
+244,,CKB08579,exact,MoldedBreaker,"3P, 400A, 600V, 100KAIC, SQD NT    ",,Active,14,,TRUE,Molded Breaker
+245,,CKB08591,exact,MoldedBreaker,"SQD,3P,125A,600V,100KAIC,120VAC ST ",,Active,14,,TRUE,Molded Breaker
+246,,CKB08605,exact,MoldedBreaker,"SQD,3P,500A,600V,65KAIC MHL FRAME  ",,Active,14,,TRUE,Molded Breaker
+247,,CKB08609,exact,MoldedBreaker,"3P,225A,600V,65KAIC @ 240V, NT     ",,Active,14,,TRUE,Molded Breaker
+248,,CKB08697,exact,MoldedBreaker,"GE,MC,150A,240V,3P,22KAIC, W/LUGS  ",,Active,14,,TRUE,Molded Breaker
+249,,CKB08793,exact,MoldedBreaker,"SQD, 3P200A,600V @ 100KA1C,W/120VST",,Active,14,,TRUE,Molded Breaker
+250,,CKB08916,exact,MoldedBreaker,"3P,600V,400A,100% RATED,MG,NT      ",,Active,14,,TRUE,Molded Breaker
+251,,CKB08917,exact,MoldedBreaker,"ABB,3P,600V, 1000A, 100% RATED     ",,Active,14,,TRUE,Molded Breaker
+252,,CKB08994,exact,MoldedBreaker,"3P, 50A, 480V, 120V ST, AUX        ",,Active,14,,TRUE,Molded Breaker
+253,,CKB09116,exact,MoldedBreaker,"3P,100A,240V,FA FRAME (I-LINE PB)  ",,Active,14,,TRUE,Molded Breaker
+254,,CKB09285,exact,MoldedBreaker,"SQD, 3P, 100A, 480V, AX, 24VDC ST  ",,Active,14,,TRUE,Molded Breaker
+255,,CKB09286,exact,MoldedBreaker,"SQD,3P,250A,65KAIC,480V,24VDC ST   ",,Active,14,,TRUE,Molded Breaker
+256,,CKB09306,exact,MoldedBreaker,"SQ.D,3P,100A,22K,24VDC ST,AX 1a/1b ",,Active,14,,TRUE,Molded Breaker
+257,,CKB09381,exact,MoldedBreaker,"SQD, 125A, 3P, 480V, 48VDC ST      ",,Active,14,,TRUE,Molded Breaker
+258,,CKB09383,exact,MoldedBreaker,"SQD, 50A, 3P, 480V, 48VDC ST       ",,Active,14,,TRUE,Molded Breaker
+259,,CKB09408,exact,MoldedBreaker,"3P,225A,600V,KA FRAME (I-LINE PB)  ",,Active,14,,TRUE,Molded Breaker
+260,,CKB09419,exact,MoldedBreaker,"3P,1000A,25k/600V,SQD,80%,DRAWOUT",,Active,14,,TRUE,Molded Breaker
+261,,CKB09428,exact,MoldedBreaker,"SQD-JLL,3P,200A,480V,100KAIC,120VST",,Active,14,,TRUE,Molded Breaker
+262,,CKB09495,exact,MoldedBreaker,"3P,30A,480V,AIC22K,MX10,NT         ",,Active,14,,TRUE,Molded Breaker
+263,,CKB09714,exact,MoldedBreaker,"3P,150A,600V, J-FRAME (I-LINE PB)  ",,Active,14,,TRUE,Molded Breaker
+264,,CKB09715,exact,MoldedBreaker,"3P,225A,14k/600V,SQD,80%,I-LINE",,Active,14,,TRUE,Molded Breaker
+265,,CKB09734,exact,MoldedBreaker,"3P700A,600V,AIC22K,MX10,NT         ",,Active,14,,TRUE,Molded Breaker
+266,,CKB09775,exact,MoldedBreaker,"3P,225A,600V,SQD,3P, W/BASE",,Active,14,,TRUE,Molded Breaker
+267,,CKB09781,exact,MoldedBreaker,"SQ D, 125A, 3P, 65K@480V, H FRAME  ",,Active,14,,TRUE,Molded Breaker
+268,,CKB09822,exact,MoldedBreaker,"3P,80A,600V,AIC22K,MX10,NT,KAL     ",,Active,14,,TRUE,Molded Breaker
+269,,CKB10101,exact,MoldedBreaker,"SQD,LIL,3P, 450A,100KAIC @ 600V,NT ",,Active,14,,TRUE,Molded Breaker
+270,,CKB10150,exact,MoldedBreaker,"SQD,3P,225A,MC,PLUG-IN CKB W/O BASE",,Active,14,,TRUE,Molded Breaker
+271,,CKB10154,exact,MoldedBreaker,"MG,3P,400A,MOLDED CASE CKB,W/BASE  ",,Active,14,,TRUE,Molded Breaker
+272,,CKB10157,exact,MoldedBreaker,"SQD-JGL,3P,250A,600V,120VST,X2 AUX ",,Active,14,,TRUE,Molded Breaker
+273,,CKB10158,exact,MoldedBreaker,"3P,225A,18k/600V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+274,,CKB10158T,exact,MoldedBreaker,"SQD-JGL,3P,225A,600V,18kAIC,TESTED ",,Active,14,,TRUE,Molded Breaker
+275,,CKB10263,exact,MoldedBreaker,"3P, 400A, 240V, SQ-D, Q4L, L-FRAME ",,Active,14,,TRUE,Molded Breaker
+276,,CKB10328,exact,MoldedBreaker,"GE,400A,3P,35K@480V                ",,Active,14,,TRUE,Molded Breaker
+277,,CKB10338,exact,MoldedBreaker,"SQD-JDL,3P,225A,480V,18kAIC,W/ALARM",,Active,14,,TRUE,Molded Breaker
+278,,CKB10420,exact,MoldedBreaker,"3P,250A,600V,SQD,3P,SWT,W/ BASE",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+279,,CKB10480,exact,MoldedBreaker,"SQD-JGL,3P,250A,600V,18kAIC,120VST ",,Active,14,,TRUE,Molded Breaker
+280,,CKB10512,exact,MoldedBreaker,"SQD-JLL,3P,200A,480V,100kAIC,ST,AUX",,Active,14,,TRUE,Molded Breaker
+281,,CKB10518,exact,MoldedBreaker,"3P,400A,22k/600V,SQD,I-LINE",,Active,14,,TRUE,Molded Breaker
+282,,CKB10521,exact,MoldedBreaker,"SQD-HGL,3P,70A,600V,18kAIC,120VST  ",,Active,14,,TRUE,Molded Breaker
+283,,CKB10523,exact,MoldedBreaker,"SQD-JGL,3P,250A,600V,18kAIC,ST,AUX ",,Active,14,,TRUE,Molded Breaker
+284,,CKB10529,exact,MoldedBreaker,"3P,250A,65k/480V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+285,,CKB10550,exact,MoldedBreaker,"3P,250A,65k/480V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+286,,CKB10551,exact,MoldedBreaker,"SQD-JJL,3P,250A,480V,65kAIC,120VST ",,Active,14,,TRUE,Molded Breaker
+287,,CKB10556,exact,MoldedBreaker,"MG,3P,400A,MLDCSE CB,W/BSE,AUX,ALRM",,Active,14,,TRUE,Molded Breaker
+288,,CKB10648,exact,MoldedBreaker,"SQD-HGL,3P,100A,600V,18kAIC,120VST ",,Active,14,,TRUE,Molded Breaker
+289,,CKB10773,exact,MoldedBreaker,"GE,MC,175A,240V,3P,22KAIC, W/LUGS  ",,Active,14,,TRUE,Molded Breaker
+290,,CKB10794,exact,MoldedBreaker,"SQD,3P,600V,400AF,225AT, FIX MOUNT ",,Active,14,,TRUE,Molded Breaker
+291,,CKB10858,exact,MoldedBreaker,"SQD,3P,225A,MISCRIT,PLG-N CKB W/BSE",,Active,14,,TRUE,Molded Breaker
+292,,CKB10864,exact,MoldedBreaker,"SQD-JLL,3P,175A,480V,100kAIC,120VST",,Active,14,,TRUE,Molded Breaker
+293,,CKB10876,exact,MoldedBreaker,SQD 100A QOU NON-AUTO SWT 3P 240V  ,,Active,14,,TRUE,Molded Breaker
+294,,CKB10902,exact,MoldedBreaker,"SQD-HGL,3P,110A,600V,18kAIC,120VST ",,Active,14,,TRUE,Molded Breaker
+295,,CKB10906,exact,MoldedBreaker,"SQD,3P,125A,MC,PLUG-IN CKB W/BASE  ",,Active,14,,TRUE,Molded Breaker
+296,,CKB10946,exact,MoldedBreaker,"3P,400A,SQD-D-CKB,W/BSE -> OBSOLETE",,Active,14,,TRUE,Molded Breaker
+297,,CKB10953,exact,MoldedBreaker,"SQD,3P,400F,250A,LE FRAME, I-LINE  ",,Active,14,,TRUE,Molded Breaker
+298,,CKB10956,exact,MoldedBreaker,"SQD,3P,400A,LE FRAME,I-LINE CKB    ",,Active,14,,TRUE,Molded Breaker
+299,,CKB10959,exact,MoldedBreaker,"SQD,3P,500A,480V,200KAIC,LIL FRAME ",,Active,14,,TRUE,Molded Breaker
+300,,CKB10969,exact,MoldedBreaker,"SQD, HGN,3P,100 AMP, PLUG-IN       ",,Active,14,,TRUE,Molded Breaker
+301,,CKB10970,exact,MoldedBreaker,"SQD-JGL,3P,175A,600V,18kAIC, W/TERM",,Active,14,,TRUE,Molded Breaker
+302,,CKB10990,exact,MoldedBreaker,"3P,250A,18k/600V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+303,,CKB10995,exact,MoldedBreaker,"SQD-JGL,3P,225A,600V,18kAIC,ALM-AUX",,Active,14,,TRUE,Molded Breaker
+304,,CKB11023,exact,MoldedBreaker,"PLGN KIT,T5,400A/3P,ABB,MOVE",,Active,14,,TRUE,Molded Breaker
+305,,CKB11024,exact,MoldedBreaker,"PLGN KIT,T5,400A/3P,ABB,FIXED",,Active,14,,TRUE,Molded Breaker
+306,,CKB11099,exact,MoldedBreaker,"SQD-JGN,3P,225A,PLGN W/BASE-ALM-AUX",,Active,14,,TRUE,Molded Breaker
+307,,CKB11103,exact,MoldedBreaker,"3P,600A,42k/600V,ABB,100%,Lugs",,Active,14,,TRUE,Molded Breaker
+308,,CKB11107,exact,MoldedBreaker,"PLGN KIT,T6,3P,ABB,DRAW-OUT,MOVE",,Active,14,,TRUE,Molded Breaker
+309,,CKB11108,exact,MoldedBreaker,"PLGN KIT,T6,3P,ABB,DRAW-OUT,FIXED",,Active,14,,TRUE,Molded Breaker
+310,,CKB11112,exact,MoldedBreaker,"PLGN KIT,T4,3P,ABB",,Active,14,,TRUE,Molded Breaker
+311,,CKB11115,exact,MoldedBreaker,"3P,225A,14k/600V,SQD,100%,Lugs",,Active,14,,TRUE,Molded Breaker
+312,,CKB11117,exact,MoldedBreaker,"SQD-LAMC,3P,400A,480V,I-LINE W/BELL",,Active,14,,TRUE,Molded Breaker
+313,,CKB11118,exact,MoldedBreaker,"SQD-LC,3P,600A,600V,I-LINE W/BELL  ",,Active,14,,TRUE,Molded Breaker
+314,,CKB11119,exact,MoldedBreaker,"SQD-LA,3P,225A,600V,I-LINE W/BELL  ",,Active,14,,TRUE,Molded Breaker
+315,,CKB11120,exact,MoldedBreaker,"SQD-HGA,3P,50A,600V,I-LINE W/BELL  ",,Active,14,,TRUE,Molded Breaker
+316,,CKB11155,exact,MoldedBreaker,"PLGN KIT,T3,3P,ABB,FRT TERM,MOVING",,Active,14,,TRUE,Molded Breaker
+317,,CKB11156,exact,MoldedBreaker,"PLGN KIT,T3,3P,ABB,FRT TERM,FIXED",,Active,14,,TRUE,Molded Breaker
+318,,CKB11171,exact,MoldedBreaker,"SQD-HGL,3P,50A,600V,18kAIC,NT      ",,Active,14,,TRUE,Molded Breaker
+319,,CKB11172,exact,MoldedBreaker,"SQD-HGL,3P,80A,600V,18kAIC,NT      ",,Active,14,,TRUE,Molded Breaker
+320,,CKB11179,exact,MoldedBreaker,"GE,MC,100A,240V,3P,22KAIC, W/LUGS  ",,Active,14,,TRUE,Molded Breaker
+321,,CKB11275,exact,MoldedBreaker,"SQD-JJL,3P,175A,480V,65kAIC,       ",,Active,14,,TRUE,Molded Breaker
+322,,CKB11376,exact,MoldedBreaker,"SQD,3P,250A,PLG-N W/BASE-AX-BEL-LSI",,Active,14,,TRUE,Molded Breaker
+323,,CKB11389,exact,MoldedBreaker,"SQD-JDL,3P,225A,480V,18kAIC,W/AUX  ",,Active,14,,TRUE,Molded Breaker
+324,,CKB11416,exact,MoldedBreaker,"3P,225A,18k/480V,SQD,80%,Lugs",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+325,,CKB11418,exact,MoldedBreaker,"SQD-HDA,3P,80A,240V,25kAIC,I-LINE  ",,Active,14,,TRUE,Molded Breaker
+326,,CKB11421,exact,MoldedBreaker,"SQD-DGL,3P,250AF,LSI-TRIP,AUX,BELL ",,Active,14,,TRUE,Molded Breaker
+327,,CKB11422,exact,MoldedBreaker,"SQD-DJL,3P,400AF,120VST,AUX,LSI,65K",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+328,,CKB11547,exact,MoldedBreaker,"SQD-DGL,3P,150AF,600V,LS-TRIP,     ",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+329,,CKB11572,exact,MoldedBreaker,"3P,800A,35k/600V,ABB,Lugs",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+330,,CKB11579,exact,MoldedBreaker,"SQD-MGL,3P,800A,480V,35KAIC,E-TRIP ",,Active,14,,TRUE,Molded Breaker
+331,,CKB11580,exact,MoldedBreaker,"SQD,3P,250A,MC,PLUG-IN CKB W/BASE  ",,Active,14,,TRUE,Molded Breaker
+332,,CKB11581,exact,MoldedBreaker,"3P,200A,600V, J-FRAME (I-LINE PB)  ",,Active,14,,TRUE,Molded Breaker
+333,,CKB11582,exact,MoldedBreaker,"3P,225A,18k/600V,SQD,100%,Lugs",,Active,14,,TRUE,Molded Breaker
+334,,CKB11583,exact,MoldedBreaker,"SQD,3P,225A,100% PLGN CKB W/BSE,ST ",,Active,14,,TRUE,Molded Breaker
+335,,CKB11584,exact,MoldedBreaker,"3P,600A,65k/480V,ABB,100%,Lugs",,Active,14,,TRUE,Molded Breaker
+336,,CKB11586,exact,MoldedBreaker,"TERM CVRS,T6,3P,ABB,LO PRO (2)",,Active,14,,TRUE,Molded Breaker
+337,,CKB11616,exact,MoldedBreaker,"SQD-DGL,3P,400AF,LS-TRIP,120VST    ",,Active,14,,TRUE,Molded Breaker
+338,,CKB11618,exact,MoldedBreaker,"SQD-JJL,3P,225A,480V,65KAIC,120VST ",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+339,,CKB11620,exact,MoldedBreaker,"SQD-DJL,3P,400AF,LS,65K,100% RATED ",,Active,14,,TRUE,Molded Breaker
+340,,CKB11623,exact,MoldedBreaker,"SQD,3P,225A,MC,PLGN CB W/BSE 2 AUX ",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+341,,CKB11624,exact,MoldedBreaker,"3P,225A,600V,SQD,3P,W/BASE ST",,Active,14,,TRUE,Molded Breaker
+342,,CKB11625,exact,MoldedBreaker,"SQD,3P 225A,MC,PLGN CB W/BSE AUX ST",,Active,14,,TRUE,Molded Breaker
+343,,CKB11633,exact,MoldedBreaker,"SQD,3P,300A,CKB,LA FRAME, I-LINE   ",,Active,14,,TRUE,Molded Breaker
+344,,CKB11634,exact,MoldedBreaker,"SQD-HGL,3P,60A,600V,18kAIC,ST,AUX  ",,Active,14,,TRUE,Molded Breaker
+345,,CKB11640,exact,MoldedBreaker,"ABB LUG KIT, T5-3P (2) 3/0-250MCM  ",,Active,14,,TRUE,Molded Breaker
+346,,CKB11643,exact,MoldedBreaker,"GE-FGN,3P,400AF,600V,65KAIC @ 480V ",,Active,14,,TRUE,Molded Breaker
+347,,CKB11651,exact,MoldedBreaker,"3P,600A,100k/600V,GE,Lugs",,Active,14,,TRUE,Molded Breaker
+348,,CKB11652,exact,MoldedBreaker,"GE-SGDA,3P,400AF,240V, MCCB",,Active,14,,TRUE,Molded Breaker
+349,,CKB11658,exact,MoldedBreaker,"LUG KIT,G-FRM,GE,FRT CONN,3P",,Active,14,,TRUE,Molded Breaker
+350,,CKB11660,exact,MoldedBreaker,"PLG,RATING,3P,225A,G-FRM,GE,600V",,Active,14,,TRUE,Molded Breaker
+351,,CKB11661,exact,MoldedBreaker,"ABB-S7,3P,1200AF,600V,50kAIC,LSI   ",,Active,14,,TRUE,Molded Breaker
+352,,CKB11662,exact,MoldedBreaker,"ABB-S6,3P,800AF,600V,25kAIC,LSI    ",,Active,14,,TRUE,Molded Breaker
+353,,CKB11675,exact,MoldedBreaker,"SQD-JGL,3P,150A,600V,18kAIC,W/C TER",,Active,14,,TRUE,Molded Breaker
+354,,CKB11691,exact,MoldedBreaker,"3P,250A,600V,SQD,3P,SWT,BASE,2AUX",,Active,14,,TRUE,Molded Breaker
+355,,CKB11751,exact,MoldedBreaker,"SQD-HGA,3P,70A,600V,18kAIC,I-LINE  ",,Active,14,,TRUE,Molded Breaker
+356,,CKB11767,exact,MoldedBreaker,"PLG,RATING,3P,125A,E-FRM,GE,600V   ",,Active,14,,TRUE,Molded Breaker
+357,,CKB11777,exact,MoldedBreaker,"3P,400A,/600V,SQD",,Active,14,,TRUE,Molded Breaker
+358,,CKB11780,exact,MoldedBreaker,"SQD-LCL,3P,450A,480V,65kAIC,BELL AL",,Active,14,,TRUE,Molded Breaker
+359,,CKB11820,exact,MoldedBreaker,"SQD-DGL,3P,250AF,600V,LS-TRIP,     ",,Active,14,,TRUE,Molded Breaker
+360,,CKB11932,exact,MoldedBreaker,"TERM CVRS,T4,3P,ABB,LO PRO (2)",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+361,,CKB11937,exact,MoldedBreaker,"SQD-LIL,3P,350A,600V,100KAIC       ",,Active,14,,TRUE,Molded Breaker
+362,,CKB11996,exact,MoldedBreaker,"ABB-T5,3P,400A,480V,65kAIC, T/M    ",,Active,14,,TRUE,Molded Breaker
+363,,CKB12037,exact,MoldedBreaker,"3P,225A,18k/600V,SQD,80%,I-LINE",,Active,14,,TRUE,Molded Breaker
+364,,CKB12063,exact,MoldedBreaker,"SQD-JGA,3P,250A,600V, (I-LINE PB)  ",,Active,14,,TRUE,Molded Breaker
+365,,CKB12083,exact,MoldedBreaker,"3P,250A,18k/600V,SQD,100%,Lugs",,Active,14,,TRUE,Molded Breaker
+366,,CKB12084,exact,MoldedBreaker,"3P,250A,100K/480V,SQD,LUGS",,Active,14,,TRUE,Molded Breaker
+367,,CKB12095,exact,MoldedBreaker,"SQD-DLL,3P,400A,480V,100KAIC,100%  ",,Active,14,,TRUE,Molded Breaker
+368,,CKB12101,exact,MoldedBreaker,"SQD-HGA,3P,125A,600V, (I-LINE PB)  ",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+369,,CKB12139,exact,MoldedBreaker,"ABB-T5,3P,400A,480V,65kAIC, E-TRIP ",,Active,14,,TRUE,Molded Breaker
+370,,CKB12153,exact,MoldedBreaker,"SQD-HJL,3P,50A,480V,65kAIC,120VST  ",,Active,14,,TRUE,Molded Breaker
+371,,CKB12183,exact,MoldedBreaker,"3P,400A,D-FRAME-MLD CSE SWT,W/BASE ",,Active,14,,TRUE,Molded Breaker
+372,,CKB12189,exact,MoldedBreaker,"GE,MC,225A,240V,3P,22KAIC, W/LG,ST ",,Active,14,,TRUE,Molded Breaker
+373,,CKB12216,exact,MoldedBreaker,"CKB,3P,PLUG-N KIT,D-FRAME,400A,SQD ",,Active,14,,TRUE,Molded Breaker
+374,,CKB12246,exact,MoldedBreaker,"SQD, LI, 400A, 3P W/BELL ALARM     ",,Active,14,,TRUE,Molded Breaker
+375,,CKB12277,exact,MoldedBreaker,"SQD-QDA,3P,225A,240V, (I-LINE PB)  ",,Active,14,,TRUE,Molded Breaker
+376,,CKB12293,exact,MoldedBreaker,"SQD-DJL,3P,600AF,480V,65KAIC,CB,E20",,Active,14,,TRUE,Molded Breaker
+377,,CKB12305,exact,MoldedBreaker,"SQD-HGA,3P,100A (I-LINE PB)        ",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+378,,CKB12365,exact,MoldedBreaker,"3P,600A,35k/480V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+379,,CKB12473,exact,MoldedBreaker,"SIEMENS VL-NJG,3P,400A,600V,LI TRIP",,Active,14,,TRUE,Molded Breaker
+380,,CKB12474,exact,MoldedBreaker,"SIEMENS VL-NMY,3P,800A,600V, 100%  ",,Active,14,,TRUE,Molded Breaker
+381,,CKB12576,exact,MoldedBreaker,"ABB-T7,3P,1000AF,600V,25kAIC,100%  ",,Active,14,,TRUE,Molded Breaker
+382,,CKB12687,exact,MoldedBreaker,"SIEMENS VL-NJG,3P,250A CKB W/LUGS  ",,Active,14,,TRUE,Molded Breaker
+383,,CKB12712,exact,MoldedBreaker,"SQD-LIL,3P,300A,600V,100KAIC       ",,Active,14,,TRUE,Molded Breaker
+384,,CKB12774,exact,MoldedBreaker,"PLGN KIT,T4,3P,ABB,EXT FRT TERM/FIX",,Active,14,,TRUE,Molded Breaker
+385,,CKB12779,exact,MoldedBreaker,"3P,250A,65k/480V,ABB,Lugs",,Active,14,,TRUE,Molded Breaker
+386,,CKB12782,exact,MoldedBreaker,"TERM CVRS,T5,3P,ABB,LO PRO (2)",,Active,14,,TRUE,Molded Breaker
+387,,CKB12848,exact,MoldedBreaker,"SQD,3P,150A,MC,PLUG-IN CKB W/BASE  ",,Active,14,,TRUE,Molded Breaker
+388,,CKB12872,exact,MoldedBreaker,"SQD-DJL,3P,600AF,480V,65KAIC,CB,E53",,Active,14,,TRUE,Molded Breaker
+389,,CKB12953,exact,MoldedBreaker,"SQD-LAL,3P,400A,600V,22KAIC,NO CTAP",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+390,,CKB13047,exact,MoldedBreaker,"3P,400A,25k/480V,ABB,Lugs",,Active,14,,TRUE,Molded Breaker
+391,,CKB13052,exact,MoldedBreaker,"ABB-T5,3P,PLUG-IN KIT VERT REAR BUS",,Active,14,,TRUE,Molded Breaker
+392,,CKB13054,exact,MoldedBreaker,"3P,225A,25k/480V,ABB,Lugs",,Active,14,,TRUE,Molded Breaker
+393,,CKB13065,exact,MoldedBreaker,"SWT,SQD,3P,1600A,AUX, 24-30V ST",,Active,14,,TRUE,Molded Breaker
+394,,CKB13066,exact,MoldedBreaker,"CRADLE FOR CKB13065,SQD,3P,1600A",,Active,14,,TRUE,Molded Breaker
+395,,CKB13067,exact,MoldedBreaker,"DRAWOUT SWT,SQD,3P,1600A, AUX",,Active,14,,TRUE,Molded Breaker
+396,,CKB13072,exact,MoldedBreaker,"3P,700A,65k/480V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+397,,CKB13076,exact,MoldedBreaker,"SQD-DGP,3P,250AF,600V,LS-TRIP,     ",,Active,14,,TRUE,Molded Breaker
+398,,CKB13313,exact,MoldedBreaker,"3P,400A,65k/480V,GE,80%,Lugs",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+399,,CKB13344,exact,MoldedBreaker,"ABB-T6,3P,600AF,480V,35K,100%,LSI  ",,Active,14,,TRUE,Molded Breaker
+400,,CKB13345,exact,MoldedBreaker,"SQD-DGA,3P,250AF,480V,LSI,I-LINE   ",,Active,14,,TRUE,Molded Breaker
+401,,CKB13351,exact,MoldedBreaker,"SQD-DJL,3P,250AF,480V,65KAIC,LSI   ",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+402,,CKB13364,exact,MoldedBreaker,"SQD-JJL,3P,225A,480V,65KAIC,100%   ",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+403,,CKB13365,exact,MoldedBreaker,"SQD-DJN,3P,400A MCCB,AUX/24v SHUNT ",,Active,14,,TRUE,Molded Breaker
+404,,CKB13366,exact,MoldedBreaker,"SQD-DJN,3P,400A MCCB, W/AUX        ",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+405,,CKB13511,exact,MoldedBreaker,"SQD-JLL,3P,200A,480V,100KAIC,100%  ",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+406,,CKB13528,exact,MoldedBreaker,"SQD-JGP,3P,150A,600V,35KAIC@480V   ",,Active,14,,TRUE,Molded Breaker
+407,,CKB13554,exact,MoldedBreaker,"SQ-D, QDL, 3P, 100A, QDL32100      ",,Active,14,,TRUE,Molded Breaker
+408,,CKB13555,exact,MoldedBreaker,"SQ-D, QDL, 3P, 150A, QDL32150      ",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+409,,CKB13664,exact,MoldedBreaker,"3P,225A,18k/600V,SIE,Lugs",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+410,,CKB13696,exact,MoldedBreaker,"SQD-DGL,3P,400AF,65KAIC @ 240V,LSI ",,Active,14,,TRUE,Molded Breaker
+411,,CKB13710,exact,MoldedBreaker,"SQD-LCL,3P,500A,600V,65KAIC/480V   ",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+412,,CKB13896,exact,MoldedBreaker,"3P,600A,18k/600V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+413,,CKB13897,exact,MoldedBreaker,"SQD-PGL,3P,600V,1200AF,LI,18KAIC   ",,Active,14,,TRUE,Molded Breaker
+414,,CKB13898,exact,MoldedBreaker,"SQD-LGL,3P,600V,400AF,LI,18KAIC,80%",,Active,14,,TRUE,Molded Breaker
+415,,CKB13930,exact,MoldedBreaker,"SQD,LGL,3P,400A,35kAIC @ 480V,LSIG ",,Active,14,,TRUE,Molded Breaker
+416,,CKB13931,exact,MoldedBreaker,"SQD,JDL,3P,250A,100% RATED,LSIG    ",,Active,14,,TRUE,Molded Breaker
+417,,CKB13932,exact,MoldedBreaker,"SQD-MJL,3P,500A,480V,65KAIC,E-TRIP ",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+418,,CKB13932T,exact,MoldedBreaker,"SQD-MJL,3P,500A,480V,65KAIC,E-TRIP ",,Active,14,,TRUE,Molded Breaker
+419,,CKB13943,exact,MoldedBreaker,"SQD-LGL,3P,100%,600V,400AF,LI,18K",,Active,14,,TRUE,Molded Breaker
+420,,CKB13943T,exact,MoldedBreaker,"SQD-LGL,3P,100%,600V,400AF,LI,18K  ",,Active,14,,TRUE,Molded Breaker
+421,,CKB13952,exact,MoldedBreaker,"SQD, HDN,3P,100 AMP, PLUG-IN BASE  ",,Active,14,,TRUE,Molded Breaker
+422,,CKB13955,exact,MoldedBreaker,"SQD,JDL,3P,250A,100% RATED,LI TRIP ",,Active,14,,TRUE,Molded Breaker
+423,,CKB13973,exact,MoldedBreaker,"3P,600A,65k/480V,SQD,80%,Lugs",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+424,,CKB14076,exact,MoldedBreaker,"SQD-MJL,3P,350A,480V,65KAIC,E-TRIP ",,Active,14,,TRUE,Molded Breaker
+425,,CKB14077,exact,MoldedBreaker,"SQD, HDP, 3P, 150A, 100% RATED     ",,Active,14,,TRUE,Molded Breaker
+426,,CKB14091,exact,MoldedBreaker,"3P,400A,65k/480V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+427,,CKB14135,exact,MoldedBreaker,"ABB-T5,3P,400A,480V,25kAC, E/T,100%",,Active,14,,TRUE,Molded Breaker
+428,,CKB14136,exact,MoldedBreaker,"SQD,3P 225A,MC,PLGN CB W/BSE AUX ST",,Active,14,,TRUE,Molded Breaker
+429,,CKB14219,exact,MoldedBreaker,"SQD-LAL,3P,350A,600V,18kAIC, NO TAP",,Active,14,,TRUE,Molded Breaker
+430,,CKB14232,exact,MoldedBreaker,"SQD,3P 225A, 65 kAIC, FIXED MOUNT  ",,Active,14,,TRUE,Molded Breaker
+431,,CKB14246,exact,MoldedBreaker,"3P,400A,18k/600V,SQD,100%",,Active,14,,TRUE,Molded Breaker
+432,,CKB14312,exact,MoldedBreaker,"3P,250A,18k/600V,SQD,100%,Line",,Active,14,,TRUE,Molded Breaker
+433,,CKB14314,exact,MoldedBreaker,"SIEMENS VL-NJY,3P,400A,600V,LSI TRP",,Active,14,,TRUE,Molded Breaker
+434,,CKB14315,exact,MoldedBreaker,"ABB-T3,3P,125A,480V,35KAIC, FIX MNT",,Active,14,,TRUE,Molded Breaker
+435,,CKB15061,exact,MoldedBreaker,"3P,800AT,35@480V,LSI,100%R,FM      ",,Active,14,,TRUE,Molded Breaker
+436,,CKB15061T,exact,MoldedBreaker,"3P,800AT,35@480V,LSI,100%R,FM      ",,Active,14,,TRUE,Molded Breaker
+437,,CKB15062,exact,MoldedBreaker,"SQD-HGL,3P,50A,600V,100% RATED 18kA",,Active,14,,TRUE,Molded Breaker
+438,,CKB15096,exact,MoldedBreaker,"ABB-T6,3P,600V,600AF,20kAIC,MCB    ",,Active,14,,TRUE,Molded Breaker
+439,,CKB15163,exact,MoldedBreaker,"3P,450A,65k/480V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+440,,CKB15260,exact,MoldedBreaker,"SQD-JJL,3P,200A,480V,65KAIC        ",,Active,14,,TRUE,Molded Breaker
+441,,CKB15260T,exact,MoldedBreaker,"SQD-JJL,3P,200A,480V,65KAIC        ",,Active,14,,TRUE,Molded Breaker
+442,,CKB15264,exact,MoldedBreaker,"3P,250A,100k/480V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+443,,CKB15265,exact,MoldedBreaker,"SQD-JGL,3P,250AF,480V,35KAIC,LSI   ",,Active,14,,TRUE,Molded Breaker
+444,,CKB15294,exact,MoldedBreaker,"SQD-LLL,3P,600V,400AF,LSI,50K,W/TAP",,Active,14,,TRUE,Molded Breaker
+445,,CKB15299,exact,MoldedBreaker,"3P,400A,18k/600V,SQD,100%,Lugs     ",,Active,14,,TRUE,Molded Breaker
+446,,CKB15303,exact,MoldedBreaker,"ABB, T5, 3P, HIGH TERMNAL COVER    ",,Active,14,,TRUE,Molded Breaker
+447,,CKB15366,exact,MoldedBreaker,"ABB-T6,3P,600AF,480V,100kAIC,100%  ",,Active,14,,TRUE,Molded Breaker
+448,,CKB15387,exact,MoldedBreaker,"3P,400A,65k/480V,ABB,Lugs",,Active,14,,TRUE,Molded Breaker
+449,,CKB15393,exact,MoldedBreaker,"GE-TFJ,3P,175A,600V,22KAIC/480V,   ",,Active,14,,TRUE,Molded Breaker
+450,,CKB15411,exact,MoldedBreaker,"GE-TJJ,3P,400A,480V,30KAIC, W/LUGS ",,Active,14,,TRUE,Molded Breaker
+451,,CKB15412,exact,MoldedBreaker,"GE-TKMA,3P,800A,480V,30KAIC, W/LUGS",,Active,14,,TRUE,Molded Breaker
+452,,CKB15430,exact,MoldedBreaker,"SQD-JGL,3P,250AF,600V, LI, 100%    ",,Active,14,,TRUE,Molded Breaker
+453,,CKB15430T,exact,MoldedBreaker,"SQD-JGL,3P,250AF,600V, LI, 100%    ",,Active,14,,TRUE,Molded Breaker
+454,,CKB15441,exact,MoldedBreaker,"GE-THED,3P,50A,600V,18kAIC,NT      ",,Active,14,,TRUE,Molded Breaker
+455,,CKB15561,exact,MoldedBreaker,"3P,400A,25k/600V,GE,100%,LUGS      ",,Active,14,,TRUE,Molded Breaker
+456,,CKB15562,exact,MoldedBreaker,"3P,600A,65k/480V,GE,Lugs",,Active,14,,TRUE,Molded Breaker
+457,,CKB15564,exact,MoldedBreaker,"PLG,RATING,3P,500A,G-FRM,GE,600V",,Active,14,,TRUE,Molded Breaker
+458,,CKB15595,exact,MoldedBreaker,"GE-SGPP,3P,600AF,600V,LSI,100% RATE",,Active,14,,TRUE,Molded Breaker
+459,,CKB15648,exact,MoldedBreaker,"PLG,RATING,3P,200A,F-FRM,GE,600V",,Active,14,,TRUE,Molded Breaker
+460,,CKB15661,exact,MoldedBreaker,"EATON-LG,3P,600A,480V,65KAIC,100%  ",,Active,14,,TRUE,Molded Breaker
+461,,CKB15667,exact,MoldedBreaker,"3P,225A,25K/480V,ETN,80%,LUGS,T/M  ",,Active,14,,TRUE,Molded Breaker
+462,,CKB15668,exact,MoldedBreaker,"EATON-LG,3P,400A,600V,18kAIC, 80%  ",,Active,14,,TRUE,Molded Breaker
+463,,CKB15675,exact,MoldedBreaker,"3P,250A,65k/480V,SQD,100%,Lugs     ",,Active,14,,TRUE,Molded Breaker
+464,,CKB15745,exact,MoldedBreaker,"3P,250A,18K/600V,SQD,80%,LI TRIP   ",,Active,14,,TRUE,Molded Breaker
+465,,CKB15747,exact,MoldedBreaker,"3P,2000A,100k/600V,SQD,DrawOut",,Active,14,,TRUE,Molded Breaker
+466,,CKB15748,exact,MoldedBreaker,"3P,2000A,100k/600V,SQD,DrawOut",,Active,14,,TRUE,Molded Breaker
+467,,CKB15749,exact,MoldedBreaker,"3P,2000A,/,SQD,DrawOut",,Active,14,,TRUE,Molded Breaker
+468,,CKB15750,exact,MoldedBreaker,"CRADLE, RR VER T BUS,SQD,3000A,3P",,Active,14,,TRUE,Molded Breaker
+469,,CKB15839,exact,MoldedBreaker,"3P,600A,50k/600V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+470,,CKB15849,exact,MoldedBreaker,"SQD-MJL,3P,700A,480V,65KAIC, W/ CT ",,Active,14,,TRUE,Molded Breaker
+471,,CKB15943,exact,MoldedBreaker,"GE-SGHA,3P,480V,400AF,LSI,35K,80%  ",,Active,14,,TRUE,Molded Breaker
+472,,CKB16015,exact,MoldedBreaker,"PLG,RATING,3P,175A,F-FRM,GE,600V",,Active,14,,TRUE,Molded Breaker
+473,,CKB16027,exact,MoldedBreaker,"SIEMENS-NFK,3P,200A,600V,18kAIC,NT ",,Active,14,,TRUE,Molded Breaker
+474,,CKB16029,exact,MoldedBreaker,"SIEMENS-HFK,3P,200A,480V,65kAIC,NT ",,Active,14,,TRUE,Molded Breaker
+475,,CKB16031,exact,MoldedBreaker,"3P,400A,65k/480V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+476,,CKB16146,exact,MoldedBreaker,"3P,250A,18k/600V,SQD,100%,I-Line",,Active,14,,TRUE,Molded Breaker
+477,,CKB16147,exact,MoldedBreaker,"SQD-PGL,3P,600V,800AF,LSI,18KA     ",,Active,14,,TRUE,Molded Breaker
+478,,CKB16168,exact,MoldedBreaker,"SQD-JGL,3P,150A,600V,18kAIC,100%   ",,Active,14,,TRUE,Molded Breaker
+479,,CKB16227,exact,MoldedBreaker,"SQD-HDL,3P,150AF,600V,LI-TRIP, AUX ",,Active,14,,TRUE,Molded Breaker
+480,,CKB16352,exact,MoldedBreaker,"SQD-HGL,3P,100AF,600V, LI, 100%    ",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+481,,CKB16355,exact,MoldedBreaker,"3P,400A,22k/600V,SQD,I-LINE",,Active,14,,TRUE,Molded Breaker
+482,,CKB16356,exact,MoldedBreaker,"3P,400A,65k/480V,SQD,80%,Lugs,LI   ",,Active,14,,TRUE,Molded Breaker
+483,,CKB16363,exact,MoldedBreaker,"SQD-JGN,3P,250AF,480V,W/BASE,LI,M/C",,Active,14,,TRUE,Molded Breaker
+484,,CKB16385,exact,MoldedBreaker,"SQD-LA,3P,225A,I-LINE W/BELL ALARM ",,Active,14,,TRUE,Molded Breaker
+485,,CKB16404,exact,MoldedBreaker,"SQD-LJL,3P,480V,400AF,LSIG,65K, 80%",,Active,14,,TRUE,Molded Breaker
+486,,CKB16424,exact,MoldedBreaker,"3P,800A,100k/480V,ABB,Lugs",,Active,14,,TRUE,Molded Breaker
+487,,CKB16450,exact,MoldedBreaker,"3P,400A,18k/600V,SQD,80%,PLGN",,Active,14,,TRUE,Molded Breaker
+488,,CKB16469,exact,MoldedBreaker,"SQD-LJL,3P,600V,400AF,LI,18KAIC,MC ",,Active,14,,TRUE,Molded Breaker
+489,,CKB16519,exact,MoldedBreaker,"3P,400A,14k/600V,SQD,100%,Lugs",,Active,14,,TRUE,Molded Breaker
+490,,CKB16666,exact,MoldedBreaker,"3P,600A,25k/600V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+491,,CKB16683,exact,MoldedBreaker,"SQD-JJL,3P,480V,250AF,65kA,LI TRIP ",,Active,14,,TRUE,Molded Breaker
+492,,CKB16696,exact,MoldedBreaker,"SQD,JGA,3P,480V,250AF,ILINE,LI, MC ",,Active,14,,TRUE,Molded Breaker
+493,,CKB16711,exact,MoldedBreaker,"SQD,JGL,3P,480V,250AF,LI,MC,AUX,BEL",,Active,14,,TRUE,Molded Breaker
+494,,CKB16718,exact,MoldedBreaker,"PLG,RATING,3P,80A,SE-FRM,GE,480V",,Active,14,,TRUE,Molded Breaker
+495,,CKB16719,exact,MoldedBreaker,"GE-SFLA,3P,480V,250AF,LSI,65K,80%  ",,Active,14,,TRUE,Molded Breaker
+496,,CKB16849,exact,MoldedBreaker,"SIEMENS-HFK,3P,250A,480V,65kAIC,NT ",,Active,14,,TRUE,Molded Breaker
+497,,CKB16881,exact,MoldedBreaker,"SQD,LJL,3P,480V,400AF,LI,65K,100%  ",,Active,14,,TRUE,Molded Breaker
+498,,CKB16908,exact,MoldedBreaker,"3P,250A,600V,SQD,LUGS,MC SWITCH    ",,Active,14,,TRUE,Molded Breaker
+499,,CKB17016,exact,MoldedBreaker,"SQD-MJL,3P,500A,480V,65K,120VST,AUX",,Active,14,,TRUE,Molded Breaker
+500,,CKB17017,exact,MoldedBreaker,"SQD-HJL,3P,50A,480V,65K,120VST,AUX ",,Active,14,,TRUE,Molded Breaker
+501,,CKB17059,exact,MoldedBreaker,"3P,250A,18k/480V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+502,,CKB17076,exact,MoldedBreaker,"3P,600A,200k/480V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+503,,CKB17078,exact,MoldedBreaker,"SQD,LJA,250A,3P,MC,ILINE,65KAIC@480",,Active,14,,TRUE,Molded Breaker
+504,,CKB17106,exact,MoldedBreaker,"3P,400A,18k/600V,SQD,80%",,Active,14,,TRUE,Molded Breaker
+505,,CKB17168,exact,MoldedBreaker,"3P,700A,35k/480V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+506,,CKB17170,exact,MoldedBreaker,"3P,400A,65k/480V,SQD,100%,LUGS,LSI ",,Active,14,,TRUE,Molded Breaker
+507,,CKB17170T,exact,MoldedBreaker,"SQD-LJL,3P,480V,400AF,LSI,65K, 100%",,Active,14,,TRUE,Molded Breaker
+508,,CKB17258,exact,MoldedBreaker,"PLG,RATING,3P,300A,SG-FRM,GE,600V",,Active,14,,TRUE,Molded Breaker
+509,,CKB17282,exact,MoldedBreaker,"SQD-LDL,3P,100%,600V,400AF,LI      ",,Active,14,,TRUE,Molded Breaker
+510,,CKB17297,exact,MoldedBreaker,"GE-SGHA,3P,600AF,600V,35K/480V,LSI ",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+511,,CKB17311,exact,MoldedBreaker,"3P,400A,35k/480V,SQD,100%,I-Line",,Active,14,,TRUE,Molded Breaker
+512,,CKB17315,exact,MoldedBreaker,"SQD-JGN, 3P, 600V, 250AF, LI, 18K  ",,Active,14,,TRUE,Molded Breaker
+513,,CKB17347,exact,MoldedBreaker,"SQD-LLL,3P,400A,480V,100KAIC       ",,Active,14,,TRUE,Molded Breaker
+514,,CKB17474,exact,MoldedBreaker,"3P,600A,65k/480V,GE,Lugs",,Active,14,,TRUE,Molded Breaker
+515,,CKB17475,exact,MoldedBreaker,"3P,400A,65k/480V,GE,Lugs",,Active,14,,TRUE,Molded Breaker
+516,,CKB17530,exact,MoldedBreaker,"PLG,RATING,3P,125A,F-FRM,GE,480V",,Active,14,,TRUE,Molded Breaker
+517,,CKB17540,exact,MoldedBreaker,"GE-SEHA,3P,480V,60AF,LSI,25K,80%   ",,Active,14,,TRUE,Molded Breaker
+518,,CKB17573,exact,MoldedBreaker,"3P,600A,18k/600V,SQD,100%,Lugs",,Active,14,,TRUE,Molded Breaker
+519,,CKB17648,exact,MoldedBreaker,"PLG,RATING,3P,175A,G-FRM,GE,600V",,Active,14,,TRUE,Molded Breaker
+520,,CKB17830,exact,MoldedBreaker,"3P,400A,18k/600V,SQD,100%,Line",,Active,14,,TRUE,Molded Breaker
+521,,CKB17860,exact,MoldedBreaker,"3P,250A,35k/480V,SQD,80%,I-Line",,Active,14,,TRUE,Molded Breaker
+522,,CKB17890,exact,MoldedBreaker,"PLG,RATING,3P,150A,F-FRM,GE,600V",,Active,14,,TRUE,Molded Breaker
+523,,CKB17894,exact,MoldedBreaker,"PLG,RATING,3P,200A,G-FRM,GE,600V",,Active,14,,TRUE,Molded Breaker
+524,,CKB17919,exact,MoldedBreaker,"SQD-LDL,3P,100%,600V,400A,MC       ",,Active,14,,TRUE,Molded Breaker
+525,,CKB17925,exact,MoldedBreaker,"3P,400A,14k/600V,SQD,80%",2014,Obsoleted,14,,FALSE,Molded Breaker overlaps with Obsolete
+526,,CKB17926,exact,MoldedBreaker,"3P,250A,18k/480V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+527,,CKB17990,exact,MoldedBreaker,"3P,250A,14k/600V,SQD,100%,Lugs",,Active,14,,TRUE,Molded Breaker
+528,,CKB17993,exact,MoldedBreaker,"3P,250A,65k/480V,SQD,100%,LUGS,LI  ",,Active,14,,TRUE,Molded Breaker
+529,,CKB18109,exact,MoldedBreaker,"SQD-PJL,3P,600V,600AF,LI,25K,100%  ",,Active,14,,TRUE,Molded Breaker
+530,,CKB18120,exact,MoldedBreaker,"SQD-LRL,3P,400A,600V,100KAIC,LI TRP",,Active,14,,TRUE,Molded Breaker
+531,,CKB18143,exact,MoldedBreaker,"3P,250A,65k/600V,SQD,100%,Lugs",,Active,14,,TRUE,Molded Breaker
+532,,CKB18289,exact,MoldedBreaker,"3P,225A,18k/600V,SQD,80%,I-LINE",,Active,14,,TRUE,Molded Breaker
+533,,CKB18310,exact,MoldedBreaker,"3P,225A,22k/240V,GE,Lugs",,Active,14,,TRUE,Molded Breaker
+534,,CKB18544,exact,MoldedBreaker,"PLG,RATING,3P,450A,G-FRM,GE,600V",,Active,14,,TRUE,Molded Breaker
+535,,CKB18579,exact,MoldedBreaker,"3P,400A,14k/600V,SQD,100%,I-LINE",,Active,14,,TRUE,Molded Breaker
+536,,CKB18581,exact,MoldedBreaker,"SQD-HGL,3P,40A,600V,18kAIC,NT      ",,Active,14,,TRUE,Molded Breaker
+537,,CKB18693,exact,MoldedBreaker,"SQD-JGL,3P,250AF,480V,35K,100%,LSI ",,Active,14,,TRUE,Molded Breaker
+538,,CKB18704,exact,MoldedBreaker,"PLG,RATING,3P,70A,SE-100,GE,480V",,Active,14,,TRUE,Molded Breaker
+539,,CKB18742,exact,MoldedBreaker,"PLG,RATING,3P,150A,SE-FRM,GE,480V",,Active,14,,TRUE,Molded Breaker
+540,,CKB18847,exact,MoldedBreaker,"3P,250A,35k/480V,SQD,100%,LSI      ",,Active,14,,TRUE,Molded Breaker
+541,,CKB18847T,exact,MoldedBreaker,"3P,250A,35k/480V,SQD,100%,LSI      ",,Active,14,,TRUE,Molded Breaker
+542,,CKB18863,exact,MoldedBreaker,"3P,250A,35k/480V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+543,,CKB19312,exact,MoldedBreaker,"SQD-LAP,3P,400A,600V,22KAIC,       ",,Active,14,,TRUE,Molded Breaker
+544,,CKB19324,exact,MoldedBreaker,SQD L FRAME 3P TERMINAL SHIELD     ,,Active,14,,TRUE,Molded Breaker
+545,,CKB19513,exact,MoldedBreaker,"3P,400A,100k/600V,SQD,100%,Lugs",,Active,14,,TRUE,Molded Breaker
+546,,CKB19711,exact,MoldedBreaker,"3P,250A,18k/600V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+547,,CKB19900,exact,MoldedBreaker,"3P,600A,35k/600V,ABB,100%,Lugs",,Active,14,,TRUE,Molded Breaker
+548,,CKB19960,exact,MoldedBreaker,"3P,600A,65k/480V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+549,,CKB19975,exact,MoldedBreaker,"3P,250A,35k/480V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+550,,CKB19977,exact,MoldedBreaker,"3P,400A,18K/480V,SQD,LUGS",,Active,14,,TRUE,Molded Breaker
+551,,CKB20107,exact,MoldedBreaker,"SQD-LGL,3P,100%,600V,400AF,LSIG,18K",,Active,14,,TRUE,Molded Breaker
+552,,CKB20151,exact,MoldedBreaker,"3P,600A,35k/480V,ABB,100%,Lugs",,Active,14,,TRUE,Molded Breaker
+553,,CKB20167,exact,MoldedBreaker,"3P,800A,65k/600V,GE,Lugs",,Active,14,,TRUE,Molded Breaker
+554,,CKB20168,exact,MoldedBreaker,"PLG,RATING,3P,800A,K-FRM,GE,600V",,Active,14,,TRUE,Molded Breaker
+555,,CKB20185,exact,MoldedBreaker,"3P,400A,18k/480V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+556,,CKB20334,exact,MoldedBreaker,"SQD,JGA,3P,480V,250AF,ILINE,80%,LSI",,Active,14,,TRUE,Molded Breaker
+557,,CKB20359,exact,MoldedBreaker,"3P,250A,65k/480V,SQD,100%,PLGN",,Active,14,,TRUE,Molded Breaker
+558,,CKB20362,exact,MoldedBreaker,"3P,250A,65k/480V,SQD,100%,PLGN",,Active,14,,TRUE,Molded Breaker
+559,,CKB20443,exact,MoldedBreaker,"3P,400A,65k/480V,SQD,100%,PLGN",,Active,14,,TRUE,Molded Breaker
+560,,CKB20444,exact,MoldedBreaker,"3P,400A,65k/480V,SQD,100%,PLGN",,Active,14,,TRUE,Molded Breaker
+561,,CKB20616,exact,MoldedBreaker,"3P,250A,35K/480V,SQD,LUGS",,Active,14,,TRUE,Molded Breaker
+562,,CKB20642,exact,MoldedBreaker,"800A,3P,65K,480V,SQD,80%,LUG 2-ENDS",,Active,14,,TRUE,Molded Breaker
+563,,CKB20716,exact,MoldedBreaker,"SQD-MJL,3P,500A,480V,65K,E-TRIP,KK ",,Active,14,,TRUE,Molded Breaker
+564,,CKB30734,exact,MoldedBreaker,"CIRCUIT BREAKER,MAGNETIC 3POLE 30A ",,Active,14,,TRUE,Molded Breaker
+565,,CKB32118,exact,MoldedBreaker,"MULTI-9, 3P, 30A, 5KAIC @ 480/277VC",,Active,14,,TRUE,Molded Breaker
+566,,CKB32140,exact,MoldedBreaker,"ABB, S803S-B20, 3P, 20A, 690V, 50KA",,Active,14,,TRUE,Molded Breaker
+567,,CKB40615,exact,MoldedBreaker,"3P,250A,18k/600V,SQD,80%,NoTerm",,Active,14,,TRUE,Molded Breaker
+568,,CKB40625,exact,MoldedBreaker,"3P,400A,18k/600V,SQD,80%,NoTerm",,Active,14,,TRUE,Molded Breaker
+569,,CKB40785,exact,MoldedBreaker,"150A, 3P, 25KAIC, 240VAC, SQD      ",,Active,14,,TRUE,Molded Breaker
+570,,CKB54147,exact,MoldedBreaker,"3P,400A,65k/208V,SQD,100%,Line",,Active,14,,TRUE,Molded Breaker
+571,,CKB54147T,exact,MoldedBreaker,"3P,400A,65k/208V,SQD,100%,Line,Test",,Active,14,,TRUE,Molded Breaker
+572,,CKB56370,exact,MoldedBreaker,"3P,1200,65KA,480VAC,SQD,80%,LUGS,ST",,Active,14,,TRUE,Molded Breaker
+573,,CKB56415,exact,MoldedBreaker,"3P,250A,65KA,600V,SQD,80%,PLGN,LI  ",,Active,14,,TRUE,Molded Breaker
+574,,CKB56426,exact,MoldedBreaker,"3P,800A,65KA,SQD,80%,LOAD LUG,FT   ",,Active,14,,TRUE,Molded Breaker
+575,,CKB56441,exact,MoldedBreaker,"3P,1200,65KA,480V,SQD,100%,LUGS,ST ",,Active,14,,TRUE,Molded Breaker
+576,,CKB56459,exact,MoldedBreaker,"PLG,RATING,3P,600A,G-FRM,GE,600V",,Active,14,,TRUE,Molded Breaker
+577,,CKB56527,exact,MoldedBreaker,"3P,400A,100KA@600V,SQD,80%,PLGN    ",,Active,14,,TRUE,Molded Breaker
+578,,CKB56528,exact,MoldedBreaker,"3P,400A,100KA@600V,SQD,80%,PLGN,2FC",,Active,14,,TRUE,Molded Breaker
+579,,CKB56541,exact,MoldedBreaker,"3P,500A,35KA,480,SQD,80%,LUGS,SA   ",,Active,14,,TRUE,Molded Breaker
+580,,CKB56556,exact,MoldedBreaker,"3P,400A,30KA,480,SQD,80%,LUGS,BELL ",,Active,14,,TRUE,Molded Breaker
+581,,CKB56582,exact,MoldedBreaker,"3P,400A,100k/600V,SQD,80%,LUGS,LSI ",,Active,14,,TRUE,Molded Breaker
+582,,CKB56621,exact,MoldedBreaker,"3P,150A,18KA,480,SQD,100%,LUGS,LI  ",,Active,14,,TRUE,Molded Breaker
+583,,CKB56667,exact,MoldedBreaker,"3P,2000A,18k/600V,SQD,100%,NoTerm",,Active,14,,TRUE,Molded Breaker
+584,,CKB56669,exact,MoldedBreaker,"3P,3200A,75k/24VD,ABB",,Active,14,,TRUE,Molded Breaker
+585,,CKB56670,exact,MoldedBreaker,"3P,3200A,75k/24VD,ABB",,Active,14,,TRUE,Molded Breaker
+586,,CKB56697,exact,MoldedBreaker,"3P,200A,65KA,208VAC,SQD,80%,LUG    ",,Active,14,,TRUE,Molded Breaker
+587,,CKB56737,exact,MoldedBreaker,"3P+N,250A,65KA,480V,SQD,100%,LUGS  ",,Active,14,,TRUE,Molded Breaker
+588,,CKB56763,exact,MoldedBreaker,"3P,150,18KA,600,SQD,80%,I-LINE,    ",,Active,14,,TRUE,Molded Breaker
+589,,CKB56853,exact,MoldedBreaker,"3P,800A,65KA,480VAC,SQD,100%,LUG,SK",,Active,14,,TRUE,Molded Breaker
+590,,CKB56853-T,exact,MoldedBreaker,"3P,800A,65KA,480VAC,SQD,100%,LUG,SK",,Active,14,,TRUE,Molded Breaker
+591,,CKB56987,exact,MoldedBreaker,"3P,800A,35KA/480V,SQD,LUGS,24VDC ST",,Active,14,,TRUE,Molded Breaker
+592,,CKB57060,exact,MoldedBreaker,"J-FRAME,3P,TERM SHIELD KIT,S37450  ",,Active,14,,TRUE,Molded Breaker
+593,,CKB57081,exact,MoldedBreaker,"3P,1200A,65KA,480VAC,SQD,80%,LUG,SK",,Active,14,,TRUE,Molded Breaker
+594,,CKB57113,exact,MoldedBreaker,"3P,400A,25k/600V,SQD,Lugs",,Active,14,,TRUE,Molded Breaker
+595,,CKB57115,exact,MoldedBreaker,"3P,800A,5k/600V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+596,,CKB57115-T,exact,MoldedBreaker,"3P,800A,5k/600V,SQD,80%,Lugs,Test",,Active,14,,TRUE,Molded Breaker
+597,,CKB57117,exact,MoldedBreaker,"3P,225A,25k/240V,SQD,Lugs",,Active,14,,TRUE,Molded Breaker
+598,,CKB57119,exact,MoldedBreaker,"3P,225A,25kA/240V,SQD,Line",,Active,14,,TRUE,Molded Breaker
+599,,CKB57120,exact,MoldedBreaker,"3P,225A,65k/240V,SQD,Lugs",,Active,14,,TRUE,Molded Breaker
+600,,CKB57121,exact,MoldedBreaker,"3P,225A,65k/240V,SQD,Line",,Active,14,,TRUE,Molded Breaker
+601,,CKB57122,exact,MoldedBreaker,"3P,250A,35k/480V,SQD,100%,Lugs",,Active,14,,TRUE,Molded Breaker
+602,,CKB57125,exact,MoldedBreaker,"3P,250A,14k/600V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+603,,CKB57132,exact,MoldedBreaker,"3P,700A,25k/600V,SQD,Lugs",,Active,14,,TRUE,Molded Breaker
+604,,CKB57135,exact,MoldedBreaker,"3P,2000A,18k/600V,SQD,80%,NoTerm",,Active,14,,TRUE,Molded Breaker
+605,,CKB57135-T,exact,MoldedBreaker,"3P,2000A,18k/600,SQD,80%,NoTRM,Test",,Active,14,,TRUE,Molded Breaker
+606,,CKB57137,exact,MoldedBreaker,"3P,800A,18k/600V,SQD,Lugs",,Active,14,,TRUE,Molded Breaker
+607,,CKB57139,exact,MoldedBreaker,"3P,225A,65k/480V,SQD,100%,Line     ",,Active,14,,TRUE,Molded Breaker
+608,,CKB57141,exact,MoldedBreaker,"3P,1000A,18k/600V,SQD,80%,Lugs     ",,Active,14,,TRUE,Molded Breaker
+609,,CKB57143,exact,MoldedBreaker,"3P,250A,65K/480V,SQD,80%,LUGS",,Active,14,,TRUE,Molded Breaker
+610,,CKB57152,exact,MoldedBreaker,"3P,400A,25k/600V,SQD,100%,Lugs",,Active,14,,TRUE,Molded Breaker
+611,,CKB57154,exact,MoldedBreaker,"3P,250A,25k/240V,SQD,100%,Lugs",,Active,14,,TRUE,Molded Breaker
+612,,CKB57157,exact,MoldedBreaker,"3P,400A,18k/600V,SQD,100%,Line,LSI ",,Active,14,,TRUE,Molded Breaker
+613,,CKB57157-T,exact,MoldedBreaker,"3P,400A,18k/600V,SQD,100%,Line,Test",,Active,14,,TRUE,Molded Breaker
+614,,CKB57157T,exact,MoldedBreaker,"TEST,3P,400A,18K/600V,SQD,100%,LINE",,Active,14,,TRUE,Molded Breaker
+615,,CKB57161,exact,MoldedBreaker,"3P,1250A,50k/600V,SQD,Lugs",,Active,14,,TRUE,Molded Breaker
+616,,CKB57162,exact,MoldedBreaker,"3P,800A,25k/600V,SQD,100%,Lugs",,Active,14,,TRUE,Molded Breaker
+617,,CKB57165,exact,MoldedBreaker,"3P,600A,25k/600V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+618,,CKB57166,exact,MoldedBreaker,"3P,400A,18k/600V,SQD,80%,Line",,Active,14,,TRUE,Molded Breaker
+619,,CKB57167,exact,MoldedBreaker,"3P,400A,22k/600V,SQD,Lugs",,Active,14,,TRUE,Molded Breaker
+620,,CKB57168,exact,MoldedBreaker,"3P,400A,25k/600V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+621,,CKB57169,exact,MoldedBreaker,"3P,400A,25k/600V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+622,,CKB57170,exact,MoldedBreaker,"3P,250A,14k/600V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+623,,CKB57178,exact,MoldedBreaker,"3P,600A,50k/600V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+624,,CKB57179,exact,MoldedBreaker,"3P,800A,50k/600V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+625,,CKB57180,exact,MoldedBreaker,"3P,400A,25k/240V,SQD,80%,I-LINE",,Active,14,,TRUE,Molded Breaker
+626,,CKB57181,exact,MoldedBreaker,"3P,400A,25k/240V,SQD,Lugs",,Active,14,,TRUE,Molded Breaker
+627,,CKB57187,exact,MoldedBreaker,"3P,400A,35k/480V,GE,Lugs",,Active,14,,TRUE,Molded Breaker
+628,,CKB57188,exact,MoldedBreaker,"PLG,RATING,3P,400A,G-FRM,GE,600V",,Active,14,,TRUE,Molded Breaker
+629,,CKB57190,exact,MoldedBreaker,"3P,800A,50k/480V,GE,Lugs",,Active,14,,TRUE,Molded Breaker
+630,,CKB57194,exact,MoldedBreaker,"3P,400A,22k/600V,SQD,Lugs",,Active,14,,TRUE,Molded Breaker
+631,,CKB57195,exact,MoldedBreaker,"3P,250A,18k/600V,SQD,100%,Line     ",,Active,14,,TRUE,Molded Breaker
+632,,CKB57195T,exact,MoldedBreaker,"3P,225A,18k/600V,SQD,100%,Line     ",,Active,14,,TRUE,Molded Breaker
+633,,CKB57200,exact,MoldedBreaker,"3P,250A,35k/277V,GE,Lugs",,Active,14,,TRUE,Molded Breaker
+634,,CKB57201,exact,MoldedBreaker,"PLG,RATING,3P,125A,F-FRM,GE,480V",,Active,14,,TRUE,Molded Breaker
+635,,CKB57205,exact,MoldedBreaker,"3P,400A,14k/600V,SQD,100%,Line",,Active,14,,TRUE,Molded Breaker
+636,,CKB57207,exact,MoldedBreaker,"3P,225A,35k/480V,ETN,Lugs",,Active,14,,TRUE,Molded Breaker
+637,,CKB57222,exact,MoldedBreaker,"3P,400A,18k/600V,SQD,100%,Lugs",,Active,14,,TRUE,Molded Breaker
+638,,CKB57224,exact,MoldedBreaker,"3P,800A,25k/600V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+639,,CKB57224-T,exact,MoldedBreaker,"3P,800A,25k/600V,SQD,80%,Lugs,Test",,Active,14,,TRUE,Molded Breaker
+640,,CKB57646,exact,MoldedBreaker,"3P,225A,25k/240V,SQD,Lugs",,Active,14,,TRUE,Molded Breaker
+641,,CKB58828,exact,MoldedBreaker,"3P,400A,18K/600V,SQD,100%,LUG      ",,Active,14,,TRUE,Molded Breaker
+642,,CKB58829,exact,MoldedBreaker,"3P,600A,35K/480V,SQD,80%,LUGS",,Active,14,,TRUE,Molded Breaker
+643,,CKB58829-T,exact,MoldedBreaker,"3P,600A,18K/480V,SQD,80%,LUGS,Test",,Active,14,,TRUE,Molded Breaker
+644,,CKB58832,exact,MoldedBreaker,"3P,400A,65k/240V,SQD,80%,Line",,Active,14,,TRUE,Molded Breaker
+645,,CKB58833,exact,MoldedBreaker,"3P,250A,35k/480V,SQD,80%,Lugs",,Active,14,,TRUE,Molded Breaker
+646,,CKB58834,exact,MoldedBreaker,"3P,400A,65K/240V,SQD,80%,LUGS,LSI  ",,Active,14,,TRUE,Molded Breaker
+647,,CKB65134,exact,MoldedBreaker,"3P,2000A,65KA,480V,SQD,80%,BUS,SA  ",,Active,14,,TRUE,Molded Breaker
+648,,CKB65135,exact,MoldedBreaker,"3P,1600A,65KA,208V,SQD,80%,BUS     ",,Active,14,,TRUE,Molded Breaker
+649,,CKB65160,exact,MoldedBreaker,"3P, 30A, 480V FAZ-C30-3-NA",,Active,14,,TRUE,Molded Breaker
+650,,CKB65176,exact,MoldedBreaker,"CRADLE W/BACKMOLD,3P,1600A,SQD     ",,Active,14,,TRUE,Molded Breaker
+651,,CKB65210,exact,MoldedBreaker,"3P,400,18KA,480,SQD,80%,PLGN,MC,LI ",,Active,14,,TRUE,Molded Breaker
+652,,CKB65293,exact,MoldedBreaker,"3P,200A,100KA,600V,SQD,80%,BUS,SA  ",,Active,14,,TRUE,Molded Breaker
+653,,CKB65378,exact,MoldedBreaker,"3P,125A,35KA,480V,SQD,100%,LUGS,   ",,Active,14,,TRUE,Molded Breaker
+654,,CKB65688,exact,MoldedBreaker,"3P,250,35KA,600,SQD,100%,LINE LUG  ",,Active,14,,TRUE,Molded Breaker
+655,,CKB65693,exact,MoldedBreaker,"3P,250,100KA/240V,SQD,80%,LOAD LUG ",,Active,14,,TRUE,Molded Breaker
+656,,CKB65694,exact,MoldedBreaker,"3P,400,100KA/240V,SQD,80%,LOAD LUG ",,Active,14,,TRUE,Molded Breaker
+657,,CKB65695,exact,MoldedBreaker,"3P,1200,65KA,480,SQD,100%,LUGS     ",,Active,14,,TRUE,Molded Breaker
+658,,CKB65695T,exact,MoldedBreaker,"TEST,3P,1200,65KA,480,SQD,100%,LUGS",,Active,14,,TRUE,Molded Breaker
+659,,CKB65732,exact,MoldedBreaker,"3P,125,65KA,480,SQD,80%,I-LINE,    ",,Active,14,,TRUE,Molded Breaker
+660,,CKB65738,exact,MoldedBreaker,"SQD-MJL,3P,700A,480V,65K,E-TRIP,KK ",,Active,14,,TRUE,Molded Breaker
+661,,CKB65773,exact,MoldedBreaker,"3P,800,35KA/480V,SQD,80%, LUGS     ",,Active,14,,TRUE,Molded Breaker
+662,,CKB65972,exact,MoldedBreaker,"3P,800A,65KA,480V,SQD,80%,LOAD LUGI",,Active,14,,TRUE,Molded Breaker
+663,,CKB66000,exact,MoldedBreaker,"3P,1200A,35K/480,SQD,80%,LUGS      ",,Active,14,,TRUE,Molded Breaker
+664,,CKB66008,exact,MoldedBreaker,"3P,600A,65KA,208V,GE,100%,LOAD LUGS",,Active,14,,TRUE,Molded Breaker
+665,,CKB66008T,exact,MoldedBreaker,"3P,600A,65KA,208V,GE,100%,LOAD LUGS",,Active,14,,TRUE,Molded Breaker
+666,,CKB66028,exact,MoldedBreaker,"3P,400A,65KA,480V,SQD,100%,LUGS OFF",,Active,14,,TRUE,Molded Breaker
+667,,CKB66101,exact,MoldedBreaker,"3P,250A,65KA,480V,SQD,100%,LUGS,TM ",,Active,14,,TRUE,Molded Breaker
+668,,CKB66203,exact,MoldedBreaker,"3P,1000A,65KA,480V,SQD,100%,LUG,LSI",,Active,14,,TRUE,Molded Breaker
+669,,CKB66228,exact,MoldedBreaker,"AUX,3P,T5,600V,600A,100KA@480V     ",,Active,14,,TRUE,Molded Breaker
+670,,CKB66229,exact,MoldedBreaker,"SHUNT,3P,T5,600V,600A,100KA@480V   ",,Active,14,,TRUE,Molded Breaker
+671,,CKB66232,exact,MoldedBreaker,"PHASE BARR,3P,T4/T5                ",,Active,14,,TRUE,Molded Breaker
+672,,CKB66256,exact,MoldedBreaker,"3P,2000A,65KA,480V,SQD,100%",,Active,14,,TRUE,Molded Breaker
+673,,CKB66330,exact,MoldedBreaker,"3P,200A,100KA,600V,SQD,80%,LUGS,TM ",,Active,14,,TRUE,Molded Breaker
+674,,CKB66331,exact,MoldedBreaker,"3P,250A,35KA,480V,SQD,100%,LUGS,CT ",,Active,14,,TRUE,Molded Breaker
+675,,CKB66369,exact,MoldedBreaker,"3P,225,35KA,480,ABB,80%,LUGS,      ",,Active,14,,TRUE,Molded Breaker
+676,,CKB66461,exact,MoldedBreaker,"3P,250A,35KA,480V,SQD,80%,ILINE,LI ",,Active,14,,TRUE,Molded Breaker
+677,,CKB66462,exact,MoldedBreaker,"3P,400A,65KA,480V,SQD,80%,LUGS,KK  ",,Active,14,,TRUE,Molded Breaker
+678,,CKB66464,exact,MoldedBreaker,"3P,500A,65KA,480V,SQD,100%,LUGS,LI ",,Active,14,,TRUE,Molded Breaker
+679,,CKB66466,exact,MoldedBreaker,"3P,225A,65KA,480V,SQD,80%,I-LINE,TM",,Active,14,,TRUE,Molded Breaker
+680,,CKB66519,exact,MoldedBreaker,"3P,800A,25k/600V,SQD,80%,NST",,Active,14,,TRUE,Molded Breaker
+681,,CKB66524,exact,MoldedBreaker,"3P,600A,35k/480V,SQD,80%,Lugs      ",,Active,14,,TRUE,Molded Breaker
+682,,CKB66528,exact,MoldedBreaker,"3P,60A,35KA,480V,SQD,80%,I-LINE,TM ",,Active,14,,TRUE,Molded Breaker
+683,,CKB66563,exact,MoldedBreaker,"3P,800A,65KA,480V,SQD,80%,24VDC ST ",,Active,14,,TRUE,Molded Breaker
+684,,CKB66563T,exact,MoldedBreaker,"3P,800A,65KA,480V,SQD,80%,24VDC ST",,Active,14,,TRUE,Molded Breaker
+685,,CKB66564,exact,MoldedBreaker,"3P,250A,65KA,480V,SQD,100%         ",,Active,14,,TRUE,Molded Breaker
+686,,CKB66565,exact,MoldedBreaker,"32A, 3P,EATON, 415VAC",,Active,14,,TRUE,Molded Breaker
+687,,CKB66654,exact,MoldedBreaker,"3P,250A,65KA,480V,SQD,80%,LUGS,LSI ",,Active,14,,TRUE,Molded Breaker
+688,,CKB66739,exact,MoldedBreaker,"3P,800A,50KA,600V,SQD,100%,24VDC ST",,Active,14,,TRUE,Molded Breaker
+689,,CKB66749,exact,MoldedBreaker,"3P,1200A,65KA,480V,SQD,80%,LUGS,LSI",,Active,14,,TRUE,Molded Breaker
+690,,CKB66840,exact,MoldedBreaker,"3P,1200,65KA,480,SQD,80%,24VDC ST  ",,Active,14,,TRUE,Molded Breaker
+691,,CKB66840T,exact,MoldedBreaker,"3P,1200,65KA,480,SQD,80%,24VDC ST  ",,Active,14,,TRUE,Molded Breaker
+692,,CKB66850,exact,MoldedBreaker,"EATON-JGS,3P,480V,250AF,LSI,35K,80%",,Active,14,,TRUE,Molded Breaker
+693,,CKB66880,exact,MoldedBreaker,"Rear flat Term, T7-T7M-X1, 3PCS ABB",,Active,14,,TRUE,Molded Breaker
+694,,CKB66915,exact,MoldedBreaker,"3P,225,25KA,600VAC,ABB,100%,LUGS,FX",,Active,14,,TRUE,Molded Breaker
+695,,CKB66916,exact,MoldedBreaker,"PLGN KIT,XT3,3P,ABB,FRT TERM,MOVING",,Active,14,,TRUE,Molded Breaker
+696,,CKB66919,exact,MoldedBreaker,"PLGN KIT,XT3,3P,ABB,FRT TERM,FIXED",,Active,14,,TRUE,Molded Breaker
+697,,CKB67051,exact,MoldedBreaker,"3P,2000A,65KA,480V,SQD,100%,BUS,SA",,Active,14,,TRUE,Molded Breaker
+698,,CKB67051T,exact,MoldedBreaker,"3P,2000A,65KA,480V,SQD,100%,BUS,SA",,Active,14,,TRUE,Molded Breaker
+699,,CKB67052,exact,MoldedBreaker,"3P,1600A,65KA,208V,SQD,100%,BUS",,Active,14,,TRUE,Molded Breaker
+700,,CKB67264,exact,MoldedBreaker,"3P,250A,35KA,480V,SQD,80%,I-LINE,LI",,Active,14,,TRUE,Molded Breaker
+701,,CKB67358,exact,MoldedBreaker,"PLGN KIT,XT4,3P,ABB",,Active,14,,TRUE,Molded Breaker
+702,,CKB67359,exact,MoldedBreaker,"PLGN KIT,XT4,3P,ABB,EXT FRT TRM/FIX",,Active,14,,TRUE,Molded Breaker
+703,,CKB67370,exact,MoldedBreaker,"3P,250A,65k/480V,ABB,Lugs,XT4",,Active,14,,TRUE,Molded Breaker
+704,,CKB67499,exact,MoldedBreaker,"3P,800,65KA,208,SQD,100%",,Active,14,,TRUE,Molded Breaker
+705,,CKB67571,exact,MoldedBreaker,"400A,3P,100%,35K@480V,ETN,K,LSI",,Active,14,,TRUE,Molded Breaker
+706,,CKB67584,exact,MoldedBreaker,"400A,3P,80%,35K@480V,ETN,K,BOLT-ON",,Active,14,,TRUE,Molded Breaker
+707,,CKB67594,exact,MoldedBreaker,"250A,3P,100%,35K@480V,ETN,J,LS,LINE",,Active,14,,TRUE,Molded Breaker
+708,,CKB67611,exact,MoldedBreaker,"600A,3P,80%,35K@480V,ETN,L,MAG,FIXE",,Active,14,,TRUE,Molded Breaker
+709,,CKB67712,exact,MoldedBreaker,"3P,400A,35KA,480V,SQD,80%,LUGS,LSIG",,Active,14,,TRUE,Molded Breaker
+710,,CKB67780,exact,MoldedBreaker,"3P,800A,65KA,480V,SQD,80%,NO TERM,",,Active,14,,TRUE,Molded Breaker
+711,,CKB67781,exact,MoldedBreaker,"3P,225A,35KA,480V,ABB,80%,NONE,XT3",,Active,14,,TRUE,Molded Breaker
+712,,CKB67825,exact,MoldedBreaker,"3P,800A,65KA,480V,SQD,80%,LINE LUG,",,Active,14,,TRUE,Molded Breaker
+713,,CKB68055,exact,MoldedBreaker,"CB,3P,80A,600V,18KA,100%,H-Frame",,Active,14,,TRUE,Molded Breaker
+714,,CKB68083,exact,MoldedBreaker,"3P, 45A, SQD, 18kAIC@600V, TM,100%.",,Active,14,,TRUE,Molded Breaker
+715,,CKB68132,exact,MoldedBreaker,"3P,100A,25KA,480V,GE,80%,LUGS,THED ",,Active,14,,TRUE,Molded Breaker
+716,,CKB68257,exact,MoldedBreaker,"3P,800A,100KA,600V,SQD,100%24VDC ST",,Active,14,,TRUE,Molded Breaker
+717,,CKB68258,exact,MoldedBreaker,"3P,250A,35KA,600V,SQD,100%",,Active,14,,TRUE,Molded Breaker
+718,,CKB68259,exact,MoldedBreaker,"3P,250A,35KA,600V,SQD,100%",,Active,14,,TRUE,Molded Breaker
+719,,CKB68363,exact,MoldedBreaker,"3P,500A,35KA,480V,SIE,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+720,,CKB68365,exact,MoldedBreaker,"3P,400A,35KA,480V,SIE,80%,LUGS,LSI ",,Active,14,,TRUE,Molded Breaker
+721,,CKB68366,exact,MoldedBreaker,"3P,250A,35KA,480V,SIE,80%,LUGS,LSI ",,Active,14,,TRUE,Molded Breaker
+722,,CKB68384,exact,MoldedBreaker,"3P,250A,65k/480V,SQD,100%,LUGS,LSI ",,Active,14,,TRUE,Molded Breaker
+723,,CKB68398,exact,MoldedBreaker,"3P,600A,65KA,480V,SQD,100%,24VDC ST",,Active,14,,TRUE,Molded Breaker
+724,,CKB68399,exact,MoldedBreaker,"3P,400A,35KA,480V,SQD,100%,LSI     ",,Active,14,,TRUE,Molded Breaker
+725,,CKB68399T,exact,MoldedBreaker,"3P,400A,35KA,480V,SQD,100%",,Active,14,,TRUE,Molded Breaker
+726,,CKB68548,exact,MoldedBreaker,"3P,2000A,65KA,480V,SQD,100%,24VDC",,Active,14,,TRUE,Molded Breaker
+727,,CKB68594,exact,MoldedBreaker,"3P,250A,35k/480V,ETN,80%,Lugs      ",,Active,14,,TRUE,Molded Breaker
+728,,CKB68673,exact,MoldedBreaker,"3P,800A,35KA,600V,SQD,80%,120VAC ST",,Active,14,,TRUE,Molded Breaker
+729,,CKB68819,exact,MoldedBreaker,"CB,3P+N,250A,600VAC,100%,SQ-D",,Active,14,,TRUE,Molded Breaker
+730,,CKB68874T,exact,MoldedBreaker,"3P,600A65KA600VSQD,80%,24VDC ST TST",,Active,14,,TRUE,Molded Breaker
+731,,CKB68957,exact,MoldedBreaker,"3P,400A,65KA,480V,SQD100%,I-LINE CB",,Active,14,,TRUE,Molded Breaker
+732,,CKB68957T,exact,MoldedBreaker,"3P,400A,65KA,480V,SQD,80%,I-LINE CB",,Active,14,,TRUE,Molded Breaker
+733,,CKB68976,exact,MoldedBreaker,"3P,250A,35KA,480V,SQD,100%",,Active,14,,TRUE,Molded Breaker
+734,,CKB69041,exact,MoldedBreaker,"3P,250A,100k/480V,SQD,100%,T/M,LUGS",,Active,14,,TRUE,Molded Breaker
+735,,CKB69052,exact,MoldedBreaker,"3P,400A,65KA,480V,GE,100%,LUGS,    ",,Active,14,,TRUE,Molded Breaker
+736,,CKB69094,exact,MoldedBreaker,"3P,250A,65KA,480V,SQD,80%,LUGS,LSIG",,Active,14,,TRUE,Molded Breaker
+737,,CKB69310,exact,MoldedBreaker,"3P,150,65KA,480,SQD,80%,I-LINE",,Active,14,,TRUE,Molded Breaker
+738,,CKB69321,exact,MoldedBreaker,"3P,225,35KA,480,ETN,100%,LOADLUG,JG",,Active,14,,TRUE,Molded Breaker
+739,,CKB69515,exact,MoldedBreaker,"3P,T7L,1200A,100K@480V,ABB         ",,Active,14,,TRUE,Molded Breaker
+740,,CKB69584,exact,MoldedBreaker,"400AF/250AT,3P,4W,LSI,1%,14KA,,3VA6",,Active,14,,TRUE,Molded Breaker
+741,,CKB69587,exact,MoldedBreaker,"600AF/500AT,3P,LSI,1%,65KA,SHMD,SIE",,Active,14,,TRUE,Molded Breaker
+742,,CKB69602,exact,MoldedBreaker,"3P,60A,65k/480V,ABB,XT4",,Active,14,,TRUE,Molded Breaker
+743,,CKB69603,exact,MoldedBreaker,"LUG KIT,XT4,3P,ABB,CU,(3 PER)",,Active,14,,TRUE,Molded Breaker
+744,,CKB69741,exact,MoldedBreaker,"3P,2000,65KA,480,SQD,100%",,Active,14,,TRUE,Molded Breaker
+745,,CKB69758,exact,MoldedBreaker,"3P,600,65KA,208,EATON,100%",,Active,14,,TRUE,Molded Breaker
+746,,CKB69819,exact,MoldedBreaker,"3P,100A,22K/480V,ABB,XT1,LINE,100%",,Active,14,,TRUE,Molded Breaker
+747,,CKB69873,exact,MoldedBreaker,"3P,200A,22K/240V,GE,LUGS           ",,Active,14,,TRUE,Molded Breaker
+748,,CKB69875,exact,MoldedBreaker,"PLG,RATING,3P,400A,G-FRM,GE,600V   ",,Active,14,,TRUE,Molded Breaker
+749,,CKB69961,exact,MoldedBreaker,"3P,600A,65K@480,ETN,100%PWR DEFENSE",,Active,14,,TRUE,Molded Breaker
+750,,CKB69962,exact,MoldedBreaker,"3P,400A,35K@415,ETN,100%PWR DEFENSE",,Active,14,,TRUE,Molded Breaker
+751,,CKB70035,exact,MoldedBreaker,"3Pole,500Amp,120VAC ST,65KAIC@480V",,Active,14,,TRUE,Molded Breaker
+752,,CKB70036,exact,MoldedBreaker,"3Pole, 60amp, 65KAIC@208V",,Active,14,,TRUE,Molded Breaker
+753,,CKB70092,exact,MoldedBreaker,"3P,400A,100KA,480V,SQD,100%,LUGS,LI",,Active,14,,TRUE,Molded Breaker
+754,,CKB70266,exact,MoldedBreaker,"CB,3P,SQD600AF\ 600AT80%50KAIC@600V",,Active,14,,TRUE,Molded Breaker
+755,,CKB70271,exact,MoldedBreaker,"CB 3P, 800AF\800AT, 65KAIC@208, 80%",,Active,14,,TRUE,Molded Breaker
+756,,CKB70291,exact,MoldedBreaker,"CB,3P,800AF\800AT,80%,65KAIC@480V",,Active,14,,TRUE,Molded Breaker
+757,,CKB70367,exact,MoldedBreaker,"3P,600AF\400AT100,65KA@208V,LSI5.3E",,Active,14,,TRUE,Molded Breaker
+758,,CKB70406,exact,MoldedBreaker,"3P,60A,35KA,480V,SQD,80%,I-LINE",,Active,14,,TRUE,Molded Breaker
+759,,CKB70407,exact,MoldedBreaker,"3P,20A,35KA,480V,SQD,80%,I-LINE",,Active,14,,TRUE,Molded Breaker
+760,,CKB70474,exact,MoldedBreaker,"3P,800A,100KA@480V,SQD,100%,LUG,LSI",,Active,14,,TRUE,Molded Breaker
+761,,CKB70509,exact,MoldedBreaker,"3P,250,35KA,480V,ETN,80%,LUGS,LSI  ",,Active,14,,TRUE,Molded Breaker
+762,,CKB70510,exact,MoldedBreaker,"3P,225,25KA,480V,ETN,80%,LUGS,T/M  ",,Active,14,,TRUE,Molded Breaker
+763,,CKB70516,exact,MoldedBreaker,"3P,400A,35KA,480V,ETN,80%,NO TERM, ",,Active,14,,TRUE,Molded Breaker
+764,,CKB70551,exact,MoldedBreaker,"3P,1200AF/800AT,50KAIC@600VAC,80%",,Active,14,,TRUE,Molded Breaker
+765,,CKB70570,exact,MoldedBreaker,"ETN,3P,PLUG-IN ADAPTER,LG-FRAME    ",,Active,14,,TRUE,Molded Breaker
+766,,CKB70594,exact,MoldedBreaker,"3P,1200AF/1200AT,100%,65KAIC@480V",,Active,14,,TRUE,Molded Breaker
+767,,CKB70690,exact,MoldedBreaker,"3P,400A,65KA@480V,ETN,100%,LUGS,LSI",,Active,14,,TRUE,Molded Breaker
+768,,CKB70694,exact,MoldedBreaker,"CB3Pole,800AF\600AT,80%,65KAIC@480V",,Active,14,,TRUE,Molded Breaker
+769,,CKB70716,exact,MoldedBreaker,"3P,1200AF/1200AT,100%,65KAIC@480V  ",,Active,14,,TRUE,Molded Breaker
+770,,CKB70717,exact,MoldedBreaker,"3P,3000AF/1600AT,100%,65KAIC@208V  ",,Active,14,,TRUE,Molded Breaker
+771,,CKB71003,exact,MoldedBreaker,"3P,1200A,35KA,480V,SQD,100%,LUGS,LI",,Active,14,,TRUE,Molded Breaker
+772,,CKB71005,exact,MoldedBreaker,"3P,400A,35k/480V,SQD,100%,Lugs,LSIG",,Active,14,,TRUE,Molded Breaker
+773,,CKB71109,exact,MoldedBreaker,"3P,500A,65KA,480V,ETN,80%,LUGS,TM  ",,Active,14,,TRUE,Molded Breaker
+774,,CKB71111,exact,MoldedBreaker,"3P,400A,35KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+775,,CKB71125,exact,MoldedBreaker,"ETN,TRIP UNIT, PD6, 3P,600V        ",,Active,14,,TRUE,Molded Breaker
+776,,CKB71400,exact,MoldedBreaker,"3P+N,400A,18k/600V,SQD,80%,Lugs    ",,Active,14,,TRUE,Molded Breaker
+777,,CKB71479,exact,MoldedBreaker,"3P,600V,250A,35KAIC,100%,LSI,SQD,L",,Active,14,,TRUE,Molded Breaker
+778,,CKB71479T,exact,MoldedBreaker,"3P,600V,250A,35KAIC,100%,LSI,SQD,L",,Active,14,,TRUE,Molded Breaker
+779,,CKB71493,exact,MoldedBreaker,"3P,400A,25KA,480V,ABB,80%,NO LUGS  ",,Active,14,,TRUE,Molded Breaker
+780,,CKB71576,exact,MoldedBreaker,"3P,400A,35KA,480V,ETN,100%,LUGS,LSI",,Active,14,,TRUE,Molded Breaker
+781,,CKB71576T,exact,MoldedBreaker,"3P,400A,35KA,480V,ETN,100%,LUGS,LSI",,Active,14,,TRUE,Molded Breaker
+782,,CKB71581,exact,MoldedBreaker,"3P,2000A,100%,LSIG,65K@480V,RG,ETN",,Active,14,,TRUE,Molded Breaker
+783,,CKB71582,exact,MoldedBreaker,"3P,600A,35KA,480V,ETN,80%,LUGS,LSI ",,Active,14,,TRUE,Molded Breaker
+784,,CKB71634T,exact,MoldedBreaker,"T,3P,1600A,100%,LSI,35KAIC@480V,SQD",,Active,14,,TRUE,Molded Breaker
+785,,CKB71635,exact,MoldedBreaker,"3P,225A,35KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+786,,CKB71680,exact,MoldedBreaker,"3P,225A,T/M TRIP,65KAIC@208V,ETNPD2",,Active,14,,TRUE,Molded Breaker
+787,,CKB71680T,exact,MoldedBreaker,"T,3P,225A,T\M TRIP,65KAIC@208V,PD2",,Active,14,,TRUE,Molded Breaker
+788,,CKB71684,exact,MoldedBreaker,"3P,800A,T/M TRIP,65KAIC@480V,ETNPD4",,Active,14,,TRUE,Molded Breaker
+789,,CKB71684T,exact,MoldedBreaker,"T,3P,800A,T/M TRIP,65KAIC@480V,PD4",,Active,14,,TRUE,Molded Breaker
+790,,CKB71717,exact,MoldedBreaker,"3P,125A,35KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+791,,CKB71720,exact,MoldedBreaker,"3P,250A,65KA,480V,ETN,80%,LUGS,TM  ",,Active,14,,TRUE,Molded Breaker
+792,,CKB71721,exact,MoldedBreaker,"3P,125A,65KA,480V,ETN,80%,LUGS,TM  ",,Active,14,,TRUE,Molded Breaker
+793,,CKB71751,exact,MoldedBreaker,"3P,225A,25KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+794,,CKB71792,exact,MoldedBreaker,"3P,150A,35KA,480V,ETN,80%,LUGS,TM  ",,Active,14,,TRUE,Molded Breaker
+795,,CKB71793,exact,MoldedBreaker,"3P,100A,35KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+796,,CKB71918,exact,MoldedBreaker,"3P,200A,50KA,480V,ETN,80%,LUGS,TM  ",,Active,14,,TRUE,Molded Breaker
+797,,CKB71965,exact,MoldedBreaker,"3P,1200A,65KA@480VAC,100%LSI",,Active,14,,TRUE,Molded Breaker
+798,,CKB71967,exact,MoldedBreaker,"3P,400A,65KA@480V,ETN,100%,LSI",,Active,14,,TRUE,Molded Breaker
+799,,CKB71973,exact,MoldedBreaker,"3P,200A,35KA,480V,ETN,80%,LUGS,TM  ",,Active,14,,TRUE,Molded Breaker
+800,,CKB71980,exact,MoldedBreaker,"3P,350A,35KA,480V,ETN,80%,LUGS,TM  ",,Active,14,,TRUE,Molded Breaker
+801,,CKB72015,exact,MoldedBreaker,"3P,400A,25KA,480V,ETN,100%,LUGS,TM ",,Active,14,,TRUE,Molded Breaker
+802,,CKB72016,exact,MoldedBreaker,"3P,800A,85KA,480V,ETN PD5,100%,NO  ",,Active,14,,TRUE,Molded Breaker
+803,,CKB72043,exact,MoldedBreaker,"3P,400A,35KA,480V,ETN,100%,LUGS,TM ",,Active,14,,TRUE,Molded Breaker
+804,,CKB72045,exact,MoldedBreaker,"3P,200A,65KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+805,,CKB72047,exact,MoldedBreaker,"3P,400A,35KA,480V,ETN,100%,NO TERM ",,Active,14,,TRUE,Molded Breaker
+806,,CKB72075,exact,MoldedBreaker,"3P,800A,65KA,480V,SQD,100%,LUGS,LI ",,Active,14,,TRUE,Molded Breaker
+807,,CKB72076,exact,MoldedBreaker,"3P,200A,35KA,480V,SQD,80%,I-LINE,TM",,Active,14,,TRUE,Molded Breaker
+808,,CKB72078,exact,MoldedBreaker,"3P,250A,65KA,480V,ETN,100%,LUGS,LSI",,Active,14,,TRUE,Molded Breaker
+809,,CKB72087,exact,MoldedBreaker,"3P,175A,65KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+810,,CKB72099,exact,MoldedBreaker,"3P,250A,35KA,480V,ETN,100%,LUGS,LSI",,Active,14,,TRUE,Molded Breaker
+811,,CKB72140,exact,MoldedBreaker,"3P,600A,200KA,480V,SQD,80%,LUGS,LSI",,Active,14,,TRUE,Molded Breaker
+812,,CKB72160,exact,MoldedBreaker,"3P,1200A,50KA,480V,ETN,80%,LUGS,LSI",,Active,14,,TRUE,Molded Breaker
+813,,CKB72167,exact,MoldedBreaker,"3P,175A,35KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+814,,CKB72206,exact,MoldedBreaker,"3P,100A,25KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+815,,CKB72251,exact,MoldedBreaker,"3P,225A,35KA,480V,ETN,80%,LUGS,LSI ",,Active,14,,TRUE,Molded Breaker
+816,,CKB72262,exact,MoldedBreaker,"3P,225A,65KA,480V,ETN,80%,LUGS,LSI ",,Active,14,,TRUE,Molded Breaker
+817,,CKB72301,exact,MoldedBreaker,"3P,80A,35KA,480V,ETN,80%,LUGS,T/M  ",,Active,14,,TRUE,Molded Breaker
+818,,CKB72306,exact,MoldedBreaker,"3P,400A,25KA,480V,ETN,100%,LUGS,LSI",,Active,14,,TRUE,Molded Breaker
+819,,CKB72307,exact,MoldedBreaker,"3P,600A,65KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+820,,CKB72318,exact,MoldedBreaker,"3P,250A,35KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+821,,CKB72332,exact,MoldedBreaker,"3P,800A,35KA,480V,ETN,100%,LUGS,LSI",,Active,14,,TRUE,Molded Breaker
+822,,CKB72375,exact,MoldedBreaker,"3P,225A,35KA,480V,ETN,100%,LUGS,LSI",,Active,14,,TRUE,Molded Breaker
+823,,CKB72480,exact,MoldedBreaker,"3P,400A,35KA,480V,ETN,80%,LUGS,LSI ",,Active,14,,TRUE,Molded Breaker
+824,,CKB72572,exact,MoldedBreaker,"3P,225A,25KA,480V,ETN,100%,LUGS,T/M",,Active,14,,TRUE,Molded Breaker
+825,,CKB72645,exact,MoldedBreaker,"3P,250A,35KA,480V,ETN,100%,LUGS,T/M",,Active,14,,TRUE,Molded Breaker
+826,,CKB72669,exact,MoldedBreaker,"3P,600A,80%,25K@480V,LSI,PDG3",,Active,14,,TRUE,Molded Breaker
+827,,CKB72707,exact,MoldedBreaker,"3P,1600A,65KAIC@480V,100%,LSI,ARMS",,Active,14,,TRUE,Molded Breaker
+828,,CKB72707T,exact,MoldedBreaker,"NETA,3P,1600A,65K@480V,100%,LSI,ARM",,Active,14,,TRUE,Molded Breaker
+829,,CKB72708,exact,MoldedBreaker,"3P,600A,65KAIC@208V,100%,LSI       ",,Active,14,,TRUE,Molded Breaker
+830,,CKB72719,exact,MoldedBreaker,"3P,250A,25KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+831,,CKB72796,exact,MoldedBreaker,"3P,600A,35KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+832,,CKB72982,exact,MoldedBreaker,"3P,250A,65KA,480V,ETN,100%,LOAD LUG",,Active,14,,TRUE,Molded Breaker
+833,,CKB72999,exact,MoldedBreaker,"3P,125A,35KA,480V,ETN,80%,NO TERM, ",,Active,14,,TRUE,Molded Breaker
+834,,CKB73002,exact,MoldedBreaker,"3P,400A,35KA,480V,ETN,80%,NO TERM  ",,Active,14,,TRUE,Molded Breaker
+835,,CKB73007,exact,MoldedBreaker,"3P,600A,35KA,480V,ETN,80%,NO TERM  ",,Active,14,,TRUE,Molded Breaker
+836,,CKB73008,exact,MoldedBreaker,"3P,225A,35KA,480V,ETN,80%,LUGS,LSIG",,Active,14,,TRUE,Molded Breaker
+837,,CKB73009,exact,MoldedBreaker,"3P,400A,35KA,480V,ETN,80%,LUGS,LSIG",,Active,14,,TRUE,Molded Breaker
+838,,CKB73050,exact,MoldedBreaker,"3P,125A,35KA,480V,ETN,100%,LUGS,LSI",,Active,14,,TRUE,Molded Breaker
+839,,CKB73051,exact,MoldedBreaker,"3P,500A,65KA,480V,ETN,80%,NO TERM, ",,Active,14,,TRUE,Molded Breaker
+840,,CKB73097,exact,MoldedBreaker,"3P,600A,100KA,480V,ETN,80%,NO TERM ",,Active,14,,TRUE,Molded Breaker
+841,,CKB73165,exact,MoldedBreaker,"3P,250A,35KA,480V,ETN,100%,NO TERM,",,Active,14,,TRUE,Molded Breaker
+842,,CKB73172,exact,MoldedBreaker,"3P,90A,25KA,480V,ETN,80%,LUGS,T/M  ",,Active,14,,TRUE,Molded Breaker
+843,,CKB73174,exact,MoldedBreaker,"3P,175A,25KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+844,,CKB73302,exact,MoldedBreaker,"3P,600A,65KA,480V,ETN,100%,NO TERM,",,Active,14,,TRUE,Molded Breaker
+845,,CKB73312,exact,MoldedBreaker,"3P,15A,35KA,480V,ETN,80%,LUGS,T/M  ",,Active,14,,TRUE,Molded Breaker
+846,,CKB73319,exact,MoldedBreaker,"CB 3P 800A, 80%,LSI,PD4,65KA@480V",,Active,14,,TRUE,Molded Breaker
+847,,CKB73321,exact,MoldedBreaker,"CB 3P 250A,100%,LSI,PD3,65KA@208V",,Active,14,,TRUE,Molded Breaker
+848,,CKB73335,exact,MoldedBreaker,"3P,125A,25KA,480V,ETN,100%,LUGS,T/M",,Active,14,,TRUE,Molded Breaker
+849,,CKB73336,exact,MoldedBreaker,"3P,60A,25KA,480V,ETN,100%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+850,,CKB73338,exact,MoldedBreaker,"CB,3P,2500AF/1600AT,65KAIC@480V",,Active,14,,TRUE,Molded Breaker
+851,,CKB73339,exact,MoldedBreaker,"3P,350A,65KA,480V,ETN,80%,NO TERM, ",,Active,14,,TRUE,Molded Breaker
+852,,CKB73341,exact,MoldedBreaker,"3P,600A,35KA,480V,ETN,80%,NO TERM, ",,Active,14,,TRUE,Molded Breaker
+853,,CKB73342T,exact,MoldedBreaker,"NETA,3P 1200AF/1000AT,100%,65KA@480",,Active,14,,TRUE,Molded Breaker
+854,,CKB73343,exact,MoldedBreaker,"3P,800A,35KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+855,,CKB73378,exact,MoldedBreaker,"3P,250A,65KA,480V,ETN,100%,NO TERM,",,Active,14,,TRUE,Molded Breaker
+856,,CKB73380,exact,MoldedBreaker,"3P,250A,65KA,480V,SQD,80%,LUGS,LI  ",,Active,14,,TRUE,Molded Breaker
+857,,CKB73390,exact,MoldedBreaker,"3P,600A,65KA,480V,ETN,100%,FRM ONLY",,Active,14,,TRUE,Molded Breaker
+858,,CKB73443,exact,MoldedBreaker,"3P,100A,35KA,480V,ETN,80%,LUGS,LSI ",,Active,14,,TRUE,Molded Breaker
+859,,CKB73444,exact,MoldedBreaker,"3P,60A,35KA,480V,ETN,80%,LUGS,T/M  ",,Active,14,,TRUE,Molded Breaker
+860,,CKB73447,exact,MoldedBreaker,"3P,400A,65KA,480V,ETN,80%,LUGS,LSI ",,Active,14,,TRUE,Molded Breaker
+861,,CKB73449,exact,MoldedBreaker,"3P,225A,25KA,480V,ETN,100%,LUGS,LSI",,Active,14,,TRUE,Molded Breaker
+862,,CKB73462,exact,MoldedBreaker,"3P,400A,35KA,480V,ETN,100%,FRM ONLY",,Active,14,,TRUE,Molded Breaker
+863,,CKB73464,exact,MoldedBreaker,"3P,400A,35KA,480V,SQD,80%,LUGS,LI  ",,Active,14,,TRUE,Molded Breaker
+864,,CKB73465,exact,MoldedBreaker,"3P,500A,35KA,480V,SQD,80%,LUGS,LI  ",,Active,14,,TRUE,Molded Breaker
+865,,CKB73486,exact,MoldedBreaker,"PDG4,3P,800A,65KA/480V,FRAME ONLY  ",,Active,14,,TRUE,Molded Breaker
+866,,CKB73488,exact,MoldedBreaker,"3P,250A,65KA,480V,ETN,80%,NO TERM, ",,Active,14,,TRUE,Molded Breaker
+867,,CKB73494,exact,MoldedBreaker,"3P,100A,35KA,480V,ETN,100%,LUGS,LSI",,Active,14,,TRUE,Molded Breaker
+868,,CKB73500,exact,MoldedBreaker,"3P,400A,65KA,480V,ETN,100%,NO TERM,",,Active,14,,TRUE,Molded Breaker
+869,,CKB73506,exact,MoldedBreaker,"3P,400A,35KA,480V,ETN,100%,NO TERM,",,Active,14,,TRUE,Molded Breaker
+870,,CKB73507,exact,MoldedBreaker,"3P,400A,35KA,480V,ETN,100%,LUGS,LSI",,Active,14,,TRUE,Molded Breaker
+871,,CKB73508,exact,MoldedBreaker,"3P,600A,35KA,480V,ETN,100%,LUGS,LSI",,Active,14,,TRUE,Molded Breaker
+872,,CKB73547,exact,MoldedBreaker,"PLU703M-K20-V1,14KA,20A,3P         ",,Active,14,,TRUE,Molded Breaker
+873,,CKB73549,exact,MoldedBreaker,"PLU703M-K30-V1,14KA,30A,3P         ",,Active,14,,TRUE,Molded Breaker
+874,,CKB73559,exact,MoldedBreaker,"3P,100A,TM TRIP,65KA@208V,ETN PD2  ",,Active,14,,TRUE,Molded Breaker
+875,,CKB73560,exact,MoldedBreaker,"3P,200A,TM TRIP,65KA@208V,ETN PD2  ",,Active,14,,TRUE,Molded Breaker
+876,,CKB73562,exact,MoldedBreaker,"3P,800A,E-TRIP,LSI,65KA@408V,ETN   ",,Active,14,,TRUE,Molded Breaker
+877,,CKB73586,exact,MoldedBreaker,"3P,500A,35KA,480V,ETN,80%,NO TERM, ",,Active,14,,TRUE,Molded Breaker
+878,,CKB73587,exact,MoldedBreaker,"3P,225A,65KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+879,,CKB73588,exact,MoldedBreaker,"3P,400A,65KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+880,,CKB73603,exact,MoldedBreaker,"3P,225A,25KA,480V,ABB,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+881,,CKB73668,exact,MoldedBreaker,"3P,AL,TERM KIT,500-750KCMIL,1HOLE",,Active,14,,TRUE,Molded Breaker
+882,,CKB73762,exact,MoldedBreaker,"3P,1600A,65KA,480V,ETN,PXR20 LSI   ",,Active,14,,TRUE,Molded Breaker
+883,,CKB73763,exact,MoldedBreaker,"3P,1600A,65KA,480V,ETN,FRAME ONLY  ",,Active,14,,TRUE,Molded Breaker
+884,,CKB73790,exact,MoldedBreaker,"3P,400AF/AT,80%,65KA@208V,TM TRIP",,Active,14,,TRUE,Molded Breaker
+885,,CKB73819,exact,MoldedBreaker,"3P,400A,65KA,480V,ETN,80%,NO TERM  ",,Active,14,,TRUE,Molded Breaker
+886,,CKB73820,exact,MoldedBreaker,"3P,250A,65KA,480V,ETN,80%,NO TERM  ",,Active,14,,TRUE,Molded Breaker
+887,,CKB73965,exact,MoldedBreaker,"3P,700A,35KA,480V,ETN,80%,NO TERM  ",,Active,14,,TRUE,Molded Breaker
+888,,CKB74003,exact,MoldedBreaker,"CB 3P 800AT\800AF,  80%, 35KA@480V ",,Active,14,,TRUE,Molded Breaker
+889,,CKB74042,exact,MoldedBreaker,"3P,500A,35KA,480V,ETN,80%,LUGS,TM  ",,Active,14,,TRUE,Molded Breaker
+890,,CKB74050,exact,MoldedBreaker,"PD2,3P,THERMAL MAG,225A,EATON      ",,Active,14,,TRUE,Molded Breaker
+891,,CKB74051T,exact,MoldedBreaker,"CB3P,250Amp,100%,LSI,65KA@208V,TST ",,Active,14,,TRUE,Molded Breaker
+892,,CKB74068,exact,MoldedBreaker,"3P,600A,65KA,480V,ETN,80%,NO TERM, ",,Active,14,,TRUE,Molded Breaker
+893,,CKB74089,exact,MoldedBreaker,"3P,1200A,80%,LI,65K@480,120VAC SHNT",,Active,14,,TRUE,Molded Breaker
+894,,CKB74089T,exact,MoldedBreaker,"3P,1200A,80%,LI,65K@480,120VAC,NETA",,Active,14,,TRUE,Molded Breaker
+895,,CKB74099,exact,MoldedBreaker,"3P,600A,65KA,480V,ETN,100%, LOAD   ",,Active,14,,TRUE,Molded Breaker
+896,,CKB74108,exact,MoldedBreaker,"EATON,3P,350A,25KA@480,T-MAG,PD3   ",,Active,14,,TRUE,Molded Breaker
+897,,CKB74109,exact,MoldedBreaker,"EATON,3P,350A,25KA@480,T-MAG,PD3   ",,Active,14,,TRUE,Molded Breaker
+898,,CKB74110,exact,MoldedBreaker,"EATON,3P,250A,25KA@480,T-MAG,PD3   ",,Active,14,,TRUE,Molded Breaker
+899,,CKB74153,exact,MoldedBreaker,"3P,1200A,80%,65KA@480,LSIG,ARMS,PD5",,Active,14,,TRUE,Molded Breaker
+900,,CKB74424,exact,MoldedBreaker,"CB,3P,20A,100KA@208,TM TRIP,80%,PD2",,Active,14,,TRUE,Molded Breaker
+901,,CKB74425,exact,MoldedBreaker,"3P,100A,100KA@208,TM TRIP,80%,PD2  ",,Active,14,,TRUE,Molded Breaker
+902,,CKB74425T,exact,MoldedBreaker,"3P,100A,100KA@208,TM TRIP,80%,NETA ",,Active,14,,TRUE,Molded Breaker
+903,,CKB74426,exact,MoldedBreaker,"3P,225A,100KA@208,TM TRIP,80%,PD2  ",,Active,14,,TRUE,Molded Breaker
+904,,CKB74426T,exact,MoldedBreaker,"3P,225A,100KA@208,TM TRIP,80%,NETA ",,Active,14,,TRUE,Molded Breaker
+905,,CKB74427,exact,MoldedBreaker,"3P,250A,100KA@208,TM TRIP,80%,PD3  ",,Active,14,,TRUE,Molded Breaker
+906,,CKB74427T,exact,MoldedBreaker,"3P,250A,100KA@208,TM TRIP,80%,NETA ",,Active,14,,TRUE,Molded Breaker
+907,,CKB74428,exact,MoldedBreaker,"3P,400A,100KA@208,TM TRIP,80%,PD3  ",,Active,14,,TRUE,Molded Breaker
+908,,CKB74428T,exact,MoldedBreaker,"3P,400A,100KA@208,TM TRIP,80%,NETA ",,Active,14,,TRUE,Molded Breaker
+909,,CKB74429,exact,MoldedBreaker,"CB,3P,800A,100KA@480,LSI,80%,PD5   ",,Active,14,,TRUE,Molded Breaker
+910,,CKB74429T,exact,MoldedBreaker,"CB,3P,800A,100KA@480,LSI,80%,NETA  ",,Active,14,,TRUE,Molded Breaker
+911,,CKB74430,exact,MoldedBreaker,"CB,3P,1200A,100KA@480,LSI,80%,PD5  ",,Active,14,,TRUE,Molded Breaker
+912,,CKB74430T,exact,MoldedBreaker,"CB,3P,1200A,100KA@480,LSI,80%,NETA ",,Active,14,,TRUE,Molded Breaker
+913,,CKB74451,exact,MoldedBreaker,"3P,600A,35KA/480V,FRM ONLY,NO TERM ",,Active,14,,TRUE,Molded Breaker
+914,,CKB74454,exact,MoldedBreaker,"3P,225A,25KA/480V,FRM ONLY,NO TERM ",,Active,14,,TRUE,Molded Breaker
+915,,CKB74455,exact,MoldedBreaker,"3P,60-225A,TERM KIT                ",,Active,14,,TRUE,Molded Breaker
+916,,CKB74456,exact,MoldedBreaker,"PDG3,3P,400A,TRIP UNIT             ",,Active,14,,TRUE,Molded Breaker
+917,,CKB74457,exact,MoldedBreaker,"PDG3,3P,600A,TRIP UNIT             ",,Active,14,,TRUE,Molded Breaker
+918,,CKB74475,exact,MoldedBreaker,"3P,400A,35KA,480V,ABB,80%,NO TERM, ",,Active,14,,TRUE,Molded Breaker
+919,,CKB74476,exact,MoldedBreaker,"3P,175A,35KA,480V,ABB,80%,NO TERM  ",,Active,14,,TRUE,Molded Breaker
+920,,CKB74477,exact,MoldedBreaker,"3P,125A,35KA,480V,ABB,80%,NO TERM, ",,Active,14,,TRUE,Molded Breaker
+921,,CKB74478,exact,MoldedBreaker,"3P,150A,35KA,480V,ABB,80%,NO TERM, ",,Active,14,,TRUE,Molded Breaker
+922,,CKB74496,exact,MoldedBreaker,"ABB XT4, 3P, LOW PROFILE TERM COVER",,Active,14,,TRUE,Molded Breaker
+923,,CKB74498,exact,MoldedBreaker,"ABB XT5, 3P, LOW PROFILE TERM COVER",,Active,14,,TRUE,Molded Breaker
+924,,CKB74499T,exact,MoldedBreaker,"3P,800AMP,65KAIC@480V,80%,LSI,NETA ",,Active,14,,TRUE,Molded Breaker
+925,,CKB74500,exact,MoldedBreaker,"3P,700A,65KA,480V,ETN,80%,NO TERM  ",,Active,14,,TRUE,Molded Breaker
+926,,CKB74507,exact,MoldedBreaker,"3P,225A,35KA,480V,ABB,80%,NO TERM, ",,Active,14,,TRUE,Molded Breaker
+927,,CKB74508,exact,MoldedBreaker,"3P,200A,35KA,480V,ABB,80%,NO TERM, ",,Active,14,,TRUE,Molded Breaker
+928,,CKB74517,exact,MoldedBreaker,"3P,250A,100KA,480V,ETN,80%,NO TERM ",,Active,14,,TRUE,Molded Breaker
+929,,CKB74518,exact,MoldedBreaker,"3P,225A,25KA,480V,ETN,80%,NO TERM  ",,Active,14,,TRUE,Molded Breaker
+930,,CKB74522,exact,MoldedBreaker,"3P,15A,65KA,480V,ETN,80%,LUGS,T/M  ",,Active,14,,TRUE,Molded Breaker
+931,,CKB74539,exact,MoldedBreaker,"3P,400A,65KA,480V,ETN,100%,NO TERM,",,Active,14,,TRUE,Molded Breaker
+932,,CKB74540,exact,MoldedBreaker,"3P,400A,65KA,480V,ETN,80%,NO TERM, ",,Active,14,,TRUE,Molded Breaker
+933,,CKB74542,exact,MoldedBreaker,"3P,400A,100KA,480V,ETN,80%,NO TERM ",,Active,14,,TRUE,Molded Breaker
+934,,CKB74551,exact,MoldedBreaker,"3P,600A,35KA,480V,ETN,100%,NO TERM,",,Active,14,,TRUE,Molded Breaker
+935,,CKB74553,exact,MoldedBreaker,"CB,3P,400A,65KA@208,80%,LSIG,PD3   ",,Active,14,,TRUE,Molded Breaker
+936,,CKB74554,exact,MoldedBreaker,"CB,3P,250A,65KA@208,80%,LSIG,PD3   ",,Active,14,,TRUE,Molded Breaker
+937,,CKB74556,exact,MoldedBreaker,"3P,500A,100KA,480V,ETN,80%,NO TERM,",,Active,14,,TRUE,Molded Breaker
+938,,CKB74557,exact,MoldedBreaker,"3P,20A,35KA,480V,ETN,80%,LUGS,T/M  ",,Active,14,,TRUE,Molded Breaker
+939,,CKB74722,exact,MoldedBreaker,"ABB XT4,3P, HIGH PROFILE TERM COVER",,Active,14,,TRUE,Molded Breaker
+940,,CKB74741,exact,MoldedBreaker,"3P,100A,35KA,480V,ABB,80%,NO TERM, ",,Active,14,,TRUE,Molded Breaker
+941,,CKB74786,exact,MoldedBreaker,"3P,1600,65KAIC,480,SQD,100%,LI     ",,Active,14,,TRUE,Molded Breaker
+942,,CKB74884,exact,MoldedBreaker,"3P,600A,100%,LSI,PD3,ETN           ",,Active,14,,TRUE,Molded Breaker
+943,,CKB74942,exact,MoldedBreaker,"3P,500A,65KA,480V,ETN,100%,TM      ",,Active,14,,TRUE,Molded Breaker
+944,,CKB74943,exact,MoldedBreaker,"3P,400A,35KA,480V,ETN,100%,TM      ",,Active,14,,TRUE,Molded Breaker
+945,,CKB74982,exact,MoldedBreaker,"3P,225,65KA,208,ETN,LUGS           ",,Active,14,,TRUE,Molded Breaker
+946,,CKB75035,exact,MoldedBreaker,"3P,400A,100%LSI,65KA@480V,ARMS,RLY ",,Active,14,,TRUE,Molded Breaker
+947,,CKB75036T,exact,MoldedBreaker,"CB,3P,800A,100%LSI,65KAIC@480V,NETA",,Active,14,,TRUE,Molded Breaker
+948,,CKB75093,exact,MoldedBreaker,ETN 3P PD3 400A PLUG-IN BASE       ,,Active,14,,TRUE,Molded Breaker
+949,,CKB75094,exact,MoldedBreaker,ETN 3P PD3 400A PLUG BASE PARTS KIT,,Active,14,,TRUE,Molded Breaker
+950,,CKB75095,exact,MoldedBreaker,"3P,1600,65KAIC,480,ETN,100%,LI     ",,Active,14,,TRUE,Molded Breaker
+951,,CKB75096,exact,MoldedBreaker,"3P,400A,65KAIC@480V,ETN,80%,Line   ",,Active,14,,TRUE,Molded Breaker
+952,,CKB75144,exact,MoldedBreaker,"3P,800A,35KA,480V,ETN,100%,NO TERM,",,Active,14,,TRUE,Molded Breaker
+953,,CKB75157,exact,MoldedBreaker,"3P,225A,65KA,480V,ETN,100%,LUGS,LSI",,Active,14,,TRUE,Molded Breaker
+954,,CKB75176,exact,MoldedBreaker,"3P,400A,25KA,480V,ETN,80%,NO TERM, ",,Active,14,,TRUE,Molded Breaker
+955,,CKB75179,exact,MoldedBreaker,"3P,450A,65KA,480V,ETN,80%,NO TERM, ",,Active,14,,TRUE,Molded Breaker
+956,,CKB75238,exact,MoldedBreaker,"3P,400A,35KA,480V,ETN,80%,NO TERM, ",,Active,14,,TRUE,Molded Breaker
+957,,CKB75251,exact,MoldedBreaker,"3P,250A,35KA,480V,ETN,100%,NO TERM,",,Active,14,,TRUE,Molded Breaker
+958,,CKB75285,exact,MoldedBreaker,"3P,100A,65KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+959,,CKB75298,exact,MoldedBreaker,KIT FCCUAL 4X4/0-500KCM XT7/M F 3PC,,Active,14,,TRUE,Molded Breaker
+960,,CKB75299,exact,MoldedBreaker,KIT HR/VR E1.2-XT7-XT7M F 3PCS     ,,Active,14,,TRUE,Molded Breaker
+961,,CKB75304,exact,MoldedBreaker,"3P,600A,65KA,480V,ETN,80%          ",,Active,14,,TRUE,Molded Breaker
+962,,CKB75330,exact,MoldedBreaker,"3P,60A,35KA,480V,ETN,80%,LUGS,LSI  ",,Active,14,,TRUE,Molded Breaker
+963,,CKB75337,exact,MoldedBreaker,"3P,150A,35KA@208V,ETN,LUGS,THERMAL ",,Active,14,,TRUE,Molded Breaker
+964,,CKB75373,exact,MoldedBreaker,"60A,3P,600Y/347VAC,18KA,LUGS,80%,TM",,Active,14,,TRUE,Molded Breaker
+965,,CKB75376,exact,MoldedBreaker,"400A,LSI TRIP,100%,3P,65KA,208VAC  ",,Active,14,,TRUE,Molded Breaker
+966,,CKB75394,exact,MoldedBreaker,"3P,400A,50KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+967,,CKB75396,exact,MoldedBreaker,"3P,600A,25KA,480V,ETN,100%,LUGS,T/M",,Active,14,,TRUE,Molded Breaker
+968,,CKB75404,exact,MoldedBreaker,KIT FC CuAl 2x95...240mm2 XT5 3pcs ,,Active,14,,TRUE,Molded Breaker
+969,,CKB75409,exact,MoldedBreaker,PB 200mm 4pcs XT5 3p KIT PA.DI.PH.I,,Active,14,,TRUE,Molded Breaker
+970,,CKB75434,exact,MoldedBreaker,"3P,50A,35KAIC@480V,ETN,80%,LUGS,T/M",,Active,14,,TRUE,Molded Breaker
+971,,CKB75450,exact,MoldedBreaker,"3P,400A,50KA,480V,ETN,80%,NO TERM, ",,Active,14,,TRUE,Molded Breaker
+972,,CKB75451,exact,MoldedBreaker,"3P,125A,25KA,480V,ETN,100%,LUGS,   ",,Active,14,,TRUE,Molded Breaker
+973,,CKB75457,exact,MoldedBreaker,"3P,20A,25KA@480V,ETN,LUGS,T/M      ",,Active,14,,TRUE,Molded Breaker
+974,,CKB75460,exact,MoldedBreaker,"3P,600A,65KA,480V,ETN,100%,LSI     ",,Active,14,,TRUE,Molded Breaker
+975,,CKB75529,exact,MoldedBreaker,"3P,200A,35KA,480V,ETN,80%,LUGS,T/M ",,Active,14,,TRUE,Molded Breaker
+976,,CKB75560,exact,MoldedBreaker,"3P,800A,65KA,480V,ETN,100%,NO TERM ",,Active,14,,TRUE,Molded Breaker
+977,,CKB75614,exact,MoldedBreaker,"CB,3P,1200A,65KA@480VAC,100%,LSIG  ",,Active,14,,TRUE,Molded Breaker
+978,,CKB75728,exact,MoldedBreaker,"3P,250A,25KA,480V,ETN,100%,LUGS,LSI",,Active,14,,TRUE,Molded Breaker
+979,,CKB75773,exact,MoldedBreaker,"3P,500A,65KA,480V,ETN,100%,NO TERM,",,Active,14,,TRUE,Molded Breaker
+980,,CKB75774,exact,MoldedBreaker,"3P,30A,35KA,480V,ETN,80%,LUGS,T/M  ",,Active,14,,TRUE,Molded Breaker
+981,,CKB75821,exact,MoldedBreaker,"3P,1200A,65KA@480VAC,80%LSIG       ",,Active,14,,TRUE,Molded Breaker
+982,,CKB75934,exact,MoldedBreaker,"3P,125A,65KA,480V,ETN,100%,LUGS,",,Active,14,,TRUE,Molded Breaker
+983,,CKB75989,exact,MoldedBreaker,"3P,250A,65KA,480V,ETN,100%,NO TERM,",,Active,14,,TRUE,Molded Breaker
+984,,CKB75994,exact,MoldedBreaker,"3P,500A,35KA,480V,ETN,100%,NO TERM,",,Active,14,,TRUE,Molded Breaker
+985,,CKB75995,exact,MoldedBreaker,"3P,400A,25KA,480V,ETN,80%,LUGS,LSI",,Active,14,,TRUE,Molded Breaker
+986,,CKB76090,exact,MoldedBreaker,"3P,400AF/125AT,35KA@480VAC,80%,LSI",,Active,14,,TRUE,Molded Breaker
+987,,CKBA72601,exact,MoldedBreaker,250A 3P BASE XT4 P FP 3P EF,,Active,14,,TRUE,Molded Breaker
+988,,CKBA72612,exact,MoldedBreaker,"ABB XT4 250A,3P,CSA/UL,FIXED,EKIP  ",,Active,14,,TRUE,Molded Breaker
+989,,CKBA72621,exact,MoldedBreaker,"CB,3P,125AF/60AT,65KA@480V         ",,Active,14,,TRUE,Molded Breaker
+990,,CKBA72701,exact,MoldedBreaker,KIT HR/VR FP XT5 400A 3PCS UL,,Active,14,,TRUE,Molded Breaker
+991,,CKBA72702,exact,MoldedBreaker,PB 200MM 4PCS XT5 3P KIT UL,,Active,14,,TRUE,Molded Breaker
+992,,CKBA72705,exact,MoldedBreaker,"KIT,R FP,XT3-XT4,3PCS",,Active,14,,TRUE,Molded Breaker
+993,,CKBP0011,exact,MoldedBreaker,"3P,600V,1200A,80%,65KAIC@480V,LI",,Active,14,,TRUE,Molded Breaker
+994,,CKBP0065T,exact,MoldedBreaker,"CB3P3000AF\2000AT,100%,65kaic@480V ",,Active,14,,TRUE,Molded Breaker
+995,,CKBP0066T,exact,MoldedBreaker,"CB 3P3000AF\1600AT,100%,65KAIC 208V",,Active,14,,TRUE,Molded Breaker
+996,,CKBP0104,exact,MoldedBreaker,"CB3POLE250AF\250AT,100%,65KAIC@208 ",,Active,14,,TRUE,Molded Breaker
+997,,CKBP0104T,exact,MoldedBreaker,"CB3POLE250AF\250AT,100%,65KAIC@208 ",,Active,14,,TRUE,Molded Breaker
+998,,CKBP0163,exact,MoldedBreaker,"3P,1200AF\1200AT, 65KA@480VAC80%LSI",,Active,14,,TRUE,Molded Breaker
+999,,CKBP0164,exact,MoldedBreaker,"3P,400AF\400AT,35KA@480VAC,100%,LSI",,Active,14,,TRUE,Molded Breaker
+1000,,CKBP0170,exact,MoldedBreaker,"3P,1600A,65K@480V,SQD,100%,LSI,BB  ",,Active,14,,TRUE,Molded Breaker
+1001,,CKBP0205,exact,MoldedBreaker,"SWITCH3P,600AMP,100KAIC@600VAC     ",,Active,14,,TRUE,Molded Breaker
+1002,,CKBP0205T,exact,MoldedBreaker,"SWITCH3P,600AMP,100KAIC@600VAC,NETA",,Active,14,,TRUE,Molded Breaker
+1003,,CKBP0351,exact,MoldedBreaker,"CB3Pole,400AF\400AT,100%,LSI,Kframe",,Active,14,,TRUE,Molded Breaker
+1004,,CKBP0352,exact,MoldedBreaker,"CB3Pole,400AF\250AT,100%,LSI,Kframe",,Active,14,,TRUE,Molded Breaker
+1005,,CKBP0473,exact,MoldedBreaker,"3P600A,80%,35KAIC@480,EATONPDG3,LSI",,Active,14,,TRUE,Molded Breaker
+1006,,CKBP0507,exact,MoldedBreaker,"3P600VAC,1200AF\800AT,50KA@600V,80%",,Active,14,,TRUE,Molded Breaker
+1007,,CKBP0507T,exact,MoldedBreaker,"3P600VAC,1200AF\800AT,50KA@600V,80%",,Active,14,,TRUE,Molded Breaker
+1008,,CKBP0592,exact,MoldedBreaker,"3P,400A,65KAIC,240V,ETN,100%,LUG,TM",,Active,14,,TRUE,Molded Breaker
+1009,,CKBP0597,exact,MoldedBreaker,"PDG3,3P,600A,35KA/480V,FRAME ONLY  ",,Active,14,,TRUE,Molded Breaker
+1010,,984-00011-46,exact,MoldedBreaker,CB 250A SQD DGP36250E20,2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1011,,984-00011-85,exact,MoldedBreaker,CB 250A SQRD DGL36250E20,2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1012,,CKB10206,exact,MoldedBreaker,"SQD-DLL,3P,600A,600V,100KAIC,",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1013,,CKB10206,exact,MoldedBreaker,"SQD-DLL,3P,600A,600V,100KAIC,",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1014,,CKB11195,exact,MoldedBreaker,"SQD-DJL,3P,400A,600V,65KA,MCS,120V",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1015,,CKB11389T,exact,MoldedBreaker,"SQD-JDL,3P,225A,480V,18kAIC,W/AUX",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1016,,CKB11416T,exact,MoldedBreaker,"SQD-JDL,3P,225A,480V,18kAIC",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1017,,CKB12224,exact,MoldedBreaker,"SQD-DJL,3P,600A,480V,65KA,MCS,120V",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1018,,CKB12247,exact,MoldedBreaker,"SQD-DJN,3P,400A MCSW,AUX/24v SHUNT",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1019,,CKB12247T,exact,MoldedBreaker,"SQD-DJN,3P,400A MCSW,AUX/24v SHUNT",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1020,,CKB12248,exact,MoldedBreaker,"SQD-DJN, 400A, 3P, MCSW, W/AUX",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1021,,CKB12248T,exact,MoldedBreaker,"SQD-DJN, 400A, 3P, MCSW, W/AUX",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1022,,CKB12249,exact,MoldedBreaker,"SQD-DJN,600A,3P,MCSW,AUX/24v SHUNT",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1023,,CKB12249T,exact,MoldedBreaker,"SQD-DJN,600A,3P,MCSW,AUX/24v SHUNT",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1024,,CKB12250,exact,MoldedBreaker,"SQD-DJN, 3P, 600A, MCSW, AUX",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1025,,CKB12250T,exact,MoldedBreaker,"SQD-DJN, 3P, 600A, MCSW, AUX",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1026,,CKB12695,exact,MoldedBreaker,QDL32200 200AMP SUBFEED BREAKER,2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1027,,CKB12904,exact,MoldedBreaker,"SQD,DGA,MCCB,250A,480V,100%,LS TRIP",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1028,,CKB13362,exact,MoldedBreaker,"SQD-DJL,3P,600A,MCSW,120V ST/AUX",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1029,,CKB13955T,exact,MoldedBreaker,"SQD,JDL,3P,250A,100% RATED,LI TRIP",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1030,,CKB15302,exact,MoldedBreaker,"SQD-JDL,3P,225A,480V,18kAIC,W/ST",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1031,,CKB17988,exact,MoldedBreaker,"SQD-LDL,3P,600V,400AF,LSI,18K",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1032,,CKB18406,exact,MoldedBreaker,"SQD-HDL,3P,150AF,480V,18K,LI TRIP",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1033,,CKB18746,exact,MoldedBreaker,"SQD,HDL,3P,480V,100AF,LSI,14K,",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1034,,CKB19976,exact,MoldedBreaker,"SQD-JDL,3P,250AF,480V,18KAIC,LSI,MC",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1035,,D=CKB11938,exact,MoldedBreaker,"SQD-DGL,3P,600V,400AF,LS,18KAIC",2014,Obsoleted,14,,FALSE,SQD Obsoleted
+1036,,TVS06934,exact,SPD,TS100-208Y                         ,,Active,7,,TRUE,
+1037,,TVS06937,exact,SPD,TS120-E-208Y                       ,,Active,7,,TRUE,
+1038,,TVS07000,exact,SPD,TS400-P-480Y                       ,,Active,7,,TRUE,
+1039,,TVS11146,exact,SPD,"TVSS, 225kA, 208/120               ",,Active,7,,TRUE,
+1040,,TVS11192,exact,SPD,"MOV,200kA,120/208V,3Y",,Active,7,,TRUE,
+1041,,TVS11388,exact,SPD,"MOV,200kA,480V,3D",2022,Obsoleted,7,,FALSE,
+1042,,TVS12262,exact,SPD,"MOV,100kA,120/208V,3Y",,Active,7,,TRUE,
+1043,,TVS13386,exact,SPD,"MOV,200kA,277/480V,3Y",,Active,7,,TRUE,
+1044,,TVS13388,exact,SPD,"TVSS,RAYCAP,MODEL-AM7100-V-3WG-07  ",,Active,7,,TRUE,
+1045,,TVS13720,exact,SPD,"150KA,220/380V,3Y",,Active,7,,TRUE,
+1046,,TVS13798,exact,SPD,"MOV,100kA,277/480V,3Y",,Active,7,,TRUE,
+1047,,TVS16686,exact,SPD,"MOV,70kA,480/600V,3P",,Active,7,,TRUE,
+1048,,TVS16870,exact,SPD,"SPD, 208/120V, 70kA, TYPE 2        ",,Active,7,,TRUE,
+1049,,TVS30375,exact,SPD,"SURGE, 208/120V, 3PH WYE, 50KA, MON",,Active,7,,TRUE,
+1050,,TVS56396,exact,SPD,"MOV,40kA,600Y/347V,3P",,Active,7,,TRUE,
+1051,,TVS57297,exact,SPD,"MOV,200KA,120/208V,3Y",,Active,7,,TRUE,
+1052,,TVS57298,exact,SPD,"MOV,100KA,120/208V,3Y",,Active,7,,TRUE,
+1053,,TVS57299,exact,SPD,"MOV,100kA,277/480V,3Y",,Active,7,,TRUE,
+1054,,TVS57300,exact,SPD,"MOV,200kA,480V,3D",,Active,7,,TRUE,
+1055,,TVS57875,exact,SPD,"TVSS,AC DIST MOD,(8)15A/125V",,Active,7,,TRUE,
+1056,,TVS57876,exact,SPD,"MOV,200kA, 277/480V,3Y,TYPE-II     ",,Active,7,,TRUE,
+1057,,TVS66368,exact,SPD,"MOV,600V,100KA,3D,SQD              ",,Active,7,,TRUE,
+1058,,TVS66478,exact,SPD,"TVSS 208, 4W+G, 100KA, 3Y, MERSEN  ",,Active,7,,TRUE,
+1059,,TVS66479,exact,SPD,"TVSS 208, 4W+G, 200KA, 3Y, MERSEN  ",,Active,7,,TRUE,
+1060,,TVS66481,exact,SPD,"TVSS 480, 3W+G, 100KA, 3D, MERSEN  ",,Active,7,,TRUE,
+1061,,TVS66482,exact,SPD,"TVSS 480, 3W+G, 200KA, 3D, MERSEN  ",,Active,7,,TRUE,
+1062,,TVS66483,exact,SPD,"TVSS 480, 4W+G, 100KA, 3Y, MERSEN  ",,Active,7,,TRUE,
+1063,,TVS66484,exact,SPD,"TVSS 480, 4W+G, 200KA, 3Y, MERSEN  ",,Active,7,,TRUE,
+1064,,TVS67761,exact,SPD,"MOV,380/220,100KA,3Y, MERSEN       ",,Active,7,,TRUE,
+1065,,TVS69566,exact,SPD,"TVSS 600, 3W+G, 100KA, 3D, MERSEN",,Active,7,,TRUE,
+1066,,TVS69838,exact,SPD,"TVSS 480, 3W+G, 240KA, 3D, SQ-D",,Active,7,,TRUE,
+1067,,TVS71794,exact,SPD,"TVSS 4W+G,100KA,208Y,NONC",,Active,7,,TRUE,
+1068,,TVS71795,exact,SPD,"TVSS 4W+G,100KA,408Y,NONC",,Active,7,,TRUE,
+1069,,TVS71798,exact,SPD,"TVSS 3W+G,100KA,480D,NONC",,Active,7,,TRUE,
+1070,,TVS71801,exact,SPD,"TVSS 4W+G,100KA,480Y,NONC,ALARM,EMI",,Active,7,,TRUE,
+1071,,TVS71803,exact,SPD,"TVSS 3W+G,100KA,240D,NONC,ALARM,EMI",,Active,7,,TRUE,
+1072,,TVS71804,exact,SPD,"TVSS 3W+G,100KA,480D,NONC,ALARM,EMI",,Active,7,,TRUE,
+1073,,TVS71805,exact,SPD,"TVSS 3W+G,100KA,600D,NONC,ALARM,EMI",,Active,7,,TRUE,
+1074,,TVS71810,exact,SPD,"TVSS 3W+G,200KA,480D,NONC",,Active,7,,TRUE,
+1075,,TVS71811,exact,SPD,"TVSS 3W+G,200KA,600D,NONC, EATON   ",,Active,7,,TRUE,
+1076,,TVS71816,exact,SPD,"TVSS 3W+G,200KA,480D,NONC,ALARM,EMI",,Active,7,,TRUE,
+1077,,TVS73639,exact,SPD,"TVSS 240, 3W+G, 100KA, 3D, MERSEN  ",,Active,7,,TRUE,
+1078,,TVSA72618,exact,SPD,QVR T2 3N 40-320 PTSU SPD          ,,Active,7,,TRUE,

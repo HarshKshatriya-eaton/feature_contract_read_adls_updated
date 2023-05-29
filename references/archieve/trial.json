@@ -1,0 +1,900 @@
+{
+    "Lead_Management": {
+        "key": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "Serial_Number": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "Component": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Source": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Assigned_Company": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Assigned_Region": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Assigned_Contact": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Sales_Manager": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "flag_lead": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "Lead_Type": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Lead_Date": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "Assigned_Email": {
+            "actual_datasoure_name": "",
+            "output_format": "text : lower"
+        }
+    },
+    "Serial Numbers by Major Account": {
+        "Serial_Number": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "Account": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        }
+    },
+    "output_contacts_lead": {
+        "Serial_Number": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "Source": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "flag_latest_date": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "Date": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "CompanyName": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Name": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Company_Phone": {
+            "actual_datasoure_name": "",
+            "output_format": "text : lower"
+        },
+        "Email": {
+            "actual_datasoure_name": "",
+            "output_format": "text : lower"
+        },
+        "Address1": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "Address2": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "City": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "State": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Zipcode": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Party_Name": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "PrimaryContact": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "Party_Number": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Title": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Fax": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Country": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "flag_valid_email": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        }
+    },
+    "output_iLead": {
+        "Serial_Number": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "Model_Id_Short": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "Component": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Source": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Component_DateCode": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "life_comp": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "component_due_date": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "ExternalSalesperson": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "InternalSalesperson": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "BatterySource": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "BatteryMfg": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "BatteryModel": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "BatteryType": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Num_of_Jars": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Due_in": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Due date category": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "flag_valid_installbase": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "flag_raise_lead": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "flag_raise_lead_upslife": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "flag_raise_lead_eosl": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "ListPrice": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : 2"
+        },
+        "AvgSalesPrice": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : 2"
+        },
+        "component_due_date_life": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "DateCode_Incident": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "DateCode_Skynet": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "DateCode_InstallBase": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "DateCode_Midtronics": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "Component_DateCode_oldlogic": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "Source_oldlogic": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Year_Lead": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Component_DateCode_Mod": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "Strategic_Customer_Name": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Owner_Party_Name": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Owner_Party_Number": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "PartySiteNumber": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Region": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "CSE_Area": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "PHYSICALLOCATION": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "flag_contract": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "flag_incident": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "Incident_Type": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "Incident_Status": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Incident_Location_Country": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Year_Index": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "key": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "InstallDate": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "UPS_Age": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Model_Id": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "UPS_VAC": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Item_Description": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Txt_PartySiteNumber": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "BatteryTypeData": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Component_DateCode_validation": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "Source_validation": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Item/CTO": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "kva_max": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "kVA_act": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Contract_Coverage": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Contract_Line_Status": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Contract_Header_Start_Date": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "Contract_Header_End_Date": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "Contract_Coverage_Description": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Contract_Coverage_Type": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Current_Location_Party_Number": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Current_Location_Party_Name": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Current_Location_Address1": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Current_Location_City": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Current_Location_State": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Current_Location_Postal_Code": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Current_Location_Country": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Install_Location_Site_Number": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        }
+    },
+    "ref_install_base": {
+        "Serial_Number": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "Model_Id_short": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "InstallDate": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "Product_Age": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "CSE_Area": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "Region": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "flag_decommissioned": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "flag_decommissioned_gp": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "KWRATING": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : 2"
+        },
+        "OUTPUTKW": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : 2"
+        },
+        "Size_Group": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "PartySiteNumber": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Txt_PartySiteNumber": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "kva_max": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "kVA_act": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "UPS_VAC": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "UPS_Age": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Current_Location_Party_Name": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Current_Location_Address1": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Current_Location_City": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Current_Location_State": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Current_Location_Postal_Code": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "PHYSICALLOCATION": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "is_under_contract": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "Contract_Number": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "Contract_Coverage": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Contract_Coverage_Description": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Contract_Coverage_Type": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Contract_Line_Status": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Contract_Header_Start_Date": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "Contract_Header_End_Date": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "Customer": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Segment Parent": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Segment Child": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "flag_valid_installbase": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "flag_WC": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "EOSL_Date": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "Model_Id": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "VAC_cto": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "Item_Description": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "flag_prior_lead": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "prior_lead_date": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "flag_prior_service_lead": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "prior_service_lead_date": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "flag_predictpulse": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "PP_ContractCoverage": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Warranty_End": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "Conract_Start": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "ContractConversion": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Managed_By": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Managed_By_Contact/Email": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Strategic_Customer_Name": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Owner_Party_Name": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Owner_Party_Number": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Current_Location_Party_Number": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Current_Location_Country": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Install_Location_Site_Number": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Install_Location_Party_Number": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Install_Location_Party_Name": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "InstallYear_Group": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "latest_contract": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "flag_contract": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "flag_incident": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "Incident_Type": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "Incident_Status": {
+            "actual_datasoure_name": "",
+            "output_format": "text : lower"
+        },
+        "Incident_Location_Country": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "is_NOT_under_contract": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "WarrantyDue_Date": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "f_warrantyconverted": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "Year_Index_WarrantyEnd": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "flag_valid_6month": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "First_Warranty_Start Date": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "First_Warranty_End Date": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "First_Warranty_Coverage": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "First_Warranty_Contract Number": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "Warranty_Due_Date": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "First_Contract_Start Date": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "First_Contract_End Date": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "First_Contract_Coverage": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "First_Contract_Contract Number": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "Is_Lead_Open": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "Lead_ID": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Assigned_Company": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Assigned_Contact": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Assigned_Region": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Sales_Manager": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Sales_Status": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Lead_Date": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "Source_gp": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "Date_WC_due": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "First_Warranty_Coverage Description": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Last_Warranty_Start Date": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "Last_Warranty_End Date": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "Last_Warranty_Contract Number": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "First_Contract_Coverage Description": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "flag_summary_decommissioned": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "Item/CTO": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "Instance_Status_Name": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "Model_Id_Short_Source": {
+            "actual_datasoure_name": "",
+            "output_format": "text : upper"
+        },
+        "flag_decommissioned1": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "flag_decommissioned2": {
+            "actual_datasoure_name": "",
+            "output_format": "bool : 0/1"
+        },
+        "Ship_Date": {
+            "actual_datasoure_name": "",
+            "output_format": "date : mm/dd/yyyy"
+        },
+        "Ship_Site_Number": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Sap_Ship_Cust_Num": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Bill_Site_Number": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Sap_Bill_Cust_Num": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Bill_Address1": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Bill_City": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Bill_State": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Bill_Postal_Code": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : no_decimal"
+        },
+        "Incident_Bill_To_Party_Name": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Incident_Ship_To_Party_Name": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Source": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Latitude": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : 2"
+        },
+        "Longitude": {
+            "actual_datasoure_name": "",
+            "output_format": "numeric : 2"
+        },
+        "Last_Warranty_Coverage": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        },
+        "Last_Warranty_Coverage Description": {
+            "actual_datasoure_name": "",
+            "output_format": "text : capitalize each word"
+        }
+    }
+}
