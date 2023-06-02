@@ -1,4 +1,3 @@
-
 """@file
 
 
@@ -21,7 +20,9 @@ import traceback
 import json
 
 from utils.logger import AppLogger
+
 logger = AppLogger(__name__)
+
 
 #  *** JSON ***
 
@@ -48,6 +49,7 @@ def read_json_local(config):
         logger.app_fail(_step, f"{traceback.print_exc()}")
         raise Exception from e
 
+
 #  *** CSV ***
 def read_csv_local(config):
     _step = f'Read csv : {config}'
@@ -62,7 +64,7 @@ def read_csv_local(config):
 
     try:
         file_path = os.path.join(file_dir, file_name)
-        data = pd.read_csv(file_path, sep = sep)
+        data = pd.read_csv(file_path, sep=sep)
 
         logger.app_debug(f"{_step}: SUCCEED", 1)
         return data
@@ -70,6 +72,7 @@ def read_csv_local(config):
     except Exception as e:
         logger.app_fail(_step, f"{traceback.print_exc()}")
         raise Exception from e
+
 
 def write_csv_local(config, data):
     _step = f'Write csv : {config}'
@@ -92,4 +95,4 @@ def write_csv_local(config, data):
         logger.app_fail(_step, f"{traceback.print_exc()}")
         raise Exception from e
 
-#%%
+# %%

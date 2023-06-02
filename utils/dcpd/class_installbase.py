@@ -73,6 +73,7 @@ class InstallBase:
         self.unsuccessful = 'unsuccessful !'
 
         # Variable
+        self.mode = mode
         self.ls_char = [' ', '-']
         self.config = IO.read_json(mode='local', config={
             "file_dir":'./references/', "file_name":'config_dcpd.json'})
@@ -109,7 +110,7 @@ class InstallBase:
             # df_install = env_.filters_.format_output(df_install, self.format_cols)
 
             # Export
-            IO.write_csv(self.mode, df_install, 'processed_install')
+            IO.write_csv(self.mode, 'processed_install', df_install)
 
             logger.app_success(self.step_export_data)
 

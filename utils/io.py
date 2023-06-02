@@ -40,7 +40,7 @@ class IO():
     def write_csv(mode, config, data):
 
         if mode == 'local':
-            return io_local.read_csv_local(config, data)
+            return io_local.write_csv_local(config, data)
         else:
             logger.app_info(f'Mode {mode} is not implemented')
             raise ValueError ('Not implemented or unknow mode')

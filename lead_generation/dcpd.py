@@ -22,7 +22,7 @@ logger = AppLogger(__name__)
 
 from lead_generation.base import LeadGeneration
 from utils.dcpd import InstallBase
-
+from utils.dcpd import Contract
 # %% *** Define Class ***
 
 class DCPD(LeadGeneration):
@@ -71,7 +71,12 @@ class DCPD(LeadGeneration):
         print('Implemented etl_contracts!')
 
     def etl_contracts(self):
-        print('Implemented etl_contracts!')
+        try:
+            obj = Contract()
+            self.df_data = obj.main_contracts()
+        except Exception as e:
+            logger.app_fail(f"process contract for {__name__}", e)
+            raise Exception from e
 
     def etl_contacts(self):
         print('Implemented etl_contacts!')
