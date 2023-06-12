@@ -9,7 +9,7 @@
     "file" : {
         "dir_ref": "./references/", 
         "dir_data": "./data/",
-        
+        "dir_results": "./results/",
         "Raw": {
             "services": {
                 "file_name": "case_data.csv"
@@ -36,7 +36,8 @@
         "Reference": {
             "bom": "reference_BOM.csv",
             "customer": "AccountManagerListing.csv",
-            "lead_opprtunities": "ref_lead_opportunities.csv"
+            "lead_opprtunities": "ref_lead_opportunities.csv",
+            "decode_sr_num" : "ref_decode_serialnumber.csv"
         },
         "Processed": {
             "customer": {
@@ -935,7 +936,6 @@
             "Start_Up_Completed_Date__c", "Customer_Tentative_Start_Up_Date__c",
             "Scheduled_Start_Up_Date__c",
             "Warranty_Start_Date", "Warranty_Expiration_Date",
-
             "Payment_Frequency", "Start_date", "BillingStreet",
             "BillingCity", "BillingState", "BillingPostalCode", "BillingCountry",
             "BillingAddress", "Country__c",

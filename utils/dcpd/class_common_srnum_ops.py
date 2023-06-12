@@ -167,7 +167,6 @@ class SearchSrnum:
         df_temp_org.loc[:, 'SerialNumber'] = df_temp_org['SerialNumber'].apply(
             lambda col_data: re.sub(f'{sep}+', sep, col_data))
         df_temp_org.loc[:, 'SerialNumber'] = df_temp_org['SerialNumber'] + sep
-
         return df_temp_org['SerialNumber']
 
     def expand_srnum(self, col_data, pat_srnum) -> pd.DataFrame:

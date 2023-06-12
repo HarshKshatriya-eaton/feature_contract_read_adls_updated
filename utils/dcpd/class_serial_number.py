@@ -22,13 +22,16 @@ import sys
 import pandas as pd
 import traceback
 import numpy as np
-import src.config_set as CONF_
+from utils import AppLogger
 
-if not (('ENV_' in locals()) | ('ENV_' in globals())):
-    print(__name__)
-
-    from src.class_help_setup import SetupEnvironment
-    ENV_ = SetupEnvironment('DCPD', CONF_.dict_)
+logger = AppLogger(__name__)
+# import src.config_set as CONF_
+#
+# if not (('ENV_' in locals()) | ('ENV_' in globals())):
+#     print(__name__)
+#
+#     from src.class_help_setup import SetupEnvironment
+#     ENV_ = SetupEnvironment('DCPD', CONF_.dict_)
 
 # %%
 
@@ -248,13 +251,13 @@ class SerialNumber:
         if ((len(ls_srnum) > size)
             and (len(ls_srnum) > 100)
                 and (self.data_type == 'm2m')):
-            ENV_.logger.app_debug(
+            logger.app_debug(
                 f'{sr_num}: {len(ls_srnum)} > {size}', 1)
             ls_srnum = []
         elif ((len(ls_srnum) > size)
               and (len(ls_srnum) > 150)
               and (self.data_type == 'contract')):
-            ENV_.logger.app_debug(
+            logger.app_debug(
                 f'{sr_num}: {len(ls_srnum)} > {size}', 1)
             ls_srnum = []
 

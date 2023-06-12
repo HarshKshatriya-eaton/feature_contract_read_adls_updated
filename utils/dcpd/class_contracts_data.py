@@ -97,7 +97,7 @@ class Contract:
         """
         try:
             # PreProcess: Contracts Data
-            df_contract = self.pipeline_contract()
+            df_contract = self.pipeline_contract
             # env_.export_data(df_contract, 'processed_contract', 'output')
 
             # PreProcess : Renewal data
@@ -109,15 +109,17 @@ class Contract:
             df_contract = self.pipeline_decode_contract_type(df_contract)
 
             # Export Data
-            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_data'],
-                                     'file_name': self.config['file']['Processed']['contracts']['validation']
+            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'],
+                                     'file_name': self.config['file']['Processed']['contracts'][
+                                         'validation']
                                      }, df_contract)
 
             # TODO formatted output is not yet implemented
             # Export formatted Data
             # df_contract_form = env_.filters_.format_output(df_contract, dict_format)
-            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_data'],
-                                     'file_name': self.config['file']['Processed']['contracts']['local_file']
+            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'],
+                                     'file_name': self.config['file']['Processed']['contracts'][
+                                         'local_file']
                                      }, df_contract)
 
         except Exception as excp:
@@ -125,6 +127,7 @@ class Contract:
             raise Exception('f"{self.main_contract}: Failed') from excp
 
     # ***** Pipelines *****
+    @property
     def pipeline_contract(self) -> pd.DataFrame:  # pragma: no cover
         """
         Pipeline to pre-process contracts data to.
@@ -142,13 +145,14 @@ class Contract:
             # Read raw contracts data
             _step = 'Read raw contracts data'
             df_contract = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_data'],
-                                                  'file_name': self.config['file']['Raw']['contracts']['file_name']
+                                                  'file_name':
+                                                      self.config['file']['Raw']['contracts'][
+                                                          'file_name']
                                                   })
             input_format = self.config['database']['contracts']['Dictionary Format']
             df_contract = self.format.format_data(df_contract, input_format)
             df_contract.reset_index(drop=True, inplace=True)
             logger.app_success(_step)
-            print(df_contract)
             # Identify Startups
             _step = 'Identify Startups'
             df_contract[['was_startedup', 'startup_date']] = self.id_startup(
@@ -159,10 +163,11 @@ class Contract:
             _step = 'Identify Serial Number'
             df_contract_srnum = self.pipeline_id_srnum(df_contract)
             logger.app_success(_step)
-
             # Validate Serial number from InstallBase
             _step = 'Validate Serial number'
-            df_contract_srnum = self.pipeline_validate_srnum(df_contract_srnum)
+            # df_contract_srnum = self.pipeline_validate_srnum(df_contract_srnum)
+            df_contract_srnum = self.validate_contract_install_sr_num(df_contract_srnum)
+
             logger.app_success(_step)
 
             # if env_.ENV == "local":
@@ -241,7 +246,6 @@ class Contract:
             df_install = self.read_processed_installbase()
             df_install.loc[:, 'SerialNumber'] = df_install.SerialNumber_M2M.astype(
                 str)
-
             ls_srnums = df_install.SerialNumber.str.lower()
             concat_ls_srnum = ' ' + ', '.join(ls_srnums)
 
@@ -259,6 +263,69 @@ class Contract:
 
         return df_contract_srnum
 
+    def validate_contract_install_sr_num(self, df_contract):
+        """
+        Validate contract Serial Numbers.
+        :param df_contract: Dataframe with possible startup date
+        fields in the sequence if Priority,
+        :type df_contract: pandas DataFrame.
+        :raises Exception: Raised if unknown data type provided.
+        :return: Data Frame with two columns
+        :rtype: pandas Data Frame
+        """
+        _step = 'Validate contract Serial Numbers '
+        try:
+            df_install = self.read_processed_installbase()
+            df_install.loc[:, 'SerialNumber'] = df_install.SerialNumber_M2M.astype(
+                str)
+            df = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_ref'],
+                                         'file_name': self.config['file']['Reference']
+                                         ['decode_sr_num']})
+
+            # Filter rows where partial_flag is TRUE and extract the values of the Product column
+            filtered_products = df.loc[df["partial_flag"] == True, "Product"].tolist()
+
+            # Step 1: Exact Match
+            df_contract["match_flag"] = False
+            for index, row in df_contract.iterrows():
+                serial_number = row["SerialNumber"]
+                if serial_number in df_install["SerialNumber"].values:
+                    df_contract.at[index, "match_flag"] = True
+
+            # Step 2: Filter df_install based on "StrategicCustomer"
+            df_filtered = df_install[~df_install["StrategicCustomer"].isin(['qts', 'cyrus one'])]
+
+            # Step 3: Partial Match
+            for index, row in df_contract[df_contract["match_flag"] == False].iterrows():
+                serial_number = row["SerialNumber"]
+                a_b = serial_number.split("-")
+                if len(a_b) == 2:
+                    if a_b[0] in filtered_products:
+                        df_filtered["SerialNumber"] = df_filtered["SerialNumber"].fillna('')
+                        partial_matches = df_filtered[df_filtered["SerialNumber"].str.contains(
+                            re.escape(a_b[0]) + r"-" + re.escape(a_b[1]))]
+                        if not partial_matches.empty:
+                            df_contract.at[index, "match_flag"] = "Partial_match"
+                            df_contract.at[index, "partial_match"] = ", ".join(
+                                partial_matches["SerialNumber"].tolist())
+
+            # Step 4: Update remaining unmatched rows
+            df_contract.loc[df_contract["match_flag"] == False, "match_flag"] = False
+
+            # Step 5: Change partial_match to True so that we don't filter rows in further process
+            # Rename the "match_flag" column to "flag_validinstall"
+            df_contract.rename(columns={"match_flag": "flag_validinstall"}, inplace=True)
+
+            # Change "partial_match" values to True
+            df_contract.loc[
+                df_contract["flag_validinstall"] == "Partial_match", "flag_validinstall"] = True
+            logger.app_success(_step)
+        except Exception as excp:
+            logger.app_fail(_step, f"{traceback.print_exc()}")
+            raise Exception from excp
+
+        return df_contract
+
     def pipeline_renewal(self) -> pd.DataFrame:  # pragma: no cover
         """
          Pipeline to pre-process renewal data.
@@ -271,9 +338,12 @@ class Contract:
         try:
             _step = 'Read renewal data'
             df_renewal = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_data'],
-                                                 'file_name': self.config['file']['Raw']['renewal']['file_name']})
+                                                 'file_name': self.config['file']['Raw']['renewal'][
+                                                     'file_name']})
             logger.app_success(_step)
-
+            input_format = self.config['database']['renewal']['Dictionary Format']
+            df_renewal = self.format.format_data(df_renewal, input_format)
+            df_renewal.reset_index(drop=True, inplace=True)
             _step = 'Preprocess data'
             df_renewal['Contract_Amount'] = df_renewal['Contract_Amount'].fillna(0)
 
@@ -303,7 +373,9 @@ class Contract:
             # Decode : Installbase
             # df_install_temp = pd.read_csv('./data/M2M_data.csv')
             df_install_temp = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_data'],
-                                                      'file_name': self.config['file']['Raw']['M2M']['file_name']
+                                                      'file_name':
+                                                          self.config['file']['Raw']['M2M'][
+                                                              'file_name']
                                                       })
             df_install_temp = df_install_temp[['SO', 'Description']]
 
@@ -435,7 +507,7 @@ class Contract:
             df_contract['flag_update'] = (df_contract['Eaton_ContractType'] == "")
 
             df_contract.loc[df_contract['flag_update'],
-                            'Eaton_ContractType'] = df_contract.loc[
+            'Eaton_ContractType'] = df_contract.loc[
                 df_contract['flag_update'], 'Eaton_ContractType_M2M']
 
         except KeyError as excp:
@@ -457,7 +529,8 @@ class Contract:
         _step = "Read raw data : BOM"
         try:
             df_install = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_data'],
-                                                 'file_name': self.config['file']['Processed']['processed_install'][
+                                                 'file_name': self.config['file']['Processed'][
+                                                     'processed_install'][
                                                      'local_file']})
 
         except Exception as excp:
@@ -541,7 +614,8 @@ class Contract:
             for char in self.dict_char:
                 # char = list(dict_char.keys())[0]
                 sep = self.dict_char[char]
-                df_temp_org.loc[:, 'SerialNumber'] = df_temp_org['SerialNumber'].str.replace(f'{char}', sep, regex=True)
+                df_temp_org.loc[:, 'SerialNumber'] = df_temp_org['SerialNumber'].str.replace(
+                    f'{char}', sep, regex=True)
 
                 df_temp_org.loc[:, 'SerialNumber'] = df_temp_org['SerialNumber'].apply(
                     lambda x: re.sub(f'{sep}+', sep, str(x)))
