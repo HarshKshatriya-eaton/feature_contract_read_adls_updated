@@ -6,10 +6,10 @@
     ],
     "log_var_size": false,
     "key_vault": "",
-    "file" : {
-        "dir_ref": "./references/", 
+    "file": {
+        "dir_ref": "./references/",
         "dir_data": "./data/",
-        
+        "dir_results": "./results/",
         "Raw": {
             "services": {
                 "file_name": "case_data.csv"
@@ -36,31 +36,32 @@
         "Reference": {
             "bom": "reference_BOM.csv",
             "customer": "AccountManagerListing.csv",
-            "lead_opprtunities": "ref_lead_opportunities.csv"
+            "lead_opprtunities": "ref_lead_opportunities.csv",
+            "product_class": "ref_product_class.csv"
         },
         "Processed": {
             "customer": {
-                "local_file": "customer_list.csv",
+                "file_name": "customer_list.csv",
                 "validation": "customer_list_validation.csv"
             },
             "output_iLead": {
-                "local_file": "output_iLead.csv"
+                "file_name": "output_iLead.csv"
             },
             "processed_install": {
-                "local_file": "processed_install.csv"
+                "file_name": "processed_install.csv"
             },
             "processed_m2m_shipment": {
-                "local_file": "processed_m2m_shipment.csv"
+                "file_name": "processed_m2m_shipment.csv"
             },
             "processed_serialnum": {
-                "local_file": "processed_serialnum.csv"
+                "file_name": "processed_serialnum.csv"
             },
             "contracts": {
-                "local_file": "processed_contract.csv",
+                "file_name": "processed_contract.csv",
                 "validation": "processed_contract_validation.csv"
             },
             "services": {
-                "local_file": "processed_services.csv",
+                "file_name": "processed_services.csv",
                 "validation": "processed_services_validation.csv"
             }
         }
@@ -284,15 +285,10 @@
                     "date_min": "01/01/1995",
                     "date_max": "TODAY"
                 },
-                "SoldTo_Country": {
+                "Country": {
                     "report": "yes",
                     "type": "text",
                     "text_match_exact": "united states of america,united states,usa,,us,"
-                },
-                "ShipTo_Country": {
-                    "report": "yes",
-                    "type": "text",
-                    "text_match_exact": "united states of america,united states,usa,us,"
                 },
                 "ProductClass": {
                     "report": "no",
@@ -942,5 +938,46 @@
             "Serial_Date_Lot_Code": ""
         }
     },
-    "contracts": {}
+    "contracts": {},
+    "install_base": {
+        "dict_display_parts": {
+            "pn_logic_tray": {
+                "txt_search": [
+                    "SA"
+                ],
+                "PartsOfInterest": [
+                    "SA00011",
+                    "SA00012",
+                    "SA00013"
+                ]
+            },
+            "pn_door_assembly": {
+                "txt_search": [
+                    "DOR"
+                ],
+                "PartsOfInterest": [
+                    "DOR09240",
+                    "DOR09583",
+                    "DOR09323",
+                    "DOR10653",
+                    "DOR10461"
+                ]
+            },
+            "pn_input_breaker_panel": {
+                "txt_search": [
+                    "PNL"
+                ],
+                "PartsOfInterest": [
+                    "PNL08804",
+                    "PNL08872",
+                    "PNL12362",
+                    "PNL09356",
+                    "PNL09687",
+                    "PNL11423",
+                    "PNL10646",
+                    "PNL10459"
+                ]
+            }
+        }
+    }
 }
