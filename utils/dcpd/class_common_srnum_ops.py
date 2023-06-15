@@ -1,17 +1,12 @@
 """@file class_common_srnum_ops.py.
 
-@brief : For DCPD business; analyze contracts data from SalesForce to be consumed
-by lead generation
+@brief : Common functionalities that can be used between processing of different data source.
 
 
 @details :
-    DCPD has two tables for contracts data (contracts and renewal contracts).
-    Code summaries both the datasets to understand if a unit is currently under
-    active contract
-
-    1. Contracts: has warranty and startup details
-
-    2. Renewal contract: has contracts data (other than warranty)
+    While Processing data for DCPD for different source there are some common processing
+    functionalities that is re-usable for contracts, services and install base data.
+    This python file has all those common reusable modules.
 
 
 @copyright 2023 Eaton Corporation. All Rights Reserved.
@@ -151,22 +146,27 @@ class SearchSrnum:
         :rtype: pd.Series
 
         """
-        df_temp_org.columns = ['SerialNumber']
+        _step = "Preparing Serial Number for Expansion"
+        try:
+            df_temp_org.columns = ['SerialNumber']
 
-        # Clean punctuation
-        ls_char = ['\r', '\n']  # '\.', , '\;', '\\'
-        for char in ls_char:
-            # char = ls_char[3]
-            df_temp_org.loc[:, 'SerialNumber'] = (
-                df_temp_org['SerialNumber'].str.replace(char, sep, regex=True))
+            # Clean punctuation
+            ls_char = ['\r', '\n']  # '\.', , '\;', '\\'
+            for char in ls_char:
+                # char = ls_char[3]
+                df_temp_org.loc[:, 'SerialNumber'] = (
+                    df_temp_org['SerialNumber'].str.replace(char, sep, regex=True))
 
+                df_temp_org.loc[:, 'SerialNumber'] = df_temp_org['SerialNumber'].apply(
+                    lambda row_data: re.sub(f'\{char}+', sep, row_data))
+
+            # Collapse multiple punctuations
             df_temp_org.loc[:, 'SerialNumber'] = df_temp_org['SerialNumber'].apply(
-                lambda row_data: re.sub(f'\{char}+', sep, row_data))
-
-        # Collapse multiple punctuations
-        df_temp_org.loc[:, 'SerialNumber'] = df_temp_org['SerialNumber'].apply(
-            lambda col_data: re.sub(f'{sep}+', sep, col_data))
-        df_temp_org.loc[:, 'SerialNumber'] = df_temp_org['SerialNumber'] + sep
+                lambda col_data: re.sub(f'{sep}+', sep, col_data))
+            df_temp_org.loc[:, 'SerialNumber'] = df_temp_org['SerialNumber'] + sep
+        except Exception as excp:
+            logger.app_fail(_step, f"{traceback.print_exc()}")
+            raise Exception from excp
         return df_temp_org['SerialNumber']
 
     def expand_srnum(self, col_data, pat_srnum) -> pd.DataFrame:
@@ -182,33 +182,38 @@ class SearchSrnum:
         :rtype: pd.DataFrame
 
         """
-        if not col_data['is_serialnum']:
-            df_srnum = pd.DataFrame(data={
-                'SerialNumber': np.nan,
-                'ContractNumber': col_data['ContractNumber'],
-                'SerialNumberContract': col_data['SerialNumberContract'],
-                'Qty': col_data['Qty']}, index=[0]
-            )
-            return df_srnum
+        _step = "Expand Serial Number"
+        try:
+            if not col_data['is_serialnum']:
+                df_srnum = pd.DataFrame(data={
+                    'SerialNumber': np.nan,
+                    'ContractNumber': col_data['ContractNumber'],
+                    'SerialNumberContract': col_data['SerialNumberContract'],
+                    'Qty': col_data['Qty']}, index=[0]
+                )
+                return df_srnum
 
-        sr_num = col_data['SerialNumber']
+            sr_num = col_data['SerialNumber']
 
-        ls_sr_num = []
+            ls_sr_num = []
 
-        for cur_srnum_pat in pat_srnum:
-            ls_sr_num_cur = re.findall(cur_srnum_pat, str(sr_num))
+            for cur_srnum_pat in pat_srnum:
+                ls_sr_num_cur = re.findall(cur_srnum_pat, str(sr_num))
 
-            if len(ls_sr_num_cur) > 0:
-                ls_sr_num = ls_sr_num + ls_sr_num_cur
-                sr_num = re.sub(cur_srnum_pat, "", sr_num)
+                if len(ls_sr_num_cur) > 0:
+                    ls_sr_num = ls_sr_num + ls_sr_num_cur
+                    sr_num = re.sub(cur_srnum_pat, "", sr_num)
 
-            if len(sr_num) <= 2:
-                break
+                if len(sr_num) <= 2:
+                    break
 
-        df_srnum = pd.DataFrame(data={'SerialNumber': ls_sr_num})
-        df_srnum['ContractNumber'] = col_data['ContractNumber']
-        df_srnum['SerialNumberContract'] = col_data['SerialNumberContract']
-        df_srnum['Qty'] = col_data['Qty']
+            df_srnum = pd.DataFrame(data={'SerialNumber': ls_sr_num})
+            df_srnum['ContractNumber'] = col_data['ContractNumber']
+            df_srnum['SerialNumberContract'] = col_data['SerialNumberContract']
+            df_srnum['Qty'] = col_data['Qty']
+        except Exception as excp:
+            logger.app_fail(_step, f"{traceback.print_exc()}")
+            raise Exception from excp
 
         return df_srnum
 

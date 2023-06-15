@@ -973,5 +973,10 @@
               ":": "-"
         }
 
-      }}
+      }},
+    "install_base" : {
+        "sr_num_validation": {
+            "exact_match_filter" : ["qts", "cyrus one"]
+        }
+    }
 }

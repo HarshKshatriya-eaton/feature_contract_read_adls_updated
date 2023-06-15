@@ -170,8 +170,8 @@ class Contract:
 
             logger.app_success(_step)
 
-            # if env_.ENV == "local":
-            #     df_contract_srnum.to_csv('./results/validated_srnum.csv', index=False)
+            # TODO : Add this in different validation directory.
+            df_contract_srnum.to_csv('./results/validated_srnum.csv', index=False)
 
             # Merge data
             _step = 'Merge Data: Contract and SerialNumber'
@@ -282,8 +282,11 @@ class Contract:
                                          'file_name': self.config['file']['Reference']
                                          ['decode_sr_num']})
 
+            # List of Customer for which we need only exact match.
+            ls_exact_match = self.config["install_base"]["sr_num_validation"]["exact_match_filter"]
+
             # Filter rows where partial_flag is TRUE and extract the values of the Product column
-            filtered_products = df.loc[df["partial_flag"] == True, "Product"].tolist()
+            filtered_products = df.loc[df["partial_flag"] == True, "SerialNumberPattern"].tolist()
 
             # Step 1: Exact Match
             df_contract["match_flag"] = False
@@ -293,7 +296,7 @@ class Contract:
                     df_contract.at[index, "match_flag"] = True
 
             # Step 2: Filter df_install based on "StrategicCustomer"
-            df_filtered = df_install[~df_install["StrategicCustomer"].isin(['qts', 'cyrus one'])]
+            df_filtered = df_install[~df_install["StrategicCustomer"].isin(ls_exact_match)]
 
             # Step 3: Partial Match
             for index, row in df_contract[df_contract["match_flag"] == False].iterrows():
