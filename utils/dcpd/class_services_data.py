@@ -1,4 +1,3 @@
-
 """@file class_contracts_data
 
 
@@ -23,41 +22,54 @@ here on. This technical information may not be reproduced or used without
 direct written permission from Eaton Corporation.
 """
 
-
 # %% ***** Setup Environment *****
+import os
 
-import src.class_contracts_data as ccd
-from src.class_business_logic import BusinessLogic
-import src.config_contract as config_contract
-from src.class_serial_number import SerialNumber
+path = os.getcwd()
+path = os.path.join(path.split('ileads_lead_generation')[0],
+                    'ileads_lead_generation')
+os.chdir(path)
+
+import utils.dcpd.class_contracts_data as ccd
+from utils.dcpd.class_business_logic import BusinessLogic
+# import utils.dcpd.config_contract as config_contract
+# from utils.dcpd import SerialNumber
+from utils.dcpd.class_common_srnum_ops import SearchSrnum
+from utils import Format
+from utils import Filter
+from utils import IO
+from utils import AppLogger
+
+formatObj = Format()
+filterObj = Filter()
+# ioObj = IO()
+# serNumObj = SerialNumber()
+contractObj = ccd.Contract()
+busLogObj = BusinessLogic()
+srnumObj = SearchSrnum()
+loggerObj = AppLogger(__name__)
 
 import numpy as np
 import re
 import pandas as pd
 import traceback
 from string import punctuation
+
 punctuation = punctuation + ' '
-
-if not ('CONF_' in locals()) | ('CONF_' in globals()):
-    print(__name__)
-    import src.config_set as CONF_
-
-if not ('ENV_' in locals()) | ('ENV_' in globals()):
-    print(__name__)
-
-    from src.class_help_setup import SetupEnvironment
-    ENV_ = SetupEnvironment('DCPD', CONF_.dict_)
-
-SRNUM = SerialNumber()
-BL = BusinessLogic()
 
 
 # %% ***** Main *****
 
-class ProcessServiceIncoidents:
+class ProcessServiceIncidents:
+    def __init__(self, mode='local'):
+        self.mode = 'local'
+        self.config = IO.read_json(mode='local', config={
+            "file_dir": './references/', "file_name": 'config_dcpd.json'})
+        # self.pat_srnum1 = self.config['contracts']['srnum_pattern']['pat_srnum1']
+
     def main_services(self):
         """
-        Main pipeline for contracts and reneawal data.
+        Main pipeline for contracts and renewal data.
 
         :raises Exception: Collects any / all exception.
         :return: message if successful.
@@ -69,41 +81,51 @@ class ProcessServiceIncoidents:
             # Read raw contracts data
             _step = 'Read configuration'
 
-            file_name = 'config_services.json'
-            dict_config_serv = ENV_.read_config(file_name)
+            # TODO Check the name of file to be imported
+            # self.config = IO.read_json( mode='local', config={
+            #     "file_dir": './references/', "file_name": 'config_dcpd.json'})
 
-            ENV_.logger.app_success(_step)
+            dict_config_serv = self.config
+
+            loggerObj.app_success(_step)
 
             # Read Data Services
 
             # Read raw contracts data
             _step = 'Read raw services data'
-            df_services_raw = ENV_.read_data('services', 'data')
+            # df_services_raw = ENV_.read_data('services', 'data')
+            df_services_raw = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_data'],
+                                                      'file_name': self.config['file']['Raw']['services'][
+                                                          'file_name']
+                                                      })
 
             _step = 'Filter raw services data'
-            df_services_raw = ENV_.filters_.filter_data(
-                df_services_raw, dict_config_serv['services_data_overall'])
+            # df_services_raw = ENV_.filters_.filter_data(
+            #     df_services_raw, dict_config_serv['services_data_overall'])
+            df_services_raw = filterObj.filter_data(df_services_raw,
+                                                    dict_config_serv['services']['services_data_overall'])
+
             df_services_raw = df_services_raw[df_services_raw.f_all]
-            ENV_.logger.app_success(_step)
+            loggerObj.app_success(_step)
 
             # Identify Hardware Changes
 
             # Read raw contracts data
             _step = 'Identify hardware replacements'
 
-            df_hardware_changes = pipeline_id_hardwarechanges(
-                df_services_raw, dict_config_serv['Component_replacement'])
+            df_hardware_changes = self.pipeline_id_hardwarechanges(
+                df_services_raw, dict_config_serv['services']['Component_replacement'])
 
-            ENV_.logger.app_success(_step)
+            loggerObj.app_success(_step)
 
             # Identify Serial Numbers
             # Read raw contracts data
             _step = 'Identify Serial Numbers'
 
-            df_sr_num = pipeline_serial_number(
-                df_services_raw, dict_config_serv['SerialNumberColumns'])
+            df_sr_num = self.pipeline_serial_number(
+                df_services_raw, dict_config_serv['services']['SerialNumberColumns'])
 
-            ENV_.logger.app_success(_step)
+            loggerObj.app_success(_step)
 
             # Merge datasets
             # Read raw contracts data
@@ -112,27 +134,54 @@ class ProcessServiceIncoidents:
                 df_services_raw = df_services_raw.rename(
                     {"ContractNumber": "Id"}, axis=1)
 
-            df_sr_num = merge_data(
+            df_sr_num = self.merge_data(
                 df_hardware_changes, df_services_raw, df_sr_num)
-            #del df_hardware_changes, df_services_raw
+            # del df_hardware_changes, df_services_raw
 
+            # Filter dataframe based on component and type
+            df_sr_num_filtered = df_sr_num.query("component == 'Display' & type=='upgrade'")
+
+            # TODO Get the values for filtering and expanding the serial numbers from the contracts data output.
+
+            validate_srnum = contractObj.pipeline_validate_srnum(df_sr_num)
+            print("The results from the testVar is ",validate_srnum)
+            # validate_srnum.to_csv("MyData_Ignore_Srnum_Vaslidate.csv")
+            expand_srnumdf = contractObj.get_range_srum(validate_srnum)
+            # expand_srnumdf.to_csv("Final_range_serialNumber.csv")
+
+            # Removing the blank spaces
+
+            expand_srnumdf['SerialNumber'].replace('', np.nan, inplace=True)
+            expand_srnumdf.dropna(subset=['SerialNumber'], inplace=True)
+            expand_srnumdf.to_csv("Final_range_serialNumber_afterSpaceRemoval.csv")
+
+            # TODO Validate below code and remove redundant code..
             # Export data
-            ENV_.export_data(df_sr_num, 'services', 'validation')
+            # ENV_.export_data(df_sr_num, 'services', 'validation')
+            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_data'],
+                                     'file_name': self.config['file']['Processed']['services']['validation']
+                                     }, expand_srnumdf)
 
-            dict_format = ENV_.CONF['outputformats']['services']
-            df_sr_num = ENV_.format_output(df_sr_num, dict_format)
 
-            ENV_.export_data(df_sr_num, 'services', 'output')
+            # TODO - Check for exact output format.
 
-            ENV_.logger.app_success(_step)
+            # dict_format = self.config['outputformats']['services']
+            # # df_sr_num = ENV_.format_output(df_sr_num, dict_format)
+            # df_sr_num = formatObj.format_output(df_sr_num, dict_format)
+            # IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_data'],
+            #                          'file_name': self.config['file']['Processed']['services']['local_file']
+            #                          }, df_sr_num)
+
+            # ENV_.export_data(df_sr_num, 'services', 'output')
+
+            loggerObj.app_success(_step)
 
         except Exception as e:
 
-            ENV_.logger.app_fail(_step,  f'{traceback.print_exc()}')
+            loggerObj.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
 
         return 'successfull !'
-
 
     # *** Support Code ***
     def merge_data(self, df_hardware_changes, df_services_raw, df_sr_num):
@@ -142,7 +191,10 @@ class ProcessServiceIncoidents:
             df_out = df_hardware_changes.copy()
 
             # Get meta data
-            df_temp = df_services_raw[['Id', 'Status', 'Closed_Date']]
+            # TODO Check for closedDate column. Actual is ClosedDate while earlier code uses Closed_Date
+            # df_temp = df_services_raw[['Id', 'Status', 'Closed_Date']]
+            df_temp = df_services_raw[['Id', 'Status', 'ClosedDate']]
+
             df_temp = df_temp.drop_duplicates(subset=['Id'])
             df_out = df_out.merge(df_temp, on='Id', how='left')
             print(df_out.shape)
@@ -152,14 +204,13 @@ class ProcessServiceIncoidents:
             df_out = df_out.merge(df_sr_num, on='Id', how='left')
             print(df_out.shape)
 
-            ENV_.logger.app_success(_step)
+            loggerObj.app_success(_step)
         except Exception as e:
 
-            ENV_.logger.app_fail(_step,  f'{traceback.print_exc()}')
+            loggerObj.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
 
         return df_out
-
 
     def pipeline_serial_number(self, df_data, dict_cols_srnum):
         _step = 'Identify hardware replacements'
@@ -171,27 +222,29 @@ class ProcessServiceIncoidents:
                     del dict_cols_srnum[key]
 
             df_data.rename({'Id': "ContractNumber"}, axis=1, inplace=True)
-            df_out = ccd.search_srnum(df_data, dict_cols_srnum)
+            # df_out = ccd.search_srnum(df_data, dict_cols_srnum)
+            df_out = srnumObj.search_srnum_services(df_data)    #, dict_cols_srnum)
+
             df_out = df_out.rename({"ContractNumber": 'Id'}, axis=1)
 
-            ENV_.logger.app_debug(f"{_step}: SUCCEEDED", 1)
+            loggerObj.app_debug(f"{_step}: SUCCEEDED", 1)
         except Exception as e:
 
-            ENV_.logger.app_fail(_step,  f'{traceback.print_exc()}')
+            loggerObj.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
 
         return df_out
 
-        return df_out
-
+        # return df_out
 
     def pipeline_id_hardwarechanges(self, df_data, dict_filt):
         _step = 'Identify hardware replacements'
         try:
             # Initialize output for accumulating all hardware replacements.
+            # TODO Validate the below feild names. They have been changed as formatting of data is not done at line
             ls_cols_interest = [
-                'Id', 'Customer_Issue_Summary', 'Customer_Issue',
-                'Resolution_Summary', 'Resolution']
+                'Id', 'Customer_Issue_Summary__c', 'Customer_Issue__c',
+                'Resolution_Summary__c', 'Resolution__c']
             df_out = pd.DataFrame()
 
             # Component replacement
@@ -200,21 +253,25 @@ class ProcessServiceIncoidents:
 
                 # Check if any case for component was recorded
                 comp_filters = dict_filt[component]
-                df_data = ENV_.filters_.filter_data(
-                    df_data, comp_filters)
+
+                # TODO Check and remove below code.
+                # df_data = ENV_.filters_.filter_data(
+                #     df_data, comp_filters)
+
+                df_data = filterObj.filter_data(df_data, comp_filters)
 
                 # Update output
                 if any(df_data.f_all):
                     df_data_comp = df_data.loc[df_data.f_all, ls_cols_interest]
 
-                    if component in ['display']:
-                        df_data_comp['f_upgrade'] = (
-                            df_data_comp.Customer_Issue_Summary.str.contains('upgrade'))
+                    if component == 'Display':
+                        filter_disp_col = df_data_comp.Customer_Issue_Summary__c.str.contains('upgrade')
+                        df_data_comp['f_upgrade'] = filter_disp_col
                     else:
                         df_data_comp['f_upgrade'] = False
 
                     df_data_comp['f_replace'] = (
-                        df_data_comp.Customer_Issue_Summary.str.contains('replace'))
+                        df_data_comp.Customer_Issue_Summary__c.str.contains('replace'))
 
                     df_data_comp['f_all'] = (
                         df_data_comp.f_replace | df_data_comp.f_upgrade)
@@ -234,93 +291,19 @@ class ProcessServiceIncoidents:
                     del df_data_comp
 
                 df_data.drop(['f_all'], axis=1, inplace=True)
-                ENV_.logger.app_debug(f"{_step}: {component}: SUCCEEDED", 1)
+                loggerObj.app_debug(f"{_step}: {component}: SUCCEEDED", 1)
         except Exception as e:
 
-            ENV_.logger.app_fail(_step,  f'{traceback.print_exc()}')
+            loggerObj.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
 
         return df_out
 
-    # *** Serial Number ***
-
-
-    def search_srnum(self, df_temp_org):
-        """
-        Contracts data with SerialNumbers.
-
-        :param df_temp_org: DESCRIPTION
-        :type df_temp_org: pandas DataFrame
-        :raises Exception: DESCRIPTION
-        :return: Contracts data with extracted SerialNumbers:
-
-        :rtype: pandas DataFrame
-
-        """
-
-        _step = f"Extrat Serial Number from fields"
-
-        try:
-            df_temp = df_temp_org.copy()
-            del df_temp_org
-
-            # Input
-            sep = ' '
-            dict_srnum_cols = config_contract.dict_srnum_cols
-
-            # Initialize Output
-            df_serialnum = pd.DataFrame()
-
-            # Data Type
-            ls_cols = ['Qty_1__c', 'Qty_2__c', 'Qty_3__c', 'Qty_Total_del__c']
-            df_temp[ls_cols] = df_temp[ls_cols].fillna(0)
-            df_temp['Qty_comment'] = df_temp[ls_cols].apply(
-                lambda x: x[3] - (x[0] + x[1] + x[2]), axis=1)
-
-            # PDI Salesforce has 4 fields with SerialNumber data.
-            # Extract SerialNumber data from these fields.
-
-            for cur_field in dict_srnum_cols:
-                # cur_field = list(dict_srnum_cols.keys())[0]
-                cur_qty = dict_srnum_cols[cur_field]
-
-                df_data = df_temp[[cur_field, cur_qty, 'ContractNumber']].copy()
-                df_data.columns = ['SerialNumberContract', 'Qty', 'ContractNumber']
-
-                df_data.loc[:, 'SerialNumber'] = ccd.prep_data(
-                    df_data[['SerialNumberContract']], sep)
-
-                df_data.loc[:, 'is_serialnum'] = df_data['SerialNumber'].apply(
-                    lambda x: re.search(config_contract.pat_srnum1, str(x)) != None)
-
-                # Expand Serial number
-                ls_dfs = df_data.apply(lambda x: ccd.expand_srnum(
-                    x, config_contract.pat_srnum), axis=1).tolist()
-
-                # Results
-                df_ls_collapse = pd.concat(ls_dfs)
-                df_ls_collapse['src'] = cur_field
-
-                df_serialnum = pd.concat([df_serialnum, df_ls_collapse])
-
-                # ENV_.logger.app_debug(f'{cur_field}: {df_serialnum.shape[0]}')
-                del ls_dfs, df_data, df_ls_collapse
-
-            df_serialnum = df_serialnum.reset_index(drop=True)
-
-            ENV_.logger.app_success(_step)
-
-        except Exception as e:
-            ENV_.logger.app_fail(_step,  f'{traceback.print_exc()}')
-            raise Exception('f"{_step}: Failed') from e
-
-        return df_serialnum
-
-
+# ____________________________________________________________________________________Updated code
 # %% *** Call ***
 
-
 if __name__ == "__main__":
-    main_services()
+    processObj = ProcessServiceIncidents()
+    processObj.main_services()
 
 # %%
