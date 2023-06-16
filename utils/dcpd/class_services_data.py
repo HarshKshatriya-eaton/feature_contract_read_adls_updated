@@ -212,9 +212,35 @@ class ProcessServiceIncidents:
 
         return df_out
 
-    def pipeline_serial_number(self, df_data, dict_cols_srnum):
+    # def pipeline_serial_number(self, df_data, dict_cols_srnum):
+    #     _step = 'Identify hardware replacements'
+    #     try:
+    #
+    #         ls_cols = list(dict_cols_srnum.keys())
+    #         for key in ls_cols:
+    #             if dict_cols_srnum[key] == "":
+    #                 del dict_cols_srnum[key]
+    #
+    #         df_data.rename({'Id': "ContractNumber"}, axis=1, inplace=True)
+    #         # df_out = ccd.search_srnum(df_data, dict_cols_srnum)
+    #         df_out = srnumObj.search_srnum_services(df_data)    #, dict_cols_srnum)
+    #
+    #         df_out = df_out.rename({"ContractNumber": 'Id'}, axis=1)
+    #
+    #         loggerObj.app_debug(f"{_step}: SUCCEEDED", 1)
+    #     except Exception as e:
+    #
+    #         loggerObj.app_fail(_step, f'{traceback.print_exc()}')
+    #         raise Exception('f"{_step}: Failed') from e
+    #
+    #     return df_out
+    #
+    #     # return df_out
+
+    def pipeline_serial_number(self, df_data, dict_cols_srnum, src='services'):
         _step = 'Identify hardware replacements'
         try:
+            df_data['empty_qty'] = 0
 
             ls_cols = list(dict_cols_srnum.keys())
             for key in ls_cols:
@@ -223,7 +249,7 @@ class ProcessServiceIncidents:
 
             df_data.rename({'Id': "ContractNumber"}, axis=1, inplace=True)
             # df_out = ccd.search_srnum(df_data, dict_cols_srnum)
-            df_out = srnumObj.search_srnum_services(df_data)    #, dict_cols_srnum)
+            df_out = srnumObj.search_srnum_services(df_data)  # , dict_cols_srnum)
 
             df_out = df_out.rename({"ContractNumber": 'Id'}, axis=1)
 
@@ -234,8 +260,6 @@ class ProcessServiceIncidents:
             raise Exception('f"{_step}: Failed') from e
 
         return df_out
-
-        # return df_out
 
     def pipeline_id_hardwarechanges(self, df_data, dict_filt):
         _step = 'Identify hardware replacements'

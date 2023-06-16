@@ -44,6 +44,7 @@ class SearchSrnum:
             "file_dir": './references/', "file_name": 'config_dcpd.json'})
 
         self.pat_srnum1 = self.config['contracts']['srnum_pattern']['pat_srnum1']
+        self.pat_srnum2 = self.config['contracts']['srnum_pattern']['pat_srnum2']
         self.dict_cols_srnum = self.config['services']['SerialNumberColumns']
         self.pat_srnum = self.config['contracts']['srnum_pattern']['pat_srnum']
         self.dict_srnum_cols = self.config['contracts']['config_cols']['dict_srnum_cols']
@@ -275,16 +276,17 @@ class SearchSrnum:
 
                 df_data.loc[:, 'is_serialnum'] = df_data['SerialNumber'].apply(
                     lambda x:
-                    re.search('|'.join(self.pat_srnum), str(x)) is not None)
+                    re.search('|'.join(self.pat_srnum2), str(x)) is not None)
+                df_data.to_csv("IntermediateData.csv")
                 # Expand Serial number
                 ls_dfs = df_data.apply(lambda x: self.expand_srnum(
-                    x, self.pat_srnum), axis=1).tolist()
-
+                    x, self.pat_srnum2), axis=1).tolist()
                 # Results
                 df_ls_collapse = pd.concat(ls_dfs)
                 df_ls_collapse['src'] = cur_field
 
                 df_serialnum = pd.concat([df_serialnum, df_ls_collapse])
+                df_serialnum.to_csv("df_serialnum.csv")
 
                 # env_.logger.app_debug(f'{cur_field}: {df_serialnum.shape[0]}')
                 del ls_dfs, df_data, df_ls_collapse
@@ -341,7 +343,6 @@ class SearchSrnum:
         for char in ls_char:
             # char = ls_char[3]
             # Changed type of df, casted values to str type
-
             df_temp_org['SerialNumber'] = df_temp_org['SerialNumber'].astype(str)
             df_temp_org.loc[:, 'SerialNumber'] = (
                 df_temp_org['SerialNumber'].str.replace(char, sep, regex=True))
@@ -353,4 +354,5 @@ class SearchSrnum:
         df_temp_org.loc[:, 'SerialNumber'] = df_temp_org['SerialNumber'].apply(
             lambda col_data: re.sub(f'{sep}+', sep, col_data))
         df_temp_org.loc[:, 'SerialNumber'] = df_temp_org['SerialNumber'] + sep
+        df_temp_org.to_csv("df_temp_org_values.csv")
         return df_temp_org['SerialNumber']
