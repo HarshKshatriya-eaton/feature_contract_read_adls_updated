@@ -109,7 +109,8 @@ class Contract:
             df_contract = self.pipeline_decode_contract_type(df_contract)
 
             # Export Data
-            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'],
+            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
+                                                 self.config['file']['dir_validation'],
                                      'file_name': self.config['file']['Processed']['contracts'][
                                          'validation']
                                      }, df_contract)
@@ -117,7 +118,8 @@ class Contract:
             # TODO formatted output is not yet implemented
             # Export formatted Data
             # df_contract_form = env_.filters_.format_output(df_contract, dict_format)
-            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'],
+            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
+                                                 self.config['file']['dir_intermediate'],
                                      'file_name': self.config['file']['Processed']['contracts'][
                                          'local_file']
                                      }, df_contract)
@@ -278,6 +280,10 @@ class Contract:
             df_install = self.read_processed_installbase()
             df_install.loc[:, 'SerialNumber'] = df_install.SerialNumber_M2M.astype(
                 str)
+            # handling single character case in SerialNumber col "111-0000-1a"
+            df_install["SerialNumber"] = df_install["SerialNumber"].apply(
+                lambda x: re.sub(r'-(\d{1})[a-zA-Z]$', r'-\1', x))
+
             df = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_ref'],
                                          'file_name': self.config['file']['Reference']
                                          ['decode_sr_num']})
@@ -327,6 +333,7 @@ class Contract:
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception from excp
 
+        # df_contract.to_csv("./results/contract_install_serial.csv")
         return df_contract
 
     def pipeline_renewal(self) -> pd.DataFrame:  # pragma: no cover
@@ -786,9 +793,6 @@ class Contract:
             ls_cols = ['ContractNumber', 'Product', 'SerialNumber']
             df_contract_srnum = df_contract_srnum.loc[
                 df_contract_srnum.flag_validinstall, ls_cols]
-
-            # Prep Contract
-            df_contract = df_contract.loc[:, self.prep_contract_cols]
 
             df_conract = df_contract_srnum.merge(
                 df_contract, on='ContractNumber', how='inner')

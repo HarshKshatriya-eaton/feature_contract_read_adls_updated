@@ -98,6 +98,7 @@ class SearchSrnum:
                 # cur_field = list(dict_srnum_cols.keys())[0]
                 cur_qty = self.dict_srnum_cols[cur_field]
 
+                # TODO: Take ContractNumber "key" as an input to this method.
                 df_data = df_temp_org[[cur_field, cur_qty, 'ContractNumber']].copy()
                 df_data.columns = ['SerialNumberContract', 'Qty', 'ContractNumber']
 
