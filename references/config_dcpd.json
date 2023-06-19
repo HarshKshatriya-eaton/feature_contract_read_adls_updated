@@ -960,7 +960,7 @@
             "Product_1__c": "Qty_1__c",
             "Product_2__c": "Qty_2__c",
             "Product_3__c": "Qty_3__c",
-            "Serial_Date_Lot_Code__c": "Customer_Issue_Summary__c",
+            "Serial_Date_Lot_Code__c": "empty_qty",
             "Customer_Issue_Summary__c":"empty_qty"
         }
     },

@@ -6,10 +6,12 @@
 lead generation
 
 @details : This method implements services class data which serves as an input
-to the lead generation data file. Component type filtering is performed based on key filtering components.
+to the lead generation data file. Component type filtering is performed based
+on key filtering components.
 There are two conditions which are considered for component type.
 1. Only Display components can be Replaced and Upgraded.
-2. Rest of all component such as BCMS, Breaker, Fans, SPD, PCB support only replacement.
+2. Rest of all component such as BCMS, Breaker, Fans, SPD, PCB support only
+replacement.
 
 @copyright 2023 Eaton Corporation. All Rights Reserved.
 @note Eaton Corporation claims proprietary rights to the material disclosed
@@ -53,9 +55,10 @@ punctuation = punctuation + ' '
 
 class ProcessServiceIncidents:
     """
-    Class implements the method for implementation of extracting serial numbers from the raw services data based on
-    various conditions. It considers the component type as Replace / Upgrade for various parameters including Display,
-    PCB, SPD, Fans, Breaker.
+    Class implements the method for implementation of extracting serial numbers
+    from the raw services data based on various conditions. It considers the
+    component type as Replace / Upgrade for various parameters including
+    Display, PCB, SPD, Fans, Breaker.
 
     """
 
@@ -91,8 +94,9 @@ class ProcessServiceIncidents:
                         ['services']['file_name']}
 
             df_services_raw = IO.read_csv(self.mode, file_dir)
-
+            # print(df_services_raw.shape, "and dtypes are ", type(Serial_Date_Lot_Code__c))
             _step = 'Filter raw services data'
+
             # df_services_raw = ENV_.filters_.filter_data(
             #     df_services_raw, dict_config_serv['services_data_overall'])
 
@@ -139,22 +143,22 @@ class ProcessServiceIncidents:
 
             # Serial number validation and output data
             validate_srnum = contractObj.pipeline_validate_srnum(df_sr_num)
-            print("The results from the testVar is ", validate_srnum)
-            # validate_srnum.to_csv("MyData_Ignore_Srnum_Vaslidate.csv")
+            # Filter rows with valid serial number
+            validate_srnum = validate_srnum.loc[validate_srnum.flag_validinstall]
             expand_srnumdf = contractObj.get_range_srum(validate_srnum)
-            # expand_srnumdf.to_csv("Final_range_serialNumber.csv")
 
-            # Removing the blank spaces
-
+            # Removing the rows with none values
             expand_srnumdf['SerialNumber'].replace('', np.nan, inplace=True)
             expand_srnumdf.dropna(subset=['SerialNumber'], inplace=True)
-            expand_srnumdf.to_csv(
-                "Final_range_serialNumber_afterSpaceRemoval.csv")
+
+            # Drop flag_valid column
+            del expand_srnumdf['flag_validinstall']
 
             # Export data
             output_dir = {'file_dir': self.config['file']['dir_data'],
                           'file_name': self.config['file']['Processed']['services']['validation']
                           }
+
             IO.write_csv(self.mode, output_dir, expand_srnumdf)
 
             # Formatted output
@@ -251,7 +255,8 @@ class ProcessServiceIncidents:
 
             df_data.rename({'Id': "ContractNumber"}, axis=1, inplace=True)
 
-            df_out = srnumObj.search_srnum_services(df_data)    #, dict_cols_srnum)
+            df_out = srnumObj.search_srnum_services(
+                df_data)  # , dict_cols_srnum)
 
             df_out = df_out.rename({"ContractNumber": 'Id'}, axis=1)
 
