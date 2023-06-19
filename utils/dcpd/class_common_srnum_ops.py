@@ -1,4 +1,4 @@
-"""@file class_common_srnum_ops.py.
+"""@file class_common_srnum_ops.py
 
 @brief : For DCPD business; analyze contracts data from SalesForce to be consumed
 by lead generation
@@ -44,7 +44,7 @@ class SearchSrnum:
             "file_dir": './references/', "file_name": 'config_dcpd.json'})
 
         self.pat_srnum1 = self.config['contracts']['srnum_pattern']['pat_srnum1']
-        self.pat_srnum2 = self.config['contracts']['srnum_pattern']['pat_srnum2']
+        self.pat_srnum_services = self.config['contracts']['srnum_pattern']['pat_srnum_services']
         self.dict_cols_srnum = self.config['services']['SerialNumberColumns']
         self.pat_srnum = self.config['contracts']['srnum_pattern']['pat_srnum']
         self.dict_srnum_cols = self.config['contracts']['config_cols']['dict_srnum_cols']
@@ -276,11 +276,11 @@ class SearchSrnum:
 
                 df_data.loc[:, 'is_serialnum'] = df_data['SerialNumber'].apply(
                     lambda x:
-                    re.search('|'.join(self.pat_srnum2), str(x)) is not None)
+                    re.search('|'.join(self.pat_srnum_services), str(x)) is not None)
                 df_data.to_csv("IntermediateData.csv")
                 # Expand Serial number
                 ls_dfs = df_data.apply(lambda x: self.expand_srnum(
-                    x, self.pat_srnum2), axis=1).tolist()
+                    x, self.pat_srnum_services), axis=1).tolist()
                 # Results
                 df_ls_collapse = pd.concat(ls_dfs)
                 df_ls_collapse['src'] = cur_field

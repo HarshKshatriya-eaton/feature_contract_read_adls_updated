@@ -22,13 +22,6 @@ import traceback
 import pandas as pd
 # import src.config_set as CONF_
 
-# if not ('ENV_' in locals()) | ('ENV_' in globals()):
-#     print(__name__)
-#     from src.class_help_setup import SetupEnvironment
-#     ENV_ = SetupEnvironment('DCPD', CONF_.dict_)
-
-# %% DCPD - Business Logic
-
 
 class BusinessLogic:
 

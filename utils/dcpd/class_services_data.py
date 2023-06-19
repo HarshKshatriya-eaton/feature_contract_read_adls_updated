@@ -1,4 +1,4 @@
-"""@file class_contracts_data
+"""@file class_services_data
 
 
 
@@ -6,8 +6,8 @@
 lead generation
 
 @details : This method implements services class data which serves as an input
-to the lead generation data file. Component type filtering is performed based
-on key filtering components.
+to the lead generation data file. Code identifies the updated date code/install date of components based on services data.
+So that current age can be calculated. Component type filtering is performed based on key filtering components.
 There are two conditions which are considered for component type.
 1. Only Display components can be Replaced and Upgraded.
 2. Rest of all component such as BCMS, Breaker, Fans, SPD, PCB support only
@@ -73,7 +73,7 @@ class ProcessServiceIncidents:
         Main pipline for processing the services data. It invokes main function.
 
         :raises Exception: Collects any / all exception.
-        :return: Successfull if data gets processed.
+        :return: Successful if data gets processed.
         :rtype: string.
 
         """
@@ -92,15 +92,13 @@ class ProcessServiceIncidents:
             file_dir = {'file_dir': self.config['file']['dir_data'],
                         'file_name': self.config['file']['Raw']
                         ['services']['file_name']}
-
+            print("*** I am testing currently", dict_config_serv['services']['UpgradeComponents']['ComponentName'])
             df_services_raw = IO.read_csv(self.mode, file_dir)
             # print(df_services_raw.shape, "and dtypes are ", type(Serial_Date_Lot_Code__c))
             _step = 'Filter raw services data'
 
-            # df_services_raw = ENV_.filters_.filter_data(
-            #     df_services_raw, dict_config_serv['services_data_overall'])
-
             dict_config_params = dict_config_serv['services']['services_data_overall']
+            upgrade_component = dict_config_serv['services']['UpgradeComponents']['ComponentName']
             df_services_raw = filterObj.filter_data(
                 df_services_raw, dict_config_params)
 
@@ -113,7 +111,7 @@ class ProcessServiceIncidents:
             _step = 'Identify hardware replacements'
 
             df_hardware_changes = self.pipeline_id_hardwarechanges(
-                df_services_raw, dict_config_serv['services']['Component_replacement'])
+                df_services_raw, dict_config_serv['services']['Component_replacement'], upgrade_component)
 
             loggerObj.app_success(_step)
 
@@ -129,48 +127,45 @@ class ProcessServiceIncidents:
             # Merge datasets
             # Read raw contracts data
             _step = 'Finalize data'
+            key_id_col = dict_config_serv['services']['KeyColumns']
+
             if 'ContractNumber' in df_services_raw.columns:
                 df_services_raw = df_services_raw.rename(
-                    {"ContractNumber": "Id"}, axis=1)
+                    key_id_col, axis=1)
 
             df_sr_num = self.merge_data(
                 df_hardware_changes, df_services_raw, df_sr_num)
             # del df_hardware_changes, df_services_raw
 
-            # Filter dataframe based on component and type
-            # df_sr_num_filtered = df_sr_num.query(
-            #     "component == 'Display' & type=='upgrade'")
+            # Export intermediate results data
+            output_dir = {'file_dir': self.config['file']['dir_intermediate'],
+                          'file_name': self.config['file']['Processed']['services']['validation']
+                          }
 
-            # Serial number validation and output data
-            validate_srnum = contractObj.pipeline_validate_srnum(df_sr_num)
-            # Filter rows with valid serial number
-            validate_srnum = validate_srnum.loc[validate_srnum.flag_validinstall]
-            expand_srnumdf = contractObj.get_range_srum(validate_srnum)
+            IO.write_csv(self.mode, output_dir, df_sr_num)
+
+            # # Serial number validation and output data
+            # Expand serial numbers
+            expand_srnumdf = contractObj.get_range_srum(df_sr_num)
 
             # Removing the rows with none values
             expand_srnumdf['SerialNumber'].replace('', np.nan, inplace=True)
             expand_srnumdf.dropna(subset=['SerialNumber'], inplace=True)
 
+            # Validate serial number data
+            validate_srnum = contractObj.pipeline_validate_srnum(expand_srnumdf)
+            # # Filter rows with valid serial number
+            validate_srnum = validate_srnum.loc[validate_srnum.flag_validinstall]
+
             # Drop flag_valid column
-            del expand_srnumdf['flag_validinstall']
+            del validate_srnum['flag_validinstall']
 
             # Export data
             output_dir = {'file_dir': self.config['file']['dir_data'],
                           'file_name': self.config['file']['Processed']['services']['validation']
                           }
 
-            IO.write_csv(self.mode, output_dir, expand_srnumdf)
-
-            # Formatted output
-            # dict_format = self.config['outputformats']['services']
-            # # df_sr_num = ENV_.format_output(df_sr_num, dict_format)
-            # df_sr_num = formatObj.format_output(df_sr_num, dict_format)
-            # IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_data'],
-            #                          'file_name': self.config['file']
-            # ['Processed']['services']['local_file']
-            #                          }, df_sr_num)
-
-            # ENV_.export_data(df_sr_num, 'services', 'output')
+            IO.write_csv(self.mode, output_dir, validate_srnum)
 
             loggerObj.app_success(_step)
 
@@ -270,7 +265,7 @@ class ProcessServiceIncidents:
 
         # return df_out
 
-    def pipeline_id_hardwarechanges(self, df_data, dict_filt):
+    def pipeline_id_hardwarechanges(self, df_data, dict_filt, upgrade_component):
         """
         Function identifies and segregates the component type based on
         input params.
@@ -308,7 +303,7 @@ class ProcessServiceIncidents:
                 if any(df_data.f_all):
                     df_data_comp = df_data.loc[df_data.f_all, ls_cols_interest]
 
-                    if component == 'Display':
+                    if component == upgrade_component:
                         filter_disp_col = df_data_comp.Customer_Issue_Summary__c.str.contains(
                             'upgrade')
                         df_data_comp['f_upgrade'] = filter_disp_col
