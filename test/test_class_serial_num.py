@@ -9,7 +9,7 @@
 @details
 
 
-@copyright 2021 Eaton Corporation. All Rights Reserved.
+@copyright 2023 Eaton Corporation. All Rights Reserved.
 @note Eaton Corporation claims proprietary rights to the material disclosed
 here on. This technical information may not be reproduced or used without
 direct written permission from Eaton Corporation.
@@ -22,7 +22,7 @@ sys.path.append(".")
 # Initialize class instance
 import pandas as pd
 import pytest
-from src.class_serial_number import SerialNumber
+from utils.dcpd.class_serial_number import SerialNumber
 sr_num_class = SerialNumber()
 
 # Pytest execution command
@@ -395,7 +395,6 @@ def test_generate_seq_input():
 def test_generate_seq_errorfunc():
     '''
     Validates input data for ideal case scenario.
-    #TODO - Validate below serial number.
 
     Returns
     -------
@@ -408,7 +407,7 @@ def test_generate_seq_errorfunc():
         sr_num = '180-1059-1-24-fl'
         size = 24
         sr_num_class.generate_seq(out, sr_num, size)
-
+        assert info.type == Exception
 
 def test_generate_seq_alpha_char():
     '''
