@@ -189,9 +189,6 @@ class Contract:
 
             logger.app_success(_step)
 
-            # TODO : Add this in different validation directory.
-            df_contract_srnum.to_csv('./results/validated_srnum.csv', index=False)
-
             # Merge data
             _step = 'Merge Data: Contract and SerialNumber'
             df_contract = self.merge_contract_and_srnum(df_contract, df_contract_srnum)
@@ -311,6 +308,12 @@ class Contract:
             # Change "partial_match" values to True
             df_contract.loc[
                 df_contract["flag_validinstall"] == "Partial_match", "flag_validinstall"] = True
+
+            df_contract['partial_match'] = df_contract['partial_match'].fillna(
+                df_contract['SerialNumber'])
+            df_contract['partial_match'] = df_contract['partial_match'].str.split(',')
+            df_contract = df_contract.explode('partial_match')
+            df_contract = df_contract.rename(columns={'partial_match': 'SerialNumber_Partial'})
 
             IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
                                                  self.config['file']['dir_validation'],
@@ -790,13 +793,13 @@ class Contract:
                                 df_contract_srnum.flag_validinstall, :]
 
             # Prep Contract Serial Number
-            ls_cols = ['ContractNumber', 'Product', 'SerialNumber']
+            ls_cols = ['ContractNumber', 'Product', 'SerialNumber_Partial']
             df_contract_srnum = df_contract_srnum.loc[
                 df_contract_srnum.flag_validinstall, ls_cols]
 
             df_conract = df_contract_srnum.merge(
                 df_contract, on='ContractNumber', how='inner')
-
+            df_conract = df_conract.rename(columns={'SerialNumber_Partial': 'SerialNumber'})
             logger.app_success(_step)
             return df_conract
 
