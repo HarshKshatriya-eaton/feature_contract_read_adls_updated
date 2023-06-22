@@ -769,28 +769,28 @@
                     "output_format": "",
                     "input_date_format": ""
                 },
-                "Customer_Issue_Summary": {
+                "Customer_Issue_Summary__c": {
                     "actual_datasoure_name": "Customer_Issue_Summary__c",
                     "data_type": "text",
                     "is_nullable": 0.0,
                     "output_format": "",
                     "input_date_format": ""
                 },
-                "Customer_Issue": {
+                "Customer_Issue__c": {
                     "actual_datasoure_name": "Customer_Issue__c",
                     "data_type": "text",
                     "is_nullable": 0.0,
                     "output_format": "",
                     "input_date_format": ""
                 },
-                "Resolution_Summary": {
+                "Resolution_Summary__c": {
                     "actual_datasoure_name": "Resolution_Summary__c",
                     "data_type": "text",
                     "is_nullable": 1.0,
                     "output_format": "",
                     "input_date_format": ""
                 },
-                "Resolution": {
+                "Resolution__c": {
                     "actual_datasoure_name": "Resolution__c",
                     "data_type": "text",
                     "is_nullable": 1.0,
@@ -890,6 +890,13 @@
         }
     },
     "services": {
+        "config_cols": {
+            "prep_srnum_cols":  [
+                  "Qty_1__c",
+                  "Qty_2__c",
+                  "Qty_3__c"
+            ]
+        },
         "services_data_overall": {
             "Status": {
                 "report": "no",
@@ -899,47 +906,76 @@
         },
         "Component_replacement": {
             "Display": {
-                "Customer_Issue_Summary": {
+                "Customer_Issue_Summary__c": {
                     "report": "no",
                     "type": "text",
                     "text_match_pattern": "display,m4 ,monochrome,color"
                 },
-                "Customer_Issue": {
+                "Customer_Issue__c": {
                     "report": "no",
                     "type": "text",
                     "text_match_exact": "pcba - software issue,installation request,pcba - hardware issue,pcba,hardware issue - rpp,hardware issue - pdu,hardware issue - sts,hardware issue faulty part"
                 }
             },
             "BCMS": {
-                "Customer_Issue_Summary": {
+                "Customer_Issue_Summary__c": {
                     "report": "no",
                     "type": "text",
                     "text_match_pattern": "bcms"
                 },
-                "Customer_Issue": {
+                "Customer_Issue__c": {
                     "report": "no",
                     "type": "text",
                     "text_match_exact": "PCBA,PCBA - Hardware Issue,Installation Request,Hardware Issue - RPP,Hardware Issue - PDU"
                 }
             },
             "Breaker": {
-                "Customer_Issue_Summary": {
+                "Customer_Issue_Summary__c": {
                     "report": "no",
                     "type": "text",
                     "text_match_pattern": "breaker"
                 },
-                "Customer_Issue": {
+                "Customer_Issue__c": {
                     "report": "no",
                     "type": "text",
                     "text_match_exact": "Hardware Issue - RPP,Hardware Issue - PDU,Hardware Issue - STS,Non Functioning,Installation Request,Hardware Issue - Physical Damage On Site,Hardware Issue - Wrong Hardware"
                 }
+            },
+            "Fans": {
+                "Customer_Issue_Summary__c": {
+                    "report": "no",
+                    "type": "text",
+                    "text_match_pattern": "FAN"
+                }
+            },
+            "PCB ": {
+                "Customer_Issue_Summary__c": {
+                    "report": "no",
+                    "type": "text",
+                    "text_match_pattern": "PCB, PCA, PBA"
+                }
+            },
+            "SPD": {
+                "Customer_Issue_Summary__c": {
+                    "report": "no",
+                    "type": "text",
+                    "text_match_pattern": "tvss, spd, surge"
+                }
             }
         },
         "SerialNumberColumns": {
-            "Product_1": "Qty_1",
-            "Product_2": "Qty_2",
-            "Product_3": "Qty_3",
-            "Serial_Date_Lot_Code": ""
+            "Product_1__c": "Qty_1__c",
+            "Product_2__c": "Qty_2__c",
+            "Product_3__c": "Qty_3__c",
+            "Serial_Date_Lot_Code__c": "empty_qty",
+            "Customer_Issue_Summary__c":"empty_qty"
+
+        },
+        "KeyColumns": {
+        "ContractNumber": "Id"
+        },
+        "UpgradeComponents": {
+            "ComponentName" : "Display"
         }
     },
     "contracts": {
@@ -986,6 +1022,20 @@
                           "(\\w+-\\w+ \\(.+\\))",
                           "([\\w+-]+\\w)"
           ],
+            "pat_srnum_services": [
+                          "([\\w+-]+\\w)"
+          ],
+            "pat_srnum1": [
+
+                    "(\\w+-\\w+ \\(.+\\))",
+                    "|(\\w+-\\w+-\\w+-\\w+-\\w+-\\w+ )",
+                    "|(\\w+-\\w+-\\w+-\\w+-\\w+ )",
+                    "|(\\w+-\\w+-\\w+-\\w+ )",
+                    "|(\\w+-\\w+-\\w+ )",
+                    "|(\\w+-\\w+ )",
+                    "|(\\w+-\\w+-\\w+-\\w+,)",
+                    "|(\\w+-\\w+,)"
+            ],
           "pat_single_srnum" : "(^t)|(^o)|(^\\d+-\\d+-\\d+ )",
           "pat_mob" : "\\d\\d\\d-\\d\\d\\d-\\d\\d\\d\\d",
           "dict_char" : {

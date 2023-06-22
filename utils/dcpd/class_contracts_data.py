@@ -298,6 +298,10 @@ class Contract:
                             df_contract.at[index, "partial_match"] = ", ".join(
                                 partial_matches["SerialNumber"].tolist())
 
+                    else:
+                        df_contract.at[index, "match_flag"] = False
+                        df_contract.at[index, "partial_match"] = ''
+
             # Step 4: Update remaining unmatched rows
             df_contract.loc[df_contract["match_flag"] == False, "match_flag"] = False
 
