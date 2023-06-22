@@ -34,6 +34,7 @@ import traceback
 from string import punctuation
 from typing import Tuple
 import pandas as pd
+from datetime import datetime
 
 from utils.dcpd.class_business_logic import BusinessLogic
 from utils.dcpd.class_serial_number import SerialNumber
@@ -78,7 +79,7 @@ class Contract:
         self.dict_contract = self.config['contracts']['config_cols']['dict_contract']
 
         self.dict_char = self.config['contracts']['srnum_pattern']['dict_char']
-        self.prep_contract_cols = self.config['contracts']['config_cols']['prep_contract_cols']
+        # self.prep_contract_cols = self.config['contracts']['config_cols']['prep_contract_cols']
 
         # steps
         self.main_contract = 'main contract'
@@ -109,7 +110,8 @@ class Contract:
             df_contract = self.pipeline_decode_contract_type(df_contract)
 
             # Export Data
-            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'],
+            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
+                                                 self.config['file']['dir_validation'],
                                      'file_name': self.config['file']['Processed']['contracts'][
                                          'validation']
                                      }, df_contract)
@@ -117,10 +119,21 @@ class Contract:
             # TODO formatted output is not yet implemented
             # Export formatted Data
             # df_contract_form = env_.filters_.format_output(df_contract, dict_format)
-            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'],
+            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
+                                                 self.config['file']['dir_intermediate'],
                                      'file_name': self.config['file']['Processed']['contracts'][
-                                         'local_file']
+                                         'file_name']
                                      }, df_contract)
+
+            # Merge Summarised contract and install base data.
+            df_install_contract_merge = self.merge_contract_install(df_contract)
+
+            # Export Data
+            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
+                                                 self.config['file']['dir_intermediate'],
+                                     'file_name': self.config['file']['Processed']['contracts'][
+                                         'merge_install']
+                                     }, df_install_contract_merge)
 
         except Exception as excp:
             logger.app_fail(self.main_contract, f'{traceback.print_exc()}')
@@ -162,6 +175,12 @@ class Contract:
             # Identify Serial Numbers
             _step = 'Identify Serial Number'
             df_contract_srnum = self.pipeline_id_srnum(df_contract)
+
+            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
+                                                 self.config['file']['dir_validation'],
+                                     'file_name': "contract_sr_num_validation.csv"
+                                     }, df_contract_srnum)
+
             logger.app_success(_step)
             # Validate Serial number from InstallBase
             _step = 'Validate Serial number'
@@ -169,9 +188,6 @@ class Contract:
             df_contract_srnum = self.validate_contract_install_sr_num(df_contract_srnum)
 
             logger.app_success(_step)
-
-            # TODO : Add this in different validation directory.
-            df_contract_srnum.to_csv('./results/validated_srnum.csv', index=False)
 
             # Merge data
             _step = 'Merge Data: Contract and SerialNumber'
@@ -229,40 +245,6 @@ class Contract:
 
         return df_out
 
-    def pipeline_validate_srnum(self, df_contract_srnum) -> pd.DataFrame:
-        """
-        Validate contract Serial Numbers.
-
-        :param df_contract_srnum: Dataframe with possible startup date
-        fields in the sequence if Priority,
-        :type df_contract_srnum: pandas DataFrame.
-        :raises Exception: Raised if unknown data type provided.
-        :return: Data Frame with two columns
-        :rtype: pandas Data Frame
-
-        """
-        _step = 'Validate contract Serial Numbers '
-        try:
-            df_install = self.read_processed_installbase()
-            df_install.loc[:, 'SerialNumber'] = df_install.SerialNumber_M2M.astype(
-                str)
-            ls_srnums = df_install.SerialNumber.str.lower()
-            concat_ls_srnum = ' ' + ', '.join(ls_srnums)
-
-            ls_srnums = tuple(ls_srnums)
-            df_contract_srnum.loc[:, 'flag_validinstall'] = df_contract_srnum[
-                'SerialNumber'].apply(
-                lambda x: (
-                        str.lower(x).startswith(ls_srnums)
-                        | (f' {x}' in concat_ls_srnum)))
-
-            logger.app_success(_step)
-        except Exception as excp:
-            logger.app_fail(_step, f"{traceback.print_exc()}")
-            raise Exception from excp
-
-        return df_contract_srnum
-
     def validate_contract_install_sr_num(self, df_contract):
         """
         Validate contract Serial Numbers.
@@ -278,6 +260,10 @@ class Contract:
             df_install = self.read_processed_installbase()
             df_install.loc[:, 'SerialNumber'] = df_install.SerialNumber_M2M.astype(
                 str)
+            # handling single character case in SerialNumber col "111-0000-1a"
+            df_install["SerialNumber"] = df_install["SerialNumber"].apply(
+                lambda x: re.sub(r'-(\d{1})[a-zA-Z]$', r'-\1', x))
+
             df = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_ref'],
                                          'file_name': self.config['file']['Reference']
                                          ['decode_sr_num']})
@@ -312,6 +298,10 @@ class Contract:
                             df_contract.at[index, "partial_match"] = ", ".join(
                                 partial_matches["SerialNumber"].tolist())
 
+                    else:
+                        df_contract.at[index, "match_flag"] = False
+                        df_contract.at[index, "partial_match"] = ''
+
             # Step 4: Update remaining unmatched rows
             df_contract.loc[df_contract["match_flag"] == False, "match_flag"] = False
 
@@ -322,11 +312,24 @@ class Contract:
             # Change "partial_match" values to True
             df_contract.loc[
                 df_contract["flag_validinstall"] == "Partial_match", "flag_validinstall"] = True
+
+            df_contract['partial_match'] = df_contract['partial_match'].fillna(
+                df_contract['SerialNumber'])
+            df_contract['partial_match'] = df_contract['partial_match'].str.split(',')
+            df_contract = df_contract.explode('partial_match')
+            df_contract = df_contract.rename(columns={'partial_match': 'SerialNumber_Partial'})
+
+            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
+                                                 self.config['file']['dir_validation'],
+                                     'file_name': "contract_install_srnum_validation.csv"
+                                     }, df_contract)
+
             logger.app_success(_step)
         except Exception as excp:
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception from excp
 
+        # df_contract.to_csv("./results/contract_install_serial.csv")
         return df_contract
 
     def pipeline_renewal(self) -> pd.DataFrame:  # pragma: no cover
@@ -424,6 +427,11 @@ class Contract:
             df_startup_org['was_startedup'] = pd.notna(df_startup_org['startup_date'])
             df_startup_org = df_startup_org[['was_startedup', 'startup_date']]
 
+            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
+                                                 self.config['file']['dir_validation'],
+                                     'file_name': "contract_startup_validation.csv"
+                                     }, df_startup_org)
+
         except Exception as excp:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from excp
@@ -454,6 +462,12 @@ class Contract:
                 df_contract.loc[
                     df_contract['flag'], 'Eaton_ContractType'] = self.dict_contract[type_]
             df_contract = df_contract.drop(['flag_ided', 'flag_blank', 'flag'], axis=1)
+
+            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
+                                                 self.config['file']['dir_validation'],
+                                     'file_name': "contract_decode_validation.csv"
+                                     }, df_contract)
+
         except KeyError as excp:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise KeyError('f"{_step}: Failed') from excp
@@ -534,7 +548,7 @@ class Contract:
             df_install = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_data'],
                                                  'file_name': self.config['file']['Processed'][
                                                      'processed_install'][
-                                                     'local_file']})
+                                                     'file_name']})
 
         except Exception as excp:
             logger.app_fail(_step, f'{traceback.print_exc()}')
@@ -783,22 +797,95 @@ class Contract:
                                 df_contract_srnum.flag_validinstall, :]
 
             # Prep Contract Serial Number
-            ls_cols = ['ContractNumber', 'Product', 'SerialNumber']
+            ls_cols = ['ContractNumber', 'Product', 'SerialNumber_Partial']
             df_contract_srnum = df_contract_srnum.loc[
                 df_contract_srnum.flag_validinstall, ls_cols]
 
-            # Prep Contract
-            df_contract = df_contract.loc[:, self.prep_contract_cols]
-
             df_conract = df_contract_srnum.merge(
                 df_contract, on='ContractNumber', how='inner')
-
+            df_conract = df_conract.rename(columns={'SerialNumber_Partial': 'SerialNumber'})
             logger.app_success(_step)
             return df_conract
 
         except Exception as excp:
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception from excp
+
+    def merge_contract_install(self, df_contract=None, df_install=None):
+        """
+        This method summarizes the contract dataframe and then merges this with install base data.
+
+        :param df_contract: contracts data for PDI from SaleForce.
+        :type df_contract: pandas DataFrame.
+        :param df_install: install base data
+        :type df_install: pandas dataframe
+        """
+        _step = 'Merging contract and install base data'
+        try:
+            if df_install is not None:
+                df_install = df_install
+            else:
+                df_install = self.read_processed_installbase()
+                df_install.loc[:, 'SerialNumber'] = df_install.SerialNumber_M2M.astype(str)
+                # handling single character case in SerialNumber col "111-0000-1a"
+                df_install["SerialNumber"] = df_install["SerialNumber"].apply(
+                    lambda x: re.sub(r'-(\d{1})[a-zA-Z]$', r'-\1', x))
+
+            try:
+                ls_prep_contract_cols = self.config['contracts']['config_cols'][
+                    'prep_contract_col_install']
+                processed_contract = df_contract.loc[:, ls_prep_contract_cols]
+            except KeyError as excp:
+                processed_contract = df_contract
+
+            processed_contract = processed_contract.drop_duplicates(subset=None, keep='first')
+
+            # Convert date columns to datetime format
+            date_columns = self.config["contracts"]["config_cols"]["contract_date_cols"]
+            for column in date_columns:
+                processed_contract[column] = pd.to_datetime(processed_contract[column],
+                                                            errors='coerce')
+
+            # Derive the "First_Contract_Start_Date" column
+            processed_contract["First_Contract_Start_Date"] = processed_contract.groupby(
+                "SerialNumber")["Contract_Start_Date"].transform(lambda x: x.min())
+
+            mask = (processed_contract["Contract_Start_Date"].isna()) | (
+                    processed_contract.groupby("SerialNumber")[
+                        "Contract_Start_Date"].transform(max) == processed_contract[
+                        "Contract_Start_Date"])
+            df_sorted = processed_contract[mask].reset_index(drop=True)
+
+            # Reset the index of the new DataFrame
+            df_sorted = df_sorted.reset_index(drop=True)
+            df = df_sorted.drop_duplicates()
+
+            # Derive the "Contract_Conversion" column
+            df['Contract_Conversion'] = 'No Warranty'
+
+            for i, row in df.iterrows():
+                if pd.notnull(row['Warranty_Expiration_Date']) and pd.notnull(
+                        row['Contract_Start_Date']):
+                    diff = row['First_Contract_Start_Date'] - row['Warranty_Expiration_Date']
+                    if pd.notnull(diff) and diff.days > 180:
+                        df.at[i, 'Contract_Conversion'] = 'New Business'
+                    else:
+                        df.at[i, 'Contract_Conversion'] = 'Warranty Conversion'
+                elif pd.notnull(row['Warranty_Expiration_Date']) and pd.isnull(
+                        row['Contract_Start_Date']):
+                    diff = datetime.now() - row['Warranty_Expiration_Date']
+                    if pd.notnull(diff) and diff.days <= 180:
+                        df.at[i, 'Contract_Conversion'] = 'Warranty Due'
+                    else:
+                        df.at[i, 'Contract_Conversion'] = 'No Contract'
+
+            merge_df = pd.merge(df_install, df, on='SerialNumber')
+
+            logger.app_success(_step)
+            return merge_df
+        except Exception as excp:
+            logger.app_fail(_step, f'{traceback.print_exc()}')
+            raise Exception('f"{_step}: Failed') from excp
 
 
 # %% *** Call ***

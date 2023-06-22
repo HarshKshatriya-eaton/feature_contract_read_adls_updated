@@ -18,6 +18,7 @@ direct written permission from Eaton Corporation.
 # %% *** Setup Environment ***
 
 import utils.io_adopter.local as io_local
+import pandas as pd
 
 from utils import AppLogger
 logger = AppLogger(__name__)
@@ -28,7 +29,7 @@ class IO():
 
     # *** CSV ***
     @staticmethod
-    def read_csv(mode, config):
+    def read_csv(mode, config) -> pd.DataFrame:
 
         if mode == 'local':
             return io_local.read_csv_local(config)

@@ -92,7 +92,6 @@ class ProcessServiceIncidents:
             file_dir = {'file_dir': self.config['file']['dir_data'],
                         'file_name': self.config['file']['Raw']
                         ['services']['file_name']}
-            print("*** I am testing currently", dict_config_serv['services']['UpgradeComponents']['ComponentName'])
             df_services_raw = IO.read_csv(self.mode, file_dir)
             # print(df_services_raw.shape, "and dtypes are ", type(Serial_Date_Lot_Code__c))
             _step = 'Filter raw services data'
@@ -153,12 +152,18 @@ class ProcessServiceIncidents:
             expand_srnumdf.dropna(subset=['SerialNumber'], inplace=True)
 
             # Validate serial number data
-            validate_srnum = contractObj.pipeline_validate_srnum(expand_srnumdf)
+            validate_srnum = contractObj.validate_contract_install_sr_num(expand_srnumdf)
             # # Filter rows with valid serial number
             validate_srnum = validate_srnum.loc[validate_srnum.flag_validinstall]
 
             # Drop flag_valid column
             del validate_srnum['flag_validinstall']
+
+            # Drop Serial Number column
+            del validate_srnum['SerialNumber']
+            validate_srnum.to_csv("Final_22June.csv")
+
+            validate_srnum.rename(columns={'SerialNumber_Partial': 'SerialNumber'}, inplace=True)
 
             # Export data
             output_dir = {'file_dir': self.config['file']['dir_data'],

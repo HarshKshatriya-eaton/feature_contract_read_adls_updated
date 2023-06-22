@@ -1,4 +1,3 @@
-
 """@file DCPD.py
 
 
@@ -18,14 +17,21 @@ direct written permission from Eaton Corporation.
 # %% *** Setup Environment ***
 
 from utils import AppLogger
+
 logger = AppLogger(__name__)
+import traceback
 
 from lead_generation.base import LeadGeneration
 from utils.dcpd import InstallBase
+from utils.dcpd import Contract
+
 
 # %% *** Define Class ***
 
 class DCPD(LeadGeneration):
+    """
+    Sub-Class that executes pipeline for DCPD product family.
+    """
 
     def __init__(self):
         try:
@@ -53,17 +59,16 @@ class DCPD(LeadGeneration):
             status = self.lead_generation()
             logger.app_success(f"Preprocess {step_} Data")
 
-        except Exception as e:
-            logger.app_fail(f"process install for {__name__}", e)
-            raise Exception from e
-
+        except Exception as excp:
+            logger.app_fail(f"process install for {__name__}", f'{traceback.print_exc()}')
+            raise Exception('f"{self.main_contract}: Failed') from excp
 
     def etl_installbase(self):
         try:
             obj = InstallBase()
             self.df_data = obj.main_install()
         except Exception as e:
-            logger.app_fail(f"process install for {__name__}", e)
+            logger.app_fail(f"process install for {__name__}", f'{traceback.print_exc()}')
             raise Exception from e
 
     def etl_services(self):
@@ -71,7 +76,12 @@ class DCPD(LeadGeneration):
         print('Implemented etl_contracts!')
 
     def etl_contracts(self):
-        print('Implemented etl_contracts!')
+        try:
+            obj = Contract()
+            self.df_data = obj.main_contracts()
+        except Exception as e:
+            logger.app_fail(f"process contract for {__name__}", f'{traceback.print_exc()}')
+            raise Exception from e
 
     def etl_contacts(self):
         print('Implemented etl_contacts!')

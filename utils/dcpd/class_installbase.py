@@ -49,6 +49,10 @@ logger = AppLogger(__name__)
 from utils import Format
 from utils import Filter
 
+obj_srnum = SerialNumber()
+obj_bus_logic = BusinessLogic()
+obj_filters = Filter()
+obj_format = Format()
 
 #%%
 class InstallBase:
@@ -59,8 +63,7 @@ class InstallBase:
         variables used throughout the modules."""
 
         # Insatance of class
-        self.srnum = SerialNumber()
-        self.bus_logic = BusinessLogic()
+        self.mode = mode
 
         # Steps
         self.step_main_install = "main install"
@@ -81,9 +84,9 @@ class InstallBase:
         self.ls_cols_out = ['key_serial', 'SerialNumber', 'Product']
         self.ls_cols_ref = ['ProductClass', 'product_type', 'product_prodclass']
 
-        data_install = self.main_install()
+        #data_install = self.main_install()
 
-        return data_install
+        #return data_install
 
     def main_install(self) -> None:  # pragma: no cover
         """
@@ -98,7 +101,8 @@ class InstallBase:
             df_install = self.pipeline_m2m()
 
             # Serial Number : M2M
-            df_install = self.pipeline_serialnum(df_install, merge_type='inner')
+            df_install = self.pipeline_serialnum(
+                df_install, merge_type='inner')
 
             # BOM
             df_install = self.pipeline_bom(df_install, merge_type='left')
@@ -109,7 +113,11 @@ class InstallBase:
             # df_install = env_.filters_.format_output(df_install, self.format_cols)
 
             # Export
-            IO.write_csv(self.mode, df_install, 'processed_install')
+            IO.write_csv(
+                self.mode,
+                {'file_dir': self.config['file']['dir_results'],
+                 'file_name': self.config['file']['Processed']['processed_install']['file_name']
+            }, df_install)
 
             logger.app_success(self.step_export_data)
 
@@ -132,33 +140,45 @@ class InstallBase:
             # This method will read csv data into pandas DataFrame
             df_data_install = IO.read_csv(
                 self.mode,
-                {'file_dir': config['file']['dir_data'],
-                 })
+                {'file_dir': self.config['file']['dir_data'],
+                 'file_name': self.config['file']['Raw']['M2M']['file_name']
+            })
 
-            # Export processed file
-            env_.export_data(df_data_install, db='processed_m2m_shipment', type_='Processed')
+            # Format Data
+            input_format = self.config['database']['M2M']['Dictionary Format']
+            df_data_install = obj_format.format_data(df_data_install, input_format)
+            df_data_install.reset_index(drop=True, inplace=True)
 
             # This block will prioritise 'ShipTo_Country' and 'SoldTo_Country'
             # into 'Country' column based on Null value
-            df_data_install['Country'] = env_.filters_.prioratized_columns(
+            df_data_install['Country'] = obj_filters.prioratized_columns(
                 df_data_install[self.ls_priority], self.ls_priority)
             ls_cols = df_data_install.columns.tolist()
 
             # filters are applied as per configurations[config_database.json]
-            df_data_install = env_.filters_.filter_data(
-                df_data_install, self.config_filter)
+            df_data_install = obj_filters.filter_data(
+                df_data_install, self.config['database']['M2M']['Filters'])
 
-            df_data_install = df_data_install.rename(columns={'flag_Country': 'is_in_usa'})
+            df_data_install = df_data_install.rename(
+                columns={'flag_Country': 'is_in_usa'})
 
             # Decode product
-            ref_prod = env_.read_data(db='product_class', type_='reference')
+            ref_prod = IO.read_csv(
+                self.mode,
+                {'file_dir': self.config['file']['dir_ref'],
+                 'file_name': self.config['file']['Reference']['product_class']#['file_name']
+            })
 
             # filters product class as per configurations[config_database.json]
             df_data_install, ls_cols = self.filter_product_class(
                 ref_prod, df_data_install, ls_cols)
 
             # Export processed file
-            IO.write_csv(mode, config, data)#(df_data_install, db='processed_m2m_shipment', type_='Processed')
+            IO.write_csv(
+                self.mode,
+                {'file_dir': self.config['file']['dir_results'],
+                 'file_name': self.config['file']['Processed']['processed_m2m_shipment']['file_name']},
+                df_data_install)
 
             # filters key_serial column
             df_data_install = self.filter_key_serial(df_data_install, ls_cols)
@@ -197,17 +217,18 @@ class InstallBase:
             df_srnum = df_data_install[['key_serial']].copy()
 
             # preprocess serial number before expanding
-            df_srnum_range, df_srnum = self.preprocess_expand_range(df_srnum_all, df_srnum)
+            df_srnum_range, df_srnum = self.preprocess_expand_range(
+                df_srnum_all, df_srnum)
 
             # gets unique/repeated serial number data
-            df_out, df_couldnot = self.srnum.get_serialnumber(
+            df_out, df_couldnot = obj_srnum.get_serialnumber(
                 df_srnum_range['SerialNumber'], df_srnum_range['Shipper_Qty'])
 
             # combined expanded serial number data with original data
-            df_data_install = self.combine_serialnum_data(df_srnum_range, df_srnum,
-                                                          df_data_install, df_out,
-                                                          df_couldnot,
-                                                          merge_type)
+            df_data_install = self.combine_serialnum_data(
+                df_srnum_range, df_srnum,
+                df_data_install, df_out,
+                df_couldnot, merge_type)
 
             logger.app_success(self.step_serial_number)
             return df_data_install
@@ -228,21 +249,34 @@ class InstallBase:
         """
         try:
             # Read SerialNumber data
-            df_srnum = env_.read_data('SerialNumber', 'data')
+
+            df_srnum = IO.read_csv(
+                self.mode,
+                {'file_dir': self.config['file']['dir_data'],
+                 'file_name': self.config['file']['Raw']['SerialNumber']['file_name']})
+
+            # Format Data
+            input_format = self.config['database']['SerialNumber']['Dictionary Format']
+            df_srnum = obj_format.format_data(df_srnum, input_format)
+            df_srnum.reset_index(drop=True, inplace=True)
 
             # # Format - Punctuation
             df_srnum = self.clean_serialnum(df_srnum)
 
             # Serial (Filter : Product)
-            df_srnum['Product'] = self.bus_logic.idetify_product_fr_serial(
+            df_srnum['Product'] = obj_bus_logic.idetify_product_fr_serial(
                 df_srnum['SerialNumber'])
 
             # Filter : Valid Serial Number
-            df_srnum.loc[:, 'valid_sr'] = self.srnum.validate_srnum(
+            df_srnum.loc[:, 'valid_sr'] = obj_srnum.validate_srnum(
                 df_srnum['SerialNumber'])
 
             # Export to csv
-            env_.export_data(df_srnum, db='processed_serialnum')
+            IO.write_csv(
+                self.mode,
+                {'file_dir': self.config['file']['dir_data'],
+                 'file_name': self.config['file']['Processed']['processed_serialnum']['file_name']
+                 }, df_srnum)
 
             # foreign / parent keys : Serial Number
             df_srnum = self.create_foreignkey(df_srnum)
@@ -274,7 +308,15 @@ class InstallBase:
         """
         try:
             # Read SerialNumber data
-            df_bom = env_.read_data('bom', 'data', sep='\t')
+            df_bom = IO.read_csv(self.mode,
+                {'file_dir': self.config['file']['dir_data'],
+                 'file_name': self.config['file']['Raw']['bom']['file_name'],
+                 'sep':'\t'}
+                                 )
+            # Format Data
+            input_format = self.config['database']['bom']['Dictionary Format']
+            df_bom = obj_format.format_data(df_bom, input_format)
+            df_bom.reset_index(drop=True, inplace=True)
 
             # merge BOM data with shipment and serial number data
             df_install = self.merge_bomdata(df_bom, df_install, merge_type)
@@ -298,7 +340,12 @@ class InstallBase:
 
         """
         # Read Data
-        df_customer = env_.read_data(db='customer', type_='processed')
+        df_customer = IO.read_csv(
+            self.mode,
+            {'file_dir': self.config['file']['dir_results'],
+             'file_name': self.config['file']['Processed']['customer']['file_name']
+             }
+        )
 
         # Merge customer data with shipment, serial number and BOM data
         df_install_data = self.merge_customdata(df_customer, df_data_install)
@@ -307,8 +354,9 @@ class InstallBase:
 
     #  ******************* Support Code *************************
 
-    def filter_product_class(self, ref_prod: pd.DataFrame,
-                             df_data_install: pd.DataFrame, ls_cols) -> Tuple[pd.DataFrame, list]:
+    def filter_product_class(
+            self, ref_prod: pd.DataFrame,
+            df_data_install: pd.DataFrame, ls_cols) -> Tuple[pd.DataFrame, list]:
         """
         Filter data based on Product Class.
 
@@ -358,14 +406,14 @@ class InstallBase:
         """
         try:
             # Filter to columns of interest
-            df_data_install = df_data_install.loc[df_data_install['f_all'], ls_cols]
+            df_data_install = df_data_install.loc[
+                df_data_install['f_all'], ls_cols]
 
             # Key: Foreign / parent
             # M2M Shipment Data
-            df_data_install['key_serial'] = df_data_install[['Shipper_Index',
-                                                             'ShipperItem_Index']
-            ].apply(
-                lambda x: str(int(x[0])) + ':' + str(int(x[1])), axis=1)
+            df_data_install['key_serial'] = df_data_install[
+                ['Shipper_Index', 'ShipperItem_Index']].apply(
+                    lambda x: str(int(x[0])) + ':' + str(int(x[1])), axis=1)
 
             # M2M BOM Data
             df_data_install['key_bom'] = df_data_install['Job_Index'].str.lower()
@@ -581,6 +629,56 @@ class InstallBase:
             return df_srnum
         except Exception as excp:
             raise ValueError from excp
+
+    def id_display_parts(self, df_data_org):
+        """
+        Identify display part numbers from bom.
+
+        :param df_data_org: DESCRIPTION
+        :type df_data_org: TYPE
+        :return: DESCRIPTION
+        :rtype: TYPE
+
+        """
+        try:
+            df_data = df_data_org.copy()
+
+            dict_display_parts = self.config['install_base']['dict_display_parts']
+
+            df_out = df_data[['Job_Index']].drop_duplicates()
+
+            for col_name_out in dict_display_parts:
+
+                part_num_keys = dict_display_parts[col_name_out]['txt_search']
+                part_num_keys = [item.lower() for item in part_num_keys]
+
+                df_data['flag_part'] = df_data.PartNumber_BOM_BOM.apply(
+                    lambda x: x.startswith(tuple(part_num_keys)))
+
+                # List Models
+                df_sub = df_data[df_data['flag_part']].copy()
+
+                ls_parts_of_interest = dict_display_parts[col_name_out]['PartsOfInterest']
+                ls_parts_of_interest = [str.lower(txt) for txt in ls_parts_of_interest]
+
+                df_sub_1 = df_sub.copy()
+                df_sub_1['can_raise_lead'] = df_sub['PartNumber_BOM_BOM'].isin(ls_parts_of_interest)
+                df_sub_1 = df_sub_1.groupby('Job_Index')['can_raise_lead'].apply(
+                    sum).reset_index()
+                df_sub_1 = df_sub_1.rename(columns = {'can_raise_lead': f'is_valid_{col_name_out.replace("pn_", "")}_lead'})
+
+                df_sub = df_sub.groupby('Job_Index')['PartNumber_BOM_BOM'].apply(
+                    ', '.join).reset_index()
+                df_sub = df_sub.rename(columns = {'PartNumber_BOM_BOM': col_name_out})
+                df_sub= df_sub.merge(df_sub_1, on='Job_Index', how='left')
+
+                df_out = df_out.merge(df_sub, on='Job_Index', how ='left')
+
+
+            return df_out
+        except Exception as e:
+            logger.app_info("failed in ")
+            raise Exception from e
 
 
 # %% *** Call ***

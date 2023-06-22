@@ -20,7 +20,6 @@ import re
 import sys
 import traceback
 import pandas as pd
-# import src.config_set as CONF_
 
 
 class BusinessLogic:
