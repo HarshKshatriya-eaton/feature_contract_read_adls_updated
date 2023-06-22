@@ -1,4 +1,4 @@
-fpc_number,fpc_name,Type,Margin,Planning Type
+ProductClass,data,product_type,Margin,product_prodclass
 10,PDU'S,Product,0.29,PDU
 11,PDU,Product,0.29,PDU
 12,PP9000,Product,0.29,PDU

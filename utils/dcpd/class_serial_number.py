@@ -22,16 +22,9 @@ import sys
 import pandas as pd
 import traceback
 import numpy as np
-from utils import AppLogger
 
+from utils import AppLogger
 logger = AppLogger(__name__)
-# import src.config_set as CONF_
-#
-# if not (('ENV_' in locals()) | ('ENV_' in globals())):
-#     print(__name__)
-#
-#     from src.class_help_setup import SetupEnvironment
-#     ENV_ = SetupEnvironment('DCPD', CONF_.dict_)
 
 # %%
 

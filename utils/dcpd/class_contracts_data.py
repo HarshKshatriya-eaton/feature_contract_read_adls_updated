@@ -122,7 +122,7 @@ class Contract:
             IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
                                                  self.config['file']['dir_intermediate'],
                                      'file_name': self.config['file']['Processed']['contracts'][
-                                         'local_file']
+                                         'file_name']
                                      }, df_contract)
 
             # Merge Summarised contract and install base data.
@@ -544,7 +544,7 @@ class Contract:
             df_install = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_data'],
                                                  'file_name': self.config['file']['Processed'][
                                                      'processed_install'][
-                                                     'local_file']})
+                                                     'file_name']})
 
         except Exception as excp:
             logger.app_fail(_step, f'{traceback.print_exc()}')

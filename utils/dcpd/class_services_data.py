@@ -26,10 +26,10 @@ direct written permission from Eaton Corporation.
 
 # %% ***** Setup Environment *****
 
-import src.class_contracts_data as ccd
-from src.class_business_logic import BusinessLogic
-import src.config_contract as config_contract
-from src.class_serial_number import SerialNumber
+import utils.dcpd.class_contracts_data as ccd
+from utils.dcpd.class_business_logic import BusinessLogic
+import utils.dcpd.config_contract as config_contract
+from utils.dcpd.class_serial_number import SerialNumber
 
 import numpy as np
 import re
@@ -38,18 +38,8 @@ import traceback
 from string import punctuation
 punctuation = punctuation + ' '
 
-if not ('CONF_' in locals()) | ('CONF_' in globals()):
-    print(__name__)
-    import src.config_set as CONF_
-
-if not ('ENV_' in locals()) | ('ENV_' in globals()):
-    print(__name__)
-
-    from src.class_help_setup import SetupEnvironment
-    ENV_ = SetupEnvironment('DCPD', CONF_.dict_)
-
-SRNUM = SerialNumber()
-BL = BusinessLogic()
+#SRNUM = SerialNumber()
+#sBL = BusinessLogic()
 
 
 # %% ***** Main *****
