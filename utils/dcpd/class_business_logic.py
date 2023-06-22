@@ -21,8 +21,6 @@ import sys
 import traceback
 import pandas as pd
 
-# %% DCPD - Business Logic
-
 
 class BusinessLogic:
 
