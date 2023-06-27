@@ -287,6 +287,35 @@ class InstallBase:
                 "filter product class", f"{traceback.print_exc()}")
             raise ValueError from excp
 
+    def id_metadata(self, df_bom):
+        """
+        append rating/types column to the df_bom.
+
+        :raises Exception: Raised if unknown data type provided.
+        :return df_part_rating: Added rating column to the df_bom corresponding to part number
+        :rtype: pd.DataFrame
+
+                """
+        try:
+            df_ref_pdi = IO.read_csv(self.mode,
+                                     {'file_dir': self.config['file']['dir_ref'],
+                                      'file_name': self.config['file']['Reference']['ref_sheet_pdi'],
+                                      })
+            # df_bom = df_bom[['Job_Index', 'PartNumber_TLN_BOM']]
+
+            #Merge df_bom and df_ref_pdi
+            df_part_rating = pd.merge(df_bom, df_ref_pdi, how='left', on='PartNumber_TLN_BOM')
+
+
+            logger.app_success(self.step_bom_data)
+            return df_part_rating
+
+        except Exception as excp:
+            logger.app_fail(
+                self.step_bom_data, f"{traceback.print_exc()}")
+            raise ValueError from excp
+
+
     def pipeline_bom(self, df_install: pd.DataFrame,
                      merge_type: str) -> pd.DataFrame:  # pragma: no cover
         """
@@ -539,6 +568,9 @@ class InstallBase:
         try:
             df_bom = df_bom[['Job_Index', 'PartNumber_TLN_BOM']]
             df_bom = df_bom.drop_duplicates()
+
+            # Add rating/types column to df_bom
+            df_bom = self.id_metadata(df_bom)
 
             # Merge Data
             df_install = df_install.merge(
