@@ -306,7 +306,6 @@ class InstallBase:
             #Merge df_bom and df_ref_pdi
             df_part_rating = pd.merge(df_bom, df_ref_pdi, how='left', on='PartNumber_TLN_BOM')
 
-
             logger.app_success(self.step_bom_data)
             return df_part_rating
 
@@ -314,7 +313,6 @@ class InstallBase:
             logger.app_fail(
                 self.step_bom_data, f"{traceback.print_exc()}")
             raise ValueError from excp
-
 
     def pipeline_bom(self, df_install: pd.DataFrame,
                      merge_type: str) -> pd.DataFrame:  # pragma: no cover
