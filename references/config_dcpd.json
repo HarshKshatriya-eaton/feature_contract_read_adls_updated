@@ -40,7 +40,8 @@
             "customer": "AccountManagerListing.csv",
             "lead_opprtunities": "ref_lead_opportunities.csv",
             "product_class": "ref_product_class.csv",
-            "decode_sr_num" : "ref_decode_serialnumber.csv"
+            "decode_sr_num" : "ref_decode_serialnumber.csv",
+            "ref_sheet_pdi": "ref_sheet_pdi.csv"
         },
         "Processed": {
             "customer": {
