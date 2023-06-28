@@ -649,6 +649,16 @@ class LeadGeneration:
             # TODO: Read and merge services data with "df_leads_wn_class" dataframe.
             # TODO: Update DataCode column based on installDate and closedDate cols.
 
+            # Merge generated leads and services data
+            try:
+                _step = 'Merge lead and services data'
+                df_leads_wn_class = self.pipeline_merge_lead_services(df_leads_wn_class)
+                logger.app_success(_step)
+            except Exception as e:
+                logger.app_fail(_step, f"{traceback.print_exc()}")
+                raise Exception from e
+
+
             # Derive fields
             df_leads_wn_class.loc[:, 'InstallDate'] = pd.to_datetime(
                 df_leads_wn_class['InstallDate'])
