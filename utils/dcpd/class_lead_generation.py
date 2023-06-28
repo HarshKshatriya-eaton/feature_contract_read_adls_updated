@@ -113,7 +113,6 @@ class LeadGeneration:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
 
-
     def pipeline_bom(self, df_install):
 
         # Read : Reference lead opportunities
@@ -147,6 +146,7 @@ class LeadGeneration:
         try:
             _step = 'Merge data: Install and BOM'
             df_bom = self.pipeline_merge(df_bom, df_install, type_='lead_id')
+
             logger.app_success(_step)
         except Exception as e:
             logger.app_fail(_step, f"{traceback.print_exc()}")
@@ -168,8 +168,7 @@ class LeadGeneration:
         # Merge generated leads and services data
         try:
             _step = 'Merge lead and services data'
-            # df_leads = self.pipeline_leads_services(df_leads)
-
+            df_leads = self.pipeline_merge_lead_services(df_leads)
             logger.app_success(_step)
         except Exception as e:
             logger.app_fail(_step, f"{traceback.print_exc()}")
@@ -177,11 +176,60 @@ class LeadGeneration:
 
         return df_leads
 
-    def pipeline_leads_services(self, df_lead):
+    def pipeline_merge_lead_services(self, df_leads):
         """
         This functions reads the services intermediate data and join with the leads data to
         generate a date code column.
         """
+        _step = "Merging leads and services data to extract date code at component level"
+        try:
+            df_services = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
+                                                              self.config['file'][
+                                                                  'dir_intermediate'],
+                                                  'file_name': self.config['file']['Processed']
+                                                  ['services']['file_name']
+                                                  })
+            unique_component = []
+            for i in list(df_services['component'].unique()):
+                if "fan" in i.lower():
+                    unique_component.append(i.replace("s", "").strip().lower())
+                else:
+                    unique_component.append(i.strip().lower())
+
+            df_services = df_services[['SerialNumber', 'component', 'ClosedDate']]
+
+            df_services['component'] = df_services['component'].str.lower()
+
+            # Convert to correct date format
+            df_services['ClosedDate'] = pd.to_datetime(df_services['ClosedDate']).dt.strftime(
+                '%Y-%m-%d')
+
+            # Convert to correct date format
+            df_leads['InstallDate'] = pd.to_datetime(df_leads['InstallDate']).dt.strftime(
+                '%Y-%m-%d')
+
+            # Create a new column based on the list values
+            df_leads['temp_column'] = df_leads['Component'].apply(
+                lambda x: next((val for val in unique_component if val in x.lower()), x))
+
+            df_leads = df_leads.merge(df_services, left_on=['SerialNumber_M2M', 'temp_column'],
+                                      right_on=['SerialNumber', 'component'], how='left')
+
+            # Replace NaN with empty string
+            df_leads = df_leads.fillna('')
+            df_leads = df_leads.reset_index(drop=True)
+
+            # Use np.where to create the new column
+            df_leads['date_code'] = np.where(df_leads['ClosedDate'] != '',
+                                             df_leads['ClosedDate'], df_leads['InstallDate'])
+
+            # df_leads.to_csv("./results/temp_output_3.csv")
+
+            logger.app_success(_step)
+            return df_leads
+        except Exception as excp:
+            logger.app_fail(_step, f"{traceback.print_exc()}")
+            raise Exception from excp
 
     def pipeline_merge(self, df_bom, df_install, type_):
         try:
@@ -242,9 +290,10 @@ class LeadGeneration:
         _step = "Read processed contract data"
         try:
             df_contract = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
-                                                             self.config['file']['dir_intermediate'],
-                                                 'file_name': self.config['file']['Processed'][
-                                                     'contracts']['merge_install']})
+                                                              self.config['file'][
+                                                                  'dir_intermediate'],
+                                                  'file_name': self.config['file']['Processed'][
+                                                      'contracts']['merge_install']})
 
             # df_install = read_data(db='processed_install', type_='processed')
         except Exception as e:
