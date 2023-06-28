@@ -301,7 +301,8 @@ class InstallBase:
                                      {'file_dir': self.config['file']['dir_ref'],
                                       'file_name': self.config['file']['Reference']['ref_sheet_pdi'],
                                       })
-            # df_bom = df_bom[['Job_Index', 'PartNumber_TLN_BOM']]
+            #Drop duplicates in reference file
+            df_ref_pdi =df_ref_pdi.drop_duplicates(subset='PartNumber_TLN_BOM', keep='first')
 
             #Merge df_bom and df_ref_pdi
             df_part_rating = pd.merge(df_bom, df_ref_pdi, how='left', on='PartNumber_TLN_BOM')
