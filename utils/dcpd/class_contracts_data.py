@@ -879,7 +879,7 @@ class Contract:
                     else:
                         df.at[i, 'Contract_Conversion'] = 'No Contract'
 
-            merge_df = pd.merge(df_install, df, on='SerialNumber')
+            merge_df = pd.merge(df_install, df, on='SerialNumber', how='left')
 
             logger.app_success(_step)
             return merge_df
