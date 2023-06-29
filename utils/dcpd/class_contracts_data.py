@@ -99,30 +99,21 @@ class Contract:
         try:
             # PreProcess: Contracts Data
             df_contract = self.pipeline_contract
-            # env_.export_data(df_contract, 'processed_contract', 'output')
 
             # PreProcess : Renewal data
             df_renewal = self.pipeline_renewal()
 
-            # Merge Datasets
-            df_contract = self.merge_contract_and_renewal(
-                df_contract, df_renewal)
+            # Merge Contract and Renewal Data
+            df_contract = self.merge_contract_and_renewal(df_contract, df_renewal)
+
+            # Decode Contract Type
             df_contract = self.pipeline_decode_contract_type(df_contract)
 
-            # Export Data
+            # Write data for validation before validating contract with install data
             IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
                                                  self.config['file']['dir_validation'],
                                      'file_name': self.config['file']['Processed']['contracts'][
                                          'validation']
-                                     }, df_contract)
-
-            # TODO formatted output is not yet implemented
-            # Export formatted Data
-            # df_contract_form = env_.filters_.format_output(df_contract, dict_format)
-            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
-                                                 self.config['file']['dir_intermediate'],
-                                     'file_name': self.config['file']['Processed']['contracts'][
-                                         'file_name']
                                      }, df_contract)
 
             # Merge Summarised contract and install base data.
@@ -132,7 +123,7 @@ class Contract:
             IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
                                                  self.config['file']['dir_intermediate'],
                                      'file_name': self.config['file']['Processed']['contracts'][
-                                         'merge_install']
+                                         'file_name']
                                      }, df_install_contract_merge)
 
         except Exception as excp:
@@ -545,7 +536,8 @@ class Contract:
         # Read : Installbase Processed data
         _step = "Read raw data : BOM"
         try:
-            df_install = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_data'],
+            df_install = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
+                                                             self.config['file']['dir_intermediate'],
                                                  'file_name': self.config['file']['Processed'][
                                                      'processed_install'][
                                                      'file_name']})

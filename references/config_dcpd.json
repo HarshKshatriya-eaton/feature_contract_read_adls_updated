@@ -61,8 +61,7 @@
             },
             "contracts": {
                 "file_name": "processed_contract.csv",
-                "validation": "processed_contract_validation.csv",
-                "merge_install" : "merged_contract_install.csv"
+                "validation": "processed_contract_b4_install_validation.csv"
             },
             "services": {
                 "file_name": "processed_services.csv",
@@ -1008,7 +1007,7 @@
             "bronze": "Flex TM Response Only Contract + Annual PM",
             "extended warranty": "Warranty Upgrade"
         },
-          "prep_contract_col_install" : ["SerialNumber", "was_startedup", "startup_date",
+          "prep_contract_col_install" : ["ContractNumber","SerialNumber", "was_startedup", "startup_date",
                 "Warranty_Start_Date", "Warranty_Expiration_Date", "BillingStreet", "BillingCity",
                 "BillingState", "BillingPostalCode", "BillingCountry", "BillingAddress",
                 "StartupCustomer", "StartupAddress", "StartupCity", "StartupState",
