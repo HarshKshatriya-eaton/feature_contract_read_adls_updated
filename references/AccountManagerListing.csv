@@ -1,29 +1,29 @@
-	Condition 1		Condition 2		Condition 3				
-DisplayName	MatchType_00	CompanyName	MatchType_01	CompanyAliasName	MatchType_02	CompanyDomain			
-ABB	begins with	ABB	begins with	Zenith	ends with	abb.com			
-"AlignedEnergy,LLC"	begins with	"AlignedEnergy,LLC"	begins with	Align;Intertech	ends with	aligneddc.com			
-AscentCorp.	begins with	AscentCorp.			ends with	ascentcorp.com			
-CBRE	begins with	CBRE	begins with	"CBREManagedServices,Inc."	ends with	cbre.com			
-CenturyLink	begins with	CenturyLink			ends with	centurylink.com			
-CoerSite	begins with	CoerSite	begins with	CoreSiteRealEstate	ends with	coresite.com			
-Cushman&Wakefield	begins with	Cushman&Wakefield			ends with	cushmanwakefield.com			
-CyrusOneLLC	begins with	CyrusOneLLC	begins with	CyrusOne	ends with	cyrusone.com			
-"CyxteraCommunications,LLC"	begins with	"CyxteraCommunications,LLC"	begins with		ends with	cyxtera.com			
-DigitalRealty	begins with	DigitalRealty	begins with	"DigitalRealtyTrust,LLP"	ends with	digitalrealty.com			
-Eaton	begins with	Eaton	begins with	EatonCorporationNAFSC-1620;Eaton-4500-PowerQuality-PassThru	ends with	eaton.com			
-Equinix	begins with	Equinix			ends with	equinix.com			
-FedExCorp	begins with	FedExCorp			ends with	fedex.com			
-Flexential	begins with	Flexential	begins with	FlexentialColoradoCorp.	ends with	flexential.com			
-Meta	begins with	Meta	begins with	GOLDFRAME;Facebook;Siculus;Woolhawk	ends with	meta.com;facebook.com			
-"HolderConstructionGroup,LLC"	begins with	"HolderConstructionGroup,LLC"	begins with	HolderConstructionCo	ends with	holderconstruction.com			
-LibertyMutualInsuranceCo.	begins with	LibertyMutualInsuranceCo.			ends with	libertymutual.com			
-MarkleyGroup	begins with	MarkleyGroup			ends with	markleygroup.com			
-QTS	begins with	QTS	begins with	"QualityTechnologyServices;QualityTechnologyServices,LLC"	ends with	qtsdatacenters.com			
-RBCStratfordComputerCenter	begins with	RBCStratfordComputerCenter	begins with	RBC	ends with	rbcroyalbank.com			
-"SabeyConstruction,Inc."	begins with	"SabeyConstruction,Inc."			ends with	sabey.com			
-"StackInfrastructure,Inc."	begins with	"StackInfrastructure,Inc."	begins with	FortuneDataCenters	ends with	stackinfra.com			
-SWITCHCOMMUNICATIONSGROUP	begins with	SWITCHCOMMUNICATIONSGROUP	begins with	Supernap;InNEVation	ends with	switch.com			
-TurnerConstruction	begins with	TurnerConstruction	begins with	"TurnerLogistics,LLC"	ends with	turnerconstruction.com			
-"Twitter,Inc."	begins with	"Twitter,Inc."			ends with	twitter.com			
-UnitedHealthGroup	begins with	UnitedHealthGroup	begins with	UnitedHealthcare;Optum	ends with	unitedhealthgroup.com			
-WellsFargoBank	begins with	WellsFargoBank			ends with	wellsfargo.com			
+DisplayName	 Condition 1	 	 Condition 2	 	 Condition 3	 
+DisplayName	MatchType_00	CompanyName	MatchType_01	CompanyAliasName	MatchType_02	CompanyDomain
+ABB	begins with	ABB;Zenith	begins with	ABB;Zenith	ends with	abb.com
+"Aligned Energy, LLC"	begins with	"Aligned Energy, LLC;Align;Intertech"	begins with	"Aligned Energy, LLC;Align;Intertech"	ends with	aligneddc.com
+Ascent Corp.     	begins with	Ascent Corp.     	begins with	Ascent Corp.     	ends with	ascentcorp.com
+CBRE	begins with	"CBRE;CBRE Managed Services, Inc"	begins with	"CBRE;CBRE Managed Services, Inc"	ends with	cbre.com
+CenturyLink	begins with	CenturyLink	begins with	CenturyLink	ends with	centurylink.com
+CoerSite	begins with	CoerSite;CoreSite Real Estate	begins with	CoerSite;CoreSite Real Estate	ends with	coresite.com
+Cushman & Wakefield	begins with	Cushman & Wakefield	begins with	Cushman & Wakefield	ends with	cushmanwakefield.com
+CyrusOne LLC	begins with	CyrusOne LLC;CyrusOne	begins with	CyrusOne LLC;CyrusOne	ends with	cyrusone.com
+"Cyxtera Communications, LLC"	begins with	"Cyxtera Communications, LLC"	begins with	"Cyxtera Communications, LLC"	ends with	cyxtera.com
+Digital Realty	begins with	Digital Realty;Digital Realty Trust	begins with	Digital Realty;Digital Realty Trust	ends with	digitalrealty.com
+Eaton	begins with	Eaton;Eaton Corporation NAFSC-1620;Eaton-4500-Power Quality-Pass Thru	begins with	Eaton;Eaton Corporation NAFSC-1620;Eaton-4500-Power Quality-Pass Thru	ends with	eaton.com
+Equinix	begins with	Equinix	begins with	Equinix	ends with	equinix.com
+FedEx Corp	begins with	FedEx Corp	begins with	FedEx Corp	ends with	fedex.com
+Flexential	begins with	Flexential;Flexential Colorado Corp	begins with	Flexential;Flexential Colorado Corp	ends with	flexential.com
+Meta	begins with	Meta;GOLDFRAME;Facebook;Siculus;Woolhawk	begins with	Meta;GOLDFRAME;Facebook;Siculus;Woolhawk	ends with	meta.com;facebook.com
+"Holder Construction Group, LLC"	begins with	"Holder Construction Group, LLC;Holder Construction"	begins with	"Holder Construction Group, LLC;Holder Construction"	ends with	holderconstruction.com
+Liberty Mutual Insurance Co	begins with	Liberty Mutual Insurance Co	begins with	Liberty Mutual Insurance Co	ends with	libertymutual.com
+Markley Group	begins with	Markley Group	begins with	Markley Group	ends with	markleygroup.com
+QTS	begins with	"QTS;Quality Technology Services;Quality Technology Services, LLC"	begins with	"QTS;Quality Technology Services;Quality Technology Services, LLC"	ends with	qtsdatacenters.com
+RBC Stratford Computer Center	begins with	RBC Stratford Computer Center;RBC	begins with	RBC Stratford Computer Center;RBC	ends with	rbcroyalbank.com
+"Sabey Construction, Inc."	begins with	"Sabey Construction, Inc."	begins with	"Sabey Construction, Inc."	ends with	sabey.com
+"Stack Infrastructure, Inc."	begins with	"Stack Infrastructure, Inc.;Fortune Data Centers"	begins with	"Stack Infrastructure, Inc.;Fortune Data Centers"	ends with	stackinfra.com
+SWITCH COMMUNICATIONS GROUP	begins with	SWITCH COMMUNICATIONS GROUP;Supernap;InNEVation	begins with	SWITCH COMMUNICATIONS GROUP;Supernap;InNEVation	ends with	switch.com
+Turner Construction	begins with	"Turner Construction;Turner Logistics, LLC"	begins with	"Turner Construction;Turner Logistics, LLC"	ends with	turnerconstruction.com
+"Twitter, Inc."	begins with	"Twitter, Inc."	begins with	"Twitter, Inc."	ends with	twitter.com
+United Health Group	begins with	United Health Group;United Healthcare;Optum	begins with	United Health Group;United Healthcare;Optum	ends with	unitedhealthgroup.com
+Wells Fargo Bank	begins with	Wells Fargo Bank	begins with	Wells Fargo Bank	ends with	wellsfargo.com

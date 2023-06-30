@@ -1,5 +1,5 @@
-"""
-@file strategic_customer.py
+
+"""@file strategic_customer.py
 
 
 @brief Identify and group serial numbers for a strategic account
@@ -30,7 +30,7 @@ import pandas as pd
 
 
 obj_io = IO()
-logger = AppLogger(__name__)
+logger = AppLogger(__name__, level='Debug')
 
 # %%
 
@@ -51,7 +51,14 @@ class StrategicCustomer:
                            'CompanyAliasName', 'CompanyDomain']
 
     def main_customer_list(self):
+        """
+        Main pipeline for identifying strategic customers.
 
+        :raises Exception: Capctures all erros
+        :return: DESCRIPTION
+        :rtype: TYPE
+
+        """
         # Read Data
         try:
             _step = 'Read data : reference'
@@ -73,7 +80,8 @@ class StrategicCustomer:
 
             # Identify Strategic Customers
             _step = 'Identify Strategic Customers'
-            df_out = self.group_customers(ref_df, df_leads)
+            df_out = self.pipeline_identify_customers(ref_df, df_leads)
+            logger.app_success(_step)
 
             # Export data
             _step = 'Export data'
@@ -92,6 +100,14 @@ class StrategicCustomer:
     # ***** Pipeline: Read *****
 
     def read_ref_data(self):
+        """
+        Read reference data.
+
+        :raises Exception: if read reference data failed
+        :return: reference data for identifying strategic customer.
+        :rtype: pandas dataframe
+
+        """
 
         try:
 
@@ -104,6 +120,8 @@ class StrategicCustomer:
                  'sep': '\t'
                  }
             )
+            if ref_ac_manager.columns[0] != "Display":
+                ref_ac_manager = ref_ac_manager.reset_index()
 
             # Post Process
             ref_ac_manager.columns = ref_ac_manager.loc[0, :]
@@ -112,8 +130,6 @@ class StrategicCustomer:
             ref_ac_manager = ref_ac_manager[pd.notna(
                 ref_ac_manager.MatchType_01)]
             ref_ac_manager = ref_ac_manager.fillna('')
-            # ls_col = ['MatchType_00', 'CompanyName', 'MatchType_01','CompanyAliasName', 'MatchType_02', 'CompanyDomain']
-            # ref_df = ref_ac_manager[ls_col].copy()
             ref_ac_manager = ref_ac_manager.fillna('')
 
             # Format data
@@ -130,6 +146,15 @@ class StrategicCustomer:
             raise Exception from e
 
     def read_processed_m2m(self):
+        """
+        Read InstallBase data. Fields required are:
+            SerialNumber, Customer and ShipToCustomer.
+
+        :raises Exception: if read data failes.
+        :return: Install base data eith columns of interest.
+        :rtype: pandas dataframe
+
+        """
 
         try:
 
@@ -175,21 +200,28 @@ class StrategicCustomer:
             raise Exception from e
 
     def read_contact(self):
+        """
+        Read contacts data. Fields required are:
+            SerialNumber, Email Id.
+
+        :raises Exception: if read data failes.
+        :return: Contacts data eith columns of interest.
+        :rtype: pandas dataframe
+
+        """
 
         try:
 
             # Read: M2M Data
             _step = "Read leads data"
             df_contact = IO.read_csv(
-                obj_sc.mode,
-                {'file_dir': obj_sc.config['file']['dir_results'],
-                 'file_name': obj_sc.config['file']['Processed']['contact']['file_name']}
+                self.mode,
+                {'file_dir': self.config['file']['dir_results'],
+                 'file_name': self.config['file']['Processed']['contact']['file_name']}
             )
 
             df_contact = df_contact.rename(columns={'Email__c': "Email"})
             df_contact = df_contact.loc[:, ['SerialNumber', 'Email']]
-
-
 
             return df_contact
 
@@ -198,37 +230,66 @@ class StrategicCustomer:
             raise Exception from e
 
     def summarize_contacts(self, df_contact, df_leads):
+        """
+        Concatenate all contact emails for a serial number.
 
-          _step = "Summarize contacts"
-          try:
-              # Contact data
-              df_contact = df_contact[~ pd.isna(df_contact['Email'])]
+        :param df_contact: Contact email address from all databased for a
+        serial number
+        :type df_contact: pandas DataFrame.
+        :param df_leads: Customer and ShipTo customer name for a serial number.
+        :type df_leads: pandas DataFrame.
+        :raises Exception: catches all exceptions
+        :return: Leads with all Company Emails conacetnated in string.
+        :rtype: pandas DataFrame.
 
+        """
 
-              if df_contact.shape[0] == 0:
-                  df_leads['CompanyDomain'] = ""
-              else:
-                  df_contact = df_contact.groupby(
-                      'SerialNumber')['Email'].apply(', '.join)
+        _step = "Summarize contacts"
+        try:
+            # Contact data
+            df_contact = df_contact[~ pd.isna(df_contact['Email'])]
 
-                  df_leads = df_leads.merge(
-                      df_contact, on = "SerialNumber", how="left")
+            if df_contact.shape[0] == 0:
+                df_leads['CompanyDomain'] = ""
+            else:
+                df_contact = df_contact.groupby(
+                    'SerialNumber')['Email'].apply(', '.join)
 
-                  df_leads.rename(columns={
-                      "Email": "CompanyDomain"}, inplace=True)
+                df_leads = df_leads.merge(
+                    df_contact, on = "SerialNumber", how="left")
 
-              return df_leads
-          except Exception as e:
-              logger.app_fail(_step, f"{traceback.print_exc()}")
-              raise Exception from e
+                df_leads.rename(columns={
+                    "Email": "CompanyDomain"}, inplace=True)
+
+            logger.app_debug(_step, 1)
+
+            return df_leads
+        except Exception as e:
+
+            logger.app_fail(_step, f"{traceback.print_exc()}")
+            raise Exception from e
 
 
     # ***** Identify Customer *****
+    def pipeline_identify_customers(self, ref_df, df_leads):
+        """
+        Implementes customer identification logic for all strategic customers.
 
-    def group_customers(self, ref_df, df_leads):
+        :param ref_df: reference file for strategic customers identification.
+        :type ref_df: pandas DataFrame.
+        :param df_leads: DESCRIPTION
+        :type df_leads: pandas DataFrame.
+        :raises Exception: DESCRIPTION
+        :return: Serial numbers with column idicating if its strategic customer.
+            old method: customers not classified as strategic were called as Other.
+            new method: customers not classified as strategic will be replaces by ShipTo Customer.
+        :rtype: pandas DataFrame.
+
+        """
 
         _step = "Group customers"
         try:
+            logger.app_info("Identify Strategic Customers : STARTED")
 
             # Identify
             ref_df = ref_df.reset_index(drop=True)
@@ -257,11 +318,14 @@ class StrategicCustomer:
                 if df_leads.shape[0] == 0:
                     break
 
-                logger.app_success(
-                    f"{row_ix}/{ref_df.shape[0]}: {display_name}")
+                logger.app_debug(
+                    f"{row_ix}/{ref_df.shape[0]}: {display_name}", 2)
 
             # NOT categorized customers will be tagged as customer
             df_leads['StrategicCustomer'] = 'Other'
+            df_leads['StrategicCustomer_new'] = df_leads['CompanyName']
+
+            df_out['StrategicCustomer_new'] = df_out['StrategicCustomer'].copy()
             df_out = pd.concat([df_out, df_leads])
 
             return df_out
@@ -271,7 +335,22 @@ class StrategicCustomer:
             raise Exception from e
 
     def identify_customer(self, df_input, ac_info):
+        """
+        Identify if a serial number is one of the strategic customer based on
+        customer name, customer alias and email domain.
 
+        :param df_input: Data with serial number, customer name(2 sources),
+        email domain of data yet to be classified as strategic customer.
+        :type df_input: pandas DataFrame.
+        :param ac_info: Referece data for identifying strategic customer.
+        :type ac_info: pandas Series.
+        :raises Exception: catches all exceptions
+        :return: Flag indicating if given serial number is strategic account.
+        :rtype: pandas Series.
+
+        """
+
+        _step = 'Identify customber'
         try:
             # df_input = df_leads.copy()
             dict_con = {0: ['MatchType_00', 'CompanyName'],
@@ -322,7 +401,9 @@ class StrategicCustomer:
                 ls_col_out[0]] | df_input[ls_col_out[1]] | df_input[ls_col_out[2]]
 
             return df_input['flag_all'], ls_col_exp
+
         except Exception as e:
+
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception from e
 
