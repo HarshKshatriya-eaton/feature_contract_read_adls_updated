@@ -1,5 +1,29 @@
-	Condition 1		Condition 2 ((must be an exact match))		Condition 3	
-DisplayName	MatchType_00	CompanyName	MatchType_01	CompanyAliasName	MatchType_02	CompanyDomain
-QTS	Begins With	QTS;Quality Technology Services	Ends With	Quality Technology Services	ends with	qts.com
-Digital Realty	Begins With	"Digital Realty;Digital Realty Trust;Digital Realty Trust, LLP;Digital Realty Trust;Digital Realty"	Ends With	"Digital Realty;Digital Realty Trust;Digital Realty Trust, LLP;Digital Realty Trust;Digital Realty"	ends with	DigitalRealty.com
-Cyrus One	Begins With	"Cyrus One;CyrusOne;CyrusOne LLC;CyrusOne, Inc"	Ends With	"Cyrus One;CyrusOne;CyrusOne LLC;CyrusOne, Inc"	ends with	CyrusOne.com
+	Condition 1		Condition 2		Condition 3				
+DisplayName	MatchType_00	CompanyName	MatchType_01	CompanyAliasName	MatchType_02	CompanyDomain			
+ABB	begins with	ABB	begins with	Zenith	ends with	abb.com			
+"AlignedEnergy,LLC"	begins with	"AlignedEnergy,LLC"	begins with	Align;Intertech	ends with	aligneddc.com			
+AscentCorp.	begins with	AscentCorp.			ends with	ascentcorp.com			
+CBRE	begins with	CBRE	begins with	"CBREManagedServices,Inc."	ends with	cbre.com			
+CenturyLink	begins with	CenturyLink			ends with	centurylink.com			
+CoerSite	begins with	CoerSite	begins with	CoreSiteRealEstate	ends with	coresite.com			
+Cushman&Wakefield	begins with	Cushman&Wakefield			ends with	cushmanwakefield.com			
+CyrusOneLLC	begins with	CyrusOneLLC	begins with	CyrusOne	ends with	cyrusone.com			
+"CyxteraCommunications,LLC"	begins with	"CyxteraCommunications,LLC"	begins with		ends with	cyxtera.com			
+DigitalRealty	begins with	DigitalRealty	begins with	"DigitalRealtyTrust,LLP"	ends with	digitalrealty.com			
+Eaton	begins with	Eaton	begins with	EatonCorporationNAFSC-1620;Eaton-4500-PowerQuality-PassThru	ends with	eaton.com			
+Equinix	begins with	Equinix			ends with	equinix.com			
+FedExCorp	begins with	FedExCorp			ends with	fedex.com			
+Flexential	begins with	Flexential	begins with	FlexentialColoradoCorp.	ends with	flexential.com			
+Meta	begins with	Meta	begins with	GOLDFRAME;Facebook;Siculus;Woolhawk	ends with	meta.com;facebook.com			
+"HolderConstructionGroup,LLC"	begins with	"HolderConstructionGroup,LLC"	begins with	HolderConstructionCo	ends with	holderconstruction.com			
+LibertyMutualInsuranceCo.	begins with	LibertyMutualInsuranceCo.			ends with	libertymutual.com			
+MarkleyGroup	begins with	MarkleyGroup			ends with	markleygroup.com			
+QTS	begins with	QTS	begins with	"QualityTechnologyServices;QualityTechnologyServices,LLC"	ends with	qtsdatacenters.com			
+RBCStratfordComputerCenter	begins with	RBCStratfordComputerCenter	begins with	RBC	ends with	rbcroyalbank.com			
+"SabeyConstruction,Inc."	begins with	"SabeyConstruction,Inc."			ends with	sabey.com			
+"StackInfrastructure,Inc."	begins with	"StackInfrastructure,Inc."	begins with	FortuneDataCenters	ends with	stackinfra.com			
+SWITCHCOMMUNICATIONSGROUP	begins with	SWITCHCOMMUNICATIONSGROUP	begins with	Supernap;InNEVation	ends with	switch.com			
+TurnerConstruction	begins with	TurnerConstruction	begins with	"TurnerLogistics,LLC"	ends with	turnerconstruction.com			
+"Twitter,Inc."	begins with	"Twitter,Inc."			ends with	twitter.com			
+UnitedHealthGroup	begins with	UnitedHealthGroup	begins with	UnitedHealthcare;Optum	ends with	unitedhealthgroup.com			
+WellsFargoBank	begins with	WellsFargoBank			ends with	wellsfargo.com			
