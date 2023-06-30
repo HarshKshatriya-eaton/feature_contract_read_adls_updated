@@ -262,7 +262,7 @@ class Format:
                     form_ = form_.replace(key, str(mapping_[key]))
 
                 df_out[col] = pd.to_datetime(df_data[name_], errors='coerce')
-                df_out[col] = df_data[name_].dt.strftime(form_)
+                df_out[col] = df_out[col].dt.strftime(form_)
 
             elif form_ == 'text : upper':
                 df_out[col] = df_data[name_].str.upper()
@@ -271,12 +271,13 @@ class Format:
             elif form_ == 'text : capitalize each word':
                 df_out[col] = df_data[name_].str.title()
             elif 'numeric' in form_:
+                df_data[name_] = pd.to_datetime(df_data[name_], errors='coerce')
                 if 'no_decimal' in form_:
-                    form_ = 0
+                    df_out[col] = df_data[name_].astype(int)
                 else:
                     form_ = form_.replace('numeric : ', '')
                     form_ = pd.to_numeric(form_)
-                df_out[col] = df_data[name_].round(decimals=form_)
+                # df_out[col] = df_data[name_].round(decimals=form_)
             df_out[col] = df_data[name_].fillna('')
 
 
