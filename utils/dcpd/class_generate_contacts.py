@@ -83,6 +83,7 @@ class Contacts:
                                          on='ContractNumber', how='left')
             # Drop absolute duplicates
             sr_contracts_data = sr_contracts_data.drop_duplicates(subset=None, keep='first')
+            sr_contracts_data.dropna(subset=['SerialNumber'], inplace=True)
             ls_req_cols = ["SerialNumber", "AccountId", "LastModifiedDate", "Address__c",
                            "City__c", "Contact_Name__c", "Country__c", "Email__c",
                            "Mobile_Phone__c", "Mobile__c", "PM_Contact__c", "PM_Email__c", "PM_Mobile__c",
