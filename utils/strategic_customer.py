@@ -379,7 +379,7 @@ class StrategicCustomer:
                                 lambda y:
                                     y.startswith(
                                         tuple(ac_info[ls_col[1]].split(';'))),
-                                    x.split(', '))))
+                                    str(x).split(', '))))
                     )
 
                 elif ac_info[ls_col[0]] == 'ends with':
