@@ -76,22 +76,39 @@ class LeadGeneration:
         try:
             df_leads = df_leads.drop(columns=['temp_column', 'component', 'ClosedDate']) \
                 .reset_index(drop=True)
-            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'],
+            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
+                                                 self.config['file']['dir_validation'],
                                      'file_name': self.config['file']['Processed']['output_iLead'][
-                                         'file_name']
+                                         'validation']
                                      }, df_leads)
             logger.app_success(_step)
         except Exception as e:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
 
-        _step = "Post Processing and formatting"
+        _step = "Formatting Output"
         try:
             pass
-            # TODO : Calculate Due Date = date_code + Life__Year if Lead_based_on "life" else convert value's from EOSL column (which has yyyy format) convert_EOSL_year_to_date_format
-            # TODO : Component_Due_in (years) = Calculate Due Date - today and format the result in years
-            # output_format = self.config['output_format']['ref_install_base']
-            # ref_install = self.format.format_output(df_leads, output_format)
+            # TODO : Calculate Due Date = date_code + Life__Year if Lead_based_on "life" else
+            #  convert value's from EOSL column convert_EOSL_year_to_date_format
+            # TODO : Component_Due_in (years) = Calculate Due Date - today and
+            #  format the result in years
+            ref_install_output_format = self.config['output_format']['ref_install_base']
+            ref_install = self.format.format_output(df_leads, ref_install_output_format)
+
+            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'],
+                                     'file_name': self.config['file']['Processed']['output_iLead'][
+                                         'ref_install']
+                                     }, ref_install)
+
+            iLead_output_format = self.config['output_format']['output_iLead']
+            output_iLead = self.format.format_output(df_leads, iLead_output_format)
+
+            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'],
+                                     'file_name': self.config['file']['Processed']['output_iLead'][
+                                         'file_name']
+                                     }, output_iLead)
+
         except Exception as e:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
