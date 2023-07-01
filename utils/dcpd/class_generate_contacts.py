@@ -21,8 +21,6 @@ direct written permission from Eaton Corporation.
 # import all required modules
 
 import os
-
-
 path = os.getcwd()
 path = os.path.join(path.split('ileads_lead_generation')[0],
                     'ileads_lead_generation')
@@ -60,20 +58,25 @@ class Contacts:
         self.contact_contracts = 'generate contract'
 
 
-    def generate_contacts(self):
+    def generate_contacts(self,ref_data=None,sr_num_data=None):
 
         try:
 
             _step = 'Read contracts and processed contracts data'
             # ref_data = pd.read_csv('./data/contract.csv',encoding='cp1252')
-            ref_data = IO.read_csv(self.mode,
-                                     {'file_dir': self.config['file']['dir_data'],
-                                      'file_name': self.config['file']['Raw']['contracts']['file_name']
-                                      })
-            sr_num_data =IO.read_csv(self.mode,
-                                     {'file_dir': self.config['file']['dir_intermediate'],
-                                      'file_name': self.config['file']['Processed']['contracts']['file_name']
-                                      })
+            if ref_data is not None and sr_num_data is not None:
+                ref_data= ref_data
+                sr_num_data = sr_num_data
+            else:
+
+                ref_data = IO.read_csv(self.mode,
+                                         {'file_dir': self.config['file']['dir_data'],
+                                          'file_name': self.config['file']['Raw']['contracts']['file_name']
+                                          })
+                sr_num_data =IO.read_csv(self.mode,
+                                         {'file_dir': self.config['file']['dir_intermediate'],
+                                          'file_name': self.config['file']['Processed']['contracts']['file_name']
+                                          })
 
             logger.app_success(_step)
 
@@ -94,11 +97,12 @@ class Contacts:
             # select required columns in contacts data
             sr_contracts_data = sr_contracts_data[ls_req_cols]
 
+            # sr_contracts_data.to_csv('merged_data.csv')
             logger.app_success(_step)
 
             _step = 'apply conditions to classify as renewal, pm or, contract and add them to a new df'
 
-            ls_contract_cols = ["Contact_Name__c", "Email__c", "Mobile_Phone__c", "Phone_Number__c"]
+            ls_contract_cols = ["Contact_Name__c", "Email__c", "Mobile_Phone__c", "Phone_Number__c","Phone__c", "Mobile__c"]
             ls_pm_cols = ["PM_Contact__c", "PM_Email__c", "PM_Mobile__c", "PM_Phone__c"]
             ls_ren_cols = ["Renewal_Contact__c", "Renewal_Email__c", "Renewal_Mobile__c", "Renewal_Phone__c"]
 
@@ -153,31 +157,40 @@ class Contacts:
 
             # Drop extra cols
             new_df = new_df.drop(['Source_1', 'Source_2', 'Source_3'], axis=1)
+            new_df['LastModifiedDate'] = pd.to_datetime(new_df['LastModifiedDate'])
 
             _step = 'Do Formatting as per output dict'
 
             #do formating and append in contact_contracts and drop duplicates
             # Format contracts df
             df_contract = new_df[new_df['Source'] == 'Contract']
-            df_contract = df_contract.sort_values('LastModifiedDate', ascending=False)
-            df_contract = df_contract.drop_duplicates(subset='SerialNumber', keep='first')
+            df_contract['Date'] = df_contract['LastModifiedDate'].dt.date
+            df_contract['time'] = df_contract['LastModifiedDate'].dt.time
+            df_contract.sort_values(['Date','time'], ascending=[False,False], inplace=True)
+            df_contract.drop_duplicates(subset='SerialNumber', keep='first', inplace=True)
+            df_contract.reset_index(drop=True, inplace=True)
             df_contract['Zipcode__c'] = pd.to_numeric(df_contract['Zipcode__c'],errors='coerce')
             output_format = self.config['output_contacts_lead']['Contracts_dict_format']
             df_contract = self.format.format_output(df_contract, output_format)
-            df_contract.reset_index(drop=True, inplace=True)
 
             # Format PM df
             df_pm = new_df[new_df['Source'] == 'PM']
-            df_pm = df_pm.sort_values('LastModifiedDate', ascending=False)
-            df_pm = df_pm.drop_duplicates(subset='SerialNumber', keep='first')
+            df_pm['Date'] = df_pm['LastModifiedDate'].dt.date
+            df_pm['time'] = df_pm['LastModifiedDate'].dt.time
+            df_pm.sort_values(['Date','time'], ascending=[False,False], inplace=True)
+            df_pm.drop_duplicates(subset='SerialNumber', keep='first', inplace=True)
+            df_pm.reset_index(drop=True, inplace=True)
             df_pm['Zipcode__c'] = pd.to_numeric(df_pm['Zipcode__c'], errors='coerce')
             output_format = self.config['output_contacts_lead']['PM_dict_format']
             df_pm = self.format.format_output(df_pm, output_format)
 
             #Format Renewal df
             df_renewal = new_df[new_df['Source'] == 'Renewal']
-            df_renewal = df_renewal.sort_values('LastModifiedDate', ascending=False)
-            df_renewal = df_renewal.drop_duplicates(subset='SerialNumber', keep='first')
+            df_renewal['Date'] = df_renewal['LastModifiedDate'].dt.date
+            df_renewal['time'] = df_renewal['LastModifiedDate'].dt.time
+            df_renewal.sort_values(['Date','time'], ascending=[False,False], inplace=True)
+            df_renewal.drop_duplicates(subset='SerialNumber', keep='first',inplace=True)
+            df_contract.reset_index(drop=True, inplace=True)
             df_renewal['Zipcode__c'] = pd.to_numeric(df_renewal['Zipcode__c'], errors='coerce')
             output_format = self.config['output_contacts_lead']['Renewal_dict_format']
             df_renewal = self.format.format_output(df_renewal, output_format)
@@ -189,20 +202,19 @@ class Contacts:
             contact_contracts = pd.concat([df_contract,df_pm,df_renewal])
             contact_contracts = contact_contracts.reset_index(drop=True)
 
-
             # write results for validation
-            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
-                                                 self.config['file']['dir_validation'],
-                                     'file_name': "contact_contracts.csv"
-                                     }, contact_contracts)
+            # IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
+            #                                      self.config['file']['dir_validation'],
+            #                          'file_name': "contact_contracts.csv"
+            #                          }, contact_contracts)
 
             logger.app_success(self.contact_contracts)
-            return contact_contracts
+
 
         except Exception as excp:
             logger.app_fail(self.contact_contracts, f"{traceback.print_exc()}")
             raise ValueError from excp
-
+        return contact_contracts
 # %% *** Call ***
 
 if __name__ == "__main__":

@@ -1131,7 +1131,7 @@
         "output_format": "text : capitalize each word"
       },
       "Date": {
-        "actual_datasource_name": "LastModifiedDate",
+        "actual_datasource_name": "Date",
         "output_format": "date : mm/dd/yyyy"
       },
       "Site_Number": {
@@ -1201,7 +1201,7 @@
         "output_format": "text : capitalize each word"
       },
       "Date": {
-        "actual_datasource_name": "LastModifiedDate",
+        "actual_datasource_name": "Date",
         "output_format": "date : mm/dd/yyyy"
       },
       "Site_Number": {
@@ -1271,7 +1271,7 @@
         "output_format": "text : capitalize each word"
       },
       "Date": {
-        "actual_datasource_name": "LastModifiedDate",
+        "actual_datasource_name": "Date",
         "output_format": "date : mm/dd/yyyy"
       },
       "Site_Number": {
