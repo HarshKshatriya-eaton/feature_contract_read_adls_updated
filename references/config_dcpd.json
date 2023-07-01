@@ -40,7 +40,8 @@
             "customer": "AccountManagerListing.csv",
             "lead_opportunities": "ref_lead_opportunities.csv",
             "product_class": "ref_product_class.csv",
-            "decode_sr_num" : "ref_decode_serialnumber.csv"
+            "decode_sr_num" : "ref_decode_serialnumber.csv",
+            "ref_sheet_pdi": "ref_sheet_pdi.csv"
         },
         "Processed": {
             "customer": {
@@ -70,6 +71,9 @@
                 "validation": "processed_services_validation.csv",
                 "intermediate": "proceesed_services_jcomm_sidecar.csv",
                 "serial_number_services": "SerialNumber_ServicesData.csv"
+            },
+            "contact": {
+                "file_name": "output_iLead_contacts.csv"
             }
         }
     },
