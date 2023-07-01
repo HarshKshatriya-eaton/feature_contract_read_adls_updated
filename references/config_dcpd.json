@@ -7,7 +7,7 @@
     "log_var_size": false,
     "key_vault": "",
     "file" : {
-        "dir_ref": "./references/", 
+        "dir_ref": "./references/",
         "dir_data": "./data/",
         "dir_results": "./results/",
         "dir_validation" : "validation/",
@@ -68,6 +68,9 @@
             "services": {
                 "file_name": "processed_services.csv",
                 "validation": "processed_services_validation.csv"
+            },
+            "contact": {
+                "file_name": "output_iLead_contacts.csv"
             }
         }
     },
