@@ -203,10 +203,10 @@ class Contacts:
             contact_contracts = contact_contracts.reset_index(drop=True)
 
             # write results for validation
-            # IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
-            #                                      self.config['file']['dir_validation'],
-            #                          'file_name': "contact_contracts.csv"
-            #                          }, contact_contracts)
+            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
+                                                 self.config['file']['dir_validation'],
+                                     'file_name': "contact_contracts.csv"
+                                     }, contact_contracts)
 
             logger.app_success(self.contact_contracts)
 
