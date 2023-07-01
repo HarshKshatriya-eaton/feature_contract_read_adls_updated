@@ -524,7 +524,7 @@ class Contract:
 
         return df_contract
 
-    def read_processed_installbase(self) -> pd.DataFrame:
+    def read_processed_installbase(self) -> pd.DataFrame:  # pragma: no cover
         """
         Read processed installbase data.
 

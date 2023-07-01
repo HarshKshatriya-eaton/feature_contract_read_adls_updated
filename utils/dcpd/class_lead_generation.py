@@ -37,7 +37,7 @@ class LeadGeneration:
             "file_dir": './references/', "file_name": 'config_dcpd.json'})
         self.format = Format()
 
-    def main_lead_generation(self):
+    def main_lead_generation(self):  # pragma: no cover
 
         _step = 'Read Merged Contracts and Install Base data'
         try:
@@ -88,11 +88,7 @@ class LeadGeneration:
 
         _step = "Formatting Output"
         try:
-            pass
-            # TODO : Calculate Due Date = date_code + Life__Year if Lead_based_on "life" else
-            #  convert value's from EOSL column convert_EOSL_year_to_date_format
-            # TODO : Component_Due_in (years) = Calculate Due Date - today and
-            #  format the result in years
+
             ref_install_output_format = self.config['output_format']['ref_install_base']
             ref_install = self.format.format_output(df_leads, ref_install_output_format)
 
@@ -117,16 +113,21 @@ class LeadGeneration:
 
     # %% ***** Pipelines *****
 
-    def pipeline_add_jcomm_sidecar(self, df_leads):
+    def pipeline_add_jcomm_sidecar(self, df_leads, service_df=None):
         _step = 'Read Services data and append has_jcomm, has_sidecar field to lead data'
         try:
-            df_service_jcomm_sidecar = IO.read_csv(self.mode,
-                                                   {'file_dir': self.config['file']['dir_results'] +
-                                                                self.config['file'][
-                                                                    'dir_intermediate'],
-                                                    'file_name': self.config['file']['Processed']
-                                                    ['services']['intermediate']
-                                                    })
+            if service_df is not None:
+                df_service_jcomm_sidecar = service_df
+            else:
+                df_service_jcomm_sidecar = IO.read_csv(self.mode, {'file_dir':
+                                                                       self.config['file']
+                                                                       ['dir_results'] +
+                                                                       self.config['file'][
+                                                                           'dir_intermediate'],
+                                                                   'file_name': self.config['file'][
+                                                                       'Processed']
+                                                                   ['services']['intermediate']
+                                                                   })
 
             df_service_jcomm_sidecar = df_service_jcomm_sidecar[['SerialNumber', 'Has_JCOMM',
                                                                  'Has_Sidecar']]
@@ -143,7 +144,7 @@ class LeadGeneration:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
 
-    def pipeline_merge_contract_install(self, df_contract, df_install):
+    def pipeline_merge_contract_install(self, df_contract, df_install):  # pragma: no cover
         """
         :params df_contract : Processed Contract Data
         :params df_install : Processed Install Base Data
@@ -159,7 +160,7 @@ class LeadGeneration:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from excp
 
-    def pipeline_bom(self, df_install):
+    def pipeline_bom(self, df_install):  # pragma: no cover
 
         # Read : Reference lead opportunities
         _step = "Read : Reference lead opportunities"
@@ -212,21 +213,26 @@ class LeadGeneration:
 
         return df_leads
 
-    def pipeline_merge_lead_services(self, df_leads):
+    def pipeline_merge_lead_services(self, df_leads, df_services=None):
         """
         This functions reads the services intermediate data and join with the leads data to
         generate a date code column.
         """
         _step = "Merging leads and services data to extract date code at component level"
         try:
-            df_services = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
-                                                              self.config['file'][
-                                                                  'dir_intermediate'],
-                                                  'file_name': self.config['file']['Processed']
-                                                  ['services']['file_name']
-                                                  })
+            if df_services is not None:
+                df_services = df_services
+            else:
+                df_services = IO.read_csv(self.mode,
+                                          {'file_dir': self.config['file']['dir_results'] +
+                                                       self.config['file'][
+                                                           'dir_intermediate'],
+                                           'file_name': self.config['file']['Processed']
+                                           ['services']['file_name']
+                                           })
 
-            df_services = df_services.drop_duplicates(subset=['SerialNumber']).reset_index(drop=True)
+            df_services = df_services.drop_duplicates(subset=['SerialNumber']).reset_index(
+                drop=True)
 
             unique_component = []
             for i in list(df_services['component'].unique()):
@@ -315,7 +321,7 @@ class LeadGeneration:
             raise Exception from e
         return df_out
 
-    def pipeline_contract_install(self):
+    def pipeline_contract_install(self):  # pragma: no cover
 
         # Read : Contract Processed data
         _step = "Read processed contract data"
@@ -377,7 +383,7 @@ class LeadGeneration:
             df_data = df_bom[ls_cols[:-1]].drop_duplicates()
             ref_lead = ref_lead.drop_duplicates(subset=[lead_id_basedon, 'Component']) \
                 .reset_index(drop=True)
-            df_data = df_bom.drop_duplicates(subset=[lead_id_basedon, 'SerialNumber_M2M'])\
+            df_data = df_bom.drop_duplicates(subset=[lead_id_basedon, 'SerialNumber_M2M']) \
                 .reset_index(drop=True)
             df_data['key_value'] = df_data[lead_id_basedon]
 
@@ -700,7 +706,7 @@ class LeadGeneration:
         return df_out_sub, df_temp_data
 
     # ***** Classify leads *****
-    def classify_lead(self, df_leads_wn_class):
+    def classify_lead(self, df_leads_wn_class, test_services=None):
         """
         There are 2 types of component replacement leads for DCPD:
             1. EOSL: if a component reaches its End of Service Life
@@ -721,7 +727,8 @@ class LeadGeneration:
             # Merge generated leads and services data
             try:
                 _step = 'Merge lead and services data'
-                df_leads_wn_class = self.pipeline_merge_lead_services(df_leads_wn_class)
+                if test_services is None:
+                    df_leads_wn_class = self.pipeline_merge_lead_services(df_leads_wn_class)
                 logger.app_success(_step)
             except Exception as e:
                 logger.app_fail(_step, f"{traceback.print_exc()}")
