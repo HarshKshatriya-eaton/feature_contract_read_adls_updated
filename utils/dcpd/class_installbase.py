@@ -28,6 +28,9 @@ direct written permission from Eaton Corporation.
 # %% ***** Setup Environment *****
 
 import os
+
+import numpy as np
+
 path = os.getcwd()
 path = os.path.join(path.split('ileads_lead_generation')[0],
                     'ileads_lead_generation')
@@ -112,6 +115,8 @@ class InstallBase:
 
             # df_install = env_.filters_.format_output(df_install, self.format_cols)
 
+            filter_data = self.filter_mtmdata(df_install)
+
             # Export
             IO.write_csv(
                 self.mode,
@@ -127,6 +132,19 @@ class InstallBase:
             raise ValueError from excp
 
     #  ******************* Support Pipelines *********************
+    def filter_mtmdata(self,df_install):
+
+        # Identify column to be filtered
+        filter_Product_M2M = df_install['Product_M2M']
+
+        # Replace the blank results with nan
+        df_install['Product_M2M'].replace('', np.nan, inplace=True)
+
+        #  Drop results with blank column values
+        df_install.dropna(subset=['Product_M2M'], inplace=True)
+
+        # print("The Filter Product is ", filter_Product_M2M, filter_Product_M2M.shape)
+        return df_install
 
     def pipeline_m2m(self) -> pd.DataFrame:  # pragma: no cover
         """
@@ -315,6 +333,24 @@ class InstallBase:
                 self.step_bom_data, f"{traceback.print_exc()}")
             raise ValueError from excp
 
+    def id_main_breaker(self, df_data_org):
+        df_data = df_data_org.copy()
+
+        ref_main_breaker = IO.read_csv(
+            self.mode,
+            {'file_dir': self.config['file']['dir_ref'],
+             'file_name': self.config['file']['Reference']['lead_opprtunities']})
+
+        ref_main_breaker = ref_main_breaker.loc[
+            pd.notna(ref_main_breaker['Input CB']),
+            ['PartNumber_BOM_BOM', 'Input CB', 'AMP Trip', 'kAIC @ Voltage', 'Rated, Trip', 'kVA', 'MFR']]
+        ref_main_breaker['PartNumber_BOM_BOM'] = ref_main_breaker['PartNumber_BOM_BOM'].str.lower()
+
+        df_data = df_data[['Job_Index', 'PartNumber_BOM_BOM']].merge(
+            ref_main_breaker, on='PartNumber_BOM_BOM', how='inner')
+        df_data = df_data.rename(columns={'PartNumber_BOM_BOM': 'pn_main_braker'})
+        return df_data
+
     def pipeline_bom(self, df_install: pd.DataFrame,
                      merge_type: str) -> pd.DataFrame:  # pragma: no cover
         """
@@ -346,11 +382,39 @@ class InstallBase:
             df_bom = obj_format.format_data(df_bom, input_format)
             df_bom.reset_index(drop=True, inplace=True)
 
+            ls_cols = ['Job_Index', 'PartNumber_TLN_BOM']
+
+            # Display Part Numbers
+            df_display_parts = self.id_display_parts(df_bom)
+            # ls_cols = ls_cols + df_display_parts.columns.tolist()[1:]
+
+            # Main Breakers
+            df_main_breaker = self.id_main_breaker(df_bom)
+            # ls_cols = ls_cols + df_main_breaker.columns.tolist()[1:]
+
             # merge BOM data with shipment and serial number data
-            df_install = self.merge_bomdata(df_bom, df_install, merge_type)
+            # df_install = self.merge_bomdata(df_bom, df_install, merge_type)
+
+            # Drop Duplicates
+            # df_bom = df_bom[ls_cols]
+            df_bom = df_bom[['Job_Index', 'PartNumber_TLN_BOM']]
+            df_bom = df_bom.drop_duplicates(subset=['Job_Index', 'PartNumber_TLN_BOM']).reset_index(drop=True)
+            print(df_bom.columns)
+            df_bom = self.id_metadata(df_bom)
+
+            # Merge main breaker data and display part number data
+            df_bom = df_bom.merge(df_main_breaker, on='Job_Index', how='left')
+            df_bom = df_bom.merge(df_display_parts, on='Job_Index', how='left')
+            # df_bom = self.id_metadata(df_bom)
+
+            # Merge Data
+            df_install = df_install.merge(df_bom, on='Job_Index', how=merge_type)
+            df_install.loc[:, 'PartNumber_TLN_BOM'] = df_install[
+                'PartNumber_TLN_BOM'].fillna('')
 
             logger.app_success(self.step_bom_data)
             return df_install
+
         except Exception as excp:
             logger.app_fail(
                 self.step_bom_data, f"{traceback.print_exc()}")
@@ -567,9 +631,6 @@ class InstallBase:
         try:
             df_bom = df_bom[['Job_Index', 'PartNumber_TLN_BOM']]
             df_bom = df_bom.drop_duplicates()
-
-            # Add rating/types column to df_bom
-            df_bom = self.id_metadata(df_bom)
 
             # Merge Data
             df_install = df_install.merge(

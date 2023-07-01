@@ -1,529 +1,151 @@
-# -*- coding: utf-8 -*-
-"""@file
+"""@file test_services_data.py.
+
+@brief This file used to test code for services data.
 
 
 
-@brief Convert range of SerialNumber to unique SerialNumber
 
-
-@details
-
-
-@copyright 2021 Eaton Corporation. All Rights Reserved.
+@copyright 2023 Eaton Corporation. All Rights Reserved.
 @note Eaton Corporation claims proprietary rights to the material disclosed
 here on. This technical information may not be reproduced or used without
 direct written permission from Eaton Corporation.
 """
 
-# Import system path
-import sys
-sys.path.append(".")
-
-# Initialize class instance
-import pandas as pd
-import pytest
-from utils.dcpd.class_services_data import ProcessServiceIncidents
-services_class = ProcessServiceIncidents()
-
 # Pytest execution command
-#!pytest ./tests/test_services_data.py
-#!pytest --cov
-#!pytest --cov=.\src --cov-report html:.\coverage\ .\test\
-#!pytest --cov=.\src\class_ProSQL.py --cov-report html:.\coverage\ .\test\
+# !pytest ./tests/test_class_installbase.py
+# !pytest --cov
+# !pytest --cov=.\src --cov-report html:.\coverage\ .\test\
+# !pytest --cov-report html:.\coverage\ .\test\
+# !pytest --cov=.\src\class_services_data.py
+# --cov-report html:.\coverage\ .\test\
 
-# Coverage code
-# !coverage run -m pytest  -v -s
-# !coverage report -m
+# %%
+from datetime import datetime, date, timedelta
 
-# from pathlib import Path
-# import sys
-# # sys.path.append(str(Path(__file__).parent.parent))
+import numpy as np
+import pytest
+import pandas as pd
 
-# %% Validating unit testcases for prep_srnum function
+from utils.filter_data import Filter
+from utils.logger import AppLogger
+from utils.dcpd import ProcessServiceIncidents
+from utils.transform import Transform
 
-services_class.main_services()
-
-def test_prep_srnum_input_validate():
-    '''
-    Validates the input dataframe parameters.
-
-    Parameters
-    ----------
-    df_input : Pandas Dataframe
-        DESCRIPTION. Serial number is passed to the function.
-
-    Returns
-    -------
-    None.
-
-    '''
-    with pytest.raises(Exception) as info:
-        services_class.main_services()
-
-#
-# @pytest.mark.parametrize(
-#     "df_input",
-#     [
-#         (['140-0063B&E']),
-#         (None),
-#         (pd.DataFrame(data={'SerialNumOrg': ['col1']})),
-#         (['180-0557a,b'])
-#     ],
-# )
-# def test_prep_srnum_input_validate(df_input):
-#     '''
-#     Validates the input dataframe parameters.
-#
-#     Parameters
-#     ----------
-#     df_input : Pandas Dataframe
-#         DESCRIPTION. Serial number is passed to the function.
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     with pytest.raises(Exception) as info:
-#         sr_num_class.prep_srnum(df_input)
-#
-#
-# def test_prep_srnum_empty_data():
-#     '''
-#     Validates output for empty dataframes
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     with pytest.raises(Exception) as info:
-#         sr_num_class.prep_srnum(pd.DataFrame())
-#     assert info.type != ValueError
-#
-#
-# def test_prep_srnum_ideal_data():
-#     '''
-#     Validates ideal data passed to function.
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     df_input = pd.DataFrame(data={'SerialNumberOrg':
-#                                   [' STS20134-299',
-#                                    '#ONYMG-1949-3784 ']
-#                                   })
-#
-#     actual_op = sr_num_class.prep_srnum(df_input)
-#     exp_op = ['STS20134-299',
-#               'ONYMG-1949-3784']
-#     assert all([a == b for a, b in zip(actual_op, exp_op)])
-#     # assert actual_op == exp_op  # Both methods can be used.
-#
-# # %% Py tests for Validate get_serialnumber function
-#
-#
-# @pytest.mark.parametrize(
-#     "ar_serialnum, ar_installsize",
-#     [
-#         (['180-0557-1-2b'], [2]),
-#         (None, None)
-#     ],
-# )
-# def test_get_srnum_input_validation(ar_serialnum, ar_installsize):
-#     '''
-#     Validates serial number input parameters
-#
-#     Parameters
-#     ----------
-#     ar_serialnum : List of values
-#         DESCRIPTION.It specifies the serial number value to be processed.
-#     ar_installsize : Integer
-#         DESCRIPTION. Size of data
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     with pytest.raises(Exception) as info:
-#         sr_num_class.get_serialnumber(ar_serialnum, ar_installsize)
-#         assert info.type != ValueError
-#
-# # Validate the output obtained from the test and actual results for df_couldnot
-#
-#
-# def test_get_srnum_output():
-#     '''
-#     Validates output of the inserted data against the expected output.
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     ar_serialnum = ['180-0557-1-2b']
-#     ar_installsize = [2]
-#     actual_output1, actual_output2 = sr_num_class.get_serialnumber(
-#         ar_serialnum, ar_installsize)
-#     exp_op = pd.DataFrame()
-#     assert all([a == b for a, b in zip(actual_output2, exp_op)])
-#
-#
-# def test_get_srnum_empty_data():
-#     '''
-#     Validates output for empty dataframes
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     with pytest.raises(Exception) as info:
-#         sr_num_class.get_serialnumber(pd.DataFrame(), 0)
-#     assert info.type != ValueError
-#
-# # Validate the output obtained from the test and actual results for df_out
-#
-#
-# def test_get_srnum_validoutput():
-#     '''
-#     Validates output of the inserted data against expected output for serial
-#     number field.
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     ar_serialnum = ['180-0557-1-1b']
-#     ar_installsize = [2]
-#     actual_out_test, actual_out_test1 = sr_num_class.get_serialnumber(
-#         ar_serialnum, ar_installsize)
-#     actual_output1 = actual_out_test['SerialNumber'].iloc[0]
-#     exp_op = '180-0557-1b'
-#     assert all([a == b for a, b in zip(actual_output1, exp_op)])
-#
-#
-# # Done- Validate if ar_srnum and second field is present.
-# # Validate if ls_decoded has unique or repeating values
-# # df_org['known_sr_num'] == False
-# # Done - If df_out and df_couoldnot has values or not
-# # Done - If ideal data can be processed,
-# # Process a sample case for df_couldNot type
-# # Code is not reachable for the if False condition at line 195
-#
-#
-# # %% Py tests for validate_srnum function validation.
-#
-#
-# @pytest.mark.parametrize(
-#     "ar_serialnum",
-#     [
-#         (['180-0557-1-2b']),
-#         (None)
-#     ],
-# )
-# def test_validate_srnum_input(ar_serialnum):
-#     '''
-#     Validates serial number input parameter
-#
-#     Parameters
-#     ----------
-#     ar_serialnum : List of values
-#         DESCRIPTION.It specifies the serial number value to be processed.
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     with pytest.raises(Exception) as info:
-#         sr_num_class.validate_srnum(ar_serialnum)
-#         assert info.type == Exception
-#
-#
-# def test_validate_srnum_empty_data():
-#     '''
-#     Validates output for empty dataframes
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     with pytest.raises(Exception) as info:
-#         sr_num_class.validate_srnum(pd.DataFrame(), 0)
-#     assert info.type != ValueError
-#
-#
-# # Corner cases such as case without the inserted values.
-# # try the prefix and postfix values for the entered data.
-# # Need to fix function params.
-#
-# # %% known range function
-#
-# @pytest.mark.parametrize(
-#     "df_input",
-#     [
-#         (['140-0063B&E']),
-#         (None),
-#         (pd.DataFrame(data={'SerialNumOrg': ['col1']})),
-#         (['180-0557a,b'])
-#     ],
-# )
-# def test_known_range_input_validate(df_input):
-#     '''
-#     Validates serial number data for varied range of values.
-#
-#     Parameters
-#     ----------
-#     df_input : TYPE
-#         DESCRIPTION.
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     with pytest.raises(Exception) as info:
-#         sr_num_class.known_range(df_input)
-#
-#
-# def test_known_range_empty_data():
-#     '''
-#     Validates output for empty dataframes
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     with pytest.raises(Exception) as info:
-#         sr_num_class.known_range(pd.DataFrame())
-#     assert info.type != ValueError
-#
-# # Method is not implemented. This function enhances testcase coverage mostly.
-#
-# # %% unknown range function
-#
-#
-# @pytest.mark.parametrize(
-#     "df_input",
-#     [
-#         (['140-0063B&E']),
-#         (None),
-#         (pd.DataFrame(data={'SerialNumOrg': ['col1']})),
-#         (['180-0557a,b'])
-#     ],
-# )
-# def test_unknown_range_input_validate(df_input):
-#     '''
-#     Validates serial number data for range of values.
-#
-#     Parameters
-#     ----------
-#     df_input : Pandas Dataframe
-#         DESCRIPTION.Serial number is passed to the function.
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     with pytest.raises(Exception) as info:
-#         sr_num_class.unknown_range(df_input)
-#
-#
-# def test_unknown_range_empty_data():
-#     '''
-#     Validates output for empty dataframes
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     with pytest.raises(Exception) as info:
-#         sr_num_class.known_range(pd.DataFrame())
-#     assert info.type != ValueError
-#
-# #  More corner cases to be included.
-# #  Method currently supports direct unit testcases.
-#
-# # %% Validation for generate_seq_list function
-#
-#
-# def test_generate_seq_list_input():
-#     '''
-#     Validates input data for ideal case.
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     with pytest.raises(Exception) as info:
-#         ls_out_n = ['f_analyze', 'type', 'ix_beg',
-#                     'ix_end', 'pre_fix', 'post_fix']
-#         out = [True, 'list', '1144,110', '1144,110-1175', '110', '']
-#         dict_data = dict(zip(ls_out_n, out))
-#
-#         sr_num_class.generate_seq_list(dict_data)
-#         assert info.type == Exception
-#
-#
-# def test_generate_seq_list_empty_data():
-#     '''
-#     Validates output for empty dataframes
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     with pytest.raises(Exception) as info:
-#         sr_num_class.generate_seq_list(pd.DataFrame())
-#     assert info.type != ValueError
-#
-# # Covered basic testing approach.
-# # Include more cases depending upon the discussed cases
-#
-# # %% Validation for generate_seq function
-# # self, out, sr_num, size
-#
-#
-# def test_generate_seq_input():
-#     '''
-#     Validates input data for ideal case scenario.
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     with pytest.raises(Exception) as info:
-#         out = [True, 'num', '1', '2', '180-0557-', 'b']
-#         sr_num = '180-0557-1-2b'
-#         size = 2
-#         sr_num_class.generate_seq(out, sr_num, size)
-#         assert info.type == Exception
-#
-#
-# def test_generate_seq_errorfunc():
-#     '''
-#     Validates input data for ideal case scenario.
-#     #TODO - Validate below serial number.
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     # Failing case for '180-1059-1-24-fl'
-#     with pytest.raises(Exception) as info:
-#         out = [False, 'num', '', '', '', '']
-#         sr_num = '180-1059-1-24-fl'
-#         size = 24
-#         sr_num_class.generate_seq(out, sr_num, size)
-#
-#
-# def test_generate_seq_alpha_char():
-#     '''
-#     Validate generate sequence function for alphabet range.
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     with pytest.raises(Exception) as info:
-#         out = [True, 'alpha', 'a', 'q', '180-05578', '']
-#         sr_num = '180-05578a-q'
-#         size = 17
-#         sr_num_class.generate_seq(out, sr_num, size)
-#         assert info.type == Exception
-#
-# # %% Validation for letter function
-#
-#
-# @pytest.mark.parametrize(
-#     "seq_,size",
-#     [
-#         ("a", 2),
-#         (None, None),
-#         (0, 0)
-#     ])
-# def test_letter_range_input(seq_, size):
-#     '''
-#     Function validates if the datatype of input characters are passed in
-#     required format.
-#
-#     Parameters
-#     ----------
-#     seq_ : Char
-#         DESCRIPTION. Character datatypes are passed.
-#     size : Int
-#         DESCRIPTION. Count to increment.
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     with pytest.raises(Exception) as info:
-#         sr_num_class.letter_range(seq_, size)
-#         assert info.type != Exception
-#
-#
-# # %% Validation for identify sequence type function
-# vals = ['12017004-51-59,61', 10]
-#
-# @pytest.mark.parametrize(
-#     "vals",
-#     [
-#         (['12017004-51-59,61', 10]),
-#         (['180-0557-1-2b', 2]),
-#         (['180-0557-b-c'], 2),
-#         (None, None),
-#         (['110-115'], 10)
-#     ])
-# def test_identify_seq_input(vals):
-#     '''
-#     Validates the type of sequence based on input params.
-#
-#     Parameters
-#     ----------
-#     vals : List
-#         DESCRIPTION. Contains list of values to be identified with a seq.
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     with pytest.raises(Exception) as info:
-#         sr_num_class.identify_seq_type(vals)
-#         assert info.type == Exception
-#
-#
-# def test_identify_seq_empty_data():
-#     '''
-#     Validates output for empty dataframes
-#
-#     Returns
-#     -------
-#     None.
-#
-#     '''
-#     with pytest.raises(Exception) as info:
-#         sr_num_class.identify_seq_type(pd.DataFrame())
-#     assert info.type == Exception
+logger = AppLogger('DCPD', level='')
+filters_ = Filter()
+obj_services = ProcessServiceIncidents()
+from utils import IO
 
 
 # %%
-# test cases: 1. Data type
-# 2. iF pd dataframe col name doesnt exists
-# 3. data is empty 3.  ideal data 4. corner cases
+class TestServicesMainFunc:
+
+    def test_pipline_main(self):
+        """
+        """
+        self.config = IO.read_json(mode='local', config={
+            "file_dir": './references/', "file_name": 'config_dcpd.json'})
+
+        file_dir = {'file_dir': self.config['file']['dir_data'],
+                    'file_name': self.config['file']['Raw']
+                    ['services']['file_name']}
+        df_services_raw = IO.read_csv('local', file_dir)
+
+        with pytest.raises(Exception) as info:
+            obj_services.main_services(self)
+        assert info.type == Exception
+
+    def test_pipline_init(self):
+        """
+        """
+        with pytest.raises(Exception) as info:
+            obj_services.__init__(self)
+            assert info.type == Exception
+
+    def test_pipline_jcomm(self):
+        """
+        """
+        self.config = IO.read_json(mode='local', config={
+            "file_dir": './references/', "file_name": 'config_dcpd.json'})
+
+        file_dir = {'file_dir': self.config['file']['dir_data'],
+                    'file_name': self.config['file']['Raw']
+                    ['services']['file_name']}
+        df_services_raw = file_dir
+
+        with pytest.raises(Exception) as info:
+            obj_services.pipline_component_identify(self)
+            assert info.type == Exception
+
+    def test_pipline_jcomm_output_null(self):
+        """
+        """
+        self.config = IO.read_json(mode='local', config={
+            "file_dir": './references/', "file_name": 'config_dcpd.json'})
+
+        file_dir = {'file_dir': self.config['file']['dir_data'],
+                    'file_name': self.config['file']['Raw']
+                    ['services']['file_name']}
+        df_services_raw = file_dir
+
+        df_jcomm_output = pd.DataFrame()
+
+        with pytest.raises(Exception) as info:
+            obj_services.pipline_component_identify(self,df_services_raw)
+            assert info.type == Exception
+
+    @pytest.mark.parametrize(
+        "hardware_changes",
+        [
+            '5004600000', 'A2GHqAAN	"customer received the display and installed it.  However, display '
+                          'was not working properly.We had a technician troubleshoot over the phone.  '
+                          'it was decided to send a replacement display site Upsistemas Brazil	',
+            'PCBA - Hardware Issue,	"replacement board shipped 6/26 UPS 1z2698840352736805',
+            'Hardware/Parts Provided', 'Display', 'replace'
+        ],
+    )
+    def test_services_merge_data(self,hardware_changes):
+        """
+        """
+        # Map the column value to the data value.
+        hardwareDf = pd.DataFrame(data = {''})
+        hardware_changes_ = hardware_changes
+        df_services_raw = hardware_changes_
+        df_sr_num = hardware_changes_
+        expected_output = hardware_changes_
+        actual_output = obj_services.merge_data(hardware_changes,df_services_raw,df_sr_num)
+        # with pytest.raises(Exception) as info:
+            # obj_services.merge_data(self,hardware_changes,df_services_raw,df_sr_num)
+        assert all([a == b for a, b in zip(actual_output, expected_output)])
+
+
+# Testcases for extracting raw serial number data
+# pipeline_serial_number
+    def test_pipeline_serial_number(self):
+        """
+        """
+        self.config = IO.read_json(mode='local', config={
+            "file_dir": './references/', "file_name": 'config_dcpd.json'})
+        dict_filt = self.config['services']['SerialNumberColumns']
+        upgrade_component = self.config['services']['UpgradeComponents']['ComponentName']
+
+        file_dir = {'file_dir': self.config['file']['dir_data'],
+                    'file_name': self.config['file']['Raw']
+                    ['services']['file_name']}
+        df_services_raw = file_dir
+
+        data = {'Id': '50046000000rC53AAE',
+                'Customer_Issue_Summary__c': 'a PDU unit that we just started up that the display is no longer working;'
+                                             ' 110-4161'}
+        df_srNum = pd.DataFrame()
+        expected_op = ''
+
+        with pytest.raises(Exception) as info:
+            actual_op = obj_services.pipeline_serial_number(df_srNum,dict_filt)
+        assert info.type == Exception
+
+
+# %%
+if __name__ == "__main__":
+    testclass = TestServicesMainFunc()
+    testclass.test_main_func()

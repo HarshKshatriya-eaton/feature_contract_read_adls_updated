@@ -67,7 +67,9 @@
             },
             "services": {
                 "file_name": "processed_services.csv",
-                "validation": "processed_services_validation.csv"
+                "validation": "processed_services_validation.csv",
+                "intermediate": "proceesed_services_jcomm_sidecar.csv",
+                "serial_number_services": "SerialNumber_ServicesData.csv"
             },
             "contact": {
                 "file_name": "output_iLead_contacts.csv"
