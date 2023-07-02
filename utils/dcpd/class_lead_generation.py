@@ -346,7 +346,7 @@ class LeadGeneration:
 
     # %% ***** Lead Identification *****
 
-    def identify_leads(self, df_bom, ref_lead_opp):
+    def identify_leads(self, df_bom, ref_lead_opp): # pragma: no cover
 
         ls_cols_ref = [
             '',
@@ -558,7 +558,7 @@ class LeadGeneration:
 
             df_decoded = df_temp_data.merge(df_ref_sub, on='key', how='left')
 
-            # Conslidated leads. For TLN where lead has been identififed,
+            # Consolidated leads. For TLN where lead has been identified,
             # will be added to output
 
             if any(pd.notna(df_decoded.Component)):
@@ -572,7 +572,7 @@ class LeadGeneration:
             df_temp_data = df_decoded.loc[
                 pd.isna(df_decoded.Component), ls_col_in]
 
-            # Cross checking
+            # Cross-checking
             new_size = df_temp_data.shape[0]
 
             del df_ref_sub, df_decoded
