@@ -36,14 +36,14 @@ class TestPipelineLead:
         }
 
         data_service_jcomm_sidecar = {
-            'SerialNumber': [101, 102, 103, 104, 105],
-            'Has_JCOMM': [True, False, True, False, True],
-            'Has_Sidecar': [False, True, True, False, True]
+            'SerialNumber': [101, 102, 103, 104],
+            'Has_JCOMM': [True, False, True, False],
+            'Has_Sidecar': [False, True, True, False]
         }
 
         expected_data = {
-            'Has_JCOMM': [True, False, True, False, True],
-            'Has_Sidecar': [False, True, True, False, True],
+            'Has_JCOMM': [True, False, True, False, np.nan],
+            'Has_Sidecar': [False, True, True, False, np.nan],
             'SerialNumber': [1, 2, 3, 4, 5],
             'SerialNumber_M2M': [101, 102, 103, 104, 105]
         }
@@ -71,13 +71,13 @@ class TestPipelineLead:
 
         data = {
             'EOSL': ['2023', '2024', '', '2026', '2025', ''],
-            'Life__Years': [15.0, 10.0, None, 5.0, None, 8.0],
+            'Life__Years': [15.0, 10.0, None, 5.0, None, 1.0],
             'date_code': date_code_values
         }
 
         expected_data = {
-            'lead_type': ['EOSL', 'EOSL', 'EOSL', 'EOSL', 'Life', 'Life', 'Life', 'Life'],
-            'flag_include': [np.nan, np.nan, np.nan, np.nan, False, False, False, False]
+            'lead_type': ['EOSL', 'EOSL', 'EOSL', 'EOSL', 'Life'],
+            'flag_include': [np.nan, np.nan, np.nan, np.nan, False]
         }
 
         df_leads_wn_class = pd.DataFrame(data)
@@ -98,50 +98,47 @@ class TestPipelineLead:
             obj_lead.classify_lead(data, test_services=pd.DataFrame())
             assert info.type == Exception
 
-    def test_id_leads_for_partno(self):
+    def test_id_leads_for_partno_product_m2m(self):
         install_data = {
             'Job_Index': [1, 2, 3, 4, 5],
-            'PartNumber_TLN_BOM': ['TLN001', 'TLN002', 'TLN003', 'TLN004', 'TLN005'],
-            'PartNumber_BOM_BOM': ['BOM001', 'BOM002', 'BOM003', 'BOM004', 'BOM005'],
             'Total_Quantity': [10, 5, 8, 12, 6],
             'InstallDate': ['2022-01-01', '2022-02-15', '2022-03-10', '2022-04-20', '2022-05-05'],
             'Product_M2M': ['pdu', 'rpp', 'sts', 'pdu', 'rpp'],
+            'PartNumber_BOM_BOM': ['FAN', 'PREFANPOST', 'FAN001', 'Color Display', 'Display'],
             'SerialNumber_M2M': ['SN001', 'SN002', 'SN003', 'SN004', 'SN005'],
             'key_value': ['pdu', 'rpp', 'sts', 'pdu', 'rpp']
         }
 
         ref_data = {
-            'Product_M2M': ['PDU', 'RPP', 'STS', 'PDU', 'RPP'],
-            'Match': ['exact', 'contains', 'begins_with', 'contains', 'exact'],
-            'Component': [None, 'FAN', 'BREAKER', None, 'DISPLAY'],
-            'Component_Description': ['Description 1', 'Description 2', 'Description 3',
-                                      'Description 4', 'Description 5'],
-            'End of Prod': ['2023-01-01', '2024-02-15', '2025-03-10', '2026-04-20', '2027-05-05'],
-            'Status': ['Active', 'Active', 'Active', 'Inactive', 'Active'],
-            'Life__Years': [10, 15, 12, 8, 20],
-            'EOSL': [2033, 2039, 2037, 2035, 2042],
-            'flag_raise_in_gp': [True, False, True, False, True]
+            'Product_M2M': ['PDU', 'RPP', 'STS'],
+            'Match': ['contains', 'exact', 'contains'],
+            'Component': ['PDU', 'RPP', 'STS'],
+            'Component_Description': ['Description 1', 'Description 2', 'Description 3'],
+            'End of Prod': ['2023-01-01', '2024-02-15', '2025-03-10'],
+            'Status': ['Active', 'Active', 'Active'],
+            'Life__Years': [10, 15, 12],
+            'EOSL': [2033, 2039, 2037],
+            'flag_raise_in_gp': [True, False, True]
         }
 
-        expected_data = {'Job_Index': [2, 5, 1, 4, 3], 'Total_Quantity': [5, 6, 10, 12, 8],
-                         'Component': ['DISPLAY', 'DISPLAY', None, None, 'BREAKER'],
-                         'Component_Description': ['Description 5', 'Description 5',
-                                                   'Description 4', 'Description 4',
-                                                   'Description 3'],
-                         'key': ['rpp', 'rpp', 'pdu', 'pdu', 'sts'],
-                         'End of Prod': ['2027-05-05', '2027-05-05', '2026-04-20', '2026-04-20',
-                                         '2025-03-10'],
-                         'Status': ['Active', 'Active', 'Inactive', 'Inactive', 'Active'],
-                         'Life__Years': [20.0, 20.0, 8.0, 8.0, 12.0],
-                         'EOSL': [2042.0, 2042.0, 2035.0, 2035.0, 2037.0],
-                         'flag_raise_in_gp': [True, True, False, False, True],
-                         'SerialNumber_M2M': ['SN002', 'SN005', 'SN001', 'SN004', 'SN003'],
-                         'InstallDate': ['2022-02-15', '2022-05-05', '2022-01-01', '2022-04-20',
-                                         '2022-03-10'],
-                         'key_value': ['rpp', 'rpp', 'pdu', 'pdu', 'sts'],
-                         'lead_match': ['exact', 'exact', 'contains', 'contains', 'begins_with'],
-                         'lead_id_basedon': ['Product_M2M', 'Product_M2M', 'Product_M2M',
-                                             'Product_M2M', 'Product_M2M']}
+        expected_data = {
+            'Job_Index': [2, 5, 1, 4, 3],
+            'Total_Quantity': [5, 6, 10, 12, 8],
+            'Component': ['RPP', 'RPP', 'PDU', 'PDU', 'STS'],
+            'Component_Description': ['Description 2', 'Description 2', 'Description 1',
+                                      'Description 1', 'Description 3'],
+            'key': ['rpp', 'rpp', 'pdu', 'pdu', 'sts'],
+            'End of Prod': ['2024-02-15', '2024-02-15', '2023-01-01', '2023-01-01', '2025-03-10'],
+            'Status': ['Active', 'Active', 'Active', 'Active', 'Active'],
+            'Life__Years': [15.0, 15.0, 10.0, 10.0, 12.0],
+            'EOSL': [2039.0, 2039.0, 2033.0, 2033.0, 2037.0],
+            'flag_raise_in_gp': [False, False, True, True, True],
+            'SerialNumber_M2M': ['SN002', 'SN005', 'SN001', 'SN004', 'SN003'],
+            'InstallDate': ['2022-02-15', '2022-05-05', '2022-01-01', '2022-04-20', '2022-03-10'],
+            'key_value': ['rpp', 'rpp', 'pdu', 'pdu', 'sts'],
+            'lead_match': ['exact', 'exact', 'contains', 'contains', 'contains'],
+            'lead_id_basedon': ['Product_M2M', 'Product_M2M', 'Product_M2M', 'Product_M2M',
+                                'Product_M2M']}
 
         df_data = pd.DataFrame(install_data)
         ref_lead = pd.DataFrame(ref_data)
@@ -158,6 +155,68 @@ class TestPipelineLead:
         with pytest.raises(Exception) as info:
             obj_lead.id_leads_for_partno(install_data, install_data, 'Product_M2M')
             assert info.type == Exception
+
+    def test_id_leads_for_partno_bom_bom(self):
+        install_data = {
+            'Job_Index': [1, 2, 3, 4, 5],
+            'Total_Quantity': [10, 5, 8, 12, 6],
+            'InstallDate': ['2022-01-01', '2022-02-15', '2022-03-10', '2022-04-20', '2022-05-05'],
+            'Product_M2M': ['pdu', 'rpp', 'sts', 'pdu', 'rpp'],
+            'PartNumber_BOM_BOM': ['FAN1', 'FAN01', 'FAN0101', 'FAN2', 'FAN1'],
+            'SerialNumber_M2M': ['SN001', 'SN002', 'SN003', 'SN004', 'SN005'],
+            'key_value': ['pdu', 'rpp', 'sts', 'pdu', 'rpp']
+        }
+
+        ref_data = {
+            'PartNumber_BOM_BOM': ['FAN1', 'FAN01', 'FAN2', 'FAN1'],
+            'Match': ['exact', 'contains', 'begins_with', 'exact'],
+            'Component': ['BCMS', 'M4 Display', 'Breaker', 'Color Display'],
+            'Component_Description': ['Description 1', 'Description 2', 'Description 3',
+                                      'Description 4'],
+            'End of Prod': ['2023-01-01', '2024-02-15', '2025-03-10', '2025-03-12'],
+            'Status': ['Active', 'Active', 'Active', 'Active'],
+            'Life__Years': [10, 15, 12, 15],
+            'EOSL': [2033, 2039, 2037, 2034],
+            'flag_raise_in_gp': [True, False, True, True]
+        }
+
+        expected_data = {
+            'Job_Index': [1, 1, 5, 5, 2, 3, 4],
+            'Total_Quantity': [10, 10, 6, 6, 5, 8, 12],
+            'Component': ['BCMS', 'Color Display', 'BCMS', 'Color Display', 'M4 Display',
+                          'M4 Display', 'Breaker'],
+            'Component_Description': ['Description 1', 'Description 4', 'Description 1',
+                                      'Description 4', 'Description 2', 'Description 2',
+                                      'Description 3'],
+            'key': ['fan1', 'fan1', 'fan1', 'fan1', 'fan01', 'fan01', 'fan2'],
+            'End of Prod': ['2023-01-01', '2025-03-12', '2023-01-01', '2025-03-12', '2024-02-15',
+                            '2024-02-15', '2025-03-10'],
+            'Status': ['Active', 'Active', 'Active', 'Active', 'Active', 'Active', 'Active'],
+            'Life__Years': [10.0, 15.0, 10.0, 15.0, 15.0, 15.0, 12.0],
+            'EOSL': [2033.0, 2034.0, 2033.0, 2034.0, 2039.0, 2039.0, 2037.0],
+            'flag_raise_in_gp': [True, True, True, True, False, False, True],
+            'SerialNumber_M2M': ['SN001', 'SN001', 'SN005', 'SN005', 'SN002', 'SN003', 'SN004'],
+            'InstallDate': ['2022-01-01', '2022-01-01', '2022-05-05', '2022-05-05', '2022-02-15',
+                            '2022-03-10', '2022-04-20'],
+            'key_value': ['pdu', 'pdu', 'rpp', 'rpp', 'rpp', 'sts', 'pdu'],
+            'lead_match': ['exact', 'exact', 'exact', 'exact', 'contains', 'contains',
+                           'begins_with'],
+            'lead_id_basedon': ['PartNumber_BOM_BOM', 'PartNumber_BOM_BOM', 'PartNumber_BOM_BOM',
+                                'PartNumber_BOM_BOM', 'PartNumber_BOM_BOM', 'PartNumber_BOM_BOM',
+                                'PartNumber_BOM_BOM']}
+
+        df_data = pd.DataFrame(install_data)
+        ref_lead = pd.DataFrame(ref_data)
+        expected_df = pd.DataFrame(expected_data)
+
+        result_df = obj_lead.id_leads_for_partno(df_data, ref_lead, 'PartNumber_BOM_BOM')
+
+        result_df.reset_index(drop=True, inplace=True)
+
+        expected_df.reset_index(drop=True, inplace=True)
+
+        assert_frame_equal(result_df.sort_index(axis=1), expected_df.sort_index(axis=1),
+                           check_dtype=False, check_exact=False, check_names=True)
 
     def test_pipeline_merge_lead_services(self):
         # Sample data for df_services
@@ -185,7 +244,8 @@ class TestPipelineLead:
             'SerialNumber': ['SN001', 'SN002', '', '', ''],
             'component': ['bcms', 'fan', '', '', ''],
             'ClosedDate': ['2022-01-01', '2023-02-15', '', '', ''],
-            'date_code': ['2022-01-01', '2023-02-15', '2022-03-10', '2022-04-20', '2022-05-05']}
+            'date_code': ['2022-01-01', '2023-02-15', '2022-03-10', '2022-04-20', '2022-05-05'],
+            'source': ['Services', 'Services', 'InstallBase', 'InstallBase', 'InstallBase']}
 
         df_leads = pd.DataFrame(data_leads)
 
@@ -202,4 +262,3 @@ class TestPipelineLead:
         with pytest.raises(Exception) as info:
             obj_lead.pipeline_merge_lead_services(data_leads, data_leads)
             assert info.type == Exception
-

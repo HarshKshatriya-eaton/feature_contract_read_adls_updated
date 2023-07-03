@@ -51,7 +51,9 @@
             "output_iLead": {
                 "file_name": "output_iLead.csv",
                 "validation" : "output_iLead_validation_b4_format.csv",
-                "ref_install" : "output_ref_install.csv"
+                "ref_install" : "output_ref_install.csv",
+                "before_classify" : "b4_classify_leads.csv",
+                "after_classify" : "a4_classify_leads.csv"
             },
             "processed_install": {
                 "file_name": "processed_install.csv"
@@ -898,15 +900,15 @@
         "output_iLead": {
             "Serial_Number": {
                 "actual_datasoure_name": "SerialNumber_M2M",
-                "output_format": ""
+                "output_format": "text : upper"
             },
             "Component": {
                 "actual_datasoure_name": "Component",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "Source": {
                 "actual_datasoure_name": "",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "Component_Date_Code": {
                 "actual_datasoure_name": "date_code",
@@ -934,7 +936,7 @@
             },
             "Component_Due_in (Category)": {
                 "actual_datasoure_name": "lead_type",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "flag_raise_lead": {
                 "actual_datasoure_name": "flag_std_offer",
@@ -942,11 +944,11 @@
             },
             "List_Price_$": {
                 "actual_datasoure_name": "",
-                "output_format": ""
+                "output_format": "numeric : 2"
             },
             "Avg_Sales_Price_$": {
                 "actual_datasoure_name": "",
-                "output_format": ""
+                "output_format": "numeric : 2"
             },
             "Year_Lead": {
                 "actual_datasoure_name": "End of Prod",
@@ -954,7 +956,7 @@
             },
             "Component_Description": {
                 "actual_datasoure_name": "Component_Description",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "Component_Age": {
                 "actual_datasoure_name": "age",
@@ -962,21 +964,21 @@
             },
             "Lead_Type": {
                 "actual_datasoure_name": "lead_type",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             }
         },
         "ref_install_base": {
             "Serial_Number": {
                 "actual_datasoure_name": "SerialNumber_M2M",
-                "output_format": ""
+                "output_format": "text : upper"
             },
             "Product_Name": {
                 "actual_datasoure_name": "product_prodclass",
-                "output_format": ""
+                "output_format": "text : upper"
             },
             "Install_Date": {
                 "actual_datasoure_name": "ShipmentDate",
-                "output_format" : ""
+                "output_format" : "date : mm/dd/yyyy"
             },
             "Product_Age": {
                 "actual_datasoure_name": "",
@@ -984,11 +986,11 @@
             },
             "CSE_Area": {
                 "actual_datasoure_name": "",
-                "output_format": ""
+                "output_format": "text : upper"
             },
             "Region": {
                 "actual_datasoure_name": "",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "KWRATING": {
                 "actual_datasoure_name": "",
@@ -1008,19 +1010,19 @@
             },
             "Ship_To_Party_Name": {
                 "actual_datasoure_name": "ShipTo_Customer",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "Ship_To_Address1": {
                 "actual_datasoure_name": "ShipTo_Street",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "Ship_To_City": {
                 "actual_datasoure_name": "ShipTo_City",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "Ship_To_State": {
                 "actual_datasoure_name": "ShipTo_State",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "Ship_To_Postal_Code": {
                 "actual_datasoure_name": "ShipTo_Zip",
@@ -1028,7 +1030,7 @@
             },
             "Ship_To_Country": {
                 "actual_datasoure_name": "ShipTo_Country",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "is_under_contract": {
                 "actual_datasoure_name": "",
@@ -1052,7 +1054,7 @@
             },
             "Contract_Line_Status": {
                 "actual_datasoure_name": "Contract_Status",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "Contract_Header_Start_Date": {
                 "actual_datasoure_name": "Contract_Start_Date",
@@ -1064,7 +1066,7 @@
             },
             "Customer": {
                 "actual_datasoure_name": "Customer",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "flag_valid_installbase": {
                 "actual_datasoure_name": "",
@@ -1076,11 +1078,11 @@
             },
             "Model_Id": {
                 "actual_datasoure_name": "Model",
-                "output_format": ""
+                "output_format": "text : upper"
             },
             "Item_Description": {
                 "actual_datasoure_name": "Description",
-                "output_format": ""
+                "output_format": "text : upper"
             },
             "Contract_Start_Date": {
                 "actual_datasoure_name": "Contract_Start_Date",
@@ -1092,11 +1094,11 @@
             },
             "Contract_Conversion": {
                 "actual_datasoure_name": "Contract_Conversion",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "Strategic_Customer_Name": {
                 "actual_datasoure_name": "StrategicCustomer",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "Owner_Party_Name": {
                 "actual_datasoure_name": "",
@@ -1164,7 +1166,7 @@
             },
             "Service_Plan": {
                 "actual_datasoure_name": "Service_Plan",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "flag_decommissioned": {
                 "actual_datasoure_name": "",
@@ -1360,15 +1362,15 @@
             },
             "Billing_Address": {
                 "actual_datasoure_name": "BillingAddress",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "Billing_City": {
                 "actual_datasoure_name": "BillingCity",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "Billing_State": {
                 "actual_datasoure_name": "BillingState",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "Billing_Postal_Code": {
                 "actual_datasoure_name": "BillingPostalCode",
@@ -1376,7 +1378,7 @@
             },
             "Billing_Country": {
                 "actual_datasoure_name": "BillingCountry",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "Incident_Ship_To_Party_Name": {
                 "actual_datasoure_name": "",
@@ -1396,15 +1398,15 @@
             },
             "Sold_To_Street": {
                 "actual_datasoure_name": "SoldTo_Street",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "Sold_To_City": {
                 "actual_datasoure_name": "SoldTo_City",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "Sold_To_State": {
                 "actual_datasoure_name": "SoldTo_State",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "Sold_To_Postal_Code": {
                 "actual_datasoure_name": "SoldTo_Zip",
@@ -1412,7 +1414,7 @@
             },
             "Sold_To_Country": {
                 "actual_datasoure_name": "SoldTo_Country",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "Startup_Customer": {
                 "actual_datasoure_name": "StartupCustomer",

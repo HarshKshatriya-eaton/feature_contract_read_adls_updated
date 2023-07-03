@@ -1,14 +1,15 @@
-"""@file
+"""@file class_lead_generation.py
 
-
-
-@brief
+@brief: for DCPD business, generate the leads from reference leads data and also combine meta data
+from different other sources of data i.e contract, install, services.
 
 
 @details
+Lead generation module works on bom data, contract data , install base data, services data
+and majorly on a reference leads data as input and generates the leads for customer impact.
 
 
-@copyright 2021 Eaton Corporation. All Rights Reserved.
+@copyright 2023 Eaton Corporation. All Rights Reserved.
 @note Eaton Corporation claims proprietary rights to the material disclosed
 here on. This technical information may not be reproduced or used without
 direct written permission from Eaton Corporation.
@@ -38,56 +39,42 @@ class LeadGeneration:
         self.format = Format()
 
     def main_lead_generation(self):  # pragma: no cover
+        """
+        This is the main method or entry point for the lead generation module.
+        """
 
         _step = 'Read Merged Contracts and Install Base data'
         try:
             df_install = self.pipeline_contract_install()
             logger.app_success(_step)
-        except Exception as excp:
-            logger.app_fail(_step, f'{traceback.format_exc()}')
-            raise Exception('f"{_step}: Failed') from excp
 
-        # ***** PreProcess BOM data *****
-        _step = 'Process BOM data'
-        try:
+            # ***** PreProcess BOM data *****
+            _step = 'Process BOM data'
             # Read Data
-            df_leads = self.pipeline_bom(df_install)
+            df_leads = self.pipeline_bom_identify_lead(df_install)
             logger.app_success(_step)
-        except Exception as e:
-            logger.app_fail(_step, f"{traceback.print_exc()}")
-            raise Exception from e
 
-        _step = 'Merge data: Install and BOM'
-        try:
+            _step = 'Merge data: Install and BOM'
             df_leads = self.pipeline_merge(df_leads, df_install, 'meta_data')
             logger.app_success(_step)
-        except Exception as e:
-            logger.app_fail(_step, f"{traceback.print_exc()}")
-            raise Exception from e
 
-        _step = 'Adding JCOMM and Sidecar Fields to Lead Generation Data'
-        try:
+            _step = 'Adding JCOMM and Sidecar Fields to Lead Generation Data'
+
             df_leads = self.pipeline_add_jcomm_sidecar(df_leads)
-        except Exception as e:
-            logger.app_fail(_step, f'{traceback.print_exc()}')
-            raise Exception('f"{_step}: Failed') from e
 
-        _step = 'Write output lead to result directory'
-        try:
+            _step = 'Write output lead to result directory'
+
             df_leads = df_leads.drop(columns=['temp_column', 'component', 'ClosedDate']) \
                 .reset_index(drop=True)
-            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
-                                                 self.config['file']['dir_validation'],
-                                     'file_name': self.config['file']['Processed']['output_iLead'][
-                                         'validation']
-                                     }, df_leads)
+            IO.write_csv(self.mode,
+                         {'file_dir': self.config['file']['dir_results'] + self.config['file'][
+                             'dir_validation'],
+                          'file_name': self.config['file']['Processed']['output_iLead'][
+                              'validation']
+                          }, df_leads)
             logger.app_success(_step)
-        except Exception as e:
-            logger.app_fail(_step, f'{traceback.print_exc()}')
-            raise Exception('f"{_step}: Failed') from e
 
-        _step = "Formatting Output"
-        try:
+            _step = "Formatting Output"
 
             ref_install_output_format = self.config['output_format']['ref_install_base']
             ref_install = self.format.format_output(df_leads, ref_install_output_format)
@@ -109,25 +96,30 @@ class LeadGeneration:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
 
-        return 'successfull !'
+        return 'successfully !'
 
     # %% ***** Pipelines *****
 
-    def pipeline_add_jcomm_sidecar(self, df_leads, service_df=None):
+    def pipeline_add_jcomm_sidecar(self, df_leads: object, service_df=None):
+        """
+        This module read's services data and joins with the lead data and add jcomm, sidecar fields.
+        @param service_df: intermediate generated services data.
+        @type df_leads: object : leads data after identifying leads.
+        """
         _step = 'Read Services data and append has_jcomm, has_sidecar field to lead data'
         try:
             if service_df is not None:
                 df_service_jcomm_sidecar = service_df
             else:
-                df_service_jcomm_sidecar = IO.read_csv(self.mode, {'file_dir':
-                                                                       self.config['file']
-                                                                       ['dir_results'] +
-                                                                       self.config['file'][
-                                                                           'dir_intermediate'],
-                                                                   'file_name': self.config['file'][
-                                                                       'Processed']
-                                                                   ['services']['intermediate']
-                                                                   })
+                df_service_jcomm_sidecar = IO.read_csv(self.mode,
+                                                       {'file_dir': self.config['file'][
+                                                                        'dir_results'] +
+                                                                    self.config['file'][
+                                                                        'dir_intermediate'],
+                                                        'file_name': self.config['file'][
+                                                            'Processed']
+                                                        ['services']['intermediate']
+                                                        })
 
             df_service_jcomm_sidecar = df_service_jcomm_sidecar[['SerialNumber', 'Has_JCOMM',
                                                                  'Has_Sidecar']]
@@ -152,6 +144,8 @@ class LeadGeneration:
         """
         _step = "Merging Install Base data with Contracts Data"
         try:
+            # df_contract = df_contract.rename(columns={'SerialNumber': 'SerialNumber_M2M'},
+            # inplace=True)
             df_install = df_install.merge(df_contract, left_on="SerialNumber_M2M",
                                           right_on="SerialNumber", how="left")
             logger.app_success(_step)
@@ -160,8 +154,13 @@ class LeadGeneration:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from excp
 
-    def pipeline_bom(self, df_install):  # pragma: no cover
-
+    def pipeline_bom_identify_lead(self, df_install):  # pragma: no cover
+        """
+        This method reads the bom data joins it with install data and then uses the input
+        reference lead file to generate the leads.
+        @param df_install: processed install base data coming from contract pipeline
+        @return: return a df_lead after identifying the leads.
+        """
         # Read : Reference lead opportunities
         _step = "Read : Reference lead opportunities"
         try:
@@ -170,13 +169,10 @@ class LeadGeneration:
                                                        self.config['file']['Reference']
                                                        ['lead_opportunities']
                                                    })
-        except Exception as e:
-            logger.app_fail(_step, f'{traceback.print_exc()}')
-            raise Exception('f"{_step}: Failed') from e
 
-        # Read : Raw BOM data
-        _step = "Read raw data : BOM"
-        try:
+            # Read : Raw BOM data
+            _step = "Read raw data : BOM"
+
             df_bom = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_data'],
                                              'file_name': self.config['file']['Raw']['bom']
                                              ['file_name'],
@@ -185,24 +181,18 @@ class LeadGeneration:
             input_format = self.config['database']['bom']['Dictionary Format']
             df_bom = self.format.format_data(df_bom, input_format)
             # df_bom = read_data(db='bom', type_='data', sep='\t')
-        except Exception as e:
-            logger.app_fail(_step, f'{traceback.print_exc()}')
-            raise Exception('f"{_step}: Failed') from e
 
-        # Merge raw bom data with processed_merge_contract_install dataframe
-        _step = 'Merge data: Install and BOM'
-        try:
+            # Merge raw bom data with processed_merge_contract_install dataframe
+            _step = 'Merge data: Install and BOM'
+
             df_bom = self.pipeline_merge(df_bom, df_install, type_='lead_id')
             logger.app_success(_step)
-        except Exception as e:
-            logger.app_fail(_step, f"{traceback.print_exc()}")
-            raise Exception from e
 
-        # TODO: Before Identifying the leads we need to filter the reference lead data
-        #  where EOSL and Life__Years are null or empty, implement that logic here.
+            ref_lead_opp = ref_lead_opp.dropna(subset=['EOSL', 'Life__Years'], how='all') \
+                .reset_index(drop=True)
 
-        # Identify Lead from Part Number TLN and BOM
-        try:
+            # Identify Lead from Part Number TLN and BOM
+
             _step = 'Identify Lead for BOM'
             df_leads = self.identify_leads(df_bom, ref_lead_opp)
 
@@ -217,6 +207,9 @@ class LeadGeneration:
         """
         This functions reads the services intermediate data and join with the leads data to
         generate a date code column.
+        @param df_services: this is adding for testing purpose (processed services data)
+        @param df_leads: intermediate leads dataframe.
+        @return: return a df_lead merging services with leads dataframe.
         """
         _step = "Merging leads and services data to extract date code at component level"
         try:
@@ -231,8 +224,20 @@ class LeadGeneration:
                                            ['services']['file_name']
                                            })
 
-            df_services = df_services.drop_duplicates(subset=['SerialNumber']).reset_index(
-                drop=True)
+            # Convert to correct date format
+            df_services['ClosedDate'] = pd.to_datetime(df_services['ClosedDate'], errors='coerce').\
+                dt.strftime('%Y-%m-%d')
+
+            df_services.sort_values(by='ClosedDate', ascending=False, inplace=True)
+
+            # Identify the duplicate rows based on the two columns and keep the last occurrence
+            # using this because when there is no duplicate drop_duplicate can result none
+            # when we use keep last.
+            duplicates_mask = df_services.duplicated(subset=['SerialNumber', 'component'],
+                                                     keep='last')
+
+            # Invert the mask to keep the non-duplicate rows
+            df_services = df_services[~duplicates_mask]
 
             unique_component = []
             for i in list(df_services['component'].unique()):
@@ -246,12 +251,8 @@ class LeadGeneration:
             df_services['component'] = df_services['component'].str.lower()
 
             # Convert to correct date format
-            df_services['ClosedDate'] = pd.to_datetime(df_services['ClosedDate']).dt.strftime(
-                '%Y-%m-%d')
-
-            # Convert to correct date format
-            df_leads['InstallDate'] = pd.to_datetime(df_leads['InstallDate']).dt.strftime(
-                '%Y-%m-%d')
+            df_leads['InstallDate'] = pd.to_datetime(df_leads['InstallDate'], errors='coerce').\
+                dt.strftime('%Y-%m-%d')
 
             ls_uni = df_leads['Component'].unique()
             df_leads['Component'] = df_leads['Component'].fillna("")
@@ -266,14 +267,13 @@ class LeadGeneration:
             df_leads = df_leads.fillna('')
             df_leads = df_leads.reset_index(drop=True)
 
-            # TODO: Add "source" column to indicate from where the date_code values where generated
-            # TODO: either "InstallBase/M2M" or "Services"
-
             # Use np.where to create the new column
             df_leads['date_code'] = np.where(df_leads['ClosedDate'] != '',
                                              df_leads['ClosedDate'], df_leads['InstallDate'])
 
-            # df_leads.to_csv("./results/temp_output_3.csv")
+            # Use np.where to create the new column
+            df_leads['source'] = np.where(df_leads['ClosedDate'] != '',
+                                          'Services', 'InstallBase')
 
             df_leads = df_leads.drop_duplicates().reset_index(drop=True)
 
@@ -284,6 +284,14 @@ class LeadGeneration:
             raise Exception from excp
 
     def pipeline_merge(self, df_bom, df_install, type_):
+        """
+        This method merges the bom data and processed install base data on two conditions.
+        Either we want to join for purpose of lead generation or for purpose of adding metadata.
+        @param df_bom: this is raw bom data.
+        @param df_install: A pandas dataframe processed from contracts pipeline.
+        @param type_: pd.Dataframe
+        @return: pd.Dataframe
+        """
         try:
             _step = f'Query install data ({type_}'
             ls_cols = ['Job_Index', 'InstallDate', 'Product_M2M', 'SerialNumber_M2M']
@@ -300,29 +308,18 @@ class LeadGeneration:
                 ls_cols = [col for col in df_install.columns if col not in ls_cols]
                 ls_cols = ls_cols + ['SerialNumber_M2M']
                 ls_cols.remove('SerialNumber')
-                # [
-                #     'Job_Index', 'product_type', 'SerialNumber_M2M',
-                #     'Shipper_Index', 'ShipperItem_Index',
-                #     'ProductClass', 'Prod_vs_Serv', 'Category',
-                #     'SO', 'SOLine', 'SOStatus',
-                #     'Customer', 'StrategicCustomer',
-                #     'ShipTo_Customer', 'ShipTo_Street', 'ShipTo_City', 'ShipTo_State',
-                #     'ShipTo_Zip', 'ShipTo_Country',
-                #     'SoldTo_Street', 'SoldTo_City',
-                #     'SoldTo_State', 'SoldTo_Zip', 'SoldTo_Country',
-                #     'Country',
-                #     'product_prodclass', 'is_in_usa', 'key_serial', 'key_bom'
-                # ]
 
             df_out = df_bom.merge(df_install[ls_cols], on=key, how='inner')
-            # df_out = df_bom.merge(df_install, on=key, how='inner')
         except Exception as e:
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception from e
         return df_out
 
     def pipeline_contract_install(self):  # pragma: no cover
-
+        """
+        This returns the processed install base data from contracts pipeline.
+        @return: pd.Dataframe
+        """
         # Read : Contract Processed data
         _step = "Read processed contract data"
         try:
@@ -337,7 +334,6 @@ class LeadGeneration:
 
             df_contract = df_contract.dropna(subset=['Product_M2M'])
 
-            # df_install = read_data(db='processed_install', type_='processed')
         except Exception as e:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
@@ -346,8 +342,13 @@ class LeadGeneration:
 
     # %% ***** Lead Identification *****
 
-    def identify_leads(self, df_bom, ref_lead_opp): # pragma: no cover
-
+    def identify_leads(self, df_bom, ref_lead_opp):  # pragma: no cover
+        """
+        These methods identify leads based on ProductM2M and PartNumber_BOM_BOM
+        @param df_bom: Raw Bom data.
+        @param ref_lead_opp: reference leads data on which leads are generated.
+        @return: pd.Dataframe
+        """
         ls_cols_ref = [
             '',
             'Match', 'Component', 'Component_Description', 'End of Prod', 'Status',
@@ -370,11 +371,8 @@ class LeadGeneration:
             ref_lead = ref_lead_opp.loc[
                 pd.notna(ref_lead_opp[ls_cols_ref[0]]), ls_cols_ref]
 
-            # ref_lead = ref_lead[ref_lead[ls_cols_ref[0]].isin(['PDU', 'RPP', 'STS'])]
-            # ref_lead.loc[:, 'Match'] = "exact"
-
             # filter rows from reference lead dataframe where Product_M2M value is "blank"
-            ref_lead = ref_lead[~ref_lead[lead_id_basedon].isin(['blank'])]
+            ref_lead = ref_lead[~ref_lead[lead_id_basedon].isin(['blank', ''])]
 
             # Subset data : BOM
             ls_cols[2] = lead_id_basedon
@@ -394,13 +392,8 @@ class LeadGeneration:
 
             logger.app_info("Leads After PartNumber_M2M is :" + str(df_leads_tln.shape))
 
-        except Exception as e:
-            logger.app_fail(_step, f'{traceback.print_exc()}')
-            raise Exception('f"{_step}: Failed') from e
-
-        # Identify Leads: BOM
-        _step = "Identify Leads: BOM"
-        try:
+            # Identify Leads: BOM
+            _step = "Identify Leads: BOM"
             lead_id_basedon = 'PartNumber_BOM_BOM'
 
             # Subset data : Ref
@@ -419,27 +412,31 @@ class LeadGeneration:
             del df_data, ref_lead
             logger.app_info("Leads After PartNumber_BOM_BOM is :" + str(df_leads_bom.shape))
 
-        except Exception as e:
-            logger.app_fail(_step, f'{traceback.print_exc()}')
-            raise Exception('f"{_step}: Failed') from e
+            # Merge leads
+            _step = "Merge Leads from TLN and BOM"
 
-        # Merge leads
-        _step = "Merge Leads from TLN and BOM"
-        try:
             df_leads_out = pd.concat([df_leads_tln, df_leads_bom])
             del df_leads_tln, df_leads_bom
 
-            if self.mode == 'local':
-                df_leads_out.to_csv('./results/b4_classify_leads.csv', index=False)
+            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
+                                                 self.config['file']['dir_validation'],
+                                     'file_name': self.config['file']['Processed']['output_iLead'][
+                                         'before_classify']
+                                     }, df_leads_out)
 
             logger.app_debug(
                 f'No of leads b4 classify: {df_leads_out.shape[0]}')
+
             df_leads_out = self.classify_lead(df_leads_out)
             logger.app_debug(
                 f'No of leads after classify: {df_leads_out.shape[0]}')
 
-            if self.mode == 'local':
-                df_leads_out.to_csv('./results/aft_classify_leads.csv', index=False)
+            IO.write_csv(self.mode,
+                         {'file_dir': self.config['file']['dir_results'] + self.config['file'][
+                             'dir_validation'],
+                          'file_name': self.config['file']['Processed']['output_iLead'][
+                              'after_classify']
+                          }, df_leads_out)
         except Exception as e:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
@@ -453,6 +450,12 @@ class LeadGeneration:
         Reference file identifies the leads based on TLN i.e. assembly level parts. Only one
         pattern exists i.e. bigns_with. In future  if new patterns are identified,
         code would require changes.
+        @param df_data: This the processed bom and install data
+        @type df_data: pd.Dataframe
+        @param ref_lead: this input reference lead data.
+        @type ref_lead: pd.Dataframe
+        @param lead_id_basedon: this is a column based on which leads is generated.
+        @type lead_id_basedon: str
 
         """
         _step = f'Identify lead based on {lead_id_basedon}'
@@ -471,7 +474,7 @@ class LeadGeneration:
                 'EOSL', 'flag_raise_in_gp', 'SerialNumber_M2M']
 
             # Prep reference file
-            # rename 'PartNumber_TLN_BOM' or "PartNumber_BOM_BOM" column to "key"
+            # rename 'Product_M2M' or "PartNumber_BOM_BOM" column to "key"
             ref_lead = ref_lead.rename(
                 columns={ref_lead.columns[0]: 'key'})
             # find the length on values in key column and store them in a new col called "len_key"
@@ -528,7 +531,7 @@ class LeadGeneration:
                     df_out = pd.concat([df_out, df_cur_out])
                 del df_ref_sub, df_cur_out
 
-            # Meta Data,
+            # Metadata,
             # add a column called as "lead_id_basedon" which indicate the lead was calculated
             # on what type of column either PartNumber_TLN_BOM or PartNumber_BOM_BOM
             df_out['lead_id_basedon'] = lead_id_basedon
@@ -541,7 +544,14 @@ class LeadGeneration:
 
     # ***** Match ref data for lead identification *****
     def lead4_exact_match(self, df_temp_data, df_ref_sub, lead_id_basedon, ls_col_out):
-
+        """
+        This method runs when there is an exact keyword in Match column in reference leads
+        @param df_temp_data: processed bom and install data
+        @param df_ref_sub: reference lead data after filtering
+        @param lead_id_basedon: column based on which leads will be generated
+        @param ls_col_out: list of output columns
+        @return: pd.Dataframe.
+        """
         _step = f'identify leads key: {lead_id_basedon}, match: exact'
 
         try:
@@ -553,8 +563,9 @@ class LeadGeneration:
 
             df_temp_data['key'] = df_temp_data[lead_id_basedon].copy()
             df_temp_data = df_temp_data.drop_duplicates()
+            df_temp_data['key'] = df_temp_data['key'].str.lower()
 
-            df_ref_sub = df_ref_sub.drop_duplicates(subset=['key'])
+            df_ref_sub = df_ref_sub.drop_duplicates(subset=['key', 'Component'])
 
             df_decoded = df_temp_data.merge(df_ref_sub, on='key', how='left')
 
@@ -589,12 +600,20 @@ class LeadGeneration:
         return df_out_sub, df_temp_data
 
     def lead4_begins_with(self, df_temp_data, df_ref_sub, lead_id_basedon, ls_col_out):
+        """
+        This method runs when there is a begin_with keyword in Match column in reference leads
+        @param df_temp_data: processed bom and install data
+        @param df_ref_sub: reference lead data after filtering
+        @param lead_id_basedon: column based on which leads will be generated
+        @param ls_col_out: list of output columns
+        @return: pd.Dataframe.
+        """
 
         _step = f'identify leads key: {lead_id_basedon}, match: being_with'
         try:
             logger.app_info(f'{_step}: STARTED')
             org_size = df_temp_data.shape[0]
-            df_ref_sub = df_ref_sub.drop_duplicates(subset=['key'])
+            df_ref_sub = df_ref_sub.drop_duplicates(subset=['key', 'Component'])
 
             df_out_sub = pd.DataFrame()
             ls_key_len = df_ref_sub.len_key.unique()
@@ -608,11 +627,11 @@ class LeadGeneration:
                 org_size = df_temp_data.shape[0]
 
                 df_temp_data['key'] = df_temp_data[lead_id_basedon].apply(
-                    lambda x: x[:key_len])
+                    lambda x: x[:key_len].lower())
 
                 df_decoded = df_temp_data.merge(df_ref_sub, on='key', how='left')
 
-                # Conslidated leads. For TLN where lead has been identififed,
+                # Consolidated leads. For TLN where lead has been identified,
                 # will be added to output
 
                 if any(pd.notna(df_decoded.Component)):
@@ -622,12 +641,12 @@ class LeadGeneration:
                     df_cur_out = pd.DataFrame()
                 df_out_sub = pd.concat([df_out_sub, df_cur_out])
 
-                # Filterout data from further processing for keys with lead identified
+                # Filter data from further processing for keys with lead identified
 
                 df_temp_data = df_decoded.loc[
                     pd.isna(df_decoded.Component), ls_col_in]
 
-                # Cross checking
+                # Cross-checking
                 new_size = df_temp_data.shape[0]
 
                 logger.app_debug(
@@ -646,12 +665,19 @@ class LeadGeneration:
         return df_out_sub, df_temp_data
 
     def lead4_contains(self, df_temp_data, df_ref_sub, lead_id_basedon, ls_col_out):
-
+        """
+        This method runs when there is a contains keyword in Match column in reference leads
+        @param df_temp_data: processed bom and install data
+        @param df_ref_sub: reference lead data after filtering
+        @param lead_id_basedon: column based on which leads will be generated
+        @param ls_col_out: list of output columns
+        @return: pd.Dataframe.
+        """
         _step = f'identify leads key: {lead_id_basedon}, match: contains'
         try:
             logger.app_info(f'{_step}: STARTED')
             org_size = df_temp_data.shape[0]
-            df_ref_sub = df_ref_sub.drop_duplicates(subset=['key'])
+            df_ref_sub = df_ref_sub.drop_duplicates(subset=['key', 'Component'])
 
             df_out_sub = pd.DataFrame()
             ls_key = df_ref_sub['key'].unique()
@@ -665,9 +691,9 @@ class LeadGeneration:
                 org_size = df_temp_data.shape[0]
 
                 df_temp_data['flag_valid'] = df_temp_data[
-                    lead_id_basedon].str.contains(key)
+                    lead_id_basedon].str.contains(key, case=False)
 
-                # Conslidated leads. For TLN where lead has been identififed,
+                # Consolidated leads. For TLN where lead has been identified,
                 # will be added to output
 
                 if any(pd.notna(df_temp_data.flag_valid)):
@@ -684,11 +710,11 @@ class LeadGeneration:
                     df_cur_out = pd.DataFrame()
                 df_out_sub = pd.concat([df_out_sub, df_cur_out[ls_col_out]])
 
-                # Filterout data from further processing for keys with lead identified
+                # Filter data from further processing for keys with lead identified
                 df_temp_data = df_temp_data.loc[
                     df_temp_data.flag_valid == False, ls_col_in]
 
-                # Cross checking
+                # Cross-checking
                 new_size = df_temp_data.shape[0]
 
                 logger.app_debug(
@@ -713,11 +739,12 @@ class LeadGeneration:
             2. Life: based on age of component if it has reached its design life
                 if Life of component > design life, then only lead will be raised.
 
-        :param df_leads_wn_class: BOM data mapped with lead opprtunities
+        :param df_leads_wn_class: BOM data mapped with lead opportunities
         :type df_leads_wn_class: pandas dataframe
         :raises Exception: DESCRIPTION
         :return: leads classified as EOSL or Life.
         :rtype: pandas dataframe
+        :param test_services: this is added for unit testing purpose.
 
         """
         _step = 'Lead classification'
@@ -754,6 +781,7 @@ class LeadGeneration:
                 del df_leads_sub
             del flag_lead_eosl
 
+            df_leads_wn_class = df_leads_wn_class[df_leads_wn_class['EOSL'] == '']
             # For DCPD leads due this year will be processed
             df_leads_wn_class.Life__Years = pd.to_numeric(df_leads_wn_class.Life__Years)
             flag_lead_life = pd.notna(df_leads_wn_class.Life__Years)
@@ -773,7 +801,6 @@ class LeadGeneration:
                 del flag_lead_life
 
             logger.app_debug(f'{_step} : SUCCEEDED', 1)
-
 
         except Exception as e:
             logger.app_fail(_step, f"{traceback.print_exc()}")

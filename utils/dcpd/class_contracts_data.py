@@ -663,7 +663,7 @@ class Contract:
         :param df_temp_org: Serial number data
         :type df_temp_org: pd.DataFrame
         :raises Exception: Raised if unknown data type provided.
-        :return: flag, having single serial number
+        :return: flag, having single serial number, true means it's single else it has range
         :rtype: pd.Series
 
         """
