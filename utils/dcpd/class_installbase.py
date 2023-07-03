@@ -115,15 +115,14 @@ class InstallBase:
 
             # df_install = env_.filters_.format_output(df_install, self.format_cols)
 
-            filter_data = self.filter_mtmdata(df_install)
+            filtered_data = self.filter_mtmdata(df_install)
 
             # Export
             IO.write_csv(
                 self.mode,
                 {'file_dir': self.config['file']['dir_results'],
                  'file_name': self.config['file']['Processed']['processed_install']['file_name']
-            }, df_install)
-
+            }, filtered_data)
             logger.app_success(self.step_export_data)
 
         except Exception as excp:
@@ -143,7 +142,12 @@ class InstallBase:
         #  Drop results with blank column values
         df_install.dropna(subset=['Product_M2M'], inplace=True)
 
-        # print("The Filter Product is ", filter_Product_M2M, filter_Product_M2M.shape)
+        # Filter out SO where status is not closed.
+        df_install = df_install.loc[(df_install.SOStatus == "closed")]
+
+        # Flag column values where flag is not in USA
+        df_install = df_install[df_install.is_in_usa]
+
         return df_install
 
     def pipeline_m2m(self) -> pd.DataFrame:  # pragma: no cover
@@ -240,8 +244,9 @@ class InstallBase:
 
             # gets unique/repeated serial number data
             df_out, df_couldnot = obj_srnum.get_serialnumber(
-                df_srnum_range['SerialNumber'], df_srnum_range['Shipper_Qty'])
+                df_srnum_range['SerialNumber'], df_srnum_range['Shipper_Qty'],df_srnum_range['key_serial'])
 
+            print("df_sr_num range is ",df_srnum_range['SerialNumber'],df_srnum_range['Shipper_Qty'])
             # combined expanded serial number data with original data
             df_data_install = self.combine_serialnum_data(
                 df_srnum_range, df_srnum,
@@ -575,11 +580,21 @@ class InstallBase:
 
         """
         try:
+            df_srnum_range.to_csv('./custom_output/1-df_srnum_range.csv')
+            df_srnum.to_csv('./custom_output/2-df_srnum.csv')
+            df_data_install.to_csv('./custom_output/3-df_data_install.csv')
+            df_out.to_csv('./custom_output/4-df_out.csv')
+
             df_srnum_range = df_srnum_range.rename(
                 columns={'SerialNumber': 'SerialNumberOrg'})
+            df_out = df_out.rename(columns={'KeySerial': 'key_serial'})
+            df_srnum_range.to_csv('./custom_output/5-df_srnum_After_rename.csv')
 
             df_srnum_range = df_srnum_range.merge(
-                df_out, on='SerialNumberOrg', how='inner')
+                df_out, on=['SerialNumberOrg','key_serial'], how='inner')
+            df_srnum_range.to_csv('./custom_output/6-df_srnum_range+dfoutMerge.csv')
+
+            # df_srnum_range.to_csv('./custom_output/df_srnum_range_after.csv')
 
             # if env_.ENV == 'local':
             #     df_srnum_range.to_csv('./results/expanded_srnums.csv', index=False)
@@ -587,12 +602,16 @@ class InstallBase:
             #         './results/couldnt_expand_srnums.csv', index=False)
 
             df_srnum_range = df_srnum_range.drop_duplicates()
+            df_srnum_range.to_csv('./custom_output/7-df_srnum_range_dropDuplicate.csv')
 
             df_srnum_range = df_srnum_range.loc[:, self.ls_cols_out]
+            df_srnum_range.to_csv('./custom_output/8-df_srnum_range_loc.csv')
 
             # Club data
             df_srnum = df_srnum.loc[df_srnum.Shipper_Qty == 1, self.ls_cols_out]
             df_srnum = pd.concat([df_srnum, df_srnum_range])
+            df_srnum.to_csv('./custom_output/9-df_srnum_ConcatenatedData.csv')
+
             df_srnum = df_srnum.rename(
                 {"SerialNumber": 'SerialNumber_M2M',
                  "Product": "Product_M2M"}, axis=1)
@@ -600,8 +619,11 @@ class InstallBase:
             # Merge two tbls
             df_data_install = df_data_install.merge(
                 df_srnum, on='key_serial', how=merge_type)
+            df_data_install.to_csv('./custom_output/10-Df_data_Install+df_srnum_Merged.csv')
+
             df_data_install = df_data_install.drop_duplicates(
                 ['Shipper_Index', 'SerialNumber_M2M'])
+            df_data_install.to_csv("./custom_output/11-df_data_installFinal.csv")
             return df_data_install
         except Exception as excp:
             logger.app_fail(

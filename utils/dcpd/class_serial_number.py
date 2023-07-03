@@ -61,6 +61,8 @@ class SerialNumber:
 
         self.ref_data = ref_data.copy()
 
+        self.dict_mapping = {}
+
     def validate_srnum(self, ar_serialnum):
 
         """
@@ -85,6 +87,7 @@ class SerialNumber:
 
             # Should not contain
             pat_invalid_self = [
+                'fwt','exp','crat','seis',
                 'bcb', 'bcms', 'box', 'cab', 'com', 'cratin',
                 'ext', 'floor', 'freig', 'inst',
                 'jbox', 'label', 'line', 'loadbk', 'repo',
@@ -168,7 +171,7 @@ class SerialNumber:
             raise Exception from e
         return df_input[col]
 
-    def get_serialnumber(self, ar_serialnum, ar_installsize, data_type='m2m'):
+    def get_serialnumber(self, ar_serialnum, ar_installsize, ar_key_serial, data_type='m2m'):
 
         """
         Function accepts and initializes the parameters for serial number
@@ -199,27 +202,16 @@ class SerialNumber:
 
             df_org = pd.DataFrame(data={
                 'SerialNumberOrg': ar_serialnum,
-                'InstallSize': ar_installsize})
+                'InstallSize': ar_installsize,
+                'KeySerial':ar_key_serial})
 
             ref_data = self.ref_data
 
-            # # Check if decoded before
-            # if False:
-            #     ls_decoded = ref_data['SerialNumberOrg'].unique()
-            #     # df_org.loc[:, 'known_sr_num'] = df_org['SerialNumberOrg'].apply(
-            #     #     lambda x: x in ls_decoded)
-            #
-            #     # Known ranges
-            #     df_subset = df_org.loc[df_org['known_sr_num'], [
-            #         'SerialNumberOrg', 'InstallSize']].copy()
-            #     df_out_known = self.known_range(df_subset)
-            #     del df_subset
-            # else:
             df_org['known_sr_num'] = False
 
             # UnKnown ranges
             df_subset = df_org.loc[df_org['known_sr_num']
-                                   == False, ['SerialNumberOrg', 'InstallSize']]
+                                   == False, ['SerialNumberOrg', 'InstallSize','KeySerial']]
             df_out_unknown, df_could_not = self.unknown_range(df_subset)
             del df_subset
 
@@ -290,7 +282,7 @@ class SerialNumber:
         :rtype:  Pandas Dataframe
 
         """
-
+        dict = {}
         current_step = 'Unknown range of serial numbers'
 
         try:
@@ -302,19 +294,24 @@ class SerialNumber:
             df_input['SerialNumber'] = self.prep_srnum(df_input)
 
             # Identify Type of Sequence:
-            cols = ['SerialNumberOrg', 'InstallSize']
+            cols = ['SerialNumberOrg', 'InstallSize','KeySerial']
+
             df_input['out'] = df_input[cols].apply(
                 lambda x: self.identify_seq_type(x), axis=1)
+
+
 
             ix = 0
             for col in ls_results:
                 df_input[col] = df_input['out'].apply(lambda x: x[ix])
                 ix += 1
 
+            if '0466' in df_input['SerialNumberOrg']:
+                print("110-0466")
             # Generate Sequence
             ls_seq_out_unknown = df_input[
-                ['out', 'SerialNumberOrg', 'InstallSize']].apply(
-                lambda x: self.generate_seq(x[0], x[1], x[2]), axis=1)
+                ['out', 'SerialNumberOrg', 'InstallSize','KeySerial']].apply(
+                lambda x: self.generate_seq(x[0], x[1], x[2], x[3]), axis=1)
 
             df_out_unknown = pd.concat(ls_seq_out_unknown.tolist())
 
@@ -366,7 +363,7 @@ class SerialNumber:
 
         return rge_sr_num
 
-    def generate_seq(self, out, sr_num, size):
+    def generate_seq(self, out, sr_num, size, key_serial):
 
         """
         Function generates the sequence of characters for the inserted serial
@@ -438,6 +435,7 @@ class SerialNumber:
 
         df_out['SerialNumber'] = ls_srnum
         df_out['SerialNumberOrg'] = [sr_num] * len(ls_srnum)
+        df_out['KeySerial']= key_serial
 
         return df_out
 
@@ -466,6 +464,8 @@ class SerialNumber:
             # vals = ['12017004-51-59,61', 10]       110-1900-12,14,17,19
             sr_num = vals[0]
             install_size = vals[1]
+            key_serial = vals[2]
+            loggerObj.app_success(sr_num)
 
             f_analyze = True
             dict_out = {'type': '', 'ix_beg': '',
@@ -473,7 +473,6 @@ class SerialNumber:
 
             sr_num = str.replace(str(sr_num), '/', '-')
             sr_num = str.replace(str(sr_num), '--', '-')
-            # sr_num = str.replace(str(sr_num), ',', '-')   # Fix for 110-0631,1-2
             split_sr_num = str.split(str(sr_num), '-')
 
             # Type = num_count
@@ -483,9 +482,17 @@ class SerialNumber:
             # shoud be created
 
             if (len(split_sr_num) == 2) and (',' not in sr_num):
+                if sr_num in self.dict_mapping:
+                    ix_beg = self.dict_mapping[sr_num] + 1
+                    ix_end = self.dict_mapping[sr_num] + install_size
+                    self.dict_mapping[sr_num] = ix_end
+                else:
+                    self.dict_mapping[sr_num] = install_size
+                    ix_beg = 1
+                    ix_end = install_size
                 dict_out['type'] = 'num_count'
-                dict_out['ix_beg'] = 1
-                dict_out['ix_end'] = install_size
+                dict_out['ix_beg'] = ix_beg
+                dict_out['ix_end'] = ix_end
                 dict_out['pre_fix'] = sr_num + '-'
                 ls_out = [True] + list(dict_out.values())
                 return ls_out
@@ -549,7 +556,7 @@ class SerialNumber:
                     dict_out['type'] = 'alpha'
                     loc_split = [ix for ix in range(
                         len(ix_beg)) if (ix_beg[ix].isdigit())]
-                    pre_fix = pre_fix + ix_beg[:max(loc_split) + 1]
+                    pre_fix = pre_fix + ix_beg[:max(loc_split) + 1] + "-"
                     ix_beg = ix_beg[max(loc_split) + 1:]
 
                 elif ix_beg.isalnum() & ix_end.isalnum():
@@ -572,6 +579,16 @@ class SerialNumber:
                 return [False] + list(dict_out.values())
 
             if f_analyze:
+                # if ix_end.isnumeric() and sr_num in self.dict_mapping:
+                if ix_beg.isnumeric() and ix_end.isnumeric() and sr_num in self.dict_mapping:
+                    temp = int(ix_end) - int(ix_beg)
+                    ix_beg = self.dict_mapping[sr_num] + 1
+                    ix_end = ix_beg + temp
+                    self.dict_mapping[sr_num] = int(ix_end)
+                else:
+                    if ix_end.isnumeric():
+                        self.dict_mapping[sr_num] = int(ix_end)
+
                 dict_out['pre_fix'] = pre_fix
                 dict_out['ix_beg'] = ix_beg
                 dict_out['ix_end'] = ix_end
@@ -700,18 +717,18 @@ if __name__ == '__main__':
     #
     # ar_installsize = [17, 2, 2, 4]
     # 11100067
-
-    ar_serialnum = ['110-0466']
+    #ar_serialnum = ['110-0466','442-0002-7a-12a', '442-0002-7a-12a']
+    # ar_serialnum = ['112-0058-1-7','112-0058-6-9,11-12']
+    ar_serialnum = ['442-0185-17-18A']
     # ar_serialnum = ['118-110-1,2,3']   # Need to resolve
-    ar_installsize = [10]
-    df_out_srs, df_out_couldnot = sr_num.get_serialnumber(
-        ar_serialnum, ar_installsize)
-    print("df out ",df_out_srs)
+    ar_installsize = [2]
 
-    # print("The df Out data is ",df_out_srs)
-    # df_data = pd.read_csv('./data/SerialNumber.csv')
-    # df_data = df_data[df_data['SO'] == 1930]
-    # print("New data updated ", df_data)
+    df_out_srs, df_out_couldnot = sr_num.get_serialnumber(
+         ar_serialnum, ar_installsize,"1")
+    print("The df Out data is ",df_out_srs)
+    #df_data = pd.read_csv('./data/SerialNumber.csv')
+    #df_data = df_data[df_data['SO'] == 1930]
+    #print("New data updated ", df_data)
     # df_data['Serial #'] = df_data['Serial #'].str.lower()
     # df_data['f_include'] = sr_num.validate_srnum(df_data['Serial #'])
     # df_data = df_data[df_data['f_include']]
