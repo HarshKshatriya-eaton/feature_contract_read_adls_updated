@@ -241,7 +241,6 @@ class TestPipelineLead:
             'InstallDate': ['2022-01-01', '2023-02-15', '2022-03-10', '2022-04-20', '2022-05-05'],
             'Component': ['BCMS', 'FAN', 'BREAKER', 'DISPLAY', 'PCB'],
             'temp_column': ['bcms', 'fan', 'breaker', 'display', 'pcb'],
-            'SerialNumber': ['SN001', 'SN002', '', '', ''],
             'component': ['bcms', 'fan', '', '', ''],
             'ClosedDate': ['2022-01-01', '2023-02-15', '', '', ''],
             'date_code': ['2022-01-01', '2023-02-15', '2022-03-10', '2022-04-20', '2022-05-05'],

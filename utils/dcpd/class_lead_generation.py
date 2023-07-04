@@ -124,35 +124,17 @@ class LeadGeneration:
             df_service_jcomm_sidecar = df_service_jcomm_sidecar[['SerialNumber', 'Has_JCOMM',
                                                                  'Has_Sidecar']]
 
-            df_leads = df_leads.merge(df_service_jcomm_sidecar, left_on='SerialNumber_M2M',
-                                      right_on='SerialNumber', how='left')
+            df_service_jcomm_sidecar.rename(columns={'SerialNumber': 'SerialNumber_M2M'},
+                                            inplace=True)
 
-            del df_leads['SerialNumber_y']
-            df_leads.rename(columns={'SerialNumber_x': 'SerialNumber'}, inplace=True)
+            df_leads = df_leads.merge(df_service_jcomm_sidecar, left_on='SerialNumber_M2M',
+                                      right_on='SerialNumber_M2M', how='left')
 
             logger.app_success(_step)
             return df_leads
         except Exception as e:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
-
-    def pipeline_merge_contract_install(self, df_contract, df_install):  # pragma: no cover
-        """
-        :params df_contract : Processed Contract Data
-        :params df_install : Processed Install Base Data
-        :return df_install : Merged contract data into the Install Base data.
-        """
-        _step = "Merging Install Base data with Contracts Data"
-        try:
-            # df_contract = df_contract.rename(columns={'SerialNumber': 'SerialNumber_M2M'},
-            # inplace=True)
-            df_install = df_install.merge(df_contract, left_on="SerialNumber_M2M",
-                                          right_on="SerialNumber", how="left")
-            logger.app_success(_step)
-            return df_install
-        except Exception as excp:
-            logger.app_fail(_step, f'{traceback.print_exc()}')
-            raise Exception('f"{_step}: Failed') from excp
 
     def pipeline_bom_identify_lead(self, df_install):  # pragma: no cover
         """
@@ -225,7 +207,7 @@ class LeadGeneration:
                                            })
 
             # Convert to correct date format
-            df_services['ClosedDate'] = pd.to_datetime(df_services['ClosedDate'], errors='coerce').\
+            df_services['ClosedDate'] = pd.to_datetime(df_services['ClosedDate'], errors='coerce'). \
                 dt.strftime('%Y-%m-%d')
 
             df_services.sort_values(by='ClosedDate', ascending=False, inplace=True)
@@ -251,7 +233,7 @@ class LeadGeneration:
             df_services['component'] = df_services['component'].str.lower()
 
             # Convert to correct date format
-            df_leads['InstallDate'] = pd.to_datetime(df_leads['InstallDate'], errors='coerce').\
+            df_leads['InstallDate'] = pd.to_datetime(df_leads['InstallDate'], errors='coerce'). \
                 dt.strftime('%Y-%m-%d')
 
             ls_uni = df_leads['Component'].unique()
@@ -260,8 +242,10 @@ class LeadGeneration:
             df_leads['temp_column'] = df_leads['Component'].apply(
                 lambda x: next((val for val in unique_component if val in x.lower()), x))
 
+            df_services.rename(columns={'SerialNumber': 'SerialNumber_M2M'}, inplace=True)
+
             df_leads = df_leads.merge(df_services, left_on=['SerialNumber_M2M', 'temp_column'],
-                                      right_on=['SerialNumber', 'component'], how='left')
+                                      right_on=['SerialNumber_M2M', 'component'], how='left')
 
             # Replace NaN with empty string
             df_leads = df_leads.fillna('')
@@ -298,7 +282,13 @@ class LeadGeneration:
             if type_ == 'lead_id':
                 key = 'Job_Index'
                 if 'InstallDate' not in df_install.columns:
-                    df_install['InstallDate'] = df_install['ShipmentDate'].copy()
+                    df_install['InstallDate'] = df_install['startup_date']. \
+                        fillna(df_install['ShipmentDate'])
+
+                    # df_install['InstallDate'] = df_install['ShipmentDate'].copy()
+                else:
+                    df_install['InstallDate'] = df_install['startup_date']. \
+                        fillna(df_install['InstallDate'])
 
                 df_install['Product_M2M'] = df_install['Product_M2M'].str.lower()
                 # df_install = df_install.drop_duplicates(subset=['Job_Index'])
