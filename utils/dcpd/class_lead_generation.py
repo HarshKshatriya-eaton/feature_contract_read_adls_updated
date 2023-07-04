@@ -79,6 +79,9 @@ class LeadGeneration:
             ref_install_output_format = self.config['output_format']['ref_install_base']
             ref_install = self.format.format_output(df_leads, ref_install_output_format)
 
+            ref_install = ref_install.drop_duplicates(subset=['Serial_Number']). \
+                reset_index(drop=True)
+
             IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'],
                                      'file_name': self.config['file']['Processed']['output_iLead'][
                                          'ref_install']
@@ -86,6 +89,9 @@ class LeadGeneration:
 
             iLead_output_format = self.config['output_format']['output_iLead']
             output_iLead = self.format.format_output(df_leads, iLead_output_format)
+
+            _step = "Post Processing and Deriving columns on output iLeads"
+            output_iLead = self.post_process_output_ilead(output_iLead)
 
             IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'],
                                      'file_name': self.config['file']['Processed']['output_iLead'][
@@ -99,6 +105,71 @@ class LeadGeneration:
         return 'successfully !'
 
     # %% ***** Pipelines *****
+
+    def post_process_output_ilead(self, output_ilead_df):
+        """
+        This module derives new columns for the blank columns after formatting the output.
+        @param output_ilead_df: iLead output after formatting.
+        @type output_ilead_df: pd.Dataframe.
+        """
+        _step = "Deriving columns for output_iLead final data."
+        try:
+
+            # Calculate the current year
+            current_year = pd.Timestamp.now().year
+
+            # Define a custom function to calculate the 'Component_Due_Date'
+            def calculate_component_due_date(row):
+                if row['Lead_Type'] == 'EOSL':
+                    first_day_of_year = pd.to_datetime(f'01/01/{current_year}', format='%m/%d/%Y')
+                    return first_day_of_year.strftime('%m/%d/%Y')
+                else:
+                    component_date_code = pd.to_datetime(row['Component_Date_Code'],
+                                                         format='%m/%d/%Y')
+                    component_life_years = pd.DateOffset(years=row['Component_Life'])
+                    return (component_date_code + component_life_years).strftime('%m/%d/%Y')
+
+            _step = "Derive column Component_Due_Date based on Lead_Type, Component_Date_Code"
+            # Apply the custom function to create the 'Component_Due_Date' column
+            output_ilead_df['Component_Due_Date'] = output_ilead_df.apply(
+                calculate_component_due_date, axis=1)
+
+            logger.app_success(_step)
+
+            _step = 'Calculating Component_Due_in (years) using Component_Due_Date and current year'
+
+            # Calculate the difference in years between 'date_code' and the current year
+            output_ilead_df['Component_Due_in (years)'] = pd.to_datetime(
+                output_ilead_df['Component_Due_Date']).dt.year - current_year
+
+            # Convert the 'year_difference' to integer
+            output_ilead_df['Component_Due_in (years)'] = output_ilead_df[
+                'Component_Due_in (years)'].astype(int)
+
+            logger.app_success(_step)
+
+            _step = 'Deriving Component_Due_in (Category) based on Due years'
+
+            def categorize_due_in_category(x):
+                if x < 0:
+                    return "Past Due"
+                elif 0 <= x <= 1:
+                    return "Due this year"
+                elif 1 < x <= 3:
+                    return "Due in 2-3 years"
+                elif 3 < x < 100:
+                    return "Due after 3 years"
+                else:
+                    return "Unknown"  # Or any other default category you want to assign
+
+            # Apply the function to create the 'Component_Due_in (Category)' column
+            output_ilead_df['Component_Due_in (Category)'] = output_ilead_df[
+                'Component_Due_in (years)'].apply(categorize_due_in_category)
+
+            return output_ilead_df
+        except Exception as e:
+            logger.app_fail(_step, f'{traceback.print_exc()}')
+            raise Exception('f"{_step}: Failed') from e
 
     def pipeline_add_jcomm_sidecar(self, df_leads: object, service_df=None):
         """

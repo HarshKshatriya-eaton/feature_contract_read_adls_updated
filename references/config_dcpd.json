@@ -907,7 +907,7 @@
                 "output_format": "text : capitalize each word"
             },
             "Source": {
-                "actual_datasoure_name": "",
+                "actual_datasoure_name": "source",
                 "output_format": "text : capitalize each word"
             },
             "Component_Date_Code": {
@@ -935,7 +935,7 @@
                 "output_format": ""
             },
             "Component_Due_in (Category)": {
-                "actual_datasoure_name": "lead_type",
+                "actual_datasoure_name": "",
                 "output_format": "text : capitalize each word"
             },
             "flag_raise_lead": {
