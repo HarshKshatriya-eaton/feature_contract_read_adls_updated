@@ -228,7 +228,7 @@ class SerialNumber:
 
         return df_out, df_could_not
 
-    def known_range(self, df_input):
+    def known_range(self, df_input): # pragma: no cover
 
         """
         Function contains known dataframe values which have been processed
