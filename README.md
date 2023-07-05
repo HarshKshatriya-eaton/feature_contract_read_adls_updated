@@ -8,32 +8,28 @@ Project Organization
     ├── README.md          <- The top-level README for developers using this project.
     │
     │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
+    ├── docs               <- Flowcharts for all business and Sphinx documentation for details
     │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
+    ├── notebooks          <- Jupyter notebooks. Naming convention is business, database names and description
+    ├──                       `-` delimited description, e.g.
+    │                         `1.0-dcpd-installbase-data-exploration`.
     │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
+    ├── references         <- Configurations and referenece files. Reference file changes would be though JIRA ticket only.
     │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
+    ├── results            <- Generated analysis as csv, HTML, PDF, LaTeX, etc.
     │    
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                        generated with `pip freeze > requirements.txt`
+    ├── requirements.txt   <- The requirements file for reproducing the analysis environment.
     │
     ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
     │    
-    ├── <repo_name>
-    │   ├── __init__.py    <- Makes src a Python module
-    │   └── steps          <- Steps to be executed in the pipeline
-    │   |  └── ingest
-    │   |  └── transform
-    │   |  └── train
-    │   |  └── inference
+    ├── Lead Generation
+    │   ├── __init__.py    <- makes src a Python module
+    │   ├── __main__.py    <- generates lead for given business 
     │   |
     │   └── utils         <- utility functions specific to <algorithm>
-    │
+    │     └── io_adopter  <- handles all read and write operations  
+    │     └── <business>  <- handles business specific logic
+    │   
     ├── tests
     │
     ├── README.md
@@ -43,16 +39,5 @@ Project Organization
     ├── version.py
     │
     └── .gitignore
-    │                       
-    │   
-    │
-    ├──  docker-compose.yaml    <- yaml file defining service, networks, volumes for a containerized workspace
-    │
-    ├── .devcontainer.json  <- Describes how VS Code should start the container and what to do after it connects.
     │
     └── .env                <- File containing key value pairs of all the environment variables required by your application.
-
-
---------
-
-<p><small>Project based on the <a target="_blank" href="https://github.com/etn-electrical/bas-data-science-quickstart-repo.git">BAS Data Science template</a>.</small></p>
