@@ -318,13 +318,13 @@ class ProcessServiceIncidents:
 
                     if component == upgrade_component:
                         filter_disp_col = df_data_comp.Customer_Issue_Summary__c.str.contains(
-                            'upgrade')
+                            'upgrade', case=False)
                         df_data_comp['f_upgrade'] = filter_disp_col
                     else:
                         df_data_comp['f_upgrade'] = False
 
                     df_data_comp['f_replace'] = (
-                        df_data_comp.Customer_Issue_Summary__c.str.contains('replace'))
+                        df_data_comp.Customer_Issue_Summary__c.str.contains('replace', case=False))
 
                     df_data_comp['f_all'] = (
                             df_data_comp.f_replace | df_data_comp.f_upgrade)
@@ -354,7 +354,7 @@ class ProcessServiceIncidents:
 
         return df_out
 
-    def pipline_component_identify(self,df_serv_input):
+    def pipline_component_identify(self,df_services_raw=None, df_services_serialnum=None):
         """
         Function identifies if JCOMM and Sidecar fields are present in the raw services data.
 
@@ -363,21 +363,26 @@ class ProcessServiceIncidents:
         :return : Function saves an intermediate file to the processed folder which gets processed during lead generation
 
         """
+        _step = 'Read raw services data and perform serial number mapping'
+
         try:
-            # Read raw services data
-            _step = 'Read raw services data and perform serial number mapping'
+            if df_services_raw is not None and df_services_serialnum is not None:
+                df_services_raw = df_services_raw
+                df_services_serialnum = df_services_serialnum
+            else:
+                # Read raw services data
 
-            # Specify the file directory and path
-            file_dir = {'file_dir': self.config['file']['dir_data'],
-                        'file_name': self.config['file']['Raw']
-                        ['services']['file_name']}
-            df_services_raw = IO.read_csv(self.mode, file_dir)
+                # Specify the file directory and path
+                file_dir = {'file_dir': self.config['file']['dir_data'],
+                            'file_name': self.config['file']['Raw']
+                            ['services']['file_name']}
+                df_services_raw = IO.read_csv(self.mode, file_dir)
 
-            # Read corresponding serial number data file for raw services data
-            file_dir = {'file_dir': self.config['file']['dir_intermediate'],
-                        'file_name': self.config['file']['Processed']['services']['serial_number_services']
-                        }
-            df_services_serialnum = IO.read_csv(self.mode, file_dir)
+                # Read corresponding serial number data file for raw services data
+                file_dir = {'file_dir': self.config['file']['dir_intermediate'],
+                            'file_name': self.config['file']['Processed']['services']['serial_number_services']
+                            }
+                df_services_serialnum = IO.read_csv(self.mode, file_dir)
 
             # Merge serial number data with raw services data
             df_services_raw_merged = df_services_raw.merge(df_services_serialnum, on='Id', how='left')

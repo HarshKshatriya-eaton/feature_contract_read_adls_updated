@@ -15,7 +15,8 @@ direct written permission from Eaton Corporation.
 # pytest ./tests/test_services_data.py
 # pytest --cov=.\utils\dcpd --cov-report html:.\coverage\ .\tests\
 # coverage report -m utils/dcpd/class_services_data.py
-
+# coverage run -m pytest ./tests/test_class_services_data.py
+# coverage report -m
 
 # !pytest ./tests/test_class_installbase.py
 # !pytest --cov
@@ -54,15 +55,36 @@ class TestServicesFunc:
         dict_filt = self.config['services']['Component_replacement']
         upgrade_component = self.config['services']['UpgradeComponents']['ComponentName']
 
-        df_data = pd.DataFrame(data = {'Id':'50046000000rCBdAAM', 'Customer_Issue_Summary__c':'Prescript display replace',
-                                       'Customer_Issue__c':'PCBA - Software Issue','Resolution_Summary__c':'Done', 'Resolution__c':'Done',
-                                       'Qty_1__c':'1','Qty_2__c':'0','Qty_3__c':'0'}, index=[0])
+        df_data = pd.DataFrame(
+            data={'Id': '50046000000rCBdAAM', 'Customer_Issue_Summary__c': 'Prescript display replace',
+                  'Customer_Issue__c': 'PCBA - Software Issue', 'Resolution_Summary__c': 'Done',
+                  'Resolution__c': 'Done',
+                  'Qty_1__c': '1', 'Qty_2__c': '0', 'Qty_3__c': '0'}, index=[0])
 
         expected_op = 'replace'
-        obj_result = obj_services.pipeline_id_hardwarechanges(df_data, dict_filt,upgrade_component)
+        obj_result = obj_services.pipeline_id_hardwarechanges(df_data, dict_filt, upgrade_component)
         actual_op = obj_result['type'][0]
         assert all([a == b for a, b in zip(actual_op, expected_op)])
 
+    def test_pipeline_hardware_display_data_caseSensitive(self):
+        """
+        Validate replace category output for given set of input params.
+        """
+        self.config = IO.read_json(mode='local', config={
+            "file_dir": './references/', "file_name": 'config_dcpd.json'})
+        dict_filt = self.config['services']['Component_replacement']
+        upgrade_component = self.config['services']['UpgradeComponents']['ComponentName']
+
+        df_data = pd.DataFrame(
+            data={'Id': '50046000000rCBdAAM', 'Customer_Issue_Summary__c': 'Prescript display REPLACE',
+                  'Customer_Issue__c': 'PCBA - Software Issue', 'Resolution_Summary__c': 'Done',
+                  'Resolution__c': 'Done',
+                  'Qty_1__c': '1', 'Qty_2__c': '0', 'Qty_3__c': '0'}, index=[0])
+        # Testing done for REPLACE, REPLACED, Replace and replace.
+        expected_op = 'replace'
+        obj_result = obj_services.pipeline_id_hardwarechanges(df_data, dict_filt, upgrade_component)
+        actual_op = obj_result['type'][0]
+        assert all([a == b for a, b in zip(actual_op, expected_op)])
 
     def test_pipeline_pdu_upgrade(self):
         """
@@ -73,16 +95,18 @@ class TestServicesFunc:
         dict_filt = self.config['services']['Component_replacement']
         upgrade_component = self.config['services']['UpgradeComponents']['ComponentName']
 
-        df_data = pd.DataFrame(data = {'Id':'50046000000rCBdAAJH', 'Customer_Issue_Summary__c':'Prescript m4 Postscript replace upgrade',
-                                       'Customer_Issue__c':'Hardware Issue - PDU','Resolution_Summary__c':'SO 29095', 'Resolution__c':'Done',
-                                       'Qty_1__c':'1','Qty_2__c':'3','Qty_3__c':'4'}, index=[0])
+        df_data = pd.DataFrame(
+            data={'Id': '50046000000rCBdAAJH', 'Customer_Issue_Summary__c': 'Prescript m4 Postscript replace upgrade',
+                  'Customer_Issue__c': 'Hardware Issue - PDU', 'Resolution_Summary__c': 'SO 29095',
+                  'Resolution__c': 'Done',
+                  'Qty_1__c': '1', 'Qty_2__c': '3', 'Qty_3__c': '4'}, index=[0])
 
         expected_op_1 = 'upgrade'
-        obj_result = obj_services.pipeline_id_hardwarechanges(df_data, dict_filt,upgrade_component)
+        obj_result = obj_services.pipeline_id_hardwarechanges(df_data, dict_filt, upgrade_component)
         actual_op_1 = obj_result['type'][0]
 
         expected_op_2 = 'Display'
-        obj_result_1 = obj_services.pipeline_id_hardwarechanges(df_data, dict_filt,upgrade_component)
+        obj_result_1 = obj_services.pipeline_id_hardwarechanges(df_data, dict_filt, upgrade_component)
         actual_op_2 = obj_result_1['component'][0]
         errors = []
 
@@ -133,7 +157,6 @@ class TestServicesFunc:
 
         # assert no error message has been registered, else print messages
         assert not errors, "errors occured:\n{}".format("\n".join(errors))
-
 
     def test_pipeline__hardware_rpp_replace(self):
         """
@@ -226,11 +249,37 @@ class TestServicesFunc:
         df_jcomm_output = pd.DataFrame()
 
         with pytest.raises(Exception) as info:
-            obj_services.pipline_component_identify(self,df_services_raw)
+            obj_services.pipline_component_identify(self, df_services_raw)
             assert info.type == Exception
 
-# Testcases for extracting raw serial number data
-# pipeline_serial_number
+    def test_pipeline_jcomm_valid(self):
+        """
+        Validate Jcomm and Sidecar data fields for ideal data.
+        """
+
+        self.config = IO.read_json(mode='local', config={
+            "file_dir": './references/', "file_name": 'config_dcpd.json'})
+        self.mode = 'local'
+        file_dir = {'file_dir': self.config['file']['dir_data'],
+                    'file_name': self.config['file']['Raw']
+                    ['services']['file_name']}
+        df_services_raw = IO.read_csv(self.mode, file_dir)
+        df_services_raw.head(5)
+        test = ''
+
+        data = {'Id': 'Test1234563121', 'Customer_Issue_Summary__c': 'Testing JCOMM SrNo: 110-2334'}
+        df_services_raw = pd.DataFrame(data, index=[0])
+
+        data_srnum = pd.DataFrame({'Id': 'Test1234563121','SerialNumber': '110-2334-1','Qty':1,'partial_match':''},index=[0])
+
+        dict_cols_srnum = self.config['services']['SerialNumberColumns']
+        with pytest.raises(Exception) as info:
+            obj_services.pipline_component_identify(df_services_raw, data_srnum)
+        # print('the result')
+            assert info == Exception
+
+    # Testcases for extracting raw serial number data
+    # pipeline_serial_number
     def test_pipeline_serial_number(self):
         """
         Validate if pipline serial number validates empty df
@@ -252,7 +301,7 @@ class TestServicesFunc:
         expected_op = ''
 
         with pytest.raises(Exception) as info:
-            actual_op = obj_services.pipeline_serial_number(df_srNum,dict_filt)
+            actual_op = obj_services.pipeline_serial_number(df_srNum, dict_filt)
             assert info.type == Exception
 
     def test_pipeline_hardware_changes_empty_df(self):
@@ -264,9 +313,10 @@ class TestServicesFunc:
         dict_filt = self.config['services']['Component_replacement']
         upgrade_component = self.config['services']['UpgradeComponents']['ComponentName']
 
-        df_data = pd.DataFrame(data = {'Id':'Test_123', 'Customer_Issue_Summary__c':'Prescript display replace',
-                                       'Customer_Issue__c':'PCBA - Software Issue','Resolution_Summary__c':'Done', 'Resolution__c':'Done',
-                                       'Qty_1__c':'1','Qty_2__c':'0','Qty_3__c':'0'}, index=[0])
+        df_data = pd.DataFrame(data={'Id': 'Test_123', 'Customer_Issue_Summary__c': 'Prescript display replace',
+                                     'Customer_Issue__c': 'PCBA - Software Issue', 'Resolution_Summary__c': 'Done',
+                                     'Resolution__c': 'Done',
+                                     'Qty_1__c': '1', 'Qty_2__c': '0', 'Qty_3__c': '0'}, index=[0])
 
         file_dir = {'file_dir': self.config['file']['dir_data'],
                     'file_name': self.config['file']['Raw']
@@ -278,7 +328,7 @@ class TestServicesFunc:
         expected_op = ''
 
         with pytest.raises(Exception) as info:
-            actual_op = obj_services.pipeline_id_hardwarechanges(df_srNum, dict_filt,upgrade_component)
+            actual_op = obj_services.pipeline_id_hardwarechanges(df_srNum, dict_filt, upgrade_component)
             assert info.type == ValueError
 
     def test_pipeline_hardware_ideal_data(self):
@@ -290,12 +340,13 @@ class TestServicesFunc:
         dict_filt = self.config['services']['Component_replacement']
         upgrade_component = self.config['services']['UpgradeComponents']['ComponentName']
 
-        df_data = pd.DataFrame(data = {'Id':'Test_123', 'Customer_Issue_Summary__c':'Prescript display replace',
-                                       'Customer_Issue__c':'PCBA - Software Issue','Resolution_Summary__c':'Done', 'Resolution__c':'Done',
-                                       'Qty_1__c':'1','Qty_2__c':'0','Qty_3__c':'0'}, index=[0])
+        df_data = pd.DataFrame(data={'Id': 'Test_123', 'Customer_Issue_Summary__c': 'Prescript display replace',
+                                     'Customer_Issue__c': 'PCBA - Software Issue', 'Resolution_Summary__c': 'Done',
+                                     'Resolution__c': 'Done',
+                                     'Qty_1__c': '1', 'Qty_2__c': '0', 'Qty_3__c': '0'}, index=[0])
 
         expected_op = 'Display'
-        obj_result = obj_services.pipeline_id_hardwarechanges(df_data, dict_filt,upgrade_component)
+        obj_result = obj_services.pipeline_id_hardwarechanges(df_data, dict_filt, upgrade_component)
         actual_op = obj_result['component'][0]
         assert all([a == b for a, b in zip(actual_op, expected_op)])
 
@@ -308,16 +359,17 @@ class TestServicesFunc:
         dict_filt = self.config['services']['Component_replacement']
         upgrade_component = self.config['services']['UpgradeComponents']['ComponentName']
 
-        df_data = pd.DataFrame(data = {'Id':'50046000000rCBdAAJH', 'Customer_Issue_Summary__c':'Prescript display replace',
-                                       'Customer_Issue__c':'Installation Request','Resolution_Summary__c':'Done', 'Resolution__c':'Done',
-                                       'Qty_1__c':'1','Qty_2__c':'0','Qty_3__c':'0'}, index=[0])
+        df_data = pd.DataFrame(
+            data={'Id': '50046000000rCBdAAJH', 'Customer_Issue_Summary__c': 'Prescript display replace',
+                  'Customer_Issue__c': 'Installation Request', 'Resolution_Summary__c': 'Done', 'Resolution__c': 'Done',
+                  'Qty_1__c': '1', 'Qty_2__c': '0', 'Qty_3__c': '0'}, index=[0])
 
         expected_op_1 = 'replace'
-        obj_result = obj_services.pipeline_id_hardwarechanges(df_data, dict_filt,upgrade_component)
+        obj_result = obj_services.pipeline_id_hardwarechanges(df_data, dict_filt, upgrade_component)
         actual_op_1 = obj_result['type'][0]
 
         expected_op_2 = 'Display'
-        obj_result_1 = obj_services.pipeline_id_hardwarechanges(df_data, dict_filt,upgrade_component)
+        obj_result_1 = obj_services.pipeline_id_hardwarechanges(df_data, dict_filt, upgrade_component)
         actual_op_2 = obj_result_1['component'][0]
         errors = []
 
@@ -331,6 +383,35 @@ class TestServicesFunc:
 
         # assert no error message has been registered, else print messages
         assert not errors, "errors occured:\n{}".format("\n".join(errors))
+
+    @pytest.mark.parametrize(
+        "df_org",
+        [None,
+         (pd.DataFrame())
+         ], )
+    def test_pipeline_serial_empty(self, df_org):
+
+        self.config = IO.read_json(mode='local', config={
+            "file_dir": './references/', "file_name": 'config_dcpd.json'})
+        dict_cols_srnum = self.config['services']['SerialNumberColumns']
+        with pytest.raises(Exception) as _:
+            obj_services.pipeline_serial_number(df_org)
+
+    def test_pipeline_serial_ideal_data(self):
+
+        self.config = IO.read_json(mode='local', config={
+            "file_dir": './references/', "file_name": 'config_dcpd.json'})
+        self.mode = 'local'
+        file_dir = {'file_dir': self.config['file']['dir_data'],
+                    'file_name': self.config['file']['Raw']
+                    ['services']['file_name']}
+        df_services_raw = IO.read_csv(self.mode, file_dir)
+        df_services_raw.head(5)
+
+        dict_cols_srnum = self.config['services']['SerialNumberColumns']
+        with pytest.raises(Exception) as info:
+            obj_services.pipeline_serial_number(df_services_raw, dict_cols_srnum)
+            assert info == Exception
 
     # @pytest.mark.parametrize(
     #     "hardware_changes",
@@ -358,7 +439,6 @@ class TestServicesFunc:
     #     assert all([a == b for a, b in zip(actual_output, expected_output)])
     #
 
-
     # @pytest.mark.parametrize(
     #     "Id, Customer_Issue_Summary__c,Customer_Issue__c,Resolution_Summary__c,Resolution__c,Qty_1__c,Qty_2__c,Qty_3__c",
     #     [
@@ -380,6 +460,7 @@ class TestServicesFunc:
     #     obj_result = obj_services.pipeline_id_hardwarechanges(df_data, dict_filt,upgrade_component)
     #     actual_op = obj_result['type'][0]
     #     assert all([a == b for a, b in zip(actual_op, expected_op)])
+
 
 # %%
 if __name__ == "__main__":

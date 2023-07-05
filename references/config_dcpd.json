@@ -1100,6 +1100,10 @@
                     "PNL10459"
                 ]
             }
+        },
+        "main_breaker_cols": {
+            "export_col_data" : ["PartNumber_BOM_BOM", "Input CB", "AMP Trip", "kAIC @ Voltage", "Rated, Trip", "kVA", "MFR"]
+
         }
     }
 }

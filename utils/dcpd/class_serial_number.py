@@ -87,7 +87,7 @@ class SerialNumber:
 
             # Should not contain
             pat_invalid_self = [
-                'fwt','exp','crat','seis',
+                'fwt','exp','crat','seis',                   # Updated 03/07/2023
                 'bcb', 'bcms', 'box', 'cab', 'com', 'cratin',
                 'ext', 'floor', 'freig', 'inst',
                 'jbox', 'label', 'line', 'loadbk', 'repo',
@@ -306,8 +306,6 @@ class SerialNumber:
                 df_input[col] = df_input['out'].apply(lambda x: x[ix])
                 ix += 1
 
-            if '0466' in df_input['SerialNumberOrg']:
-                print("110-0466")
             # Generate Sequence
             ls_seq_out_unknown = df_input[
                 ['out', 'SerialNumberOrg', 'InstallSize','KeySerial']].apply(
@@ -719,9 +717,9 @@ if __name__ == '__main__':
     # 11100067
     #ar_serialnum = ['110-0466','442-0002-7a-12a', '442-0002-7a-12a']
     # ar_serialnum = ['112-0058-1-7','112-0058-6-9,11-12']
-    ar_serialnum = ['442-0185-17-18A']
+    ar_serialnum = ['180-05578a']
     # ar_serialnum = ['118-110-1,2,3']   # Need to resolve
-    ar_installsize = [2]
+    ar_installsize = [1]
 
     df_out_srs, df_out_couldnot = sr_num.get_serialnumber(
          ar_serialnum, ar_installsize,"1")

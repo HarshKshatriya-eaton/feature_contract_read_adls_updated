@@ -111,7 +111,7 @@ class InstallBase:
             df_install = self.pipeline_bom(df_install, merge_type='left')
 
             # Customer Name
-            df_install = self.pipeline_customer(df_install)
+            # df_install = self.pipeline_customer(df_install)
 
             # df_install = env_.filters_.format_output(df_install, self.format_cols)
 
@@ -132,6 +132,13 @@ class InstallBase:
 
     #  ******************* Support Pipelines *********************
     def filter_mtmdata(self,df_install):
+        """
+        Filter data for output from df_install
+
+        :return: processed and filtered DataFrame
+        :rtype: Pandas df
+
+        """
 
         # Identify column to be filtered
         filter_Product_M2M = df_install['Product_M2M']
@@ -246,7 +253,6 @@ class InstallBase:
             df_out, df_couldnot = obj_srnum.get_serialnumber(
                 df_srnum_range['SerialNumber'], df_srnum_range['Shipper_Qty'],df_srnum_range['key_serial'])
 
-            print("df_sr_num range is ",df_srnum_range['SerialNumber'],df_srnum_range['Shipper_Qty'])
             # combined expanded serial number data with original data
             df_data_install = self.combine_serialnum_data(
                 df_srnum_range, df_srnum,
@@ -310,7 +316,7 @@ class InstallBase:
                 "filter product class", f"{traceback.print_exc()}")
             raise ValueError from excp
 
-    def id_metadata(self, df_bom):
+    def id_metadata(self, df_bom):  # pragma: no cover
         """
         append rating/types column to the df_bom.
 
@@ -339,6 +345,14 @@ class InstallBase:
             raise ValueError from excp
 
     def id_main_breaker(self, df_data_org):
+        """
+        Append main breaker details to existing install base data.
+
+        :raises Exception: Raised if unknown data type provided.
+        :return df_part_rating: Added circuit breaker column to the df_bom corresponding to part number
+        :rtype: pd.DataFrame
+
+                """
         df_data = df_data_org.copy()
 
         ref_main_breaker = IO.read_csv(
@@ -346,9 +360,11 @@ class InstallBase:
             {'file_dir': self.config['file']['dir_ref'],
              'file_name': self.config['file']['Reference']['lead_opprtunities']})
 
+        export_cols = self.config['install_base']['main_breaker_cols']['export_col_data']
+
         ref_main_breaker = ref_main_breaker.loc[
-            pd.notna(ref_main_breaker['Input CB']),
-            ['PartNumber_BOM_BOM', 'Input CB', 'AMP Trip', 'kAIC @ Voltage', 'Rated, Trip', 'kVA', 'MFR']]
+            pd.notna(ref_main_breaker['Input CB']),export_cols]
+
         ref_main_breaker['PartNumber_BOM_BOM'] = ref_main_breaker['PartNumber_BOM_BOM'].str.lower()
 
         df_data = df_data[['Job_Index', 'PartNumber_BOM_BOM']].merge(
@@ -404,7 +420,6 @@ class InstallBase:
             # df_bom = df_bom[ls_cols]
             df_bom = df_bom[['Job_Index', 'PartNumber_TLN_BOM']]
             df_bom = df_bom.drop_duplicates(subset=['Job_Index', 'PartNumber_TLN_BOM']).reset_index(drop=True)
-            print(df_bom.columns)
             df_bom = self.id_metadata(df_bom)
 
             # Merge main breaker data and display part number data
@@ -425,29 +440,29 @@ class InstallBase:
                 self.step_bom_data, f"{traceback.print_exc()}")
             raise ValueError from excp
 
-    def pipeline_customer(self, df_data_install: pd.DataFrame) -> pd.DataFrame:  # pragma: no cover
-        """
-        Identify strategic customer from the data.
-
-        :param df_data_install: Data to identify strategic customers
-        :type:  pd.DataFrame
-        :raises None: None
-        :return df_install_data: Data with strategic customers
-        :rtype:  pd.DataFrame
-
-        """
-        # Read Data
-        df_customer = IO.read_csv(
-            self.mode,
-            {'file_dir': self.config['file']['dir_results'],
-             'file_name': self.config['file']['Processed']['customer']['file_name']
-             }
-        )
-
-        # Merge customer data with shipment, serial number and BOM data
-        df_install_data = self.merge_customdata(df_customer, df_data_install)
-
-        return df_install_data
+    # def pipeline_customer(self, df_data_install: pd.DataFrame) -> pd.DataFrame:  # pragma: no cover
+    #     """
+    #     Identify strategic customer from the data.
+    #
+    #     :param df_data_install: Data to identify strategic customers
+    #     :type:  pd.DataFrame
+    #     :raises None: None
+    #     :return df_install_data: Data with strategic customers
+    #     :rtype:  pd.DataFrame
+    #
+    #     """
+    #     # Read Data
+    #     df_customer = IO.read_csv(
+    #         self.mode,
+    #         {'file_dir': self.config['file']['dir_results'],
+    #          'file_name': self.config['file']['Processed']['customer']['file_name']
+    #          }
+    #     )
+    #
+    #     # Merge customer data with shipment, serial number and BOM data
+    #     df_install_data = self.merge_customdata(df_customer, df_data_install)
+    #
+    #     return df_install_data
 
     #  ******************* Support Code *************************
 
@@ -580,37 +595,20 @@ class InstallBase:
 
         """
         try:
-            df_srnum_range.to_csv('./custom_output/1-df_srnum_range.csv')
-            df_srnum.to_csv('./custom_output/2-df_srnum.csv')
-            df_data_install.to_csv('./custom_output/3-df_data_install.csv')
-            df_out.to_csv('./custom_output/4-df_out.csv')
-
             df_srnum_range = df_srnum_range.rename(
                 columns={'SerialNumber': 'SerialNumberOrg'})
             df_out = df_out.rename(columns={'KeySerial': 'key_serial'})
-            df_srnum_range.to_csv('./custom_output/5-df_srnum_After_rename.csv')
 
             df_srnum_range = df_srnum_range.merge(
                 df_out, on=['SerialNumberOrg','key_serial'], how='inner')
-            df_srnum_range.to_csv('./custom_output/6-df_srnum_range+dfoutMerge.csv')
-
-            # df_srnum_range.to_csv('./custom_output/df_srnum_range_after.csv')
-
-            # if env_.ENV == 'local':
-            #     df_srnum_range.to_csv('./results/expanded_srnums.csv', index=False)
-            #     df_couldnot.to_csv(
-            #         './results/couldnt_expand_srnums.csv', index=False)
 
             df_srnum_range = df_srnum_range.drop_duplicates()
-            df_srnum_range.to_csv('./custom_output/7-df_srnum_range_dropDuplicate.csv')
 
             df_srnum_range = df_srnum_range.loc[:, self.ls_cols_out]
-            df_srnum_range.to_csv('./custom_output/8-df_srnum_range_loc.csv')
 
             # Club data
             df_srnum = df_srnum.loc[df_srnum.Shipper_Qty == 1, self.ls_cols_out]
             df_srnum = pd.concat([df_srnum, df_srnum_range])
-            df_srnum.to_csv('./custom_output/9-df_srnum_ConcatenatedData.csv')
 
             df_srnum = df_srnum.rename(
                 {"SerialNumber": 'SerialNumber_M2M',
@@ -619,11 +617,9 @@ class InstallBase:
             # Merge two tbls
             df_data_install = df_data_install.merge(
                 df_srnum, on='key_serial', how=merge_type)
-            df_data_install.to_csv('./custom_output/10-Df_data_Install+df_srnum_Merged.csv')
 
             df_data_install = df_data_install.drop_duplicates(
                 ['Shipper_Index', 'SerialNumber_M2M'])
-            df_data_install.to_csv("./custom_output/11-df_data_installFinal.csv")
             return df_data_install
         except Exception as excp:
             logger.app_fail(
@@ -665,35 +661,35 @@ class InstallBase:
                 "filter product class", f"{traceback.print_exc()}")
             raise ValueError from excp
 
-    def merge_customdata(self, df_custom, df_data_install) -> pd.DataFrame:
-        """
-        Merge custom data to shipment data.
-
-        :param df_custom:  Data to be merged
-        :type: pd.DataFrame
-        :param df_data_install: Data to be merged
-        :type: pd.DataFrame
-        :raises ValueError: raises error if unknown data type provided.
-        :return: Merged custom data with shipment data.
-        :rtype: pd.DataFrame.
-
-        """
-        try:
-            df_data_install.loc[:, 'key'] = (
-                    df_data_install['Customer'] + ":" +
-                    df_data_install['ShipTo_Customer'])
-
-            df_custom = df_custom.drop_duplicates(subset=['key'])
-            df_install_data = df_data_install.merge(
-                df_custom[['key', 'StrategicCustomer']],
-                on='key', how='left')
-
-            df_data_install.drop(['key'], axis=1, inplace=True)
-            logger.app_success(self.step_identify_strategic_customer)
-            return df_install_data
-        except Exception as excp:
-            logger.app_fail(self.step_identify_strategic_customer, f"{traceback.print_exc()}")
-            raise ValueError from excp
+    # def merge_customdata(self, df_custom, df_data_install) -> pd.DataFrame:
+    #     """
+    #     Merge custom data to shipment data.
+    #
+    #     :param df_custom:  Data to be merged
+    #     :type: pd.DataFrame
+    #     :param df_data_install: Data to be merged
+    #     :type: pd.DataFrame
+    #     :raises ValueError: raises error if unknown data type provided.
+    #     :return: Merged custom data with shipment data.
+    #     :rtype: pd.DataFrame.
+    #
+    #     """
+    #     try:
+    #         df_data_install.loc[:, 'key'] = (
+    #                 df_data_install['Customer'] + ":" +
+    #                 df_data_install['ShipTo_Customer'])
+    #
+    #         df_custom = df_custom.drop_duplicates(subset=['key'])
+    #         df_install_data = df_data_install.merge(
+    #             df_custom[['key', 'StrategicCustomer']],
+    #             on='key', how='left')
+    #
+    #         df_data_install.drop(['key'], axis=1, inplace=True)
+    #         logger.app_success(self.step_identify_strategic_customer)
+    #         return df_install_data
+    #     except Exception as excp:
+    #         logger.app_fail(self.step_identify_strategic_customer, f"{traceback.print_exc()}")
+    #         raise ValueError from excp
 
     def clean_serialnum(self, df_srnum) -> pd.DataFrame:
         """
@@ -748,10 +744,8 @@ class InstallBase:
         """
         Identify display part numbers from bom.
 
-        :param df_data_org: DESCRIPTION
-        :type df_data_org: TYPE
-        :return: DESCRIPTION
-        :rtype: TYPE
+        :param df_data_org: dataframe containing org data
+        :type df_data_org: Pandas df
 
         """
         try:
@@ -787,7 +781,6 @@ class InstallBase:
                 df_sub= df_sub.merge(df_sub_1, on='Job_Index', how='left')
 
                 df_out = df_out.merge(df_sub, on='Job_Index', how ='left')
-
 
             return df_out
         except Exception as e:
