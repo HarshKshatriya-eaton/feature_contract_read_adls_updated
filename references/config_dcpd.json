@@ -978,11 +978,11 @@
             },
             "Install_Date": {
                 "actual_datasoure_name": "ShipmentDate",
-                "output_format" : "date : mm/dd/yyyy"
+                "output_format": "date : mm/dd/yyyy"
             },
             "Product_Age": {
                 "actual_datasoure_name": "",
-                "output_format" : ""
+                "output_format": ""
             },
             "CSE_Area": {
                 "actual_datasoure_name": "",
@@ -992,21 +992,13 @@
                 "actual_datasoure_name": "",
                 "output_format": "text : capitalize each word"
             },
-            "KWRATING": {
-                "actual_datasoure_name": "",
-                "output_format" : ""
-            },
-            "OUTPUTKW": {
-                "actual_datasoure_name": "",
-                "output_format" : ""
-            },
             "Party_Site_Number": {
                 "actual_datasoure_name": "",
-                "output_format" : ""
+                "output_format": ""
             },
             "Txt_Party_Site_Number": {
                 "actual_datasoure_name": "Customer",
-                "output_format" : ""
+                "output_format": ""
             },
             "Ship_To_Party_Name": {
                 "actual_datasoure_name": "ShipTo_Customer",
@@ -1026,7 +1018,7 @@
             },
             "Ship_To_Postal_Code": {
                 "actual_datasoure_name": "ShipTo_Zip",
-                "output_format" : ""
+                "output_format": ""
             },
             "Ship_To_Country": {
                 "actual_datasoure_name": "ShipTo_Country",
@@ -1041,7 +1033,7 @@
                 "output_format": ""
             },
             "Contract_Coverage": {
-                "actual_datasoure_name": "",
+                "actual_datasoure_name": "Service_Plan",
                 "output_format": ""
             },
             "Contract_Coverage_Description": {
@@ -1055,14 +1047,6 @@
             "Contract_Line_Status": {
                 "actual_datasoure_name": "Contract_Status",
                 "output_format": "text : capitalize each word"
-            },
-            "Contract_Header_Start_Date": {
-                "actual_datasoure_name": "Contract_Start_Date",
-                "output_format": "date : mm/dd/yyyy"
-            },
-            "Contract_Header_End_Date": {
-                "actual_datasoure_name": "Contract_Expiration_Date",
-                "output_format": "date : mm/dd/yyyy"
             },
             "Customer": {
                 "actual_datasoure_name": "Customer",
@@ -1106,19 +1090,11 @@
             },
             "Owner_Party_Number": {
                 "actual_datasoure_name": "",
-                "output_format" : ""
+                "output_format": ""
             },
             "Install_Year_Group": {
                 "actual_datasoure_name": "",
-                "output_format" : ""
-            },
-            "is_NOT_under_contract": {
-                "actual_datasoure_name": "",
-                "output_format": "bool : 0/1"
-            },
-            "flag_warrantyconverted": {
-                "actual_datasoure_name": "",
-                "output_format": "bool : 0/1"
+                "output_format": ""
             },
             "Warranty_Start_Date": {
                 "actual_datasoure_name": "Warranty_Start_Date",
@@ -1144,59 +1120,23 @@
                 "actual_datasoure_name": "First_Contract_Start_Date",
                 "output_format": "date : mm/dd/yyyy"
             },
-            "First_Contract_End_Date": {
-                "actual_datasoure_name": "Contract_Expiration_Date",
-                "output_format": "date : mm/dd/yyyy"
-            },
-            "First_Contract_Coverage": {
-                "actual_datasoure_name": "",
-                "output_format": ""
-            },
-            "First_Contract_Contract_Number": {
-                "actual_datasoure_name": "",
-                "output_format": ""
-            },
             "Is_Lead_Open": {
                 "actual_datasoure_name": "",
                 "output_format": "bool : 0/1"
             },
             "Lead_ID": {
                 "actual_datasoure_name": "",
-                "output_format" : ""
-            },
-            "Service_Plan": {
-                "actual_datasoure_name": "Service_Plan",
-                "output_format": "text : capitalize each word"
+                "output_format": ""
             },
             "flag_decommissioned": {
                 "actual_datasoure_name": "",
                 "output_format": "bool : 0/1"
-            },
-            "Size_Group": {
-                "actual_datasoure_name": "",
-                "output_format": ""
-            },
-            "Ship_Site_Number": {
-                "actual_datasoure_name": "",
-                "output_format" : ""
-            },
-            "Physical_Location": {
-                "actual_datasoure_name": "",
-                "output_format": ""
             },
             "Segment_Parent": {
                 "actual_datasoure_name": "",
                 "output_format": ""
             },
             "Segment_Child": {
-                "actual_datasoure_name": "",
-                "output_format": ""
-            },
-            "flag_WC": {
-                "actual_datasoure_name": "",
-                "output_format": "bool : 0/1"
-            },
-            "VAC_cto": {
                 "actual_datasoure_name": "",
                 "output_format": ""
             },
@@ -1216,14 +1156,6 @@
                 "actual_datasoure_name": "",
                 "output_format": "date : mm/dd/yyyy"
             },
-            "flag_predictpulse": {
-                "actual_datasoure_name": "",
-                "output_format": "bool : 0/1"
-            },
-            "PP_Contract_Coverage": {
-                "actual_datasoure_name": "",
-                "output_format": ""
-            },
             "Managed_By": {
                 "actual_datasoure_name": "",
                 "output_format": ""
@@ -1231,34 +1163,6 @@
             "Managed_By_Contact/Email": {
                 "actual_datasoure_name": "",
                 "output_format": ""
-            },
-            "latest_contract": {
-                "actual_datasoure_name": "",
-                "output_format": "date : mm/dd/yyyy"
-            },
-            "flag_contract": {
-                "actual_datasoure_name": "",
-                "output_format": "bool : 0/1"
-            },
-            "flag_incident": {
-                "actual_datasoure_name": "",
-                "output_format": "bool : 0/1"
-            },
-            "Incident_Type": {
-                "actual_datasoure_name": "",
-                "output_format": ""
-            },
-            "Incident_Status": {
-                "actual_datasoure_name": "",
-                "output_format": "text : lower"
-            },
-            "Incident_Location_Country": {
-                "actual_datasoure_name": "",
-                "output_format": ""
-            },
-            "Year_Index_Warranty_End": {
-                "actual_datasoure_name": "",
-                "output_format" : ""
             },
             "flag_valid_6month": {
                 "actual_datasoure_name": "",
@@ -1292,73 +1196,9 @@
                 "actual_datasoure_name": "",
                 "output_format": ""
             },
-            "flag_decommissioned_gp": {
-                "actual_datasoure_name": "",
-                "output_format": "bool : 0/1"
-            },
-            "kva_max": {
-                "actual_datasoure_name": "",
-                "output_format" : ""
-            },
-            "kVA_act": {
-                "actual_datasoure_name": "",
-                "output_format" : ""
-            },
-            "UPS_VAC": {
-                "actual_datasoure_name": "",
-                "output_format" : ""
-            },
-            "Date_WC_due": {
-                "actual_datasoure_name": "",
-                "output_format": "date : mm/dd/yyyy"
-            },
-            "Warranty_Coverage_Description": {
-                "actual_datasoure_name": "",
-                "output_format": ""
-            },
-            "First_Contract_Coverage_Description": {
-                "actual_datasoure_name": "",
-                "output_format": ""
-            },
-            "flag_summary_decommissioned": {
-                "actual_datasoure_name": "",
-                "output_format": "bool : 0/1"
-            },
-            "Item/CTO": {
-                "actual_datasoure_name": "",
-                "output_format": ""
-            },
-            "Instance_Status_Name": {
-                "actual_datasoure_name": "",
-                "output_format": ""
-            },
-            "Model_Id_Short_Source": {
-                "actual_datasoure_name": "",
-                "output_format": ""
-            },
-            "flag_decommissioned1": {
-                "actual_datasoure_name": "",
-                "output_format": "bool : 0/1"
-            },
-            "flag_decommissioned2": {
-                "actual_datasoure_name": "",
-                "output_format": "bool : 0/1"
-            },
             "Ship_Date": {
                 "actual_datasoure_name": "ShipmentDate",
                 "output_format": "date : mm/dd/yyyy"
-            },
-            "Sap_Ship_Cust_Num": {
-                "actual_datasoure_name": "",
-                "output_format" : ""
-            },
-            "Billing_Site_Number": {
-                "actual_datasoure_name": "",
-                "output_format" : ""
-            },
-            "Sap_Bill_Cust_Num": {
-                "actual_datasoure_name": "",
-                "output_format" : ""
             },
             "Billing_Address": {
                 "actual_datasoure_name": "BillingAddress",
@@ -1374,27 +1214,15 @@
             },
             "Billing_Postal_Code": {
                 "actual_datasoure_name": "BillingPostalCode",
-                "output_format" : ""
+                "output_format": ""
             },
             "Billing_Country": {
                 "actual_datasoure_name": "BillingCountry",
                 "output_format": "text : capitalize each word"
             },
-            "Incident_Ship_To_Party_Name": {
-                "actual_datasoure_name": "",
-                "output_format": ""
-            },
             "Source": {
-                "actual_datasoure_name": "",
+                "actual_datasoure_name": "source",
                 "output_format": ""
-            },
-            "Latitude": {
-                "actual_datasoure_name": "",
-                "output_format" : ""
-            },
-            "Longitude": {
-                "actual_datasoure_name": "",
-                "output_format" : ""
             },
             "Sold_To_Street": {
                 "actual_datasoure_name": "SoldTo_Street",
@@ -1410,7 +1238,7 @@
             },
             "Sold_To_Postal_Code": {
                 "actual_datasoure_name": "SoldTo_Zip",
-                "output_format" : ""
+                "output_format": ""
             },
             "Sold_To_Country": {
                 "actual_datasoure_name": "SoldTo_Country",

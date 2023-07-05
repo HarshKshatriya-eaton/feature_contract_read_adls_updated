@@ -62,6 +62,8 @@ class LeadGeneration:
 
             df_leads = self.pipeline_add_jcomm_sidecar(df_leads)
 
+            logger.app_success(_step)
+
             _step = 'Write output lead to result directory'
 
             df_leads = df_leads.drop(columns=['temp_column', 'component', 'ClosedDate']) \
@@ -79,13 +81,20 @@ class LeadGeneration:
             ref_install_output_format = self.config['output_format']['ref_install_base']
             ref_install = self.format.format_output(df_leads, ref_install_output_format)
 
+            logger.app_success(_step)
+
             ref_install = ref_install.drop_duplicates(subset=['Serial_Number']). \
                 reset_index(drop=True)
+
+            _step = "Post Processing and Deriving columns on reference install leads"
+            ref_install = self.post_process_ref_install(ref_install)
 
             IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'],
                                      'file_name': self.config['file']['Processed']['output_iLead'][
                                          'ref_install']
                                      }, ref_install)
+
+            logger.app_success(_step)
 
             iLead_output_format = self.config['output_format']['output_iLead']
             output_iLead = self.format.format_output(df_leads, iLead_output_format)
@@ -98,13 +107,50 @@ class LeadGeneration:
                                          'file_name']
                                      }, output_iLead)
 
+            logger.app_success(_step)
+
         except Exception as e:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
 
         return 'successfully !'
 
-    # %% ***** Pipelines *****
+    # %% ***** Pipelines ****
+
+    def post_process_ref_install(self, ref_install):
+        """
+        This module derives new columns for the blank columns after formatting the output.
+        @param ref_install: ref_install output after formatting.
+        @type ref_install: pd.Dataframe.
+        """
+        _step = "Deriving columns for output_iLead final data."
+        try:
+
+            _step = 'Deriving Product Age column using install date column'
+
+            ref_install['Product_Age'] = (pd.Timestamp.now().normalize() - pd.to_datetime(
+                ref_install['Install_Date'])) / np.timedelta64(1, 'Y')
+
+            ref_install['Product_Age'] = ref_install['Product_Age'].astype(int)
+
+            logger.app_success(_step)
+
+            _step = 'Deriving is_under_contract column values based on contract end date & today'
+
+            # Get the current date
+            current_date = pd.Timestamp.now().normalize()
+
+            # Create the 'is_under_contract' column based on conditions
+            ref_install['is_under_contract'] = (pd.to_datetime(ref_install['Contract_End_Date'],
+                                                               errors='coerce') >= current_date
+                                                ) & ~(ref_install['Contract_End_Date'].isna())
+
+            logger.app_success(_step)
+
+            return ref_install
+        except Exception as e:
+            logger.app_fail(_step, f'{traceback.print_exc()}')
+            raise Exception('f"{_step}: Failed') from e
 
     def post_process_output_ilead(self, output_ilead_df):
         """

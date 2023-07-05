@@ -4308,5 +4308,5 @@ N3,blank,TVS75872,exact,SPD,"TVSS 4W+G,100KA,415Y,NONC,ALARM,EMI",,Active,10,,TR
 1080,,TVSA72618,exact,SPD,QVR T2 3N 40-320 PTSU SPD          ,,Active,10,,TRUE,,,,,,,,,
 N3,blank,TVSS PRODUCT,exact,SPD,"""You must complete the Part #""",,Active,10,,TRUE,,,,,,,,,
 0,PDU,,contains,PDU,,,Active,40,,TRUE,,,,,,,,,
-1,RPP,,contains,PDU,,,Active,30,,TRUE,,,,,,,,,
-2,STS,,contains,PDU,,,Active,30,,TRUE,,,,,,,,,
+1,RPP,,contains,RPP,,,Active,30,,TRUE,,,,,,,,,
+2,STS,,contains,STS,,,Active,30,,TRUE,,,,,,,,,
