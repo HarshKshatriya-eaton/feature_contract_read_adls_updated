@@ -36,7 +36,7 @@ from utils.transform import Transform
 logger = AppLogger('DCPD', level='')
 filters_ = Filter()
 obj_install_base = InstallBase()
-
+import numpy
 #%%
 
 class TestPrioratizedColumn:
@@ -966,6 +966,23 @@ class TestFilterProductClass:
         with pytest.raises(Exception) as info:
             obj_install_base.id_display_parts()
             assert info.type == Exception
+
+    def test_id_metadata(self):
+
+        bom_data = [{'Job_Index': '01322-0000', 'PartNumber_TLN_BOM': 'standard pdu'}, {'Job_Index': '01371-0000', 'PartNumber_TLN_BOM': 'standard pdu'}, {'Job_Index': '01375-0000', 'PartNumber_TLN_BOM': 'standard pdu'}, {'Job_Index': '01377-0000', 'PartNumber_TLN_BOM': 'standard pdu'}, {'Job_Index': '01433-0000', 'PartNumber_TLN_BOM': 'standard pdu'}]
+        df_bom = pd.DataFrame(bom_data)
+        result = obj_install_base.id_metadata(df_bom)
+        expected_output = pd.DataFrame([{'Job_Index': '01322-0000', 'PartNumber_TLN_BOM': 'standard pdu', 'Ratings': np.nan},
+         {'Job_Index': '01371-0000', 'PartNumber_TLN_BOM': 'standard pdu', 'Ratings': np.nan},
+         {'Job_Index': '01375-0000', 'PartNumber_TLN_BOM': 'standard pdu', 'Ratings': np.nan},
+         {'Job_Index': '01377-0000', 'PartNumber_TLN_BOM': 'standard pdu', 'Ratings': np.nan},
+         {'Job_Index': '01433-0000', 'PartNumber_TLN_BOM': 'standard pdu', 'Ratings': np.nan}])
+
+        assert_frame_equal(result.sort_index(axis=1), expected_output.sort_index(axis=1),
+                           check_dtype=False, check_exact=False, check_names=True)
+
+
+
 
 #%%
 if __name__ == "__main__":
