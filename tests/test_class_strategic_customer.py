@@ -1,0 +1,139 @@
+"""@file test_class_generate_contact_data.py.
+
+@brief This file used to test code for strategic customer identification which uses the output
+from class_generate_contacts and output of class_installbase
+
+
+
+@copyright 2023 Eaton Corporation. All Rights Reserved.
+@note Eaton Corporation claims proprietary rights to the material disclosed
+here on. This technical information may not be reproduced or used without
+direct written permission from Eaton Corporation.
+"""
+
+import pytest
+import pandas as pd
+from datetime import datetime
+from pandas._testing import assert_frame_equal
+from utils.logger import AppLogger
+
+
+logger = AppLogger('DCPD', level='')
+from utils import IO
+import numpy as np
+from utils.strategic_customer1 import StrategicCustomer
+
+obj_strategic_customer = StrategicCustomer()
+
+
+class TestIdentification:
+    """
+    Test for the strategic customer identification from strategic_customer.py
+    inputs are:
+    df_leads: class_installbase output
+    df_contacts: class_generate_contacts output
+    df_ref: new ref identification
+    """
+    #
+    def test_pipline_init(self):
+        """
+        Validate if init function is invoked as parameters do not throw exception
+        """
+
+        with pytest.raises(Exception) as info:
+            obj_strategic_customer.__init__(self)
+            assert info.type == Exception
+
+
+    def test_read_ref_data(self):
+        """
+        Check if the formating of ref data is done from strategic_customer1.py
+        """
+
+        input_data = [{'Condition 1': 'MatchType_00', 'Unnamed: 1': 'CompanyName', 'Condition 2': 'MatchType_01', 'Unnamed: 3': 'CompanyAliasName', 'Condition 3': 'MatchType_02', 'Unnamed: 5': 'CompanyDomain'}, {'Condition 1': 'contains', 'Unnamed: 1': 'ABB', 'Condition 2': 'contains', 'Unnamed: 3': 'Zenith', 'Condition 3': 'ends with', 'Unnamed: 5': 'abb.com'}, {'Condition 1': 'contains', 'Unnamed: 1': 'Aligned Energy, LLC                ', 'Condition 2': 'contains', 'Unnamed: 3': 'Align;Intertech', 'Condition 3': 'ends with', 'Unnamed: 5': 'aligneddc.com'}, {'Condition 1': 'Begins with', 'Unnamed: 1': 'Meta', 'Condition 2': 'contains', 'Unnamed: 3': 'GOLDFRAME;Facebook;Siculus;Woolhawk', 'Condition 3': 'ends with', 'Unnamed: 5': 'meta.com;facebook.com'}]
+
+        ref_ac_manager = pd.DataFrame(input_data)
+        result = obj_strategic_customer.read_ref_data(ref_ac_manager)
+
+        expected_output = pd.DataFrame([{'MatchType_00': 'contains', 'CompanyName': 'abb', 'MatchType_01': 'contains', 'CompanyAliasName': 'zenith', 'MatchType_02': 'ends with', 'CompanyDomain': 'abb.com'}, {'MatchType_00': 'contains', 'CompanyName': 'aligned energy, llc                ', 'MatchType_01': 'contains', 'CompanyAliasName': 'align;intertech', 'MatchType_02': 'ends with', 'CompanyDomain': 'aligneddc.com'}, {'MatchType_00': 'begins with', 'CompanyName': 'meta', 'MatchType_01': 'contains', 'CompanyAliasName': 'goldframe;facebook;siculus;woolhawk', 'MatchType_02': 'ends with', 'CompanyDomain': 'meta.com;facebook.com'}])
+
+        assert np.array_equal(result.values,expected_output.values)
+
+
+    def test_read_processed_m2m_data(self):
+        """
+        Check if the processed install data is read to extract ship_to_customer
+            so that it can be compared with company alias name
+        """
+
+        input_data = [{'Customer': 'wright line, llc', 'ShipTo_Customer': 'e on u s services inc', 'SerialNumber_M2M': '185-0043-co'}, {'Customer': 'cupertino electric, inc.', 'ShipTo_Customer': 'apple lazaneo', 'SerialNumber_M2M': '110-2768'}, {'Customer': 'qts', 'ShipTo_Customer': 'schneider electric', 'SerialNumber_M2M': 't18-26-us-s-4313'}]
+        df_leads = pd.DataFrame(input_data)
+        result=obj_strategic_customer.read_processed_m2m(df_leads)
+
+        expected_output = pd.DataFrame([{'Serial_Number': '110-2768', 'CompanyName': 'cupertino electric, inc', 'CompanyAliasName': 'apple lazaneo'}, {'Serial_Number': 't18-26-us-s-4313', 'CompanyName': 'qts', 'CompanyAliasName': 'schneider electric'}, {'Serial_Number': '185-0043-co', 'CompanyName': 'wright line, llc', 'CompanyAliasName': 'e on u s services inc'}])
+
+        assert np.array_equal(result.values,expected_output.values)
+
+    def test_read_contact(self):
+        """
+        Check if the processed contacts data is read to extract email
+            so that it can be compared with company domanin
+        """
+        input_data =[{'Serial_Number': '110-2798-87', 'Email__c': 'michael_balk@optum.com'}, {'Serial_Number': '411-0062', 'Email__c': 'mmcnulty@drwholdings.com'}, {'Serial_Number': '110-2993-27', 'Email__c': 'larry.scharp@fortunedatacenters.com'}]
+        df_contact = pd.DataFrame(input_data)
+
+        result = obj_strategic_customer.read_contact(df_contact)
+
+        expected_output = pd.DataFrame([{'Serial_Number': '110-2798-87', 'Email': 'michael_balk@optum.com'}, {'Serial_Number': '411-0062', 'Email': 'mmcnulty@drwholdings.com'}, {'Serial_Number': '110-2993-27', 'Email': 'larry.scharp@fortunedatacenters.com'}])
+
+        assert_frame_equal(result.sort_index(axis=1), expected_output.sort_index(axis=1),
+                           check_dtype=False, check_exact=False, check_names=True)
+
+
+    def test_pipeline_identify_customers(self):
+        """
+        Testing customer identification logic for all strategic customers.
+        df_contact: passed input from contacts data and invoked read contact function for required formating
+        df_leads: passed input from processed_install and invoked processed_m2m function
+
+        """
+        input_data_contact = [{'Serial_Number': '110-2798-87', 'Email__c': 'michael_balk@optum.com'},
+                      {'Serial_Number': '411-0062', 'Email__c': 'mmcnulty@drwholdings.com'},
+                      {'Serial_Number': '110-2993-27', 'Email__c': 'larry.scharp@fortunedatacenters.com'}]
+        df_contact = pd.DataFrame(input_data_contact)
+        df_contact = obj_strategic_customer.read_contact(df_contact)
+
+        input_data_leads = [{'Customer': 'parsons electric', 'ShipTo_Customer': 'unitedhealth group', 'SerialNumber_M2M': '110-2798-87'}, {'Customer': 'cupertino electric, inc.', 'ShipTo_Customer': 'apple lazaneo', 'SerialNumber_M2M': '110-2768'}, {'Customer': 'qts', 'ShipTo_Customer': 'schneider electric', 'SerialNumber_M2M': 't18-26-us-s-4313'}]
+        df_leads = pd.DataFrame(input_data_leads)
+        df_leads= obj_strategic_customer.read_processed_m2m(df_leads)
+        df_leads = obj_strategic_customer.summarize_contacts(df_contact, df_leads)
+
+        ref_data = [{'Condition 1': 'MatchType_00', 'Unnamed: 1': 'CompanyName', 'Condition 2': 'MatchType_01',
+                       'Unnamed: 3': 'CompanyAliasName', 'Condition 3': 'MatchType_02', 'Unnamed: 5': 'CompanyDomain'},
+                      {'Condition 1': 'contains', 'Unnamed: 1': 'ABB', 'Condition 2': 'contains',
+                       'Unnamed: 3': 'Zenith', 'Condition 3': 'ends with', 'Unnamed: 5': 'abb.com'},
+                      {'Condition 1': 'contains', 'Unnamed: 1': 'Aligned Energy, LLC                ',
+                       'Condition 2': 'contains', 'Unnamed: 3': 'Align;Intertech', 'Condition 3': 'ends with',
+                       'Unnamed: 5': 'aligneddc.com'},
+                      {'Condition 1': 'Begins with', 'Unnamed: 1': 'Meta', 'Condition 2': 'contains',
+                       'Unnamed: 3': 'GOLDFRAME;Facebook;Siculus;Woolhawk', 'Condition 3': 'ends with',
+                       'Unnamed: 5': 'meta.com;facebook.com'}]
+        ref_ac_manager = pd.DataFrame(ref_data)
+        ref_df = obj_strategic_customer.read_ref_data(ref_ac_manager)
+        result = obj_strategic_customer.pipeline_identify_customers(ref_df, df_leads)
+        alpha = result.to_dict(orient='records')
+        expected_output = pd.DataFrame([{'Serial_Number': '110-2768', 'CompanyName': 'cupertino electric, inc', 'CompanyAliasName': 'apple lazaneo', 'CompanyDomain': np.nan, 'StrategicCustomer': 'Other', 'StrategicCustomer_new': 'cupertino electric, inc'}, {'Serial_Number': '110-2798-87', 'CompanyName': 'parsons electric', 'CompanyAliasName': 'unitedhealth group', 'CompanyDomain': 'michael_balk@optum.com', 'StrategicCustomer': 'Other', 'StrategicCustomer_new': 'parsons electric'}, {'Serial_Number': 't18-26-us-s-4313', 'CompanyName': 'qts', 'CompanyAliasName': 'schneider electric', 'CompanyDomain': np.nan, 'StrategicCustomer': 'Other', 'StrategicCustomer_new': 'qts'}])
+
+        assert_frame_equal(result.sort_index(axis=1), expected_output.sort_index(axis=1),
+                           check_dtype=False, check_exact=False, check_names=True)
+
+        with pytest.raises(Exception) as info:
+            obj_strategic_customer.pipeline_identify_customers()
+            assert info.type == Exception
+
+
+
+# %% *** Call ***
+
+if __name__ == "__main__":
+    obj_strategic = TestIdentification()
