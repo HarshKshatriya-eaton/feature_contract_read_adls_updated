@@ -366,23 +366,23 @@ class ProcessServiceIncidents:
         _step = 'Read raw services data and perform serial number mapping'
 
         try:
-            if df_services_raw is not None and df_services_serialnum is not None:
-                df_services_raw = df_services_raw
-                df_services_serialnum = df_services_serialnum
-            else:
-                # Read raw services data
+            # if df_services_raw is not None and df_services_serialnum is not None:
+            #     df_services_raw = df_services_raw
+            #     df_services_serialnum = df_services_serialnum
+            # else:
+            #     # Read raw services data
 
                 # Specify the file directory and path
-                file_dir = {'file_dir': self.config['file']['dir_data'],
-                            'file_name': self.config['file']['Raw']
-                            ['services']['file_name']}
-                df_services_raw = IO.read_csv(self.mode, file_dir)
+            file_dir = {'file_dir': self.config['file']['dir_data'],
+                        'file_name': self.config['file']['Raw']
+                        ['services']['file_name']}
+            df_services_raw = IO.read_csv(self.mode, file_dir)
 
-                # Read corresponding serial number data file for raw services data
-                file_dir = {'file_dir': self.config['file']['dir_intermediate'],
-                            'file_name': self.config['file']['Processed']['services']['serial_number_services']
-                            }
-                df_services_serialnum = IO.read_csv(self.mode, file_dir)
+            # Read corresponding serial number data file for raw services data
+            file_dir = {'file_dir': self.config['file']['dir_intermediate'],
+                        'file_name': self.config['file']['Processed']['services']['serial_number_services']
+                        }
+            df_services_serialnum = IO.read_csv(self.mode, file_dir)
 
             # Merge serial number data with raw services data
             df_services_raw_merged = df_services_raw.merge(df_services_serialnum, on='Id', how='left')
@@ -445,7 +445,6 @@ class ProcessServiceIncidents:
 
             else:
                 validate_srnum.rename(columns={'F_SerialNumber': 'SerialNumber'}, inplace=True)
-
                 # Export JCOMM and Sidecar fields to intermediate file
                 output_dir = {'file_dir': self.config['file']['dir_intermediate'],
                               'file_name': self.config['file']['Processed']['services']['intermediate']
@@ -459,7 +458,7 @@ class ProcessServiceIncidents:
             loggerObj.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from excep
 
-
+        return "Success"
 # %% *** Call ***
 
 

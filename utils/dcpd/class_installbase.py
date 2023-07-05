@@ -150,7 +150,8 @@ class InstallBase:
         df_install.dropna(subset=['Product_M2M'], inplace=True)
 
         # Filter out SO where status is not closed.
-        df_install = df_install.loc[(df_install.SOStatus == "closed")]
+        listcol_filter = ['closed']
+        df_install = df_install.loc[(df_install.SOStatus.isin(listcol_filter))]
 
         # Flag column values where flag is not in USA
         df_install = df_install[df_install.is_in_usa]
