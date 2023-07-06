@@ -235,7 +235,8 @@ class StrategicCustomer:
 
                 df_contact = IO.read_csv(
                     self.mode,
-                    {'file_dir': self.config['file']['dir_results'],
+                    {'file_dir': self.config['file']['dir_results'] +
+                                 self.config['file']['dir_intermediate'],
                      'file_name': self.config['file']['Processed']['contact']['file_name']}
                 )
 

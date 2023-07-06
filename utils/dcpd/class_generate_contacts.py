@@ -212,7 +212,7 @@ class Contacts:
 
             # write results for validation
             IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
-                                                 self.config['file']['dir_validation'],
+                                                 self.config['file']['dir_intermediate'],
                                      'file_name': "contact_contracts.csv"
                                      }, contact_contracts)
 
