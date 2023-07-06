@@ -20,7 +20,10 @@ direct written permission from Eaton Corporation.
 
 # %%***** Load Modules *****
 import os
-os.chdir('C:/Users/E9780837/OneDrive - Eaton/Desktop/git/ileads_lead_generation')
+path = os.getcwd()
+path = os.path.join(path.split('ileads_lead_generation')[0],
+                    'ileads_lead_generation')
+os.chdir(path)
 
 from utils import IO
 from utils import AppLogger
@@ -37,9 +40,8 @@ logger = AppLogger(__name__, level='Debug')
 
 class StrategicCustomer:
 
-    def __init__(self, mode):
+    def __init__(self, mode='local'):
         self.mode = mode
-
         self.config = IO.read_json(mode='local', config={
             "file_dir": './references/', "file_name": 'config_dcpd.json'})
 
@@ -47,10 +49,10 @@ class StrategicCustomer:
                          1: ['MatchType_01', 'CompanyAliasName'],
                          2: ['MatchType_02', 'CompanyDomain']}
 
-        self.ls_col_exp = ['SerialNumber', 'CompanyName',
+        self.ls_col_exp = ['Serial_Number', 'CompanyName',
                            'CompanyAliasName', 'CompanyDomain']
 
-    def main_customer_list(self):
+    def main_customer_list(self):               #pragma: no cover
         """
         Main pipeline for identifying strategic customers.
 
@@ -99,7 +101,7 @@ class StrategicCustomer:
 
     # ***** Pipeline: Read *****
 
-    def read_ref_data(self):
+    def read_ref_data(self, ref_ac_manager=None):
         """
         Read reference data.
 
@@ -113,13 +115,19 @@ class StrategicCustomer:
 
             # Read: Reference Data
             _step = "Read reference data"
-            ref_ac_manager = IO.read_csv(
-                obj_sc.mode,
-                {'file_dir': obj_sc.config['file']['dir_ref'],
-                 'file_name': obj_sc.config['file']['Reference']['customer'],
-                 'sep': '\t'
-                 }
-            )
+
+            if ref_ac_manager is not None:
+                ref_ac_manager = ref_ac_manager
+            else:
+                ref_ac_manager = IO.read_csv(
+                    obj_sc.mode,
+                    {'file_dir': obj_sc.config['file']['dir_ref'],
+                     'file_name': obj_sc.config['file']['Reference']['customer'],
+                     'sep': '\t'
+                     }
+                )
+
+
             if ref_ac_manager.columns[0] != "Display":
                 ref_ac_manager = ref_ac_manager.reset_index()
 
@@ -145,7 +153,7 @@ class StrategicCustomer:
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception from e
 
-    def read_processed_m2m(self):
+    def read_processed_m2m(self, df_leads=None):
         """
         Read InstallBase data. Fields required are:
             SerialNumber, Customer and ShipToCustomer.
@@ -160,20 +168,25 @@ class StrategicCustomer:
 
             # Read: M2M Data
             _step = "Read leads data"
-            df_leads = IO.read_csv(
-                self.mode,
-                {'file_dir': self.config['file']['dir_results'],
-                 'file_name': self.config['file']['Processed']['processed_m2m_shipment']['file_name']}
-            )
+
+            if df_leads is not None:
+                df_leads = df_leads
+            else:
+
+                df_leads = IO.read_csv(
+                    self.mode,
+                    {'file_dir': self.config['file']['dir_results'],
+                     'file_name': self.config['file']['Processed']['processed_install']['file_name']}
+                )
 
             dict_cols = {
                 'Customer': 'CompanyName',
                 'ShipTo_Customer': 'CompanyAliasName',
-                'SerialNumber_M2M': 'SerialNumber'
+                'SerialNumber_M2M': 'Serial_Number'
             }
             df_leads = df_leads.rename(dict_cols, axis=1)
             df_leads = df_leads.loc[
-                :, ['SerialNumber', 'CompanyName', 'CompanyAliasName']]
+                :, ['Serial_Number', 'CompanyName', 'CompanyAliasName']]
 
             df_leads['CompanyName'] = df_leads['CompanyName'].apply(
                 lambda x: x.lstrip(punctuation).rstrip(punctuation))
@@ -199,7 +212,7 @@ class StrategicCustomer:
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception from e
 
-    def read_contact(self):
+    def read_contact(self,df_contact=None):
         """
         Read contacts data. Fields required are:
             SerialNumber, Email Id.
@@ -214,14 +227,18 @@ class StrategicCustomer:
 
             # Read: M2M Data
             _step = "Read leads data"
-            df_contact = IO.read_csv(
-                self.mode,
-                {'file_dir': self.config['file']['dir_results'],
-                 'file_name': self.config['file']['Processed']['contact']['file_name']}
-            )
+            if df_contact is not None:
+                df_contact = df_contact
+            else:
+
+                df_contact = IO.read_csv(
+                    self.mode,
+                    {'file_dir': self.config['file']['dir_results'],
+                     'file_name': self.config['file']['Processed']['contact']['file_name']}
+                )
 
             df_contact = df_contact.rename(columns={'Email__c': "Email"})
-            df_contact = df_contact.loc[:, ['SerialNumber', 'Email']]
+            df_contact = df_contact.loc[:, ['Serial_Number', 'Email']]
 
             return df_contact
 
@@ -253,10 +270,10 @@ class StrategicCustomer:
                 df_leads['CompanyDomain'] = ""
             else:
                 df_contact = df_contact.groupby(
-                    'SerialNumber')['Email'].apply(', '.join)
+                    'Serial_Number')['Email'].apply(', '.join)
 
                 df_leads = df_leads.merge(
-                    df_contact, on = "SerialNumber", how="left")
+                    df_contact, on = "Serial_Number", how="left")
 
                 df_leads.rename(columns={
                     "Email": "CompanyDomain"}, inplace=True)
@@ -356,7 +373,7 @@ class StrategicCustomer:
             dict_con = {0: ['MatchType_00', 'CompanyName'],
                         1: ['MatchType_01', 'CompanyAliasName'],
                         2: ['MatchType_02', 'CompanyDomain']}
-            ls_col_exp = ['SerialNumber', 'CompanyName',
+            ls_col_exp = ['Serial_Number', 'CompanyName',
                           'CompanyAliasName', 'CompanyDomain']
             ls_col_out = []
 
