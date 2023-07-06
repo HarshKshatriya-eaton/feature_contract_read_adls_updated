@@ -264,9 +264,9 @@ class ProcessServiceIncidents:
             df_out = df_out.rename({"ContractNumber": 'Id'}, axis=1)
 
             # Export intermediate serial number data to be consumed for identifying jcomm component
-            output_dir = {'file_dir': self.config['file']['dir_intermediate'],
-                          'file_name': self.config['file']['Processed']['services']['serial_number_services']
-                          }
+            output_dir = {'file_dir': self.config['file']['dir_results'] + self.config['file']['dir_intermediate'],
+                        'file_name': self.config['file']['Processed']['services']['serial_number_services']
+                        }
             IO.write_csv(self.mode, output_dir, df_out)
 
             loggerObj.app_debug(f"{_step}: SUCCEEDED", 1)
@@ -379,7 +379,7 @@ class ProcessServiceIncidents:
             df_services_raw = IO.read_csv(self.mode, file_dir)
 
             # Read corresponding serial number data file for raw services data
-            file_dir = {'file_dir': self.config['file']['dir_intermediate'],
+            file_dir = {'file_dir': self.config['file']['dir_results'] + self.config['file']['dir_intermediate'],
                         'file_name': self.config['file']['Processed']['services']['serial_number_services']
                         }
             df_services_serialnum = IO.read_csv(self.mode, file_dir)
@@ -459,7 +459,6 @@ class ProcessServiceIncidents:
             raise Exception('f"{_step}: Failed') from excep
 
         return "Success"
-
 # %% *** Call ***
 
 

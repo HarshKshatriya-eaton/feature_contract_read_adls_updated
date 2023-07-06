@@ -442,32 +442,6 @@ class InstallBase:
                 self.step_bom_data, f"{traceback.print_exc()}")
             raise ValueError from excp
 
-    # def pipeline_customer(self, df_data_install: pd.DataFrame) -> pd.DataFrame:  # pragma: no cover
-    #     """
-    #     Identify strategic customer from the data.
-    #
-    #     :param df_data_install: Data to identify strategic customers
-    #     :type:  pd.DataFrame
-    #     :raises None: None
-    #     :return df_install_data: Data with strategic customers
-    #     :rtype:  pd.DataFrame
-    #
-    #     """
-    #     # Read Data
-    #     df_customer = IO.read_csv(
-    #         self.mode,
-    #         {'file_dir': self.config['file']['dir_results'],
-    #          'file_name': self.config['file']['Processed']['customer']['file_name']
-    #          }
-    #     )
-    #
-    #     # Merge customer data with shipment, serial number and BOM data
-    #     df_install_data = self.merge_customdata(df_customer, df_data_install)
-    #
-    #     return df_install_data
-
-    #  ******************* Support Code *************************
-
     def filter_product_class(
             self, ref_prod: pd.DataFrame,
             df_data_install: pd.DataFrame, ls_cols) -> Tuple[pd.DataFrame, list]:
@@ -662,36 +636,6 @@ class InstallBase:
             logger.app_fail(
                 "filter product class", f"{traceback.print_exc()}")
             raise ValueError from excp
-
-    # def merge_customdata(self, df_custom, df_data_install) -> pd.DataFrame:
-    #     """
-    #     Merge custom data to shipment data.
-    #
-    #     :param df_custom:  Data to be merged
-    #     :type: pd.DataFrame
-    #     :param df_data_install: Data to be merged
-    #     :type: pd.DataFrame
-    #     :raises ValueError: raises error if unknown data type provided.
-    #     :return: Merged custom data with shipment data.
-    #     :rtype: pd.DataFrame.
-    #
-    #     """
-    #     try:
-    #         df_data_install.loc[:, 'key'] = (
-    #                 df_data_install['Customer'] + ":" +
-    #                 df_data_install['ShipTo_Customer'])
-    #
-    #         df_custom = df_custom.drop_duplicates(subset=['key'])
-    #         df_install_data = df_data_install.merge(
-    #             df_custom[['key', 'StrategicCustomer']],
-    #             on='key', how='left')
-    #
-    #         df_data_install.drop(['key'], axis=1, inplace=True)
-    #         logger.app_success(self.step_identify_strategic_customer)
-    #         return df_install_data
-    #     except Exception as excp:
-    #         logger.app_fail(self.step_identify_strategic_customer, f"{traceback.print_exc()}")
-    #         raise ValueError from excp
 
     def clean_serialnum(self, df_srnum) -> pd.DataFrame:
         """
