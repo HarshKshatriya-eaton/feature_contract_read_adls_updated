@@ -11,7 +11,9 @@ Project Organization
     ├── docs               <- Flowcharts for all business and Sphinx documentation for details
     │
     ├── notebooks          <- Jupyter notebooks. Naming convention is business, database names and description
+    |
     ├──                       `-` delimited description, e.g.
+    |
     │                         `1.0-dcpd-installbase-data-exploration`.
     │
     ├── references         <- Configurations and referenece files. Reference file changes would be though JIRA ticket only.
@@ -23,8 +25,9 @@ Project Organization
     ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
     │    
     ├── Lead Generation
-    │   ├── __init__.py    <- makes src a Python module
-    │   ├── __init__.py    <- generates lead for given business 
+    │   ├── __init__.py    <- generates lead for given business
+    |
+    │   ├── __main__.py    <- generates lead for given business 
     │   |
     │   └── utils         <- utility functions specific to <algorithm>
     │     └── io_adopter  <- handles all read and write operations  
@@ -33,8 +36,6 @@ Project Organization
     ├── tests
     │
     ├── README.md
-    │    
-    ├── updateversion.py
     │
     ├── version.py
     │
