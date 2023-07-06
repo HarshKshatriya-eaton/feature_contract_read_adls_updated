@@ -392,7 +392,7 @@ class InstallBase:
         ref_main_breaker = IO.read_csv(
             self.mode,
             {'file_dir': self.config['file']['dir_ref'],
-             'file_name': self.config['file']['Reference']['lead_opprtunities']})
+             'file_name': self.config['file']['Reference']['lead_opportunities']})
 
         export_cols = self.config['install_base']['main_breaker_cols']['export_col_data']
 
