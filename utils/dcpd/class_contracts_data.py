@@ -784,8 +784,6 @@ class Contract:
         """
         _step = 'Merge Contract and Srnum Data'
         try:
-            print(df_contract.columns)
-            print(df_contract_srnum.columns)
             df_contract_srnum = df_contract_srnum.loc[
                                 df_contract_srnum.flag_validinstall, :]
 
