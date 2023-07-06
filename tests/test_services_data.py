@@ -273,8 +273,6 @@ class TestServicesFunc:
         dict_cols_srnum = self.config['services']['SerialNumberColumns']
         with pytest.raises(Exception) as info:
             obj_services.pipline_component_identify(df_services_raw, data_srnum)
-
-
             assert info == Exception
 
     # Testcases for extracting raw serial number data
