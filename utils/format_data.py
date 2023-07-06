@@ -224,7 +224,7 @@ class Format:
             # col = list(dict_form.keys())[9]
             logger.app_debug(col, 2)
 
-            name_ = dict_form[col]['actual_datasource_name']
+            name_ = dict_form[col]['actual_datasoure_name']
             form_ = dict_form[col]['output_format']
 
             # When mapped column is blank;

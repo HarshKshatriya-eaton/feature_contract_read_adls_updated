@@ -44,6 +44,7 @@ import pandas as pd
 
 from utils.dcpd.class_business_logic import BusinessLogic
 from utils.dcpd.class_serial_number import SerialNumber
+from utils.strategic_customer import StrategicCustomer
 from utils import IO
 
 from utils import AppLogger
@@ -112,6 +113,15 @@ class InstallBase:
             # BOM
             df_install = self.pipeline_bom(df_install, merge_type='left')
 
+            # Export
+            IO.write_csv(
+                self.mode,
+                {
+                    'file_dir': self.config['file']['dir_results'] + self.config['file'][
+                        'dir_intermediate'],
+                    'file_name': self.config['file']['Processed']['processed_install']['file_name']
+                }, df_install)
+
             # Customer Name
             df_install = self.pipeline_customer(df_install)
 
@@ -159,6 +169,10 @@ class InstallBase:
 
         # Flag column values where flag is not in USA
         df_install = df_install[df_install.is_in_usa]
+
+        # Filter out Reactor component from install base data
+        product_m2m_filter = ['RPP', 'PDU', 'PDU - Secondary', 'STS', 'PDU - Primary']
+        df_install = df_install.loc[(df_install.Product_M2M.isin(product_m2m_filter))]
 
         return df_install
 
@@ -336,13 +350,16 @@ class InstallBase:
         :rtype:  pd.DataFrame
 
         """
+        obj_sc = StrategicCustomer('local')
+        df_customer = obj_sc.main_customer_list(df_leads=df_data_install)
+
         # Read Data
-        df_customer = IO.read_csv(
-            self.mode,
-            {'file_dir': self.config['file']['dir_results'],
-             'file_name': self.config['file']['Processed']['customer']['file_name']
-             }
-        )
+        # df_customer = IO.read_csv(
+        #     self.mode,
+        #     {'file_dir': self.config['file']['dir_results'],
+        #      'file_name': self.config['file']['Processed']['customer']['file_name']
+        #      }
+        # )
 
         # Merge customer data with shipment, serial number and BOM data
         df_install_data = self.merge_customdata(df_customer, df_data_install)
@@ -684,16 +701,16 @@ class InstallBase:
 
         """
         try:
-            df_data_install.loc[:, 'key'] = (
-                    df_data_install['Customer'] + ":" +
-                    df_data_install['ShipTo_Customer'])
+            # df_data_install.loc[:, 'key'] = (
+            #         df_data_install['Customer'] + ":" +
+            #         df_data_install['ShipTo_Customer'])
 
-            df_custom = df_custom.drop_duplicates(subset=['key'])
+            df_custom = df_custom.drop_duplicates(subset=['Serial_Number'])
             df_install_data = df_data_install.merge(
-                df_custom[['key', 'StrategicCustomer']],
-                on='key', how='left')
+                df_custom[['Serial_Number', 'StrategicCustomer']],
+                left_on='SerialNumber_M2M', right_on="Serial_Number", how='left')
 
-            df_data_install.drop(['key'], axis=1, inplace=True)
+            # df_data_install.drop(['key'], axis=1, inplace=True)
             logger.app_success(self.step_identify_strategic_customer)
             return df_install_data
         except Exception as excp:
@@ -765,14 +782,17 @@ class InstallBase:
             df_out = df_data[['Job_Index']].drop_duplicates()
 
             for col_name_out in dict_display_parts:
-                part_num_keys = dict_display_parts[col_name_out]['txt_search']
-                part_num_keys = [item.lower() for item in part_num_keys]
+                if 'txt_search' in dict_display_parts[col_name_out].keys():
+                    part_num_keys = dict_display_parts[col_name_out]['txt_search']
+                    part_num_keys = [item.lower() for item in part_num_keys]
 
-                df_data['flag_part'] = df_data.PartNumber_BOM_BOM.apply(
-                    lambda x: x.startswith(tuple(part_num_keys)))
+                    df_data['flag_part'] = df_data.PartNumber_BOM_BOM.apply(
+                        lambda x: x.startswith(tuple(part_num_keys)))
 
-                # List Models
-                df_sub = df_data[df_data['flag_part']].copy()
+                    # List Models
+                    df_sub = df_data[df_data['flag_part']].copy()
+                else:
+                    df_sub = df_data
 
                 ls_parts_of_interest = dict_display_parts[col_name_out]['PartsOfInterest']
                 ls_parts_of_interest = [str.lower(txt) for txt in ls_parts_of_interest]
