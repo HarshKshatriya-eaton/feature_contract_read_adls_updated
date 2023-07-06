@@ -185,7 +185,7 @@ class Filter:
             elif filt_type == 'text_match_pattern':
                 filt_regex = ("(" + "|".join(filt_val) + ")")
                 df_text[filt_flag] = df_text[
-                    'data'].str.contains(filt_regex, regex=True)
+                    'data'].str.contains(filt_regex, regex=True, case=False)
 
             elif filt_type == 'text_match_pattern_negative':
                 filt_regex = ("(" + "|".join(filt_val) + ")")

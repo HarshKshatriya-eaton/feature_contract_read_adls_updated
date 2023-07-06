@@ -106,13 +106,13 @@ def test_prep_srnum_ideal_data():
 
 
 @pytest.mark.parametrize(
-    "ar_serialnum, ar_installsize",
+    "ar_serialnum, ar_installsize, ar_key_serial",
     [
-        (['180-0557-1-2b'], [2]),
-        (None, None)
+        (['180-0557-1-2b'], [2], ['121:452']),
+        (None, None, None)
     ],
 )
-def test_get_srnum_input_validation(ar_serialnum, ar_installsize):
+def test_get_srnum_input_validation(ar_serialnum, ar_installsize,ar_key_serial):
     '''
     Validates serial number input parameters
 
@@ -129,7 +129,7 @@ def test_get_srnum_input_validation(ar_serialnum, ar_installsize):
 
     '''
     with pytest.raises(Exception) as info:
-        sr_num_class.get_serialnumber(ar_serialnum, ar_installsize)
+        sr_num_class.get_serialnumber(ar_serialnum, ar_installsize,ar_key_serial)
         assert info.type != ValueError
 
 # Validate the output obtained from the test and actual results for df_couldnot
@@ -146,8 +146,9 @@ def test_get_srnum_output():
     '''
     ar_serialnum = ['180-0557-1-2b']
     ar_installsize = [2]
+    ar_key_serial = ['2455:458']
     actual_output1, actual_output2 = sr_num_class.get_serialnumber(
-        ar_serialnum, ar_installsize)
+        ar_serialnum, ar_installsize,ar_key_serial)
     exp_op = pd.DataFrame()
     assert all([a == b for a, b in zip(actual_output2, exp_op)])
 
@@ -180,8 +181,9 @@ def test_get_srnum_validoutput():
     '''
     ar_serialnum = ['180-0557-1-1b']
     ar_installsize = [2]
+    ar_key_serial = ['121:456']
     actual_out_test, actual_out_test1 = sr_num_class.get_serialnumber(
-        ar_serialnum, ar_installsize)
+        ar_serialnum, ar_installsize,ar_key_serial)
     actual_output1 = actual_out_test['SerialNumber'].iloc[0]
     exp_op = '180-0557-1b'
     assert all([a == b for a, b in zip(actual_output1, exp_op)])
@@ -463,11 +465,12 @@ vals = ['12017004-51-59,61', 10]
 @pytest.mark.parametrize(
     "vals",
     [
-        (['12017004-51-59,61', 10]),
-        (['180-0557-1-2b', 2]),
-        (['180-0557-b-c'], 2),
-        (None, None),
-        (['110-115'], 10)
+        (['12017004-51-59,61', 10,'121:10']),
+        (['180-0557-1-2b', 2,'121:10']),
+        (['180-0557-b-c'], 2,'121:10'),
+        (None, None, None),
+        (['110-115'], 10, '121:10'),
+        (['110-0631,1-2'], 2, '1254:78')
     ])
 def test_identify_seq_input(vals):
     '''

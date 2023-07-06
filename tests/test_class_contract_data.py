@@ -380,8 +380,9 @@ class TestGetRangeSrum:
         numeric value
         Missing Columns, should throw errors
         """
-        with pytest.raises(Exception) as _:
+        with pytest.raises(Exception) as info:
             obj_contract.get_range_srum(df_srnum)
+            assert info.type == Exception
 
     def test_get_range_srum_ideal_scenario(self):
         """
@@ -398,25 +399,19 @@ class TestGetRangeSrum:
                                      'src': ['Product_1_Serial__c']})
 
         res = obj_contract.get_range_srum(df_data[ls_cols])
-        exp_res = pd.DataFrame(data={'ContractNumber': [4981, 4981, 4981, 4981, 4981],
-                                     'SerialNumberContract': [
-                                         '120-0024A-E & 120-0146-1-2; 120-0254-1-2',
-                                         '120-0024A-E & 120-0146-1-2; 120-0254-1-2',
-                                         '120-0024A-E & 120-0146-1-2; 120-0254-1-2',
-                                         '120-0024A-E & 120-0146-1-2; 120-0254-1-2',
-                                         '120-0024A-E & 120-0146-1-2; 120-0254-1-2'],
-                                     'Qty': [5, 5, 5, 5, 5],
-                                     'Product': ['STS', 'STS', 'STS', 'STS', 'STS'],
-                                     'SerialNumberOrg': ['120-0024a-e', '120-0024a-e',
-                                                         '120-0024a-e',
-                                                         '120-0024a-e',
-                                                         '120-0024a-e'],
-                                     'src': ['Product_1_Serial__c', 'Product_1_Serial__c',
-                                             'Product_1_Serial__c',
-                                             'Product_1_Serial__c', 'Product_1_Serial__c'],
-                                     'SerialNumber': ['120-0024-a', '120-0024-b', '120-0024-c',
-                                                      '120-0024-d',
-                                                      '120-0024-e']})
+        exp_res = pd.DataFrame(data={
+            'ContractNumber': [4981, 4981, 4981, 4981, 4981],
+            'SerialNumberContract': ['120-0024A-E & 120-0146-1-2; 120-0254-1-2', '120-0024A-E & 120-0146-1-2; '
+                                    '120-0254-1-2', '120-0024A-E & 120-0146-1-2; 120-0254-1-2',
+                                     '120-0024A-E & 120-0146-1-2; 120-0254-1-2', '120-0024A-E & 120-0146-1-2; '
+                                                                                 '120-0254-1-2']
+            ,'Qty': [5, 5, 5, 5, 5], 'Product': ['STS', 'STS', 'STS', 'STS', 'STS']
+            , 'SerialNumberOrg': ['120-0024a-e', '120-0024a-e', '120-0024a-e', '120-0024a-e', '120-0024a-e']
+            , 'src': ['Product_1_Serial__c', 'Product_1_Serial__c', 'Product_1_Serial__c', 'Product_1_Serial__c',
+                      'Product_1_Serial__c'], 'SerialNumber': ['120-0024-a', '120-0024-b', '120-0024-c', '120-0024-d',
+                                                               '120-0024-e'], 'KeySerial': ['contract', 'contract',
+                                                                                            'contract', 'contract',
+                                                                                            'contract']})
 
         assert exp_res.equals(res)
 

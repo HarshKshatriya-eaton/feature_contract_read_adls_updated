@@ -304,11 +304,15 @@ class Contract:
             df_contract.loc[
                 df_contract["flag_validinstall"] == "Partial_match", "flag_validinstall"] = True
 
-            df_contract['partial_match'] = df_contract['partial_match'].fillna(
-                df_contract['SerialNumber'])
-            df_contract['partial_match'] = df_contract['partial_match'].str.split(',')
-            df_contract = df_contract.explode('partial_match')
-            df_contract = df_contract.rename(columns={'partial_match': 'SerialNumber_Partial'})
+            if('partial_match' in df_contract.columns):
+                df_contract['partial_match'] = df_contract['partial_match'].fillna(
+                    df_contract['SerialNumber'])
+                df_contract['partial_match'] = df_contract['partial_match'].str.split(',')
+                df_contract = df_contract.explode('partial_match')
+                df_contract = df_contract.rename(columns={'partial_match': 'SerialNumber_Partial'})
+
+            else:
+                df_contract['SerialNumber_Partial'] = df_contract['SerialNumber'].copy()
 
             IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
                                                  self.config['file']['dir_validation'],
@@ -320,7 +324,6 @@ class Contract:
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception from excp
 
-        # df_contract.to_csv("./results/contract_install_serial.csv")
         return df_contract
 
     def pipeline_renewal(self) -> pd.DataFrame:  # pragma: no cover
@@ -597,8 +600,6 @@ class Contract:
 
             df_out = df_out.drop_duplicates(subset=['SerialNumber'])
 
-            # TODO: Remove in prod
-            # df_out.to_csv('./results/contract_SrNumbers.csv', index=False)
             return df_out
         except Exception as excp:
             raise Exception from excp
@@ -783,8 +784,6 @@ class Contract:
         """
         _step = 'Merge Contract and Srnum Data'
         try:
-            print(df_contract.columns)
-            print(df_contract_srnum.columns)
             df_contract_srnum = df_contract_srnum.loc[
                                 df_contract_srnum.flag_validinstall, :]
 
