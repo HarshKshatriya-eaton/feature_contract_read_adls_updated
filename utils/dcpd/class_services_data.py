@@ -69,9 +69,9 @@ class ProcessServiceIncidents:
             "file_dir": './references/', "file_name": 'config_dcpd.json'})
         # self.pat_srnum1 = self.config['contracts']['srnum_pattern']['pat_srnum1']
 
-    def main_services(self,local_df_test):
+    def main_services(self):
         """
-        Main pipline for processing the services data. It invokes main function.
+        Main pipline for processing the service data. It invokes main function.
 
         :raises Exception: Collects any / all exception.
         :return: Successful if data gets processed.
@@ -94,7 +94,7 @@ class ProcessServiceIncidents:
                         'file_name': self.config['file']['Raw']
                         ['services']['file_name']}
             df_services_raw = IO.read_csv(self.mode, file_dir)
-            # print(df_services_raw.shape, "and dtypes are ", type(Serial_Date_Lot_Code__c))
+
             _step = 'Filter raw services data'
 
             dict_config_params = dict_config_serv['services']['services_data_overall']
@@ -111,7 +111,8 @@ class ProcessServiceIncidents:
             _step = 'Identify hardware replacements'
 
             df_hardware_changes = self.pipeline_id_hardwarechanges(
-                df_services_raw, dict_config_serv['services']['Component_replacement'], upgrade_component)
+                df_services_raw, dict_config_serv['services']['Component_replacement'],
+                upgrade_component)
 
             loggerObj.app_success(_step)
 
@@ -138,23 +139,27 @@ class ProcessServiceIncidents:
             # del df_hardware_changes, df_services_raw
 
             # Export intermediate results data
-            output_dir = {'file_dir': self.config['file']['dir_intermediate'],
+            output_dir = {'file_dir': self.config['file']['dir_results'] + self.config['file'][
+                'dir_validation'],
                           'file_name': self.config['file']['Processed']['services']['validation']
                           }
 
             IO.write_csv(self.mode, output_dir, df_sr_num)
 
             # # Serial number validation and output data
-            # Expand serial numbers
+            _step = 'Expand serial numbers'
             expand_srnumdf = contractObj.get_range_srum(df_sr_num)
 
             # Removing the rows with none values
             expand_srnumdf['SerialNumber'].replace('', np.nan, inplace=True)
             expand_srnumdf.dropna(subset=['SerialNumber'], inplace=True)
 
-            # Validate serial number data
+            loggerObj.app_success(_step)
+
+            _step = 'Validate serial number data'
+
             validate_srnum = contractObj.validate_contract_install_sr_num(expand_srnumdf)
-            # # Filter rows with valid serial number
+            # Filter rows with valid serial number
             validate_srnum = validate_srnum.loc[validate_srnum.flag_validinstall]
 
             # Drop flag_valid column
@@ -165,15 +170,18 @@ class ProcessServiceIncidents:
 
             validate_srnum.rename(columns={'SerialNumber_Partial': 'SerialNumber'}, inplace=True)
 
-            # Export data
-            output_dir = {'file_dir': self.config['file']['dir_data'],
-                          'file_name': self.config['file']['Processed']['services']['validation']
+            loggerObj.app_success(_step)
+
+            # Export data after validation with install data.
+            output_dir = {'file_dir': self.config['file']['dir_results'] + self.config['file'][
+                'dir_intermediate'],
+                          'file_name': self.config['file']['Processed']['services']['file_name']
                           }
 
             IO.write_csv(self.mode, output_dir, validate_srnum)
 
-            # Identify if sidecar or jcomm component is present and save results to an intermediate file.
-            df_serv_input = validate_srnum # For testing purposes
+            # Identify if sidecar or jcomm comp is present and save results to an intermediate file.
+            df_serv_input = validate_srnum  # For testing purposes
             jcomm_sidecar_obj = self.pipline_component_identify(df_serv_input)
 
             loggerObj.app_success(_step)
@@ -217,12 +225,11 @@ class ProcessServiceIncidents:
 
             df_temp = df_temp.drop_duplicates(subset=['Id'])
             df_out = df_out.merge(df_temp, on='Id', how='left')
-            print(df_out.shape)
+
             del df_temp
 
             # Query serial numbers
             df_out = df_out.merge(df_sr_num, on='Id', how='left')
-            print(df_out.shape)
 
             loggerObj.app_success(_step)
         except Exception as excep:
@@ -264,9 +271,11 @@ class ProcessServiceIncidents:
             df_out = df_out.rename({"ContractNumber": 'Id'}, axis=1)
 
             # Export intermediate serial number data to be consumed for identifying jcomm component
-            output_dir = {'file_dir': self.config['file']['dir_results'] + self.config['file']['dir_intermediate'],
-                        'file_name': self.config['file']['Processed']['services']['serial_number_services']
-                        }
+            output_dir = {'file_dir': self.config['file']['dir_results'] + self.config['file'][
+                'dir_intermediate'],
+                          'file_name': self.config['file']['Processed']['services'][
+                              'serial_number_services']
+                          }
             IO.write_csv(self.mode, output_dir, df_out)
 
             loggerObj.app_debug(f"{_step}: SUCCEEDED", 1)
@@ -354,7 +363,7 @@ class ProcessServiceIncidents:
 
         return df_out
 
-    def pipline_component_identify(self,df_services_raw=None, df_services_serialnum=None):
+    def pipline_component_identify(self, df_services_raw=None, df_services_serialnum=None):
         """
         Function identifies if JCOMM and Sidecar fields are present in the raw services data.
 
@@ -372,20 +381,23 @@ class ProcessServiceIncidents:
             # else:
             #     # Read raw services data
 
-                # Specify the file directory and path
+            # Specify the file directory and path
             file_dir = {'file_dir': self.config['file']['dir_data'],
                         'file_name': self.config['file']['Raw']
                         ['services']['file_name']}
             df_services_raw = IO.read_csv(self.mode, file_dir)
 
             # Read corresponding serial number data file for raw services data
-            file_dir = {'file_dir': self.config['file']['dir_results'] + self.config['file']['dir_intermediate'],
-                        'file_name': self.config['file']['Processed']['services']['serial_number_services']
+            file_dir = {'file_dir': self.config['file']['dir_results'] + self.config['file'][
+                'dir_intermediate'],
+                        'file_name': self.config['file']['Processed']['services'][
+                            'serial_number_services']
                         }
             df_services_serialnum = IO.read_csv(self.mode, file_dir)
 
             # Merge serial number data with raw services data
-            df_services_raw_merged = df_services_raw.merge(df_services_serialnum, on='Id', how='left')
+            df_services_raw_merged = df_services_raw.merge(df_services_serialnum, on='Id',
+                                                           how='left')
 
             # Read and identify JCOMM keyword data
             df_services_jcomm = df_services_raw_merged
@@ -394,14 +406,19 @@ class ProcessServiceIncidents:
             cols_export = ['Id', 'Customer_Issue_Summary__c', 'SerialNumber']
 
             # JCOMM field processing
-            filter_jcomm = df_services_jcomm.Customer_Issue_Summary__c.str.contains('JCOMM', na=False, case=False)
+            filter_jcomm = df_services_jcomm.Customer_Issue_Summary__c.str.contains('JCOMM',
+                                                                                    na=False,
+                                                                                    case=False)
             df_services_jcomm['Has_JCOMM'] = filter_jcomm
             df_services_jcomm = df_services_jcomm.loc[df_services_jcomm.Has_JCOMM]
-            df_jcomm_output = df_services_jcomm[['Id', 'Customer_Issue_Summary__c', 'SerialNumber', 'Has_JCOMM', 'Qty']]
+            df_jcomm_output = df_services_jcomm[
+                ['Id', 'Customer_Issue_Summary__c', 'SerialNumber', 'Has_JCOMM', 'Qty']]
 
             # Sidecar field processing
             df_services_sidecar = df_services_raw_merged
-            filter_sidecar = df_services_sidecar.Customer_Issue_Summary__c.str.contains('Sidecar', na=False, case=False)
+            filter_sidecar = df_services_sidecar.Customer_Issue_Summary__c.str.contains('Sidecar',
+                                                                                        na=False,
+                                                                                        case=False)
             df_services_sidecar['Has_Sidecar'] = filter_sidecar
             df_services_sidecar = df_services_sidecar.loc[df_services_sidecar.Has_Sidecar]
             df_sidecar_output = df_services_sidecar[
@@ -446,8 +463,10 @@ class ProcessServiceIncidents:
             else:
                 validate_srnum.rename(columns={'F_SerialNumber': 'SerialNumber'}, inplace=True)
                 # Export JCOMM and Sidecar fields to intermediate file
-                output_dir = {'file_dir': self.config['file']['dir_intermediate'],
-                              'file_name': self.config['file']['Processed']['services']['intermediate']
+                output_dir = {'file_dir': self.config['file']['dir_results'] + self.config[
+                    'file']['dir_intermediate'],
+                              'file_name': self.config['file']['Processed']['services'][
+                                  'intermediate']
                               }
                 IO.write_csv(self.mode, output_dir, validate_srnum)
 
@@ -459,12 +478,13 @@ class ProcessServiceIncidents:
             raise Exception('f"{_step}: Failed') from excep
 
         return "Success"
+
+
 # %% *** Call ***
 
 
 if __name__ == "__main__":
     services_obj = ProcessServiceIncidents()
-    local_df_test = pd.DataFrame()
-    services_obj.main_services(local_df_test)
+    services_obj.main_services()
 
 # %%

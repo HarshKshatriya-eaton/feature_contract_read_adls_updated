@@ -329,7 +329,6 @@ class Contract:
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception from excp
 
-        # df_contract.to_csv("./results/contract_install_serial.csv")
         return df_contract
 
     def pipeline_renewal(self) -> pd.DataFrame:  # pragma: no cover
@@ -545,10 +544,10 @@ class Contract:
         # Read : Installbase Processed data
         _step = "Read raw data : BOM"
         try:
-            df_install = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_data'],
-                                                 'file_name': self.config['file']['Processed'][
-                                                     'processed_install'][
-                                                     'file_name']})
+            df_install = IO.read_csv(self.mode, {
+                'file_dir': self.config['file']['dir_results'] + self.config['file'][
+                    'dir_intermediate'],
+                'file_name': self.config['file']['Processed']['processed_install']['file_name']})
 
         except Exception as excp:
             logger.app_fail(_step, f'{traceback.print_exc()}')
@@ -605,8 +604,6 @@ class Contract:
 
             df_out = df_out.drop_duplicates(subset=['SerialNumber'])
 
-            # TODO: Remove in prod
-            # df_out.to_csv('./results/contract_SrNumbers.csv', index=False)
             return df_out
         except Exception as excp:
             raise Exception from excp

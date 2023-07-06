@@ -285,7 +285,7 @@ class SearchSrnum:
                 df_data.loc[:, 'is_serialnum'] = df_data['SerialNumber'].apply(
                     lambda x:
                     re.search('|'.join(self.pat_srnum_services), str(x)) is not None)
-                df_data.to_csv("IntermediateData.csv")
+
                 # Expand Serial number
                 ls_dfs = df_data.apply(lambda x: self.expand_srnum(
                     x, self.pat_srnum_services), axis=1).tolist()
@@ -294,7 +294,7 @@ class SearchSrnum:
                 df_ls_collapse['src'] = cur_field
 
                 df_serialnum = pd.concat([df_serialnum, df_ls_collapse])
-                df_serialnum.to_csv("df_serialnum.csv")
+
 
                 # env_.logger.app_debug(f'{cur_field}: {df_serialnum.shape[0]}')
                 del ls_dfs, df_data, df_ls_collapse
@@ -362,5 +362,5 @@ class SearchSrnum:
         df_temp_org.loc[:, 'SerialNumber'] = df_temp_org['SerialNumber'].apply(
             lambda col_data: re.sub(f'{sep}+', sep, col_data))
         df_temp_org.loc[:, 'SerialNumber'] = df_temp_org['SerialNumber'] + sep
-        df_temp_org.to_csv("df_temp_org_values.csv")
+
         return df_temp_org['SerialNumber']

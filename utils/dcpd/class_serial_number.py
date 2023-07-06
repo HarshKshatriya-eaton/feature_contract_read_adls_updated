@@ -723,7 +723,7 @@ if __name__ == '__main__':
 
     df_out_srs, df_out_couldnot = sr_num.get_serialnumber(
          ar_serialnum, ar_installsize,"1")
-    print("The df Out data is ",df_out_srs)
+    # print("The df Out data is ",df_out_srs)
     #df_data = pd.read_csv('./data/SerialNumber.csv')
     #df_data = df_data[df_data['SO'] == 1930]
     #print("New data updated ", df_data)
