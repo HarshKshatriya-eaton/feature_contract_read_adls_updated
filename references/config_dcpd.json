@@ -919,7 +919,7 @@
                 "output_format": ""
             },
             "Component_Due_Date": {
-                "actual_datasoure_name": "",
+                "actual_datasoure_name": "Component_Due_Date",
                 "output_format": "date : mm/dd/yyyy"
             },
             "External_Salesperson": {
@@ -931,11 +931,11 @@
                 "output_format": ""
             },
             "Component_Due_in (years)": {
-                "actual_datasoure_name": "",
+                "actual_datasoure_name": "Component_Due_in (years)",
                 "output_format": ""
             },
             "Component_Due_in (Category)": {
-                "actual_datasoure_name": "",
+                "actual_datasoure_name": "Component_Due_in (Category)",
                 "output_format": "text : capitalize each word"
             },
             "flag_raise_lead": {
@@ -981,7 +981,7 @@
                 "output_format": "date : mm/dd/yyyy"
             },
             "Product_Age": {
-                "actual_datasoure_name": "",
+                "actual_datasoure_name": "Product_Age",
                 "output_format": ""
             },
             "CSE_Area": {
@@ -998,7 +998,7 @@
             },
             "Txt_Party_Site_Number": {
                 "actual_datasoure_name": "Customer",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "Ship_To_Party_Name": {
                 "actual_datasoure_name": "ShipTo_Customer",
@@ -1025,7 +1025,7 @@
                 "output_format": "text : capitalize each word"
             },
             "is_under_contract": {
-                "actual_datasoure_name": "",
+                "actual_datasoure_name": "is_under_contract",
                 "output_format": "bool : 0/1"
             },
             "Contract_Number": {

@@ -49,7 +49,7 @@ class LeadGeneration:
             logger.app_success(_step)
 
             # ***** PreProcess BOM data *****
-            _step = 'Process BOM data'
+            _step = 'Process BOM data and identify leads'
             # Read Data
             df_leads = self.pipeline_bom_identify_lead(df_install)
             logger.app_success(_step)
@@ -76,18 +76,28 @@ class LeadGeneration:
                           }, df_leads)
             logger.app_success(_step)
 
+            _step = "Post Processing and Deriving columns on output iLeads"
+            df_leads = self.post_process_output_ilead(df_leads)
+
+            logger.app_success(_step)
+
+            _step = "Post Processing and Deriving columns on reference install leads"
+            df_leads = self.post_process_ref_install(df_leads)
+
+            logger.app_success(_step)
+
             _step = "Formatting Output"
 
             ref_install_output_format = self.config['output_format']['ref_install_base']
             ref_install = self.format.format_output(df_leads, ref_install_output_format)
 
-            logger.app_success(_step)
+            iLead_output_format = self.config['output_format']['output_iLead']
+            output_iLead = self.format.format_output(df_leads, iLead_output_format)
+
+            _step = "Exporting reference install file"
 
             ref_install = ref_install.drop_duplicates(subset=['Serial_Number']). \
                 reset_index(drop=True)
-
-            _step = "Post Processing and Deriving columns on reference install leads"
-            ref_install = self.post_process_ref_install(ref_install)
 
             IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'],
                                      'file_name': self.config['file']['Processed']['output_iLead'][
@@ -96,11 +106,7 @@ class LeadGeneration:
 
             logger.app_success(_step)
 
-            iLead_output_format = self.config['output_format']['output_iLead']
-            output_iLead = self.format.format_output(df_leads, iLead_output_format)
-
-            _step = "Post Processing and Deriving columns on output iLeads"
-            output_iLead = self.post_process_output_ilead(output_iLead)
+            _step = "Exporting output iLead file"
 
             IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'],
                                      'file_name': self.config['file']['Processed']['output_iLead'][
@@ -128,8 +134,10 @@ class LeadGeneration:
 
             _step = 'Deriving Product Age column using install date column'
 
+            # TODO: for calculation if startup date has values used that else use shipment date.
+
             ref_install['Product_Age'] = (pd.Timestamp.now().normalize() - pd.to_datetime(
-                ref_install['Install_Date'])) / np.timedelta64(1, 'Y')
+                ref_install['ShipmentDate'])) / np.timedelta64(1, 'Y')
 
             ref_install['Product_Age'] = ref_install['Product_Age'].astype(int)
 
@@ -141,11 +149,19 @@ class LeadGeneration:
             current_date = pd.Timestamp.now().normalize()
 
             # Create the 'is_under_contract' column based on conditions
-            ref_install['is_under_contract'] = (pd.to_datetime(ref_install['Contract_End_Date'],
+            ref_install['is_under_contract'] = (pd.to_datetime(ref_install['Contract_Expiration_Date'],
                                                                errors='coerce') >= current_date
-                                                ) & ~(ref_install['Contract_End_Date'].isna())
+                                                ) & ~(ref_install['Contract_Expiration_Date'].isna())
 
             logger.app_success(_step)
+
+            # TODO: These columns needs to be derived later as of now values a populated False
+            # TODO: mapping in config is set to empty that should be assigned later to column
+            # TODO: from where the column values will be formatted.
+
+            ref_install.loc[:, 'flag_decommissioned'] = False
+            ref_install.loc[:, 'flag_prior_lead'] = False
+            ref_install.loc[:, 'flag_prior_service_lead'] = False
 
             return ref_install
         except Exception as e:
@@ -166,13 +182,13 @@ class LeadGeneration:
 
             # Define a custom function to calculate the 'Component_Due_Date'
             def calculate_component_due_date(row):
-                if row['Lead_Type'] == 'EOSL':
+                if row['lead_type'] == 'EOSL':
                     first_day_of_year = pd.to_datetime(f'01/01/{current_year}', format='%m/%d/%Y')
                     return first_day_of_year.strftime('%m/%d/%Y')
                 else:
-                    component_date_code = pd.to_datetime(row['Component_Date_Code'],
+                    component_date_code = pd.to_datetime(row['date_code'],
                                                          format='%m/%d/%Y')
-                    component_life_years = pd.DateOffset(years=row['Component_Life'])
+                    component_life_years = pd.DateOffset(years=row['Life__Years'])
                     return (component_date_code + component_life_years).strftime('%m/%d/%Y')
 
             _step = "Derive column Component_Due_Date based on Lead_Type, Component_Date_Code"
@@ -184,7 +200,7 @@ class LeadGeneration:
 
             _step = 'Calculating Component_Due_in (years) using Component_Due_Date and current year'
 
-            # Calculate the difference in years between 'date_code' and the current year
+            # Calculate the difference in years between 'Component_Due_Date' and the current year
             output_ilead_df['Component_Due_in (years)'] = pd.to_datetime(
                 output_ilead_df['Component_Due_Date']).dt.year - current_year
 
