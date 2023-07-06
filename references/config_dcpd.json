@@ -70,7 +70,7 @@
                 "validation": "processed_services_validation.csv"
             },
             "contact": {
-                "file_name": "output_iLead_contacts.csv"
+                "file_name": "contact_contracts.csv"
             }
         }
     },
