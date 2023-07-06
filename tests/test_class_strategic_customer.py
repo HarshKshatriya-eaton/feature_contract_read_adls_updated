@@ -21,7 +21,7 @@ from utils.logger import AppLogger
 logger = AppLogger('DCPD', level='')
 from utils import IO
 import numpy as np
-from utils.strategic_customer1 import StrategicCustomer
+from utils.strategic_customer import StrategicCustomer
 
 obj_strategic_customer = StrategicCustomer()
 
@@ -50,12 +50,12 @@ class TestIdentification:
         Check if the formating of ref data is done from strategic_customer1.py
         """
 
-        input_data = [{'Condition 1': 'MatchType_00', 'Unnamed: 1': 'CompanyName', 'Condition 2': 'MatchType_01', 'Unnamed: 3': 'CompanyAliasName', 'Condition 3': 'MatchType_02', 'Unnamed: 5': 'CompanyDomain'}, {'Condition 1': 'contains', 'Unnamed: 1': 'ABB', 'Condition 2': 'contains', 'Unnamed: 3': 'Zenith', 'Condition 3': 'ends with', 'Unnamed: 5': 'abb.com'}, {'Condition 1': 'contains', 'Unnamed: 1': 'Aligned Energy, LLC                ', 'Condition 2': 'contains', 'Unnamed: 3': 'Align;Intertech', 'Condition 3': 'ends with', 'Unnamed: 5': 'aligneddc.com'}, {'Condition 1': 'Begins with', 'Unnamed: 1': 'Meta', 'Condition 2': 'contains', 'Unnamed: 3': 'GOLDFRAME;Facebook;Siculus;Woolhawk', 'Condition 3': 'ends with', 'Unnamed: 5': 'meta.com;facebook.com'}]
+        input_data = [{'DisplayName': 'DisplayName', ' Condition 1': 'MatchType_00', ' ': 'CompanyName', ' Condition 2': 'MatchType_01', ' .1': 'CompanyAliasName', ' Condition 3': 'MatchType_02', ' .2': 'CompanyDomain'}, {'DisplayName': 'ABB', ' Condition 1': 'begins with', ' ': 'ABB;Zenith', ' Condition 2': 'begins with', ' .1': 'ABB;Zenith', ' Condition 3': 'ends with', ' .2': 'abb.com'}, {'DisplayName': 'Aligned Energy, LLC', ' Condition 1': 'begins with', ' ': 'Aligned Energy, LLC;Align;Intertech', ' Condition 2': 'begins with', ' .1': 'Aligned Energy, LLC;Align;Intertech', ' Condition 3': 'ends with', ' .2': 'aligneddc.com'}]
 
         ref_ac_manager = pd.DataFrame(input_data)
         result = obj_strategic_customer.read_ref_data(ref_ac_manager)
 
-        expected_output = pd.DataFrame([{'MatchType_00': 'contains', 'CompanyName': 'abb', 'MatchType_01': 'contains', 'CompanyAliasName': 'zenith', 'MatchType_02': 'ends with', 'CompanyDomain': 'abb.com'}, {'MatchType_00': 'contains', 'CompanyName': 'aligned energy, llc                ', 'MatchType_01': 'contains', 'CompanyAliasName': 'align;intertech', 'MatchType_02': 'ends with', 'CompanyDomain': 'aligneddc.com'}, {'MatchType_00': 'begins with', 'CompanyName': 'meta', 'MatchType_01': 'contains', 'CompanyAliasName': 'goldframe;facebook;siculus;woolhawk', 'MatchType_02': 'ends with', 'CompanyDomain': 'meta.com;facebook.com'}])
+        expected_output = pd.DataFrame([{0: '1', 'DisplayName': 'abb', 'MatchType_00': 'begins with', 'CompanyName': 'abb;zenith', 'MatchType_01': 'begins with', 'CompanyAliasName': 'abb;zenith', 'MatchType_02': 'ends with', 'CompanyDomain': 'abb.com'}, {0: '2', 'DisplayName': 'aligned energy, llc', 'MatchType_00': 'begins with', 'CompanyName': 'aligned energy, llc;align;intertech', 'MatchType_01': 'begins with', 'CompanyAliasName': 'aligned energy, llc;align;intertech', 'MatchType_02': 'ends with', 'CompanyDomain': 'aligneddc.com'}])
 
         assert np.array_equal(result.values,expected_output.values)
 
@@ -108,20 +108,10 @@ class TestIdentification:
         df_leads= obj_strategic_customer.read_processed_m2m(df_leads)
         df_leads = obj_strategic_customer.summarize_contacts(df_contact, df_leads)
 
-        ref_data = [{'Condition 1': 'MatchType_00', 'Unnamed: 1': 'CompanyName', 'Condition 2': 'MatchType_01',
-                       'Unnamed: 3': 'CompanyAliasName', 'Condition 3': 'MatchType_02', 'Unnamed: 5': 'CompanyDomain'},
-                      {'Condition 1': 'contains', 'Unnamed: 1': 'ABB', 'Condition 2': 'contains',
-                       'Unnamed: 3': 'Zenith', 'Condition 3': 'ends with', 'Unnamed: 5': 'abb.com'},
-                      {'Condition 1': 'contains', 'Unnamed: 1': 'Aligned Energy, LLC                ',
-                       'Condition 2': 'contains', 'Unnamed: 3': 'Align;Intertech', 'Condition 3': 'ends with',
-                       'Unnamed: 5': 'aligneddc.com'},
-                      {'Condition 1': 'Begins with', 'Unnamed: 1': 'Meta', 'Condition 2': 'contains',
-                       'Unnamed: 3': 'GOLDFRAME;Facebook;Siculus;Woolhawk', 'Condition 3': 'ends with',
-                       'Unnamed: 5': 'meta.com;facebook.com'}]
+        ref_data = [{'DisplayName': 'DisplayName', ' Condition 1': 'MatchType_00', ' ': 'CompanyName', ' Condition 2': 'MatchType_01', ' .1': 'CompanyAliasName', ' Condition 3': 'MatchType_02', ' .2': 'CompanyDomain'}, {'DisplayName': 'ABB', ' Condition 1': 'begins with', ' ': 'ABB;Zenith', ' Condition 2': 'begins with', ' .1': 'ABB;Zenith', ' Condition 3': 'ends with', ' .2': 'abb.com'}, {'DisplayName': 'Aligned Energy, LLC', ' Condition 1': 'begins with', ' ': 'Aligned Energy, LLC;Align;Intertech', ' Condition 2': 'begins with', ' .1': 'Aligned Energy, LLC;Align;Intertech', ' Condition 3': 'ends with', ' .2': 'aligneddc.com'}]
         ref_ac_manager = pd.DataFrame(ref_data)
         ref_df = obj_strategic_customer.read_ref_data(ref_ac_manager)
         result = obj_strategic_customer.pipeline_identify_customers(ref_df, df_leads)
-        alpha = result.to_dict(orient='records')
         expected_output = pd.DataFrame([{'Serial_Number': '110-2768', 'CompanyName': 'cupertino electric, inc', 'CompanyAliasName': 'apple lazaneo', 'CompanyDomain': np.nan, 'StrategicCustomer': 'Other', 'StrategicCustomer_new': 'cupertino electric, inc'}, {'Serial_Number': '110-2798-87', 'CompanyName': 'parsons electric', 'CompanyAliasName': 'unitedhealth group', 'CompanyDomain': 'michael_balk@optum.com', 'StrategicCustomer': 'Other', 'StrategicCustomer_new': 'parsons electric'}, {'Serial_Number': 't18-26-us-s-4313', 'CompanyName': 'qts', 'CompanyAliasName': 'schneider electric', 'CompanyDomain': np.nan, 'StrategicCustomer': 'Other', 'StrategicCustomer_new': 'qts'}])
 
         assert_frame_equal(result.sort_index(axis=1), expected_output.sort_index(axis=1),
