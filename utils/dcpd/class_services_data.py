@@ -216,9 +216,6 @@ class ProcessServiceIncidents:
 
         _step = 'Merge data'
         try:
-            print("Data hardware", df_hardware_changes.head(5).to_dict(orient='records'))
-            print("Data services", df_services_raw.head(5).to_dict(orient='records'))
-            print("Data srnum", df_sr_num.head(5).to_dict(orient='records'))
 
             df_out = df_hardware_changes.copy()
 
