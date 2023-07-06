@@ -69,7 +69,7 @@ class ProcessServiceIncidents:
             "file_dir": './references/', "file_name": 'config_dcpd.json'})
         # self.pat_srnum1 = self.config['contracts']['srnum_pattern']['pat_srnum1']
 
-    def main_services(self):
+    def main_services(self):    #pragma: no cover
         """
         Main pipline for processing the service data. It invokes main function.
 
@@ -216,6 +216,9 @@ class ProcessServiceIncidents:
 
         _step = 'Merge data'
         try:
+            print("Data hardware", df_hardware_changes.head(5).to_dict(orient='records'))
+            print("Data services", df_services_raw.head(5).to_dict(orient='records'))
+            print("Data srnum", df_sr_num.head(5).to_dict(orient='records'))
 
             df_out = df_hardware_changes.copy()
 
@@ -375,25 +378,25 @@ class ProcessServiceIncidents:
         _step = 'Read raw services data and perform serial number mapping'
 
         try:
-            # if df_services_raw is not None and df_services_serialnum is not None:
-            #     df_services_raw = df_services_raw
-            #     df_services_serialnum = df_services_serialnum
-            # else:
-            #     # Read raw services data
+            if df_services_raw is not None and df_services_serialnum is not None:
+                df_services_raw = df_services_raw
+                df_services_serialnum = df_services_serialnum
+            else:
+                # Read raw services data
 
-            # Specify the file directory and path
-            file_dir = {'file_dir': self.config['file']['dir_data'],
-                        'file_name': self.config['file']['Raw']
-                        ['services']['file_name']}
-            df_services_raw = IO.read_csv(self.mode, file_dir)
+                # Specify the file directory and path
+                file_dir = {'file_dir': self.config['file']['dir_data'],
+                            'file_name': self.config['file']['Raw']
+                            ['services']['file_name']}
+                df_services_raw = IO.read_csv(self.mode, file_dir)
 
-            # Read corresponding serial number data file for raw services data
-            file_dir = {'file_dir': self.config['file']['dir_results'] + self.config['file'][
-                'dir_intermediate'],
-                        'file_name': self.config['file']['Processed']['services'][
-                            'serial_number_services']
-                        }
-            df_services_serialnum = IO.read_csv(self.mode, file_dir)
+                # Read corresponding serial number data file for raw services data
+                file_dir = {'file_dir': self.config['file']['dir_results'] + self.config['file'][
+                    'dir_intermediate'],
+                            'file_name': self.config['file']['Processed']['services'][
+                                'serial_number_services']
+                            }
+                df_services_serialnum = IO.read_csv(self.mode, file_dir)
 
             # Merge serial number data with raw services data
             df_services_raw_merged = df_services_raw.merge(df_services_serialnum, on='Id',
@@ -477,7 +480,7 @@ class ProcessServiceIncidents:
             loggerObj.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from excep
 
-        return "Success"
+        return validate_srnum
 
 
 # %% *** Call ***

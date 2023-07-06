@@ -304,11 +304,15 @@ class Contract:
             df_contract.loc[
                 df_contract["flag_validinstall"] == "Partial_match", "flag_validinstall"] = True
 
-            df_contract['partial_match'] = df_contract['partial_match'].fillna(
-                df_contract['SerialNumber'])
-            df_contract['partial_match'] = df_contract['partial_match'].str.split(',')
-            df_contract = df_contract.explode('partial_match')
-            df_contract = df_contract.rename(columns={'partial_match': 'SerialNumber_Partial'})
+            if('partial_match' in df_contract.columns):
+                df_contract['partial_match'] = df_contract['partial_match'].fillna(
+                    df_contract['SerialNumber'])
+                df_contract['partial_match'] = df_contract['partial_match'].str.split(',')
+                df_contract = df_contract.explode('partial_match')
+                df_contract = df_contract.rename(columns={'partial_match': 'SerialNumber_Partial'})
+
+            else:
+                df_contract['SerialNumber_Partial'] = df_contract['SerialNumber'].copy()
 
             IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
                                                  self.config['file']['dir_validation'],
