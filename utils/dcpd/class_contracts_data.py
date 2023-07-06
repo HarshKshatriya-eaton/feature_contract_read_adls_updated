@@ -99,30 +99,21 @@ class Contract:
         try:
             # PreProcess: Contracts Data
             df_contract = self.pipeline_contract
-            # env_.export_data(df_contract, 'processed_contract', 'output')
 
             # PreProcess : Renewal data
             df_renewal = self.pipeline_renewal()
 
-            # Merge Datasets
-            df_contract = self.merge_contract_and_renewal(
-                df_contract, df_renewal)
+            # Merge Contract and Renewal Data
+            df_contract = self.merge_contract_and_renewal(df_contract, df_renewal)
+
+            # Decode Contract Type
             df_contract = self.pipeline_decode_contract_type(df_contract)
 
-            # Export Data
+            # Write data for validation before validating contract with install data
             IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
                                                  self.config['file']['dir_validation'],
                                      'file_name': self.config['file']['Processed']['contracts'][
                                          'validation']
-                                     }, df_contract)
-
-            # TODO formatted output is not yet implemented
-            # Export formatted Data
-            # df_contract_form = env_.filters_.format_output(df_contract, dict_format)
-            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
-                                                 self.config['file']['dir_intermediate'],
-                                     'file_name': self.config['file']['Processed']['contracts'][
-                                         'file_name']
                                      }, df_contract)
 
             # Merge Summarised contract and install base data.
@@ -132,7 +123,7 @@ class Contract:
             IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
                                                  self.config['file']['dir_intermediate'],
                                      'file_name': self.config['file']['Processed']['contracts'][
-                                         'merge_install']
+                                         'file_name']
                                      }, df_install_contract_merge)
 
         except Exception as excp:
@@ -313,11 +304,15 @@ class Contract:
             df_contract.loc[
                 df_contract["flag_validinstall"] == "Partial_match", "flag_validinstall"] = True
 
-            df_contract['partial_match'] = df_contract['partial_match'].fillna(
-                df_contract['SerialNumber'])
-            df_contract['partial_match'] = df_contract['partial_match'].str.split(',')
-            df_contract = df_contract.explode('partial_match')
-            df_contract = df_contract.rename(columns={'partial_match': 'SerialNumber_Partial'})
+            if('partial_match' in df_contract.columns):
+                df_contract['partial_match'] = df_contract['partial_match'].fillna(
+                    df_contract['SerialNumber'])
+                df_contract['partial_match'] = df_contract['partial_match'].str.split(',')
+                df_contract = df_contract.explode('partial_match')
+                df_contract = df_contract.rename(columns={'partial_match': 'SerialNumber_Partial'})
+
+            else:
+                df_contract['SerialNumber_Partial'] = df_contract['SerialNumber'].copy()
 
             IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
                                                  self.config['file']['dir_validation'],
@@ -329,7 +324,6 @@ class Contract:
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception from excp
 
-        # df_contract.to_csv("./results/contract_install_serial.csv")
         return df_contract
 
     def pipeline_renewal(self) -> pd.DataFrame:  # pragma: no cover
@@ -533,7 +527,7 @@ class Contract:
 
         return df_contract
 
-    def read_processed_installbase(self) -> pd.DataFrame:
+    def read_processed_installbase(self) -> pd.DataFrame:  # pragma: no cover
         """
         Read processed installbase data.
 
@@ -545,7 +539,8 @@ class Contract:
         # Read : Installbase Processed data
         _step = "Read raw data : BOM"
         try:
-            df_install = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_data'],
+            df_install = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
+                                                             self.config['file']['dir_intermediate'],
                                                  'file_name': self.config['file']['Processed'][
                                                      'processed_install'][
                                                      'file_name']})
@@ -605,8 +600,6 @@ class Contract:
 
             df_out = df_out.drop_duplicates(subset=['SerialNumber'])
 
-            # TODO: Remove in prod
-            # df_out.to_csv('./results/contract_SrNumbers.csv', index=False)
             return df_out
         except Exception as excp:
             raise Exception from excp
@@ -671,7 +664,7 @@ class Contract:
         :param df_temp_org: Serial number data
         :type df_temp_org: pd.DataFrame
         :raises Exception: Raised if unknown data type provided.
-        :return: flag, having single serial number
+        :return: flag, having single serial number, true means it's single else it has range
         :rtype: pd.Series
 
         """
@@ -791,8 +784,6 @@ class Contract:
         """
         _step = 'Merge Contract and Srnum Data'
         try:
-            print(df_contract.columns)
-            print(df_contract_srnum.columns)
             df_contract_srnum = df_contract_srnum.loc[
                                 df_contract_srnum.flag_validinstall, :]
 
@@ -879,7 +870,11 @@ class Contract:
                     else:
                         df.at[i, 'Contract_Conversion'] = 'No Contract'
 
-            merge_df = pd.merge(df_install, df, on='SerialNumber')
+            merge_df = pd.merge(df_install, df, on='SerialNumber', how='left')
+
+            merge_df['was_startedup'] = merge_df['was_startedup'].fillna(False)
+            merge_df['Contract_Conversion'] = merge_df['Contract_Conversion'].fillna(
+                'No Warranty / Contract')
 
             logger.app_success(_step)
             return merge_df
