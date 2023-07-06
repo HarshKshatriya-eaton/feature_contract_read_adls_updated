@@ -1,0 +1,33 @@
+﻿MatchType_00,Company Name,MatchType_01,Alias,MatchType_02,Domain name
+contains,ABB,contains,Zenith,ends with,abb.com
+contains,"Aligned Energy, LLC                ",contains,Align;Intertech,ends with,aligneddc.com
+contains,Ascent Corp.                       ,contains,,ends with,ascentcorp.com
+Begins with,CBRE                               ,contains,"CBRE Managed Services, Inc.        ",ends with,cbre.com
+contains,CenturyLink                        ,contains,,ends with,centurylink.com
+contains,CoerSite,contains,CoreSite Real Estate               ,ends with,coresite.com
+contains,Cushman & Wakefield                ,contains,,ends with,cushmanwakefield.com                
+contains,CyrusOne LLC                       ,contains,CyrusOne,ends with,cyrusone.com
+contains,"Cyxtera Communications, LLC        ",contains,,ends with,cyxtera.com
+contains,Digital Realty                     ,contains,"Digital Realty Trust, LLP          ",ends with,digitalrealty.com
+contains,Eaton                              ,contains,Eaton Corporation NAFSC-1620;Eaton-4500-Power Quality-Pass Thru ,ends with,eaton.com
+contains,Equinix                            ,contains,,ends with,equinix.com
+contains,FedEx Corp                         ,contains,,ends with,fedex.com
+contains,Flexential,contains,Flexential Colorado Corp.          ,ends with,flexential.com
+Begins with,Meta,contains,GOLDFRAME;Facebook;Siculus;Woolhawk,ends with,meta.com;facebook.com
+contains,"Holder Construction Group, LLC     ",contains,Holder Construction Co             ,ends with,holderconstruction.com
+contains,Liberty Mutual Insurance Co.       ,contains,,ends with,liberty mutual.com
+contains,Markley Group                      ,contains,,ends with,markleygroup.com
+Begins with,QTS                                ,contains,"Quality Technology Services;Quality Technology Services, LLC ",ends with,qtsdatacenters.com
+contains,RBC Stratford Computer Center      ,Begins with,RBC,ends with,rbcroyalbank.com
+contains,"Sabey Construction, Inc.           ",contains,,ends with,sabey.com
+contains,"Stack Infrastructure, Inc.         ",contains,Fortune Data Centers,ends with,stackinfra.com
+contains,SWITCH COMMUNICATIONS GROUP        ,contains,Supernap;InNEVation,ends with,switch.com
+contains,Turner Construction,contains,"Turner Logistics, LLC              ",ends with,turnerconstruction.com
+contains,"Twitter, Inc.                      ",contains,,ends with,twitter.com
+contains,United Health Group                ,contains,United Healthcare;Optum,ends with,unitedhealthgroup.com
+contains,Wells Fargo Bank                   ,contains,,ends with,wellsfargo.com
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
