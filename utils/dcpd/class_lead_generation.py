@@ -64,16 +64,10 @@ class LeadGeneration:
 
             logger.app_success(_step)
 
-            _step = 'Write output lead to result directory'
+            _step = 'Post Process output before formatting to calculate standard offering.'
 
-            df_leads = df_leads.drop(columns=['temp_column', 'component', 'ClosedDate']) \
-                .reset_index(drop=True)
-            IO.write_csv(self.mode,
-                         {'file_dir': self.config['file']['dir_results'] + self.config['file'][
-                             'dir_validation'],
-                          'file_name': self.config['file']['Processed']['output_iLead'][
-                              'validation']
-                          }, df_leads)
+            df_leads = self.post_proecess_leads(df_leads)
+
             logger.app_success(_step)
 
             _step = "Post Processing and Deriving columns on output iLeads"
@@ -84,6 +78,19 @@ class LeadGeneration:
             _step = "Post Processing and Deriving columns on reference install leads"
             df_leads = self.post_process_ref_install(df_leads)
 
+            logger.app_success(_step)
+
+            _step = 'Write output lead to result directory'
+
+            df_leads = df_leads.drop(columns=['temp_column', 'component', 'ClosedDate']) \
+                .reset_index(drop=True)
+
+            IO.write_csv(self.mode,
+                         {'file_dir': self.config['file']['dir_results'] + self.config['file'][
+                             'dir_validation'],
+                          'file_name': self.config['file']['Processed']['output_iLead'][
+                              'validation']
+                          }, df_leads)
             logger.app_success(_step)
 
             _step = "Formatting Output"
@@ -122,6 +129,52 @@ class LeadGeneration:
         return 'successfully !'
 
     # %% ***** Pipelines ****
+
+    def post_proecess_leads(self, df_leads):
+
+        # All other displays: Invalid
+        df_leads['is_standard_offering'] = False
+
+        # PDU + ( M4 display  + 8212)
+        ls_comp_type = ['M4 Display', '8212 Display']
+        f_std_offer = (
+                (df_leads.Product_M2M_Org.str.upper().isin(['PDU', 'PDU - PRIMARY', 'PDU - SECONDARY']))
+                & df_leads.Component.isin(ls_comp_type)
+                & df_leads.is_valid_logic_tray_lead
+                & df_leads.is_valid_door_assembly_lead
+                & df_leads.is_valid_input_breaker_panel_lead
+        )
+
+        df_leads.loc[f_std_offer, 'is_standard_offering'] = True
+        # PDU + ( 'Monochrome Display', 'Color Display')
+        ls_comp_type = ['Monochrome Display', 'Color Display']
+        f_std_offer = (
+                (df_leads.Product_M2M_Org.str.upper().isin(['PDU', 'PDU - PRIMARY', 'PDU - SECONDARY']))
+                & df_leads.Component.isin(ls_comp_type)
+                & df_leads.is_valid_door_assembly_lead
+                & df_leads.is_valid_input_breaker_panel_lead
+        )
+
+        df_leads.loc[f_std_offer, 'is_standard_offering'] = True
+
+        # RPP + ( M4 display  + 8212)
+        ls_comp_type = ['Monochrome Display',
+                        'Color Display', 'M4 Display', '8212 Display']
+        f_std_offer = (
+                (df_leads.Product_M2M_Org.str.upper() == 'RPP')
+                & df_leads.Component.isin(ls_comp_type)
+                & df_leads.is_valid_chasis_lead
+                & (pd.to_datetime(df_leads.ShipmentDate) >= pd.to_datetime("2008-01-01"))
+
+        )
+
+        df_leads.loc[f_std_offer, 'is_standard_offering'] = True
+        # All other components: are valid
+        ls_comp_type = ['BCMS', 'PCB', 'SPD', 'Fan', 'PDU', 'RPP', 'STS']
+        f_std_offer = df_leads.Component.isin(ls_comp_type)
+        df_leads.loc[f_std_offer, 'is_standard_offering'] = True
+
+        return df_leads
 
     def post_process_ref_install(self, ref_install):
         """
@@ -183,7 +236,9 @@ class LeadGeneration:
             # Define a custom function to calculate the 'Component_Due_Date'
             def calculate_component_due_date(row):
                 if row['lead_type'] == 'EOSL':
-                    first_day_of_year = pd.to_datetime(f'01/01/{current_year}', format='%m/%d/%Y')
+                    EOSL_Year = int(row['EOSL'])
+                    # TODO: take year from EOSL date column
+                    first_day_of_year = pd.to_datetime(f'01/01/{EOSL_Year}', format='%m/%d/%Y')
                     return first_day_of_year.strftime('%m/%d/%Y')
                 else:
                     component_date_code = pd.to_datetime(row['date_code'],
@@ -317,6 +372,28 @@ class LeadGeneration:
             raise Exception from e
 
         return df_leads
+
+    def update_sts_leads(self, df_leads):
+        """
+        Update component life for STS
+        :param df_leads: Generated leads
+        :type df_leads: pandas DataFrame
+        :raises Exception: captures all
+        :return: DESCRIPTION
+        :rtype: pandas data frame
+        """
+
+        _step = 'Update component life for STS'
+        try:
+            df_leads['flag_update_sts_leads'] = ((df_leads['Product_M2M_Org'].str.lower() == 'sts') &
+                (df_leads['Component'].str.lower().isin(
+                    ['spd', 'pcb', 'color display', 'monochrome display', 'm4 display',
+                     '8212 display'])))
+            df_leads.loc[df_leads.flag_update_sts_leads, 'Life__Years'] = 7
+            return df_leads
+        except Exception as e:
+            logger.app_fail(_step, f"{traceback.print_exc()}")
+            raise Exception from e
 
     def pipeline_merge_lead_services(self, df_leads, df_services=None):
         """
@@ -472,11 +549,12 @@ class LeadGeneration:
         @param ref_lead_opp: reference leads data on which leads are generated.
         @return: pd.Dataframe
         """
+        df_bom['Product_M2M_Org'] = df_bom['Product_M2M'].copy()
         ls_cols_ref = [
             '',
             'Match', 'Component', 'Component_Description', 'End of Prod', 'Status',
             'Life__Years', 'EOSL', 'flag_raise_in_gp']
-        ls_cols = ['Job_Index', 'Total_Quantity', '', 'InstallDate',
+        ls_cols = ['Job_Index', 'Total_Quantity', '', 'InstallDate', 'Product_M2M_Org',
                    'SerialNumber_M2M', 'key_value']
 
         # Identify Leads: TLN
@@ -541,6 +619,10 @@ class LeadGeneration:
             df_leads_out = pd.concat([df_leads_tln, df_leads_bom])
             del df_leads_tln, df_leads_bom
 
+            _step = "Update lead for STS"
+
+            df_leads_out = self.update_sts_leads(df_leads_out)
+
             IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
                                                  self.config['file']['dir_validation'],
                                      'file_name': self.config['file']['Processed']['output_iLead'][
@@ -594,7 +676,7 @@ class LeadGeneration:
                 'Job_Index', 'Total_Quantity',
                 'Component', 'Component_Description',
                 'key', 'End of Prod', 'Status', 'Life__Years',
-                'EOSL', 'flag_raise_in_gp', 'SerialNumber_M2M']
+                'EOSL', 'flag_raise_in_gp', 'SerialNumber_M2M', 'Product_M2M_Org']
 
             # Prep reference file
             # rename 'Product_M2M' or "PartNumber_BOM_BOM" column to "key"

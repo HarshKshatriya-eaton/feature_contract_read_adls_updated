@@ -1,4 +1,3 @@
-
 """@file strategic_customer.py
 
 
@@ -20,6 +19,7 @@ direct written permission from Eaton Corporation.
 
 # %%***** Load Modules *****
 import os
+
 path = os.getcwd()
 path = os.path.join(path.split('ileads_lead_generation')[0],
                     'ileads_lead_generation')
@@ -31,9 +31,9 @@ from string import punctuation
 import traceback
 import pandas as pd
 
-
 obj_io = IO()
 logger = AppLogger(__name__, level='Debug')
+
 
 # %%
 
@@ -52,7 +52,7 @@ class StrategicCustomer:
         self.ls_col_exp = ['Serial_Number', 'CompanyName',
                            'CompanyAliasName', 'CompanyDomain']
 
-    def main_customer_list(self):               #pragma: no cover
+    def main_customer_list(self, df_leads=None):  # pragma: no cover
         """
         Main pipeline for identifying strategic customers.
 
@@ -67,8 +67,9 @@ class StrategicCustomer:
             ref_df = self.read_ref_data()
             logger.app_success(_step)
 
+            # if df_leads is None:
             _step = 'Read data : Processed M2M'
-            df_leads = self.read_processed_m2m()
+            df_leads = self.read_processed_m2m(df_leads=df_leads)
             logger.app_success(_step)
 
             _step = 'Read data : Contact'
@@ -93,7 +94,7 @@ class StrategicCustomer:
                  'file_name': self.config['file']['Processed']['customer']['file_name']},
                 df_out)
 
-            return 'Successfull !'
+            return df_out
 
         except Exception as e:
             logger.app_fail(_step, f"{traceback.print_exc()}")
@@ -120,13 +121,12 @@ class StrategicCustomer:
                 ref_ac_manager = ref_ac_manager
             else:
                 ref_ac_manager = IO.read_csv(
-                    obj_sc.mode,
-                    {'file_dir': obj_sc.config['file']['dir_ref'],
-                     'file_name': obj_sc.config['file']['Reference']['customer'],
+                    self.mode,
+                    {'file_dir': self.config['file']['dir_ref'],
+                     'file_name': self.config['file']['Reference']['customer'],
                      'sep': '\t'
                      }
                 )
-
 
             if ref_ac_manager.columns[0] != "Display":
                 ref_ac_manager = ref_ac_manager.reset_index()
@@ -172,11 +172,12 @@ class StrategicCustomer:
             if df_leads is not None:
                 df_leads = df_leads
             else:
-
                 df_leads = IO.read_csv(
                     self.mode,
-                    {'file_dir': self.config['file']['dir_results'],
-                     'file_name': self.config['file']['Processed']['processed_install']['file_name']}
+                    {'file_dir': self.config['file']['dir_results'] + self.config['file'][
+                        'dir_intermediate'],
+                     'file_name': self.config['file']['Processed']['processed_install'][
+                         'file_name']}
                 )
 
             dict_cols = {
@@ -186,12 +187,13 @@ class StrategicCustomer:
             }
             df_leads = df_leads.rename(dict_cols, axis=1)
             df_leads = df_leads.loc[
-                :, ['Serial_Number', 'CompanyName', 'CompanyAliasName']]
+                       :, ['Serial_Number', 'CompanyName', 'CompanyAliasName']]
 
             df_leads['CompanyName'] = df_leads['CompanyName'].apply(
                 lambda x: x.lstrip(punctuation).rstrip(punctuation))
             df_leads['CompanyAliasName'] = df_leads['CompanyAliasName'].apply(
                 lambda x: x.lstrip(punctuation).rstrip(punctuation))
+
 
             # Format
             for col in df_leads.columns:
@@ -212,7 +214,7 @@ class StrategicCustomer:
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception from e
 
-    def read_contact(self,df_contact=None):
+    def read_contact(self, df_contact=None):
         """
         Read contacts data. Fields required are:
             SerialNumber, Email Id.
@@ -244,7 +246,9 @@ class StrategicCustomer:
 
         except Exception as e:
             logger.app_fail(_step, f"{traceback.print_exc()}")
-            raise Exception from e
+            df_contact = pd.DataFrame(columns=['Serial_Number', 'Email'])
+            return df_contact
+            # raise Exception from e
 
     def summarize_contacts(self, df_contact, df_leads):
         """
@@ -273,7 +277,7 @@ class StrategicCustomer:
                     'Serial_Number')['Email'].apply(', '.join)
 
                 df_leads = df_leads.merge(
-                    df_contact, on = "Serial_Number", how="left")
+                    df_contact, on="Serial_Number", how="left")
 
                 df_leads.rename(columns={
                     "Email": "CompanyDomain"}, inplace=True)
@@ -285,7 +289,6 @@ class StrategicCustomer:
 
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception from e
-
 
     # ***** Identify Customer *****
     def pipeline_identify_customers(self, ref_df, df_leads):
@@ -311,7 +314,7 @@ class StrategicCustomer:
             # Identify
             ref_df = ref_df.reset_index(drop=True)
             for row_ix in ref_df.index:
-                #row_ix = ref_df.index[0]
+                # row_ix = ref_df.index[0]
 
                 ac_info = ref_df.iloc[row_ix, 1:]
                 display_name = ref_df.DisplayName[row_ix]
@@ -392,21 +395,21 @@ class StrategicCustomer:
 
                     df_input.loc[:, n_col] = df_input[ls_col[1]].apply(
                         lambda x:
-                            any(list(map(
-                                lambda y:
-                                    y.startswith(
-                                        tuple(ac_info[ls_col[1]].split(';'))),
-                                    x.split(', '))))
+                        any(list(map(
+                            lambda y:
+                            y.startswith(
+                                tuple(ac_info[ls_col[1]].split(';'))),
+                            x.split(', '))))
                     )
 
                 elif ac_info[ls_col[0]] == 'ends with':
                     df_input.loc[:, n_col] = df_input[ls_col[1]].apply(
                         lambda x:
-                            any(list(map(
-                                lambda y:
-                                    y.endswith(
-                                        tuple(ac_info[ls_col[1]].split(';'))),
-                                    str(x).split(', '))))
+                        any(list(map(
+                            lambda y:
+                            y.endswith(
+                                tuple(ac_info[ls_col[1]].split(';'))),
+                            str(x).split(', '))))
                     )
                 elif ac_info[ls_col[0]] == 'equals':
                     df_input.loc[:, n_col] = df_input[ls_col[1]].apply(
@@ -415,7 +418,8 @@ class StrategicCustomer:
                     df_input.loc[:, n_col] = False
 
             df_input.loc[:, 'flag_all'] = df_input[
-                ls_col_out[0]] | df_input[ls_col_out[1]] | df_input[ls_col_out[2]]
+                                              ls_col_out[0]] | df_input[ls_col_out[1]] | df_input[
+                                              ls_col_out[2]]
 
             return df_input['flag_all'], ls_col_exp
 
@@ -423,6 +427,7 @@ class StrategicCustomer:
 
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception from e
+
 
 # %%
 

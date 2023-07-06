@@ -872,6 +872,10 @@ class Contract:
 
             merge_df = pd.merge(df_install, df, on='SerialNumber', how='left')
 
+            merge_df['was_startedup'] = merge_df['was_startedup'].fillna(False)
+            merge_df['Contract_Conversion'] = merge_df['Contract_Conversion'].fillna(
+                'No Warranty / Contract')
+
             logger.app_success(_step)
             return merge_df
         except Exception as excp:

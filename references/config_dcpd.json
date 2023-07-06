@@ -942,6 +942,10 @@
               "actual_datasoure_name": "flag_std_offer",
               "output_format": "bool : 0/1"
           },
+          "is_standard_offering": {
+              "actual_datasoure_name": "is_standard_offering",
+              "output_format": "bool : 0/1"
+          },
           "List_Price_$": {
               "actual_datasoure_name": "",
               "output_format": "numeric : 2"
@@ -1474,7 +1478,90 @@
                   "PNL10646",
                   "PNL10459"
               ]
-          }
+          },
+          "pn_chasis": {
+            "PartsOfInterest": [
+                "CHS05558",
+                "CHS07944",
+                "CHS08045",
+                "CHS08045-BK00",
+                "CHS09706",
+                "CHS10005",
+                "CHS10171",
+                "CHS10172",
+                "CHS10320",
+                "CHS10321",
+                "CHS10586",
+                "CHS11182",
+                "CHS11729",
+                "CHS12376",
+                "CHS12642",
+                "CHS12651",
+                "CHS13905",
+                "CHS13913",
+                "CHS13921",
+                "CHS15772",
+                "CHS17195",
+                "CHS17205",
+                "CHS17796",
+                "CHS18240",
+                "CHS18315",
+                "CHS18421-BK",
+                "CHS18421-BU05",
+                "CHS18421-BU1",
+                "CHS18421-WH",
+                "CHS18421-WH1",
+                "CHS18421-YW",
+                "CHS18542-BK",
+                "CHS18542-BU04",
+                "CHS18542-RD01",
+                "CHS18542-WH",
+                "CHS18542-WH1",
+                "CHS19359-BK",
+                "CHS19359-WH",
+                "CHS19526-BK",
+                "CHS71519-BK00",
+                "CHS71519-WH00",
+                "CHS74269-BK",
+                "ENC06600",
+                "ENC07822",
+                "ENC09325",
+                "ENC11287",
+                "ENC11530",
+                "ENC12850",
+                "ENC19390",
+                "ENC19390-WH",
+                "ENC65222",
+                "ENC65222-BK00",
+                "ENC65222-WH00",
+                "MOD06606",
+                "MOD06607",
+                "MOD06608",
+                "MOD06609",
+                "MOD19390",
+                "MOD19390-BK",
+                "MOD19390-WH",
+                "MOD67807",
+                "MOD68441-BK00",
+                "MOD68441-WH00",
+                "MOD69340-BK00",
+                "MOD69340-WH00",
+                "MOD73955-BK00",
+                "MOD74268-BK",
+                "MOD75544-KK-BK00",
+                "MOD75544-KK-WH00",
+                "MOD75544-KS-BK00",
+                "MOD75544-KS-WH00",
+                "MOD75544-SK-BK00",
+                "MOD75544-SK-WH00",
+                "MOD75544-SS-BK00",
+                "MOD75544-SS-WH00",
+                "MOD75671-KK-BK00",
+                "MOD76113",
+                "MOD76114",
+                "MOD76117"
+            ]
+        }
       },
       "main_breaker_cols": {
           "export_col_data" : ["PartNumber_BOM_BOM", "Input CB", "AMP Trip", "kAIC @ Voltage", "Rated, Trip", "kVA", "MFR"]
@@ -1484,211 +1571,211 @@
   "output_contacts_lead": {
     "Contracts_dict_format": {
       "Serial_Number": {
-        "actual_datasource_name": "SerialNumber",
+        "actual_datasoure_name": "SerialNumber",
         "output_format": "text : upper"
       },
       "Source": {
-        "actual_datasource_name": "Source",
+        "actual_datasoure_name": "Source",
         "output_format": "text : capitalize each word"
       },
       "Date": {
-        "actual_datasource_name": "Date",
+        "actual_datasoure_name": "Date",
         "output_format": "date : mm/dd/yyyy"
       },
       "Site_Number": {
-        "actual_datasource_name": "Email__c",
+        "actual_datasoure_name": "Email__c",
         "output_format": "text : capitalize each word"
       },
       "Site_Name": {
-        "actual_datasource_name": "Name_of_Company__c",
+        "actual_datasoure_name": "Name_of_Company__c",
         "output_format": "text : capitalize each word"
       },
       "Name": {
-        "actual_datasource_name": "Contact_Name__c",
+        "actual_datasoure_name": "Contact_Name__c",
         "output_format": "text : capitalize each word"
       },
       "Company": {
-        "actual_datasource_name": "",
+        "actual_datasoure_name": "",
         "output_format": "text : capitalize each word"
       },
       "Title": {
-        "actual_datasource_name": "",
+        "actual_datasoure_name": "",
         "output_format": "text : capitalize each word"
       },
       "Email": {
-        "actual_datasource_name": "Email__c",
+        "actual_datasoure_name": "Email__c",
         "output_format": "text : lower"
       },
       "Company_Phone": {
-        "actual_datasource_name": "Company_Phone_Contract",
+        "actual_datasoure_name": "Company_Phone_Contract",
         "output_format": "text : lower"
       },
       "Fax": {
-        "actual_datasource_name": "",
+        "actual_datasoure_name": "",
         "output_format": "text : capitalize each word"
       },
       "Address1": {
-        "actual_datasource_name": "Address__c",
+        "actual_datasoure_name": "Address__c",
         "output_format": "text : upper"
       },
       "Address2": {
-        "actual_datasource_name": "",
+        "actual_datasoure_name": "",
         "output_format": "text : upper"
       },
       "City": {
-        "actual_datasource_name": "City__c",
+        "actual_datasoure_name": "City__c",
         "output_format": "text : capitalize each word"
       },
       "State": {
-        "actual_datasource_name": "State__c",
+        "actual_datasoure_name": "State__c",
         "output_format": "text : capitalize each word"
       },
       "Zipcode": {
-        "actual_datasource_name": "Zipcode__c",
+        "actual_datasoure_name": "Zipcode__c",
         "output_format": "numeric : no_decimal"
       },
       "Country": {
-        "actual_datasource_name": "Country__c",
+        "actual_datasoure_name": "Country__c",
         "output_format": "text : capitalize each word"
       }
     },
     "PM_dict_format": {
       "Serial_Number": {
-        "actual_datasource_name": "SerialNumber",
+        "actual_datasoure_name": "SerialNumber",
         "output_format": "text : upper"
       },
       "Source": {
-        "actual_datasource_name": "Source",
+        "actual_datasoure_name": "Source",
         "output_format": "text : capitalize each word"
       },
       "Date": {
-        "actual_datasource_name": "Date",
+        "actual_datasoure_name": "Date",
         "output_format": "date : mm/dd/yyyy"
       },
       "Site_Number": {
-        "actual_datasource_name": "",
+        "actual_datasoure_name": "",
         "output_format": "text : capitalize each word"
       },
       "Site_Name": {
-        "actual_datasource_name": "Name_of_Company__c",
+        "actual_datasoure_name": "Name_of_Company__c",
         "output_format": "text : capitalize each word"
       },
       "Name": {
-        "actual_datasource_name": "PM_Contact__c",
+        "actual_datasoure_name": "PM_Contact__c",
         "output_format": "text : capitalize each word"
       },
       "Company": {
-        "actual_datasource_name": "",
+        "actual_datasoure_name": "",
         "output_format": "text : capitalize each word"
       },
       "Title": {
-        "actual_datasource_name": "",
+        "actual_datasoure_name": "",
         "output_format": "text : capitalize each word"
       },
       "Email": {
-        "actual_datasource_name": "PM_Email__c",
+        "actual_datasoure_name": "PM_Email__c",
         "output_format": "text : lower"
       },
       "Company_Phone": {
-        "actual_datasource_name": "Company_Phone_PM",
+        "actual_datasoure_name": "Company_Phone_PM",
         "output_format": "text : lower"
       },
       "Fax": {
-        "actual_datasource_name": "",
+        "actual_datasoure_name": "",
         "output_format": "text : capitalize each word"
       },
       "Address1": {
-        "actual_datasource_name": "Address__c",
+        "actual_datasoure_name": "Address__c",
         "output_format": "text : upper"
       },
       "Address2": {
-        "actual_datasource_name": "",
+        "actual_datasoure_name": "",
         "output_format": "text : upper"
       },
       "City": {
-        "actual_datasource_name": "City__c",
+        "actual_datasoure_name": "City__c",
         "output_format": "text : capitalize each word"
       },
       "State": {
-        "actual_datasource_name": "State__c",
+        "actual_datasoure_name": "State__c",
         "output_format": "text : capitalize each word"
       },
       "Zipcode": {
-        "actual_datasource_name": "Zipcode__c",
+        "actual_datasoure_name": "Zipcode__c",
         "output_format": "numeric : no_decimal"
       },
       "Country": {
-        "actual_datasource_name": "Country__c",
+        "actual_datasoure_name": "Country__c",
         "output_format": "text : capitalize each word"
       }
     },
     "Renewal_dict_format": {
       "Serial_Number": {
-        "actual_datasource_name": "SerialNumber",
+        "actual_datasoure_name": "SerialNumber",
         "output_format": "text : upper"
       },
       "Source": {
-        "actual_datasource_name": "Source",
+        "actual_datasoure_name": "Source",
         "output_format": "text : capitalize each word"
       },
       "Date": {
-        "actual_datasource_name": "Date",
+        "actual_datasoure_name": "Date",
         "output_format": "date : mm/dd/yyyy"
       },
       "Site_Number": {
-        "actual_datasource_name": "",
+        "actual_datasoure_name": "",
         "output_format": "text : capitalize each word"
       },
       "Site_Name": {
-        "actual_datasource_name": "Name_of_Company__c",
+        "actual_datasoure_name": "Name_of_Company__c",
         "output_format": "text : capitalize each word"
       },
       "Name": {
-        "actual_datasource_name": "Renewal_Contact__c",
+        "actual_datasoure_name": "Renewal_Contact__c",
         "output_format": "text : capitalize each word"
       },
       "Company": {
-        "actual_datasource_name": "",
+        "actual_datasoure_name": "",
         "output_format": "text : capitalize each word"
       },
       "Title": {
-        "actual_datasource_name": "",
+        "actual_datasoure_name": "",
         "output_format": "text : capitalize each word"
       },
       "Email": {
-        "actual_datasource_name": "Renewal_Email__c",
+        "actual_datasoure_name": "Renewal_Email__c",
         "output_format": "text : lower"
       },
       "Company_Phone": {
-        "actual_datasource_name": "Company_Phone_renewal",
+        "actual_datasoure_name": "Company_Phone_renewal",
         "output_format": "text : lower"
       },
       "Fax": {
-        "actual_datasource_name": "",
+        "actual_datasoure_name": "",
         "output_format": "text : capitalize each word"
       },
       "Address1": {
-        "actual_datasource_name": "Address__c",
+        "actual_datasoure_name": "Address__c",
         "output_format": "text : upper"
       },
       "Address2": {
-        "actual_datasource_name": "",
+        "actual_datasoure_name": "",
         "output_format": "text : upper"
       },
       "City": {
-        "actual_datasource_name": "City__c",
+        "actual_datasoure_name": "City__c",
         "output_format": "text : capitalize each word"
       },
       "State": {
-        "actual_datasource_name": "State__c",
+        "actual_datasoure_name": "State__c",
         "output_format": "text : capitalize each word"
       },
       "Zipcode": {
-        "actual_datasource_name": "Zipcode__c",
+        "actual_datasoure_name": "Zipcode__c",
         "output_format": "numeric : no_decimal"
       },
       "Country": {
-        "actual_datasource_name": "Country__c",
+        "actual_datasoure_name": "Country__c",
         "output_format": "text : capitalize each word"
       }
     }

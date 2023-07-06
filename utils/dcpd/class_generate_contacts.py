@@ -70,7 +70,8 @@ class Contacts:
                                             'file_name']
                                         })
                 sr_num_data = IO.read_csv(self.mode,
-                                          {'file_dir': self.config['file']['dir_intermediate'],
+                                          {'file_dir': self.config['file']['dir_results'] +
+                                                       self.config['file']['dir_intermediate'],
                                            'file_name':
                                                self.config['file']['Processed']['contracts'][
                                                    'file_name']
