@@ -977,7 +977,7 @@
               "output_format": "text : upper"
           },
           "Product_Name": {
-              "actual_datasoure_name": "product_prodclass",
+              "actual_datasoure_name": "Product_M2M_Org",
               "output_format": "text : upper"
           },
           "Install_Date": {
@@ -1271,6 +1271,34 @@
           "Startup_Country": {
               "actual_datasoure_name": "StartupCountry",
               "output_format": ""
+          },
+          "pn_logic_tray": {
+              "actual_datasoure_name": "pn_logic_tray",
+              "output_format": ""
+          },
+          "is_valid_logic_tray_lead": {
+              "actual_datasoure_name": "is_valid_logic_tray_lead",
+              "output_format": ""
+          },
+          "is_valid_door_assembly_lead": {
+              "actual_datasoure_name": "is_valid_door_assembly_lead",
+              "output_format": ""
+          },
+          "pn_input_breaker_panel": {
+              "actual_datasoure_name": "pn_input_breaker_panel",
+              "output_format": ""
+          },
+          "is_valid_input_breaker_panel_lead": {
+              "actual_datasoure_name": "is_valid_input_breaker_panel_lead",
+              "output_format": ""
+          },
+          "pn_chasis": {
+              "actual_datasoure_name": "pn_chasis",
+              "output_format": ""
+          },
+          "is_valid_chasis_lead": {
+              "actual_datasoure_name": "is_valid_chasis_lead",
+              "output_format": ""
           }
       }
   },
@@ -1287,6 +1315,11 @@
               "report": "no",
               "type": "text",
               "text_match_pattern": "closed,in car"
+          },
+          "Qty_1__c" : {
+              "report": "no",
+              "type": "numeric",
+              "numeric_max" : 2000
           }
       },
       "Component_replacement": {

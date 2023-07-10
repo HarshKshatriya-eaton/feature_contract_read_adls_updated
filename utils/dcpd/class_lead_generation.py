@@ -579,7 +579,7 @@ class LeadGeneration:
             ls_cols[2] = lead_id_basedon
 
             # dropping duplicates on reference lead and bom_install dataframe
-            df_data = df_bom[ls_cols[:-1]].drop_duplicates()
+            # df_bom = df_bom[ls_cols[:-1]].drop_duplicates()
             ref_lead = ref_lead.drop_duplicates(subset=[lead_id_basedon, 'Component']) \
                 .reset_index(drop=True)
             df_data = df_bom.drop_duplicates(subset=[lead_id_basedon, 'SerialNumber_M2M']) \
