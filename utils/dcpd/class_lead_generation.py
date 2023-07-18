@@ -15,11 +15,11 @@ here on. This technical information may not be reproduced or used without
 direct written permission from Eaton Corporation.
 """
 
+
 import numpy as np
 import pandas as pd
 import traceback
 from string import punctuation
-
 from utils.dcpd.class_business_logic import BusinessLogic
 from utils.dcpd.class_serial_number import SerialNumber
 from utils.format_data import Format

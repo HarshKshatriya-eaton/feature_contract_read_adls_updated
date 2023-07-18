@@ -1288,6 +1288,10 @@
                 "actual_datasoure_name": "is_valid_logic_tray_lead",
                 "output_format": ""
             },
+            "pn_door_assembly": {
+                "actual_datasoure_name": "pn_door_assembly",
+                "output_format": ""
+            },
             "is_valid_door_assembly_lead": {
                 "actual_datasoure_name": "is_valid_door_assembly_lead",
                 "output_format": ""
