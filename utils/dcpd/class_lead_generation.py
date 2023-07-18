@@ -19,6 +19,7 @@ import numpy as np
 import pandas as pd
 import traceback
 from string import punctuation
+
 from utils.dcpd.class_business_logic import BusinessLogic
 from utils.dcpd.class_serial_number import SerialNumber
 from utils.format_data import Format
@@ -128,7 +129,7 @@ class LeadGeneration:
 
         return 'successfully !'
 
-    # %% ***** Pipelines ****
+    #  ***** Pipelines ****
 
     def post_proecess_leads(self, df_leads):
 

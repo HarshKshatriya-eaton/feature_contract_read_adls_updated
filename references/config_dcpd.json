@@ -1,1816 +1,1855 @@
 {
-  "log_level": "Debug",
-  "log_level_options": [
-      "Debug",
-      "Info"
-  ],
-  "log_var_size": false,
-  "key_vault": "",
-  "file": {
-      "dir_ref": "./references/",
-      "dir_data": "./data/",
-      "dir_results": "./results/",
-    "dir_validation": "validation/",
-    "dir_intermediate": "intermediate/",
-      "Raw": {
-          "services": {
-              "file_name": "case_data.csv"
-          },
-          "M2M": {
-              "file_name": "M2M_data.csv"
-          },
-          "SerialNumber": {
-              "file_name": "SerialNumber.csv"
-          },
-          "SalesForce": {
-              "file_name": "SalesForce_InstallBase.csv"
-          },
-          "bom": {
-              "file_name": "BOM_data.csv"
-          },
-          "contracts": {
-              "file_name": "contract.csv"
-          },
-          "renewal": {
-              "file_name": "RenewalContract.csv"
-          }
-      },
-      "Reference": {
-          "bom": "reference_BOM.csv",
-          "customer": "AccountManagerListing.csv",
-          "lead_opportunities": "ref_lead_opportunities.csv",
-          "product_class": "ref_product_class.csv",
-          "decode_sr_num": "ref_decode_serialnumber.csv",
-          "ref_sheet_pdi": "ref_sheet_pdi.csv"
-      },
-      "Processed": {
-          "customer": {
-              "file_name": "customer_list.csv",
-              "validation": "customer_list_validation.csv"
-          },
-          "output_iLead": {
-              "file_name": "output_iLead.csv",
-              "validation" : "output_iLead_validation_b4_format.csv",
-              "ref_install" : "output_ref_install.csv",
-              "before_classify" : "b4_classify_leads.csv",
-              "after_classify" : "a4_classify_leads.csv"
-          },
-          "processed_install": {
-              "file_name": "processed_install.csv"
-          },
-          "processed_m2m_shipment": {
-              "file_name": "processed_m2m_shipment.csv"
-          },
-          "processed_serialnum": {
-              "file_name": "processed_serialnum.csv"
-          },
-          "contracts": {
-              "file_name": "processed_contract.csv",
-              "validation": "processed_contract_b4_install_validation.csv"
-          },
-          "services": {
-              "file_name": "processed_services.csv",
-              "validation": "processed_services_validation.csv",
-              "intermediate": "proceesed_services_jcomm_sidecar.csv",
-              "serial_number_services": "SerialNumber_ServicesData.csv"
-          },
-          "contact": {
-              "file_name": "contact_contracts.csv"
-          }
-      }
-  },
-  "database": {
-      "M2M": {
-          "Dictionary Format": {
-              "Shipper_Index": {
-                  "actual_datasoure_name": "Shipper #",
-                  "data_type": "numeric",
-                  "is_nullable": 0.0,
-                  "output_format": "numeric : no_decimal",
-                  "input_date_format": ""
-              },
-              "ShipperItem_Index": {
-                  "actual_datasoure_name": "Shipper Item #",
-                  "data_type": "numeric",
-                  "is_nullable": 0.0,
-                  "output_format": "numeric : no_decimal",
-                  "input_date_format": ""
-              },
-              "PartNumber_TLN_Shipment": {
-                  "actual_datasoure_name": "Part Number",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "text : upper",
-                  "input_date_format": ""
-              },
-              "ProductClass": {
-                  "actual_datasoure_name": "Product Class",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "text : upper",
-                  "input_date_format": ""
-              },
-              "Prod_vs_Serv": {
-                  "actual_datasoure_name": "Prod/Serv",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "text : upper",
-                  "input_date_format": ""
-              },
-              "Category": {
-                  "actual_datasoure_name": "Category",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "text : upper",
-                  "input_date_format": ""
-              },
-              "SO": {
-                  "actual_datasoure_name": "SO",
-                  "data_type": "numeric",
-                  "is_nullable": 1.0,
-                  "output_format": "numeric : no_decimal",
-                  "input_date_format": ""
-              },
-              "SOLine": {
-                  "actual_datasoure_name": "SOLine",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "text : upper",
-                  "input_date_format": ""
-              },
-              "SOStatus": {
-                  "actual_datasoure_name": "Item Status",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "text : capitalize each word",
-                  "input_date_format": ""
-              },
-              "ShipmentDate": {
-                  "actual_datasoure_name": "Ship Date",
-                  "data_type": "date",
-                  "is_nullable": 0.0,
-                  "output_format": "date : mm/dd/yyyy",
-                  "input_date_format": ""
-              },
-              "OrderDate": {
-                  "actual_datasoure_name": "Order Date",
-                  "data_type": "date",
-                  "is_nullable": 1.0,
-                  "output_format": "date : mm/dd/yyyy",
-                  "input_date_format": ""
-              },
-              "ScheduleDate": {
-                  "actual_datasoure_name": "Schedule Date",
-                  "data_type": "date",
-                  "is_nullable": 1.0,
-                  "output_format": "date : mm/dd/yyyy",
-                  "input_date_format": ""
-              },
-              "PromiseDate": {
-                  "actual_datasoure_name": "Promise Date",
-                  "data_type": "date",
-                  "is_nullable": 1.0,
-                  "output_format": "date : mm/dd/yyyy",
-                  "input_date_format": ""
-              },
-              "Customer": {
-                  "actual_datasoure_name": "Customer",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "text : upper",
-                  "input_date_format": ""
-              },
-              "ShipTo_Customer": {
-                  "actual_datasoure_name": "Ship to Customer",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "text : upper",
-                  "input_date_format": ""
-              },
-              "ShipTo_Street": {
-                  "actual_datasoure_name": "Ship to Street",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "text : upper",
-                  "input_date_format": ""
-              },
-              "ShipTo_City": {
-                  "actual_datasoure_name": "Ship to City",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "text : upper",
-                  "input_date_format": ""
-              },
-              "ShipTo_State": {
-                  "actual_datasoure_name": "Ship to State",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "text : upper",
-                  "input_date_format": ""
-              },
-              "ShipTo_Zip": {
-                  "actual_datasoure_name": "Ship to Zip",
-                  "data_type": "numeric",
-                  "is_nullable": 1.0,
-                  "output_format": "numeric : no_decimal",
-                  "input_date_format": ""
-              },
-              "ShipTo_Country": {
-                  "actual_datasoure_name": "Ship to Country",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "text : upper",
-                  "input_date_format": ""
-              },
-              "SoldTo_Street": {
-                  "actual_datasoure_name": "Sold to Street",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "text : upper",
-                  "input_date_format": ""
-              },
-              "SoldTo_City": {
-                  "actual_datasoure_name": "Sold to City",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "text : upper",
-                  "input_date_format": ""
-              },
-              "SoldTo_State": {
-                  "actual_datasoure_name": "Sold to State",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "text : upper",
-                  "input_date_format": ""
-              },
-              "SoldTo_Zip": {
-                  "actual_datasoure_name": "Sold to Zip",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "text : upper",
-                  "input_date_format": ""
-              },
-              "SoldTo_Country": {
-                  "actual_datasoure_name": "Sold to Country",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "text : upper",
-                  "input_date_format": ""
-              },
-              "InstallSize": {
-                  "actual_datasoure_name": "Shipped Qty",
-                  "data_type": "numeric : integer",
-                  "is_nullable": 0.0,
-                  "output_format": "numeric : no_decimal",
-                  "input_date_format": ""
-              },
-              "Job_Index": {
-                  "actual_datasoure_name": "Job #",
-                  "data_type": "text",
-                  "is_nullable": 0.0,
-                  "output_format": "text : upper",
-                  "input_date_format": ""
-              },
-              "Description": {
-                  "actual_datasoure_name": "Description",
-                  "data_type": "text",
-                  "is_nullable": 0.0,
-                  "output_format": "",
-                  "input_date_format": ""
-              },
-              "Model": {
-                  "actual_datasoure_name": "Product Type",
-                  "data_type": "text",
-                  "is_nullable": 1,
-                  "output_format": "text : capitalize each word",
-                  "input_date_format": ""
-              }
-          },
-          "Filters": {
-              "InstallSize": {
-                  "report": "no",
-                  "type": "numeric",
-                  "numeric_min": 1.0
-              },
-              "ShipmentDate": {
-                  "report": "no",
-                  "type": "date",
-                  "date_min": "01/01/1995",
-                  "date_max": "TODAY"
-              },
-              "Country": {
-                  "report": "yes",
-                  "type": "text",
-                  "text_match_exact": "united states of america,united states,usa,,us,"
-              },
-              "ProductClass": {
-                  "report": "no",
-                  "type": "text",
-                  "text_match_pattern_negative": "70,71,72,73,74,75,77,79"
-              },
-              "PartNumber_TLN_Shipment": {
-                  "report": "no",
-                  "type": "text",
-                  "text_match_pattern_negative": "factory witness testing,seismic calculations,mod,chs,ckb"
-              }
-          }
-      },
-      "SerialNumber": {
-          "Dictionary Format": {
-              "SerialNumber": {
-                  "actual_datasoure_name": "Serial #",
-                  "data_type": "text",
-                  "is_nullable": 0.0,
-                  "output_format": "text : upper",
-                  "input_date_format": ""
-              },
-              "Shipper_Index": {
-                  "actual_datasoure_name": "Shipper #",
-                  "data_type": "numeric : integer",
-                  "is_nullable": 0.0,
-                  "output_format": "numeric : no_decimal",
-                  "input_date_format": ""
-              },
-              "Shipper_Qty": {
-                  "actual_datasoure_name": "Shipper Qty",
-                  "data_type": "numeric",
-                  "is_nullable": 1.0,
-                  "output_format": "numeric : no_decimal",
-                  "input_date_format": ""
-              },
-              "ShipperItem_Index": {
-                  "actual_datasoure_name": "Shipper Item #",
-                  "data_type": "numeric : integer",
-                  "is_nullable": 0.0,
-                  "output_format": "numeric : no_decimal",
-                  "input_date_format": ""
-              }
-          },
-          "Filters": {
-              "SerialNumber": {
-                  "report": "yes",
-                  "type": "text",
-                  "text_match_pattern_negative": "freigh,bcb,bcms,comm,jbox,skirts,spare,test,repo,warran,label,loadbk,cratin",
-                  "text_regex": "(fl$|fs$|tap$|su$|ds$|jb$|ef$|bus$|skirt$|skt$|sk$|combos$|misc$|tm$|spg$|fsk$|flsk$|tspk$|supk$|sts$|rpp$|nin$|lll$|su$)"
-              }
-          }
-      },
-      "bom": {
-          "Dictionary Format": {
-              "Job_Index": {
-                  "actual_datasoure_name": "Job #",
-                  "data_type": "text",
-                  "is_nullable": 0.0,
-                  "output_format": "text : upper",
-                  "input_date_format": ""
-              },
-              "PartNumber_TLN_BOM": {
-                  "actual_datasoure_name": "TLN #",
-                  "data_type": "text",
-                  "is_nullable": 0.0,
-                  "output_format": "text : capitalize each word",
-                  "input_date_format": ""
-              },
-              "PartNumber_BOM_BOM": {
-                  "actual_datasoure_name": "BOM Part #",
-                  "data_type": "text",
-                  "is_nullable": 0.0,
-                  "output_format": "text : capitalize each word",
-                  "input_date_format": ""
-              },
-              "Total_Quantity": {
-                  "actual_datasoure_name": "total Qty",
-                  "data_type": "numeric",
-                  "is_nullable": 1.0,
-                  "output_format": "numeric : no_decimal",
-                  "input_date_format": ""
-              }
-          },
-          "Filters": {}
-      },
-      "contracts": {
-      "Dictionary Format": {
-          "ContractNumber": {
-              "actual_datasoure_name": "ContractNumber",
-              "data_type": "numeric",
-              "is_nullable": 1.0,
-              "output_format": "numeric : no_decimal",
-              "input_date_format": ""
-          },
-          "Contract_Stage__c": {
-              "actual_datasoure_name": "Contract_Stage__c",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : upper",
-              "input_date_format": ""
-          },
-          "PDI_ContractType": {
-              "actual_datasoure_name": "Contract_Type__c",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : upper",
-              "input_date_format": ""
-          },
-          "Original_Sales_Order__c": {
-              "actual_datasoure_name": "Original_Sales_Order__c",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "",
-              "input_date_format": ""
-          },
-          "PDI_Product_Family__c": {
-              "actual_datasoure_name": "PDI_Product_Family__c",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : upper",
-              "input_date_format": ""
-          },
-          "Contract_Status_c": {
-              "actual_datasoure_name": "Status",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : capitalize each word",
-              "input_date_format": ""
-          },
-          "StatusCode": {
-              "actual_datasoure_name": "StatusCode",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : capitalize each word",
-              "input_date_format": ""
-          },
-          "Contract_Comments__c": {
-              "actual_datasoure_name": "Contract_Comments__c",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : upper",
-              "input_date_format": ""
-          },
-          "Product_1_Serial__c": {
-              "actual_datasoure_name": "Product_1_Serial__c",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : upper",
-              "input_date_format": ""
-          },
-          "Product_2_Serial__c": {
-              "actual_datasoure_name": "Product_2_Serial__c",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : upper",
-              "input_date_format": ""
-          },
-          "Product_3_Serial__c": {
-              "actual_datasoure_name": "Product_3_Serial__c",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : upper",
-              "input_date_format": ""
-          },
-          "Qty_1__c": {
-              "actual_datasoure_name": "Qty_1__c",
-              "data_type": "numeric",
-              "is_nullable": 1.0,
-              "output_format": "numeric : no_decimal",
-              "input_date_format": ""
-          },
-          "Qty_2__c": {
-              "actual_datasoure_name": "Qty_2__c",
-              "data_type": "numeric",
-              "is_nullable": 1.0,
-              "output_format": "numeric : no_decimal",
-              "input_date_format": ""
-          },
-          "Qty_3__c": {
-              "actual_datasoure_name": "Qty_3__c",
-              "data_type": "numeric",
-              "is_nullable": 1.0,
-              "output_format": "numeric : no_decimal",
-              "input_date_format": ""
-          },
-          "Qty_Total_del__c": {
-              "actual_datasoure_name": "Qty_Total_del__c",
-              "data_type": "numeric",
-              "is_nullable": 1.0,
-              "output_format": "numeric : no_decimal",
-              "input_date_format": ""
-          },
-          "Start_Up_Completed_Date__c": {
-              "actual_datasoure_name": "Start_Up_Completed_Date__c",
-              "data_type": "date",
-              "is_nullable": 1.0,
-              "output_format": "date : mm/dd/yyyy",
-              "input_date_format": ""
-          },
-          "Customer_Tentative_Start_Up_Date__c": {
-              "actual_datasoure_name": "Customer_Tentative_Start_Up_Date__c",
-              "data_type": "date",
-              "is_nullable": 1.0,
-              "output_format": "date : mm/dd/yyyy",
-              "input_date_format": ""
-          },
-          "Scheduled_Start_Up_Date__c": {
-              "actual_datasoure_name": "Scheduled_Start_Up_Date__c",
-              "data_type": "date",
-              "is_nullable": 1.0,
-              "output_format": "date : mm/dd/yyyy",
-              "input_date_format": ""
-          },
-          "Service_Plan": {
-              "actual_datasoure_name": "Service_Plan__c",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : upper",
-              "input_date_format": ""
-          },
-          "Payment_Frequency": {
-              "actual_datasoure_name": "Payment_Frequency__c",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : upper",
-              "input_date_format": ""
-          },
-          "Warranty_Start_Date": {
-              "actual_datasoure_name": "Warranty_Start_Date__c",
-              "data_type": "date",
-              "is_nullable": 1.0,
-              "output_format": "date : mm/dd/yyyy",
-              "input_date_format": ""
-          },
-          "Start_date": {
-              "actual_datasoure_name": "Start_date__c",
-              "data_type": "date",
-              "is_nullable": 1.0,
-              "output_format": "date : mm/dd/yyyy",
-              "input_date_format": ""
-          },
-          "Warranty_Expiration_Date": {
-              "actual_datasoure_name": "Warranty_Expiration_Date__c",
-              "data_type": "date",
-              "is_nullable": 1.0,
-              "output_format": "date : mm/dd/yyyy",
-              "input_date_format": ""
-          },
-          "BillingStreet": {
-              "actual_datasoure_name": "BillingStreet",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : capitalize each word",
-              "input_date_format": ""
-          },
-          "BillingCity": {
-              "actual_datasoure_name": "BillingCity",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : upper",
-              "input_date_format": ""
-          },
-          "BillingState": {
-              "actual_datasoure_name": "BillingState",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : upper",
-              "input_date_format": ""
-          },
-          "BillingPostalCode": {
-              "actual_datasoure_name": "BillingPostalCode",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : upper",
-              "input_date_format": ""
-          },
-          "BillingCountry": {
-              "actual_datasoure_name": "BillingCountry",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : upper",
-              "input_date_format": ""
-          },
-          "BillingAddress": {
-              "actual_datasoure_name": "BillingAddress",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : capitalize each word",
-              "input_date_format": ""
-          },
-          "StartupCustomer": {
-              "actual_datasoure_name": "Name_of_Company__c",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : capitalize each word",
-              "input_date_format": ""
-          },
-          "StartupAddress": {
-              "actual_datasoure_name": "Address__c",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : capitalize each word",
-              "input_date_format": ""
-          },
-          "StartupCity": {
-              "actual_datasoure_name": "City__c",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : upper",
-              "input_date_format": ""
-          },
-          "StartupState": {
-              "actual_datasoure_name": "State__c",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : upper",
-              "input_date_format": ""
-          },
-          "StartupPostalCode": {
-              "actual_datasoure_name": "Zipcode__c",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : upper",
-              "input_date_format": ""
-          },
-          "StartupCountry": {
-              "actual_datasoure_name": "Country__c",
-              "data_type": "text",
-              "is_nullable": 1.0,
-              "output_format": "text : upper",
-              "input_date_format": ""
-          },
-          "Contract": {
-              "actual_datasoure_name": "Id",
-              "data_type": "text",
-              "is_nullable": 0.0,
-              "output_format": "text : capitalize each word",
-              "input_date_format": ""
-          },
-          "Service_Sales_Manager": {
-              "actual_datasoure_name": "Service_Sales_Manager_PDI__c",
-              "data_type": "text",
-              "is_nullable": 0.0,
-              "output_format": "text : capitalize each word",
-              "input_date_format": ""
-          }
-      },
-      "Filters": {}
-  },
-      "renewal": {
-          "Dictionary Format": {
-              "Contract": {
-                  "actual_datasoure_name": "Contract__c",
-                  "data_type": "text",
-                  "is_nullable": 0.0,
-                  "output_format": "text : capitalize each word",
-                  "input_date_format": ""
-              },
-              "Contract_Start_Date": {
-                  "actual_datasoure_name": "Contract_Start_Date__c",
-                  "data_type": "date",
-                  "is_nullable": 1.0,
-                  "output_format": "date : mm/dd/yyyy",
-                  "input_date_format": ""
-              },
-              "Contract_Expiration_Date": {
-                  "actual_datasoure_name": "Contract_Expiration_Date__c",
-                  "data_type": "date",
-                  "is_nullable": 1.0,
-                  "output_format": "date : mm/dd/yyyy",
-                  "input_date_format": ""
-              },
-              "Contract_Amount": {
-                  "actual_datasoure_name": "Contract_Amount__c",
-                  "data_type": "numeric",
-                  "is_nullable": 1.0,
-                  "output_format": "numeric : 2",
-                  "input_date_format": ""
-              },
-              "Contract_Status": {
-                  "actual_datasoure_name": "Contract_Status__c",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "text : capitalize each word",
-                  "input_date_format": ""
-              },
-              "Contract_Sales_Order__c": {
-                  "actual_datasoure_name": "Contract_Sales_Order__c",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "",
-                  "input_date_format": ""
-              }
-          },
-          "Filters": {}
-      },
-      "services": {
-          "Dictionary Format": {
-              "Id": {
-                  "actual_datasoure_name": "Id",
-                  "data_type": "text",
-                  "is_nullable": 0.0,
-                  "output_format": "numeric : no_decimal",
-                  "input_date_format": ""
-              },
-              "Status": {
-                  "actual_datasoure_name": "Status",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "text : capitalize each word",
-                  "input_date_format": ""
-              },
-              "Closed_Date": {
-                  "actual_datasoure_name": "Closed_Date__c",
-                  "data_type": "date",
-                  "is_nullable": 1.0,
-                  "output_format": "date : mm/dd/yyyy",
-                  "input_date_format": ""
-              },
-              "Product_1": {
-                  "actual_datasoure_name": "Product_1__c",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "",
-                  "input_date_format": ""
-              },
-              "Product_2": {
-                  "actual_datasoure_name": "Product_2__c",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "",
-                  "input_date_format": ""
-              },
-              "Product_3": {
-                  "actual_datasoure_name": "Product_3__c",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "",
-                  "input_date_format": ""
-              },
-              "Serial_Date_Lot_Code": {
-                  "actual_datasoure_name": "Serial_Date_Lot_Code__c",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "",
-                  "input_date_format": ""
-              },
-              "Qty_1": {
-                  "actual_datasoure_name": "Qty_1__c",
-                  "data_type": "numeric",
-                  "is_nullable": 1.0,
-                  "output_format": "numeric : no_decimal",
-                  "input_date_format": ""
-              },
-              "Qty_2": {
-                  "actual_datasoure_name": "Qty_2__c",
-                  "data_type": "numeric",
-                  "is_nullable": 1.0,
-                  "output_format": "numeric : no_decimal",
-                  "input_date_format": ""
-              },
-              "Qty_3": {
-                  "actual_datasoure_name": "Qty_3__c",
-                  "data_type": "numeric",
-                  "is_nullable": 1.0,
-                  "output_format": "numeric : no_decimal",
-                  "input_date_format": ""
-              },
-              "Type": {
-                  "actual_datasoure_name": "Type",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "",
-                  "input_date_format": ""
-              },
-              "Customer_Issue_Summary__c": {
-                  "actual_datasoure_name": "Customer_Issue_Summary__c",
-                  "data_type": "text",
-                  "is_nullable": 0.0,
-                  "output_format": "",
-                  "input_date_format": ""
-              },
-              "Customer_Issue__c": {
-                  "actual_datasoure_name": "Customer_Issue__c",
-                  "data_type": "text",
-                  "is_nullable": 0.0,
-                  "output_format": "",
-                  "input_date_format": ""
-              },
-              "Resolution_Summary__c": {
-                  "actual_datasoure_name": "Resolution_Summary__c",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "",
-                  "input_date_format": ""
-              },
-              "Resolution__c": {
-                  "actual_datasoure_name": "Resolution__c",
-                  "data_type": "text",
-                  "is_nullable": 1.0,
-                  "output_format": "",
-                  "input_date_format": ""
-              }
-          },
-          "Filters": {}
-      }
-  },
-  "output_format": {
-      "contracts": {
-          "SerialNumber": {
-              "actual_datasoure_name": "SerialNumber",
-              "output_format": "text : upper"
-          },
-          "ContractNumber": {
-              "actual_datasoure_name": "ContractNumber",
-              "output_format": ""
-          },
-          "ContractCoverage": {
-              "actual_datasoure_name": "Eaton_ContractType",
-              "output_format": "text : capitalize each word"
-          },
-          "ContractCoverageDescription": {
-              "actual_datasoure_name": "",
-              "output_format": "text : capitalize each word"
-          },
-          "ContractStatus": {
-              "actual_datasoure_name": "Contract_Status",
-              "output_format": "text : capitalize each word"
-          },
-          "Contract_StartDate": {
-              "actual_datasoure_name": "Contract_Start_Date",
-              "output_format": "date : mm/dd/yyyy"
-          },
-          "Contract_EndDate": {
-              "actual_datasoure_name": "Contract_Expiration_Date",
-              "output_format": "date : mm/dd/yyyy"
-          },
-          "WarrantyNumber": {
-              "actual_datasoure_name": "ContractNumber",
-              "output_format": ""
-          },
-          "WarrantyStatus": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "Warranty_StartDate": {
-              "actual_datasoure_name": "Warranty_Start_Date",
-              "output_format": "date : mm/dd/yyyy"
-          },
-          "Warranty_EndDate": {
-              "actual_datasoure_name": "Warranty_Expiration_Date",
-              "output_format": "date : mm/dd/yyyy"
-          },
-          "Warranty_Conversion": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "was_startedup": {
-              "actual_datasoure_name": "was_startedup",
-              "output_format": "bool"
-          },
-          "startup_date": {
-              "actual_datasoure_name": "startup_date",
-              "output_format": "date : mm/dd/yyyy"
-          },
-          "BillTo_Address_1": {
-              "actual_datasoure_name": "BillingStreet",
-              "output_format": "text : capitalize each word"
-          },
-          "BillTo_Address_2": {
-              "actual_datasoure_name": "BillingAddress",
-              "output_format": "text : capitalize each word"
-          },
-          "BillTo_City": {
-              "actual_datasoure_name": "BillingCity",
-              "output_format": "text : capitalize each word"
-          },
-          "BillTo_State": {
-              "actual_datasoure_name": "BillingState",
-              "output_format": "text : capitalize each word"
-          },
-          "BillTo_PostalCode": {
-              "actual_datasoure_name": "BillingPostalCode",
-              "output_format": "text : capitalize each word"
-          },
-          "BillTo_Country": {
-              "actual_datasoure_name": "BillingCountry",
-              "output_format": "text : capitalize each word"
-          },
-          "Contract_Amount": {
-              "actual_datasoure_name": "Contract_Amount",
-              "output_format": ""
-          }
-      },
-      "output_iLead": {
-          "Serial_Number": {
-              "actual_datasoure_name": "SerialNumber_M2M",
-              "output_format": "text : upper"
-          },
-          "Component": {
-              "actual_datasoure_name": "Component",
-              "output_format": "text : capitalize each word"
-          },
-          "Source": {
-              "actual_datasoure_name": "source",
-              "output_format": "text : capitalize each word"
-          },
-          "Component_Date_Code": {
-              "actual_datasoure_name": "date_code",
-              "output_format": "date : mm/dd/yyyy"
-          },
-          "Component_Life": {
-              "actual_datasoure_name": "Life__Years",
-              "output_format": ""
-          },
-          "Component_Due_Date": {
-              "actual_datasoure_name": "Component_Due_Date",
-              "output_format": "date : mm/dd/yyyy"
-          },
-          "External_Salesperson": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "Internal_Salesperson": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "Component_Due_in (years)": {
-              "actual_datasoure_name": "Component_Due_in (years)",
-              "output_format": ""
-          },
-          "Component_Due_in (Category)": {
-              "actual_datasoure_name": "Component_Due_in (Category)",
-              "output_format": "text : capitalize each word"
-          },
-          "flag_raise_lead": {
-              "actual_datasoure_name": "flag_std_offer",
-              "output_format": "bool : 0/1"
-          },
-          "is_standard_offering": {
-              "actual_datasoure_name": "is_standard_offering",
-              "output_format": "bool : 0/1"
-          },
-          "List_Price_$": {
-              "actual_datasoure_name": "",
-              "output_format": "numeric : 2"
-          },
-          "Avg_Sales_Price_$": {
-              "actual_datasoure_name": "",
-              "output_format": "numeric : 2"
-          },
-          "Year_Lead": {
-              "actual_datasoure_name": "End of Prod",
-              "output_format": ""
-          },
-          "Component_Description": {
-              "actual_datasoure_name": "Component_Description",
-              "output_format": "text : capitalize each word"
-          },
-          "Component_Age": {
-              "actual_datasoure_name": "age",
-              "output_format": ""
-          },
-          "Lead_Type": {
-              "actual_datasoure_name": "lead_type",
-              "output_format": "text : capitalize each word"
-          }
-      },
-      "ref_install_base": {
-          "Serial_Number": {
-              "actual_datasoure_name": "SerialNumber_M2M",
-              "output_format": "text : upper"
-          },
-          "Product_Name": {
-              "actual_datasoure_name": "Product_M2M_Org",
-              "output_format": "text : upper"
-          },
-          "Install_Date": {
-              "actual_datasoure_name": "ShipmentDate",
-              "output_format": "date : mm/dd/yyyy"
-          },
-          "Product_Age": {
-              "actual_datasoure_name": "Product_Age",
-              "output_format": ""
-          },
-          "CSE_Area": {
-              "actual_datasoure_name": "",
-              "output_format": "text : upper"
-          },
-          "Region": {
-              "actual_datasoure_name": "",
-              "output_format": "text : capitalize each word"
-          },
-          "Party_Site_Number": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "Txt_Party_Site_Number": {
-              "actual_datasoure_name": "Customer",
-              "output_format": "text : capitalize each word"
-          },
-          "Ship_To_Party_Name": {
-              "actual_datasoure_name": "ShipTo_Customer",
-              "output_format": "text : capitalize each word"
-          },
-          "Ship_To_Address1": {
-              "actual_datasoure_name": "ShipTo_Street",
-              "output_format": "text : capitalize each word"
-          },
-          "Ship_To_City": {
-              "actual_datasoure_name": "ShipTo_City",
-              "output_format": "text : capitalize each word"
-          },
-          "Ship_To_State": {
-              "actual_datasoure_name": "ShipTo_State",
-              "output_format": "text : capitalize each word"
-          },
-          "Ship_To_Postal_Code": {
-              "actual_datasoure_name": "ShipTo_Zip",
-              "output_format": ""
-          },
-          "Ship_To_Country": {
-              "actual_datasoure_name": "ShipTo_Country",
-              "output_format": "text : capitalize each word"
-          },
-          "is_under_contract": {
-              "actual_datasoure_name": "is_under_contract",
-              "output_format": "bool : 0/1"
-          },
-          "Contract_Number": {
-              "actual_datasoure_name": "ContractNumber",
-              "output_format": ""
-          },
-          "Contract_Coverage": {
-              "actual_datasoure_name": "Service_Plan",
-              "output_format": ""
-          },
-          "Contract_Coverage_Description": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "Contract_Coverage_Type": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "Contract_Line_Status": {
-              "actual_datasoure_name": "Contract_Status",
-              "output_format": "text : capitalize each word"
-          },
-          "Customer": {
-              "actual_datasoure_name": "Customer",
-              "output_format": "text : capitalize each word"
-          },
-          "flag_valid_installbase": {
-              "actual_datasoure_name": "",
-              "output_format": "bool : 0/1"
-          },
-          "EOSL_Date": {
-              "actual_datasoure_name": "EOSL",
-              "output_format": "date : mm/dd/yyyy"
-          },
-          "Model_Id": {
-              "actual_datasoure_name": "Model",
-              "output_format": "text : upper"
-          },
-          "Item_Description": {
-              "actual_datasoure_name": "Description",
-              "output_format": "text : upper"
-          },
-          "Contract_Start_Date": {
-              "actual_datasoure_name": "Contract_Start_Date",
-              "output_format": "date : mm/dd/yyyy"
-          },
-          "Contract_End_Date": {
-              "actual_datasoure_name": "Contract_Expiration_Date",
-              "output_format": "date : mm/dd/yyyy"
-          },
-          "Contract_Conversion": {
-              "actual_datasoure_name": "Contract_Conversion",
-              "output_format": "text : capitalize each word"
-          },
-          "Strategic_Customer_Name": {
-              "actual_datasoure_name": "StrategicCustomer",
-              "output_format": "text : capitalize each word"
-          },
-          "Owner_Party_Name": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "Owner_Party_Number": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "Install_Year_Group": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "Warranty_Start_Date": {
-              "actual_datasoure_name": "Warranty_Start_Date",
-              "output_format": "date : mm/dd/yyyy"
-          },
-          "Warranty_End_Date": {
-              "actual_datasoure_name": "Warranty_Expiration_Date",
-              "output_format": "date : mm/dd/yyyy"
-          },
-          "Warranty_Coverage": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "Warranty_Contract_Number": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "Warranty_Due_Date": {
-              "actual_datasoure_name": "",
-              "output_format": "date : mm/dd/yyyy"
-          },
-          "First_Contract_Start_Date": {
-              "actual_datasoure_name": "First_Contract_Start_Date",
-              "output_format": "date : mm/dd/yyyy"
-          },
-          "Is_Lead_Open": {
-              "actual_datasoure_name": "",
-              "output_format": "bool : 0/1"
-          },
-          "Lead_ID": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "flag_decommissioned": {
-              "actual_datasoure_name": "",
-              "output_format": "bool : 0/1"
-          },
-          "Segment_Parent": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "Segment_Child": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "flag_prior_lead": {
-              "actual_datasoure_name": "",
-              "output_format": "bool : 0/1"
-          },
-          "prior_lead_date": {
-              "actual_datasoure_name": "",
-              "output_format": "date : mm/dd/yyyy"
-          },
-          "flag_prior_service_lead": {
-              "actual_datasoure_name": "",
-              "output_format": "bool : 0/1"
-          },
-          "prior_service_lead_date": {
-              "actual_datasoure_name": "",
-              "output_format": "date : mm/dd/yyyy"
-          },
-          "Managed_By": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "Managed_By_Contact/Email": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "flag_valid_6month": {
-              "actual_datasoure_name": "",
-              "output_format": "bool : 0/1"
-          },
-          "Assigned_Company": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "Assigned_Contact": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "Assigned_Region": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "Sales_Manager": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "Sales_Status": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "Lead_Date": {
-              "actual_datasoure_name": "",
-              "output_format": "date : mm/dd/yyyy"
-          },
-          "Source_gp": {
-              "actual_datasoure_name": "",
-              "output_format": ""
-          },
-          "Ship_Date": {
-              "actual_datasoure_name": "ShipmentDate",
-              "output_format": "date : mm/dd/yyyy"
-          },
-          "Billing_Address": {
-              "actual_datasoure_name": "BillingAddress",
-              "output_format": "text : capitalize each word"
-          },
-          "Billing_City": {
-              "actual_datasoure_name": "BillingCity",
-              "output_format": "text : capitalize each word"
-          },
-          "Billing_State": {
-              "actual_datasoure_name": "BillingState",
-              "output_format": "text : capitalize each word"
-          },
-          "Billing_Postal_Code": {
-              "actual_datasoure_name": "BillingPostalCode",
-              "output_format": ""
-          },
-          "Billing_Country": {
-              "actual_datasoure_name": "BillingCountry",
-              "output_format": "text : capitalize each word"
-          },
-          "Source": {
-              "actual_datasoure_name": "source",
-              "output_format": ""
-          },
-          "Sold_To_Street": {
-              "actual_datasoure_name": "SoldTo_Street",
-              "output_format": "text : capitalize each word"
-          },
-          "Sold_To_City": {
-              "actual_datasoure_name": "SoldTo_City",
-              "output_format": "text : capitalize each word"
-          },
-          "Sold_To_State": {
-              "actual_datasoure_name": "SoldTo_State",
-              "output_format": "text : capitalize each word"
-          },
-          "Sold_To_Postal_Code": {
-              "actual_datasoure_name": "SoldTo_Zip",
-              "output_format": ""
-          },
-          "Sold_To_Country": {
-              "actual_datasoure_name": "SoldTo_Country",
-              "output_format": "text : capitalize each word"
-          },
-          "Startup_Customer": {
-              "actual_datasoure_name": "StartupCustomer",
-              "output_format": ""
-          },
-          "Startup_Address": {
-              "actual_datasoure_name": "StartupAddress",
-              "output_format": ""
-          },
-          "Startup_City": {
-              "actual_datasoure_name": "StartupCity",
-              "output_format": ""
-          },
-          "Startup_State": {
-              "actual_datasoure_name": "StartupState",
-              "output_format": ""
-          },
-          "Startup_PostalCode": {
-              "actual_datasoure_name": "StartupPostalCode",
-              "output_format": ""
-          },
-          "Startup_Country": {
-              "actual_datasoure_name": "StartupCountry",
-              "output_format": ""
-          },
-          "pn_logic_tray": {
-              "actual_datasoure_name": "pn_logic_tray",
-              "output_format": ""
-          },
-          "is_valid_logic_tray_lead": {
-              "actual_datasoure_name": "is_valid_logic_tray_lead",
-              "output_format": ""
-          },
-          "is_valid_door_assembly_lead": {
-              "actual_datasoure_name": "is_valid_door_assembly_lead",
-              "output_format": ""
-          },
-          "pn_input_breaker_panel": {
-              "actual_datasoure_name": "pn_input_breaker_panel",
-              "output_format": ""
-          },
-          "is_valid_input_breaker_panel_lead": {
-              "actual_datasoure_name": "is_valid_input_breaker_panel_lead",
-              "output_format": ""
-          },
-          "pn_chasis": {
-              "actual_datasoure_name": "pn_chasis",
-              "output_format": ""
-          },
-          "is_valid_chasis_lead": {
-              "actual_datasoure_name": "is_valid_chasis_lead",
-              "output_format": ""
-          }
-      }
-  },
-  "services": {
-      "config_cols": {
-          "prep_srnum_cols":  [
+    "log_level": "Debug",
+    "log_level_options": [
+        "Debug",
+        "Info"
+    ],
+    "log_var_size": false,
+    "key_vault": "",
+    "file": {
+        "dir_ref": "./references/",
+        "dir_data": "./data/",
+        "dir_results": "./results/",
+        "dir_validation": "validation/",
+        "dir_intermediate": "intermediate/",
+        "Raw": {
+            "services": {
+                "file_name": "case_data.csv"
+            },
+            "M2M": {
+                "file_name": "M2M_data.csv"
+            },
+            "SerialNumber": {
+                "file_name": "SerialNumber.csv"
+            },
+            "SalesForce": {
+                "file_name": "SalesForce_InstallBase.csv"
+            },
+            "bom": {
+                "file_name": "BOM_data.csv"
+            },
+            "contracts": {
+                "file_name": "contract.csv"
+            },
+            "renewal": {
+                "file_name": "RenewalContract.csv"
+            }
+        },
+        "Reference": {
+            "bom": "reference_BOM.csv",
+            "customer": "AccountManagerListing.csv",
+            "lead_opportunities": "ref_lead_opportunities.csv",
+            "product_class": "ref_product_class.csv",
+            "decode_sr_num": "ref_decode_serialnumber.csv",
+            "ref_sheet_pdi": "ref_sheet_pdi.csv"
+        },
+        "Processed": {
+            "customer": {
+                "file_name": "customer_list.csv",
+                "validation": "customer_list_validation.csv"
+            },
+            "output_iLead": {
+                "file_name": "output_iLead.csv",
+                "validation": "output_iLead_validation_b4_format.csv",
+                "ref_install": "output_ref_install.csv",
+                "before_classify": "b4_classify_leads.csv",
+                "after_classify": "a4_classify_leads.csv"
+            },
+            "processed_install": {
+                "file_name": "processed_install.csv"
+            },
+            "processed_m2m_shipment": {
+                "file_name": "processed_m2m_shipment.csv"
+            },
+            "processed_serialnum": {
+                "file_name": "processed_serialnum.csv"
+            },
+            "contracts": {
+                "file_name": "processed_contract.csv",
+                "validation": "processed_contract_b4_install_validation.csv"
+            },
+            "services": {
+                "file_name": "processed_services.csv",
+                "validation": "processed_services_validation.csv",
+                "intermediate": "proceesed_services_jcomm_sidecar.csv",
+                "serial_number_services": "SerialNumber_ServicesData.csv"
+            },
+            "contact": {
+                "file_name": "contact_contracts.csv"
+            }
+        }
+    },
+    "database": {
+        "M2M": {
+            "Dictionary Format": {
+                "Shipper_Index": {
+                    "actual_datasoure_name": "Shipper #",
+                    "data_type": "numeric",
+                    "is_nullable": 0.0,
+                    "output_format": "numeric : no_decimal",
+                    "input_date_format": ""
+                },
+                "ShipperItem_Index": {
+                    "actual_datasoure_name": "Shipper Item #",
+                    "data_type": "numeric",
+                    "is_nullable": 0.0,
+                    "output_format": "numeric : no_decimal",
+                    "input_date_format": ""
+                },
+                "PartNumber_TLN_Shipment": {
+                    "actual_datasoure_name": "Part Number",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "ProductClass": {
+                    "actual_datasoure_name": "Product Class",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "Prod_vs_Serv": {
+                    "actual_datasoure_name": "Prod/Serv",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "Category": {
+                    "actual_datasoure_name": "Category",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "SO": {
+                    "actual_datasoure_name": "SO",
+                    "data_type": "numeric",
+                    "is_nullable": 1.0,
+                    "output_format": "numeric : no_decimal",
+                    "input_date_format": ""
+                },
+                "SOLine": {
+                    "actual_datasoure_name": "SOLine",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "SOStatus": {
+                    "actual_datasoure_name": "Item Status",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : capitalize each word",
+                    "input_date_format": ""
+                },
+                "ShipmentDate": {
+                    "actual_datasoure_name": "Ship Date",
+                    "data_type": "date",
+                    "is_nullable": 0.0,
+                    "output_format": "date : mm/dd/yyyy",
+                    "input_date_format": ""
+                },
+                "OrderDate": {
+                    "actual_datasoure_name": "Order Date",
+                    "data_type": "date",
+                    "is_nullable": 1.0,
+                    "output_format": "date : mm/dd/yyyy",
+                    "input_date_format": ""
+                },
+                "ScheduleDate": {
+                    "actual_datasoure_name": "Schedule Date",
+                    "data_type": "date",
+                    "is_nullable": 1.0,
+                    "output_format": "date : mm/dd/yyyy",
+                    "input_date_format": ""
+                },
+                "PromiseDate": {
+                    "actual_datasoure_name": "Promise Date",
+                    "data_type": "date",
+                    "is_nullable": 1.0,
+                    "output_format": "date : mm/dd/yyyy",
+                    "input_date_format": ""
+                },
+                "Customer": {
+                    "actual_datasoure_name": "Customer",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "ShipTo_Customer": {
+                    "actual_datasoure_name": "Ship to Customer",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "ShipTo_Street": {
+                    "actual_datasoure_name": "Ship to Street",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "ShipTo_City": {
+                    "actual_datasoure_name": "Ship to City",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "ShipTo_State": {
+                    "actual_datasoure_name": "Ship to State",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "ShipTo_Zip": {
+                    "actual_datasoure_name": "Ship to Zip",
+                    "data_type": "numeric",
+                    "is_nullable": 1.0,
+                    "output_format": "numeric : no_decimal",
+                    "input_date_format": ""
+                },
+                "ShipTo_Country": {
+                    "actual_datasoure_name": "Ship to Country",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "SoldTo_Street": {
+                    "actual_datasoure_name": "Sold to Street",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "SoldTo_City": {
+                    "actual_datasoure_name": "Sold to City",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "SoldTo_State": {
+                    "actual_datasoure_name": "Sold to State",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "SoldTo_Zip": {
+                    "actual_datasoure_name": "Sold to Zip",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "SoldTo_Country": {
+                    "actual_datasoure_name": "Sold to Country",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "InstallSize": {
+                    "actual_datasoure_name": "Shipped Qty",
+                    "data_type": "numeric : integer",
+                    "is_nullable": 0.0,
+                    "output_format": "numeric : no_decimal",
+                    "input_date_format": ""
+                },
+                "Job_Index": {
+                    "actual_datasoure_name": "Job #",
+                    "data_type": "text",
+                    "is_nullable": 0.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "Description": {
+                    "actual_datasoure_name": "Description",
+                    "data_type": "text",
+                    "is_nullable": 0.0,
+                    "output_format": "",
+                    "input_date_format": ""
+                },
+                "Model": {
+                    "actual_datasoure_name": "Product Type",
+                    "data_type": "text",
+                    "is_nullable": 1,
+                    "output_format": "text : capitalize each word",
+                    "input_date_format": ""
+                }
+            },
+            "Filters": {
+                "InstallSize": {
+                    "report": "no",
+                    "type": "numeric",
+                    "numeric_min": 1.0
+                },
+                "ShipmentDate": {
+                    "report": "no",
+                    "type": "date",
+                    "date_min": "01/01/1995",
+                    "date_max": "TODAY"
+                },
+                "Country": {
+                    "report": "yes",
+                    "type": "text",
+                    "text_match_exact": "united states of america,united states,usa,,us,"
+                },
+                "ProductClass": {
+                    "report": "no",
+                    "type": "text",
+                    "text_match_pattern_negative": "70,71,72,73,74,75,77,79"
+                },
+                "PartNumber_TLN_Shipment": {
+                    "report": "no",
+                    "type": "text",
+                    "text_match_pattern_negative": "factory witness testing,seismic calculations,mod,chs,ckb"
+                }
+            }
+        },
+        "SerialNumber": {
+            "Dictionary Format": {
+                "SerialNumber": {
+                    "actual_datasoure_name": "Serial #",
+                    "data_type": "text",
+                    "is_nullable": 0.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "Shipper_Index": {
+                    "actual_datasoure_name": "Shipper #",
+                    "data_type": "numeric : integer",
+                    "is_nullable": 0.0,
+                    "output_format": "numeric : no_decimal",
+                    "input_date_format": ""
+                },
+                "Shipper_Qty": {
+                    "actual_datasoure_name": "Shipper Qty",
+                    "data_type": "numeric",
+                    "is_nullable": 1.0,
+                    "output_format": "numeric : no_decimal",
+                    "input_date_format": ""
+                },
+                "ShipperItem_Index": {
+                    "actual_datasoure_name": "Shipper Item #",
+                    "data_type": "numeric : integer",
+                    "is_nullable": 0.0,
+                    "output_format": "numeric : no_decimal",
+                    "input_date_format": ""
+                }
+            },
+            "Filters": {
+                "SerialNumber": {
+                    "report": "yes",
+                    "type": "text",
+                    "text_match_pattern_negative": "freigh,bcb,bcms,comm,jbox,skirts,spare,test,repo,warran,label,loadbk,cratin",
+                    "text_regex": "(fl$|fs$|tap$|su$|ds$|jb$|ef$|bus$|skirt$|skt$|sk$|combos$|misc$|tm$|spg$|fsk$|flsk$|tspk$|supk$|sts$|rpp$|nin$|lll$|su$)"
+                }
+            }
+        },
+        "bom": {
+            "Dictionary Format": {
+                "Job_Index": {
+                    "actual_datasoure_name": "Job #",
+                    "data_type": "text",
+                    "is_nullable": 0.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "PartNumber_TLN_BOM": {
+                    "actual_datasoure_name": "TLN #",
+                    "data_type": "text",
+                    "is_nullable": 0.0,
+                    "output_format": "text : capitalize each word",
+                    "input_date_format": ""
+                },
+                "PartNumber_BOM_BOM": {
+                    "actual_datasoure_name": "BOM Part #",
+                    "data_type": "text",
+                    "is_nullable": 0.0,
+                    "output_format": "text : capitalize each word",
+                    "input_date_format": ""
+                },
+                "Total_Quantity": {
+                    "actual_datasoure_name": "total Qty",
+                    "data_type": "numeric",
+                    "is_nullable": 1.0,
+                    "output_format": "numeric : no_decimal",
+                    "input_date_format": ""
+                }
+            },
+            "Filters": {}
+        },
+        "contracts": {
+            "Dictionary Format": {
+                "ContractNumber": {
+                    "actual_datasoure_name": "ContractNumber",
+                    "data_type": "numeric",
+                    "is_nullable": 1.0,
+                    "output_format": "numeric : no_decimal",
+                    "input_date_format": ""
+                },
+                "Contract_Stage__c": {
+                    "actual_datasoure_name": "Contract_Stage__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "PDI_ContractType": {
+                    "actual_datasoure_name": "Contract_Type__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "Original_Sales_Order__c": {
+                    "actual_datasoure_name": "Original_Sales_Order__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "",
+                    "input_date_format": ""
+                },
+                "PDI_Product_Family__c": {
+                    "actual_datasoure_name": "PDI_Product_Family__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "Contract_Status_c": {
+                    "actual_datasoure_name": "Status",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : capitalize each word",
+                    "input_date_format": ""
+                },
+                "StatusCode": {
+                    "actual_datasoure_name": "StatusCode",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : capitalize each word",
+                    "input_date_format": ""
+                },
+                "Contract_Comments__c": {
+                    "actual_datasoure_name": "Contract_Comments__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "Product_1_Serial__c": {
+                    "actual_datasoure_name": "Product_1_Serial__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "Product_2_Serial__c": {
+                    "actual_datasoure_name": "Product_2_Serial__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "Product_3_Serial__c": {
+                    "actual_datasoure_name": "Product_3_Serial__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "Qty_1__c": {
+                    "actual_datasoure_name": "Qty_1__c",
+                    "data_type": "numeric",
+                    "is_nullable": 1.0,
+                    "output_format": "numeric : no_decimal",
+                    "input_date_format": ""
+                },
+                "Qty_2__c": {
+                    "actual_datasoure_name": "Qty_2__c",
+                    "data_type": "numeric",
+                    "is_nullable": 1.0,
+                    "output_format": "numeric : no_decimal",
+                    "input_date_format": ""
+                },
+                "Qty_3__c": {
+                    "actual_datasoure_name": "Qty_3__c",
+                    "data_type": "numeric",
+                    "is_nullable": 1.0,
+                    "output_format": "numeric : no_decimal",
+                    "input_date_format": ""
+                },
+                "Qty_Total_del__c": {
+                    "actual_datasoure_name": "Qty_Total_del__c",
+                    "data_type": "numeric",
+                    "is_nullable": 1.0,
+                    "output_format": "numeric : no_decimal",
+                    "input_date_format": ""
+                },
+                "Start_Up_Completed_Date__c": {
+                    "actual_datasoure_name": "Start_Up_Completed_Date__c",
+                    "data_type": "date",
+                    "is_nullable": 1.0,
+                    "output_format": "date : mm/dd/yyyy",
+                    "input_date_format": ""
+                },
+                "Customer_Tentative_Start_Up_Date__c": {
+                    "actual_datasoure_name": "Customer_Tentative_Start_Up_Date__c",
+                    "data_type": "date",
+                    "is_nullable": 1.0,
+                    "output_format": "date : mm/dd/yyyy",
+                    "input_date_format": ""
+                },
+                "Scheduled_Start_Up_Date__c": {
+                    "actual_datasoure_name": "Scheduled_Start_Up_Date__c",
+                    "data_type": "date",
+                    "is_nullable": 1.0,
+                    "output_format": "date : mm/dd/yyyy",
+                    "input_date_format": ""
+                },
+                "Service_Plan": {
+                    "actual_datasoure_name": "Service_Plan__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "Payment_Frequency": {
+                    "actual_datasoure_name": "Payment_Frequency__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "Warranty_Start_Date": {
+                    "actual_datasoure_name": "Warranty_Start_Date__c",
+                    "data_type": "date",
+                    "is_nullable": 1.0,
+                    "output_format": "date : mm/dd/yyyy",
+                    "input_date_format": ""
+                },
+                "Start_date": {
+                    "actual_datasoure_name": "Start_date__c",
+                    "data_type": "date",
+                    "is_nullable": 1.0,
+                    "output_format": "date : mm/dd/yyyy",
+                    "input_date_format": ""
+                },
+                "Warranty_Expiration_Date": {
+                    "actual_datasoure_name": "Warranty_Expiration_Date__c",
+                    "data_type": "date",
+                    "is_nullable": 1.0,
+                    "output_format": "date : mm/dd/yyyy",
+                    "input_date_format": ""
+                },
+                "BillingStreet": {
+                    "actual_datasoure_name": "BillingStreet",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : capitalize each word",
+                    "input_date_format": ""
+                },
+                "BillingCity": {
+                    "actual_datasoure_name": "BillingCity",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "BillingState": {
+                    "actual_datasoure_name": "BillingState",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "BillingPostalCode": {
+                    "actual_datasoure_name": "BillingPostalCode",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "BillingCountry": {
+                    "actual_datasoure_name": "BillingCountry",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "BillingAddress": {
+                    "actual_datasoure_name": "BillingAddress",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : capitalize each word",
+                    "input_date_format": ""
+                },
+                "StartupCustomer": {
+                    "actual_datasoure_name": "Name_of_Company__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : capitalize each word",
+                    "input_date_format": ""
+                },
+                "StartupAddress": {
+                    "actual_datasoure_name": "Address__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : capitalize each word",
+                    "input_date_format": ""
+                },
+                "StartupCity": {
+                    "actual_datasoure_name": "City__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "StartupState": {
+                    "actual_datasoure_name": "State__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "StartupPostalCode": {
+                    "actual_datasoure_name": "Zipcode__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "StartupCountry": {
+                    "actual_datasoure_name": "Country__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : upper",
+                    "input_date_format": ""
+                },
+                "Contract": {
+                    "actual_datasoure_name": "Id",
+                    "data_type": "text",
+                    "is_nullable": 0.0,
+                    "output_format": "text : capitalize each word",
+                    "input_date_format": ""
+                },
+                "Service_Sales_Manager": {
+                    "actual_datasoure_name": "Service_Sales_Manager_PDI__c",
+                    "data_type": "text",
+                    "is_nullable": 0.0,
+                    "output_format": "text : capitalize each word",
+                    "input_date_format": ""
+                }
+            },
+            "Filters": {}
+        },
+        "renewal": {
+            "Dictionary Format": {
+                "Contract": {
+                    "actual_datasoure_name": "Contract__c",
+                    "data_type": "text",
+                    "is_nullable": 0.0,
+                    "output_format": "text : capitalize each word",
+                    "input_date_format": ""
+                },
+                "Contract_Start_Date": {
+                    "actual_datasoure_name": "Contract_Start_Date__c",
+                    "data_type": "date",
+                    "is_nullable": 1.0,
+                    "output_format": "date : mm/dd/yyyy",
+                    "input_date_format": ""
+                },
+                "Contract_Expiration_Date": {
+                    "actual_datasoure_name": "Contract_Expiration_Date__c",
+                    "data_type": "date",
+                    "is_nullable": 1.0,
+                    "output_format": "date : mm/dd/yyyy",
+                    "input_date_format": ""
+                },
+                "Contract_Amount": {
+                    "actual_datasoure_name": "Contract_Amount__c",
+                    "data_type": "numeric",
+                    "is_nullable": 1.0,
+                    "output_format": "numeric : 2",
+                    "input_date_format": ""
+                },
+                "Contract_Status": {
+                    "actual_datasoure_name": "Contract_Status__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : capitalize each word",
+                    "input_date_format": ""
+                },
+                "Contract_Sales_Order__c": {
+                    "actual_datasoure_name": "Contract_Sales_Order__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "",
+                    "input_date_format": ""
+                }
+            },
+            "Filters": {}
+        },
+        "services": {
+            "Dictionary Format": {
+                "Id": {
+                    "actual_datasoure_name": "Id",
+                    "data_type": "text",
+                    "is_nullable": 0.0,
+                    "output_format": "numeric : no_decimal",
+                    "input_date_format": ""
+                },
+                "Status": {
+                    "actual_datasoure_name": "Status",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : capitalize each word",
+                    "input_date_format": ""
+                },
+                "Closed_Date": {
+                    "actual_datasoure_name": "Closed_Date__c",
+                    "data_type": "date",
+                    "is_nullable": 1.0,
+                    "output_format": "date : mm/dd/yyyy",
+                    "input_date_format": ""
+                },
+                "Product_1": {
+                    "actual_datasoure_name": "Product_1__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "",
+                    "input_date_format": ""
+                },
+                "Product_2": {
+                    "actual_datasoure_name": "Product_2__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "",
+                    "input_date_format": ""
+                },
+                "Product_3": {
+                    "actual_datasoure_name": "Product_3__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "",
+                    "input_date_format": ""
+                },
+                "Serial_Date_Lot_Code": {
+                    "actual_datasoure_name": "Serial_Date_Lot_Code__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "",
+                    "input_date_format": ""
+                },
+                "Qty_1": {
+                    "actual_datasoure_name": "Qty_1__c",
+                    "data_type": "numeric",
+                    "is_nullable": 1.0,
+                    "output_format": "numeric : no_decimal",
+                    "input_date_format": ""
+                },
+                "Qty_2": {
+                    "actual_datasoure_name": "Qty_2__c",
+                    "data_type": "numeric",
+                    "is_nullable": 1.0,
+                    "output_format": "numeric : no_decimal",
+                    "input_date_format": ""
+                },
+                "Qty_3": {
+                    "actual_datasoure_name": "Qty_3__c",
+                    "data_type": "numeric",
+                    "is_nullable": 1.0,
+                    "output_format": "numeric : no_decimal",
+                    "input_date_format": ""
+                },
+                "Type": {
+                    "actual_datasoure_name": "Type",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "",
+                    "input_date_format": ""
+                },
+                "Customer_Issue_Summary__c": {
+                    "actual_datasoure_name": "Customer_Issue_Summary__c",
+                    "data_type": "text",
+                    "is_nullable": 0.0,
+                    "output_format": "",
+                    "input_date_format": ""
+                },
+                "Customer_Issue__c": {
+                    "actual_datasoure_name": "Customer_Issue__c",
+                    "data_type": "text",
+                    "is_nullable": 0.0,
+                    "output_format": "",
+                    "input_date_format": ""
+                },
+                "Resolution_Summary__c": {
+                    "actual_datasoure_name": "Resolution_Summary__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "",
+                    "input_date_format": ""
+                },
+                "Resolution__c": {
+                    "actual_datasoure_name": "Resolution__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "",
+                    "input_date_format": ""
+                }
+            },
+            "Filters": {}
+        }
+    },
+    "output_format": {
+        "contracts": {
+            "SerialNumber": {
+                "actual_datasoure_name": "SerialNumber",
+                "output_format": "text : upper"
+            },
+            "ContractNumber": {
+                "actual_datasoure_name": "ContractNumber",
+                "output_format": ""
+            },
+            "ContractCoverage": {
+                "actual_datasoure_name": "Eaton_ContractType",
+                "output_format": "text : capitalize each word"
+            },
+            "ContractCoverageDescription": {
+                "actual_datasoure_name": "",
+                "output_format": "text : capitalize each word"
+            },
+            "ContractStatus": {
+                "actual_datasoure_name": "Contract_Status",
+                "output_format": "text : capitalize each word"
+            },
+            "Contract_StartDate": {
+                "actual_datasoure_name": "Contract_Start_Date",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "Contract_EndDate": {
+                "actual_datasoure_name": "Contract_Expiration_Date",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "WarrantyNumber": {
+                "actual_datasoure_name": "ContractNumber",
+                "output_format": ""
+            },
+            "WarrantyStatus": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "Warranty_StartDate": {
+                "actual_datasoure_name": "Warranty_Start_Date",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "Warranty_EndDate": {
+                "actual_datasoure_name": "Warranty_Expiration_Date",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "Warranty_Conversion": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "was_startedup": {
+                "actual_datasoure_name": "was_startedup",
+                "output_format": "bool"
+            },
+            "startup_date": {
+                "actual_datasoure_name": "startup_date",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "BillTo_Address_1": {
+                "actual_datasoure_name": "BillingStreet",
+                "output_format": "text : capitalize each word"
+            },
+            "BillTo_Address_2": {
+                "actual_datasoure_name": "BillingAddress",
+                "output_format": "text : capitalize each word"
+            },
+            "BillTo_City": {
+                "actual_datasoure_name": "BillingCity",
+                "output_format": "text : capitalize each word"
+            },
+            "BillTo_State": {
+                "actual_datasoure_name": "BillingState",
+                "output_format": "text : capitalize each word"
+            },
+            "BillTo_PostalCode": {
+                "actual_datasoure_name": "BillingPostalCode",
+                "output_format": "text : capitalize each word"
+            },
+            "BillTo_Country": {
+                "actual_datasoure_name": "BillingCountry",
+                "output_format": "text : capitalize each word"
+            },
+            "Contract_Amount": {
+                "actual_datasoure_name": "Contract_Amount",
+                "output_format": ""
+            }
+        },
+        "output_iLead": {
+            "Serial_Number": {
+                "actual_datasoure_name": "SerialNumber_M2M",
+                "output_format": "text : upper"
+            },
+            "Component": {
+                "actual_datasoure_name": "Component",
+                "output_format": "text : capitalize each word"
+            },
+            "Source": {
+                "actual_datasoure_name": "source",
+                "output_format": "text : capitalize each word"
+            },
+            "BOM_Part_Number": {
+                "actual_datasoure_name": "key",
+                "output_format": "text : upper"
+            },
+            "Component_Date_Code": {
+                "actual_datasoure_name": "date_code",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "Component_Life": {
+                "actual_datasoure_name": "Life__Years",
+                "output_format": ""
+            },
+            "Component_Due_Date": {
+                "actual_datasoure_name": "Component_Due_Date",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "External_Salesperson": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "Internal_Salesperson": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "Component_Due_in (years)": {
+                "actual_datasoure_name": "Component_Due_in (years)",
+                "output_format": ""
+            },
+            "Component_Due_in (Category)": {
+                "actual_datasoure_name": "Component_Due_in (Category)",
+                "output_format": "text : capitalize each word"
+            },
+            "flag_raise_lead": {
+                "actual_datasoure_name": "flag_std_offer",
+                "output_format": "bool : 0/1"
+            },
+            "is_standard_offering": {
+                "actual_datasoure_name": "is_standard_offering",
+                "output_format": "bool : 0/1"
+            },
+            "List_Price_$": {
+                "actual_datasoure_name": "",
+                "output_format": "numeric : 2"
+            },
+            "Avg_Sales_Price_$": {
+                "actual_datasoure_name": "",
+                "output_format": "numeric : 2"
+            },
+            "Year_Lead": {
+                "actual_datasoure_name": "End of Prod",
+                "output_format": ""
+            },
+            "Component_Description": {
+                "actual_datasoure_name": "Component_Description",
+                "output_format": "text : capitalize each word"
+            },
+            "Component_Age": {
+                "actual_datasoure_name": "age",
+                "output_format": ""
+            },
+            "Lead_Type": {
+                "actual_datasoure_name": "lead_type",
+                "output_format": "text : capitalize each word"
+            }
+        },
+        "ref_install_base": {
+            "Serial_Number": {
+                "actual_datasoure_name": "SerialNumber_M2M",
+                "output_format": "text : upper"
+            },
+            "Product_Name": {
+                "actual_datasoure_name": "Product_M2M_Org",
+                "output_format": "text : upper"
+            },
+            "Install_Date": {
+                "actual_datasoure_name": "ShipmentDate",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "TLN_Part_Number": {
+                "actual_datasoure_name": "PartNumber_TLN_Shipment",
+                "output_format": "text : upper"
+            },
+            "Product_Age": {
+                "actual_datasoure_name": "Product_Age",
+                "output_format": ""
+            },
+            "CSE_Area": {
+                "actual_datasoure_name": "",
+                "output_format": "text : upper"
+            },
+            "Region": {
+                "actual_datasoure_name": "",
+                "output_format": "text : capitalize each word"
+            },
+            "Party_Site_Number": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "Txt_Party_Site_Number": {
+                "actual_datasoure_name": "Customer",
+                "output_format": "text : capitalize each word"
+            },
+            "Ship_To_Party_Name": {
+                "actual_datasoure_name": "ShipTo_Customer",
+                "output_format": "text : capitalize each word"
+            },
+            "Ship_To_Address1": {
+                "actual_datasoure_name": "ShipTo_Street",
+                "output_format": "text : capitalize each word"
+            },
+            "Ship_To_City": {
+                "actual_datasoure_name": "ShipTo_City",
+                "output_format": "text : capitalize each word"
+            },
+            "Ship_To_State": {
+                "actual_datasoure_name": "ShipTo_State",
+                "output_format": "text : capitalize each word"
+            },
+            "Ship_To_Postal_Code": {
+                "actual_datasoure_name": "ShipTo_Zip",
+                "output_format": ""
+            },
+            "Ship_To_Country": {
+                "actual_datasoure_name": "ShipTo_Country",
+                "output_format": "text : capitalize each word"
+            },
+            "is_under_contract": {
+                "actual_datasoure_name": "is_under_contract",
+                "output_format": "bool : 0/1"
+            },
+            "Contract_Number": {
+                "actual_datasoure_name": "ContractNumber",
+                "output_format": ""
+            },
+            "Contract_Coverage": {
+                "actual_datasoure_name": "Service_Plan",
+                "output_format": ""
+            },
+            "Contract_Coverage_Description": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "Contract_Coverage_Type": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "Contract_Line_Status": {
+                "actual_datasoure_name": "Contract_Status",
+                "output_format": "text : capitalize each word"
+            },
+            "Customer": {
+                "actual_datasoure_name": "Customer",
+                "output_format": "text : capitalize each word"
+            },
+            "flag_valid_installbase": {
+                "actual_datasoure_name": "",
+                "output_format": "bool : 0/1"
+            },
+            "EOSL_Date": {
+                "actual_datasoure_name": "EOSL",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "Model_Id": {
+                "actual_datasoure_name": "Model",
+                "output_format": "text : upper"
+            },
+            "Item_Description": {
+                "actual_datasoure_name": "Description",
+                "output_format": "text : upper"
+            },
+            "Contract_Start_Date": {
+                "actual_datasoure_name": "Contract_Start_Date",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "Contract_End_Date": {
+                "actual_datasoure_name": "Contract_Expiration_Date",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "Contract_Conversion": {
+                "actual_datasoure_name": "Contract_Conversion",
+                "output_format": "text : capitalize each word"
+            },
+            "Strategic_Customer_Name": {
+                "actual_datasoure_name": "StrategicCustomer",
+                "output_format": "text : capitalize each word"
+            },
+            "Owner_Party_Name": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "Owner_Party_Number": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "Install_Year_Group": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "Warranty_Start_Date": {
+                "actual_datasoure_name": "Warranty_Start_Date",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "Warranty_End_Date": {
+                "actual_datasoure_name": "Warranty_Expiration_Date",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "Warranty_Coverage": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "Warranty_Contract_Number": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "Warranty_Due_Date": {
+                "actual_datasoure_name": "",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "First_Contract_Start_Date": {
+                "actual_datasoure_name": "First_Contract_Start_Date",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "Is_Lead_Open": {
+                "actual_datasoure_name": "",
+                "output_format": "bool : 0/1"
+            },
+            "Lead_ID": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "flag_decommissioned": {
+                "actual_datasoure_name": "",
+                "output_format": "bool : 0/1"
+            },
+            "Segment_Parent": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "Segment_Child": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "flag_prior_lead": {
+                "actual_datasoure_name": "",
+                "output_format": "bool : 0/1"
+            },
+            "prior_lead_date": {
+                "actual_datasoure_name": "",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "flag_prior_service_lead": {
+                "actual_datasoure_name": "",
+                "output_format": "bool : 0/1"
+            },
+            "prior_service_lead_date": {
+                "actual_datasoure_name": "",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "Managed_By": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "Managed_By_Contact/Email": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "flag_valid_6month": {
+                "actual_datasoure_name": "",
+                "output_format": "bool : 0/1"
+            },
+            "Assigned_Company": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "Assigned_Contact": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "Assigned_Region": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "Sales_Manager": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "Sales_Status": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "Lead_Date": {
+                "actual_datasoure_name": "",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "Source_gp": {
+                "actual_datasoure_name": "",
+                "output_format": ""
+            },
+            "Ship_Date": {
+                "actual_datasoure_name": "ShipmentDate",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "Billing_Address": {
+                "actual_datasoure_name": "BillingAddress",
+                "output_format": "text : capitalize each word"
+            },
+            "Billing_City": {
+                "actual_datasoure_name": "BillingCity",
+                "output_format": "text : capitalize each word"
+            },
+            "Billing_State": {
+                "actual_datasoure_name": "BillingState",
+                "output_format": "text : capitalize each word"
+            },
+            "Billing_Postal_Code": {
+                "actual_datasoure_name": "BillingPostalCode",
+                "output_format": ""
+            },
+            "Billing_Country": {
+                "actual_datasoure_name": "BillingCountry",
+                "output_format": "text : capitalize each word"
+            },
+            "Source": {
+                "actual_datasoure_name": "source",
+                "output_format": ""
+            },
+            "Sold_To_Street": {
+                "actual_datasoure_name": "SoldTo_Street",
+                "output_format": "text : capitalize each word"
+            },
+            "Sold_To_City": {
+                "actual_datasoure_name": "SoldTo_City",
+                "output_format": "text : capitalize each word"
+            },
+            "Sold_To_State": {
+                "actual_datasoure_name": "SoldTo_State",
+                "output_format": "text : capitalize each word"
+            },
+            "Sold_To_Postal_Code": {
+                "actual_datasoure_name": "SoldTo_Zip",
+                "output_format": ""
+            },
+            "Sold_To_Country": {
+                "actual_datasoure_name": "SoldTo_Country",
+                "output_format": "text : capitalize each word"
+            },
+            "Startup_Customer": {
+                "actual_datasoure_name": "StartupCustomer",
+                "output_format": ""
+            },
+            "Startup_Address": {
+                "actual_datasoure_name": "StartupAddress",
+                "output_format": ""
+            },
+            "Startup_City": {
+                "actual_datasoure_name": "StartupCity",
+                "output_format": ""
+            },
+            "Startup_State": {
+                "actual_datasoure_name": "StartupState",
+                "output_format": ""
+            },
+            "Startup_PostalCode": {
+                "actual_datasoure_name": "StartupPostalCode",
+                "output_format": ""
+            },
+            "Startup_Country": {
+                "actual_datasoure_name": "StartupCountry",
+                "output_format": ""
+            },
+            "pn_logic_tray": {
+                "actual_datasoure_name": "pn_logic_tray",
+                "output_format": ""
+            },
+            "is_valid_logic_tray_lead": {
+                "actual_datasoure_name": "is_valid_logic_tray_lead",
+                "output_format": ""
+            },
+            "is_valid_door_assembly_lead": {
+                "actual_datasoure_name": "is_valid_door_assembly_lead",
+                "output_format": ""
+            },
+            "pn_input_breaker_panel": {
+                "actual_datasoure_name": "pn_input_breaker_panel",
+                "output_format": ""
+            },
+            "is_valid_input_breaker_panel_lead": {
+                "actual_datasoure_name": "is_valid_input_breaker_panel_lead",
+                "output_format": ""
+            },
+            "pn_chasis": {
+                "actual_datasoure_name": "pn_chasis",
+                "output_format": ""
+            },
+            "is_valid_chasis_lead": {
+                "actual_datasoure_name": "is_valid_chasis_lead",
+                "output_format": ""
+            }
+        }
+    },
+    "services": {
+        "config_cols": {
+            "prep_srnum_cols": [
                 "Qty_1__c",
                 "Qty_2__c",
                 "Qty_3__c"
-          ]
-      },
-      "services_data_overall": {
-          "Status": {
-              "report": "no",
-              "type": "text",
-              "text_match_pattern": "closed,in car"
-          },
-          "Qty_1__c" : {
-              "report": "no",
-              "type": "numeric",
-              "numeric_max" : 2000
-          }
-      },
-      "Component_replacement": {
-          "Display": {
-              "Customer_Issue_Summary__c": {
-                  "report": "no",
-                  "type": "text",
-                  "text_match_pattern": "display,m4 ,monochrome,color"
-              },
-              "Customer_Issue__c": {
-                  "report": "no",
-                  "type": "text",
-                  "text_match_exact": "pcba - software issue,installation request,pcba - hardware issue,pcba,hardware issue - rpp,hardware issue - pdu,hardware issue - sts,hardware issue faulty part"
-              }
-          },
-          "BCMS": {
-              "Customer_Issue_Summary__c": {
-                  "report": "no",
-                  "type": "text",
-                  "text_match_pattern": "bcms"
-              },
-              "Customer_Issue__c": {
-                  "report": "no",
-                  "type": "text",
-                  "text_match_exact": "PCBA,PCBA - Hardware Issue,Installation Request,Hardware Issue - RPP,Hardware Issue - PDU"
-              }
-          },
-          "Breaker": {
-              "Customer_Issue_Summary__c": {
-                  "report": "no",
-                  "type": "text",
-                  "text_match_pattern": "breaker"
-              },
-              "Customer_Issue__c": {
-                  "report": "no",
-                  "type": "text",
-                  "text_match_exact": "Hardware Issue - RPP,Hardware Issue - PDU,Hardware Issue - STS,Non Functioning,Installation Request,Hardware Issue - Physical Damage On Site,Hardware Issue - Wrong Hardware"
-              }
-          },
-          "Fans": {
-              "Customer_Issue_Summary__c": {
-                  "report": "no",
-                  "type": "text",
-                  "text_match_pattern": "FAN"
-              }
-          },
-          "PCB ": {
-              "Customer_Issue_Summary__c": {
-                  "report": "no",
-                  "type": "text",
-                  "text_match_pattern": "PCB, PCA, PBA"
-              }
-          },
-          "SPD": {
-              "Customer_Issue_Summary__c": {
-                  "report": "no",
-                  "type": "text",
-                  "text_match_pattern": "tvss, spd, surge"
-              }
-          }
-      },
-      "SerialNumberColumns": {
-          "Product_1__c": "Qty_1__c",
-          "Product_2__c": "Qty_2__c",
-          "Product_3__c": "Qty_3__c",
-          "Serial_Date_Lot_Code__c": "empty_qty",
-          "Customer_Issue_Summary__c":"empty_qty"
-
-      },
-      "KeyColumns": {
-      "ContractNumber": "Id"
-      },
-      "UpgradeComponents": {
-          "ComponentName" : "Display"
-      }
-  },
-  "contracts": {
-      "config_cols": {
-        "dict_srnum_cols": {
-            "Product_1_Serial__c": "Qty_1__c",
-            "Product_2_Serial__c": "Qty_2__c",
-            "Product_3_Serial__c": "Qty_3__c",
-            "Contract_Comments__c": "Qty_comment"
+            ]
         },
-        "ls_cols_startup": [
-            "Start_Up_Completed_Date__c",
-            "Customer_Tentative_Start_Up_Date__c",
-            "Scheduled_Start_Up_Date__c"
-        ],
-        "prep_srnum_cols":  [
+        "services_data_overall": {
+            "Status": {
+                "report": "no",
+                "type": "text",
+                "text_match_pattern": "closed,in car"
+            },
+            "Qty_1__c": {
+                "report": "no",
+                "type": "numeric",
+                "numeric_max": 2000
+            }
+        },
+        "Component_replacement": {
+            "Display": {
+                "Customer_Issue_Summary__c": {
+                    "report": "no",
+                    "type": "text",
+                    "text_match_pattern": "display,m4 ,monochrome,color"
+                },
+                "Customer_Issue__c": {
+                    "report": "no",
+                    "type": "text",
+                    "text_match_exact": "pcba - software issue,installation request,pcba - hardware issue,pcba,hardware issue - rpp,hardware issue - pdu,hardware issue - sts,hardware issue faulty part"
+                }
+            },
+            "BCMS": {
+                "Customer_Issue_Summary__c": {
+                    "report": "no",
+                    "type": "text",
+                    "text_match_pattern": "bcms"
+                },
+                "Customer_Issue__c": {
+                    "report": "no",
+                    "type": "text",
+                    "text_match_exact": "PCBA,PCBA - Hardware Issue,Installation Request,Hardware Issue - RPP,Hardware Issue - PDU"
+                }
+            },
+            "Breaker": {
+                "Customer_Issue_Summary__c": {
+                    "report": "no",
+                    "type": "text",
+                    "text_match_pattern": "breaker"
+                },
+                "Customer_Issue__c": {
+                    "report": "no",
+                    "type": "text",
+                    "text_match_exact": "Hardware Issue - RPP,Hardware Issue - PDU,Hardware Issue - STS,Non Functioning,Installation Request,Hardware Issue - Physical Damage On Site,Hardware Issue - Wrong Hardware"
+                }
+            },
+            "Fans": {
+                "Customer_Issue_Summary__c": {
+                    "report": "no",
+                    "type": "text",
+                    "text_match_pattern": "FAN"
+                }
+            },
+            "PCB ": {
+                "Customer_Issue_Summary__c": {
+                    "report": "no",
+                    "type": "text",
+                    "text_match_pattern": "PCB, PCA, PBA"
+                }
+            },
+            "SPD": {
+                "Customer_Issue_Summary__c": {
+                    "report": "no",
+                    "type": "text",
+                    "text_match_pattern": "tvss, spd, surge"
+                }
+            }
+        },
+        "SerialNumberColumns": {
+            "Product_1__c": "Qty_1__c",
+            "Product_2__c": "Qty_2__c",
+            "Product_3__c": "Qty_3__c",
+            "Serial_Date_Lot_Code__c": "empty_qty",
+            "Customer_Issue_Summary__c": "empty_qty"
+        },
+        "KeyColumns": {
+            "ContractNumber": "Id"
+        },
+        "UpgradeComponents": {
+            "ComponentName": "Display"
+        }
+    },
+    "contracts": {
+        "config_cols": {
+            "dict_srnum_cols": {
+                "Product_1_Serial__c": "Qty_1__c",
+                "Product_2_Serial__c": "Qty_2__c",
+                "Product_3_Serial__c": "Qty_3__c",
+                "Contract_Comments__c": "Qty_comment"
+            },
+            "ls_cols_startup": [
+                "Start_Up_Completed_Date__c",
+                "Customer_Tentative_Start_Up_Date__c",
+                "Scheduled_Start_Up_Date__c"
+            ],
+            "prep_srnum_cols": [
                 "Qty_1__c",
                 "Qty_2__c",
                 "Qty_3__c",
                 "Qty_Total_del__c"
-        ],
-        "dict_decode_contract" : {
-           "PowerTrust Preferred Plan": "(2preventivemaintenance)",
-           "PowerTrust Plan": "(1preventivemaintenance)",
-           "Flex TM Response Only Contract + Annual PM": "(pmonlyservice)"
+            ],
+            "dict_decode_contract": {
+                "PowerTrust Preferred Plan": "(2preventivemaintenance)",
+                "PowerTrust Plan": "(1preventivemaintenance)",
+                "Flex TM Response Only Contract + Annual PM": "(pmonlyservice)"
+            },
+            "dict_contract": {
+                "gold": "PowerTrust Preferred Plan",
+                "silver": "PowerTrust Plan",
+                "bronze": "Flex TM Response Only Contract + Annual PM",
+                "extended warranty": "Warranty Upgrade"
+            },
+            "prep_contract_col_install": [
+                "ContractNumber",
+                "SerialNumber",
+                "was_startedup",
+                "startup_date",
+                "Warranty_Start_Date",
+                "Warranty_Expiration_Date",
+                "BillingStreet",
+                "BillingCity",
+                "BillingState",
+                "BillingPostalCode",
+                "BillingCountry",
+                "BillingAddress",
+                "StartupCustomer",
+                "StartupAddress",
+                "StartupCity",
+                "StartupState",
+                "StartupPostalCode",
+                "StartupCountry",
+                "Eaton_ContractType",
+                "Contract_Start_Date",
+                "Contract_Expiration_Date",
+                "Service_Plan",
+                "Contract_Status"
+            ],
+            "contract_date_cols": [
+                "Warranty_Start_Date",
+                "Warranty_Expiration_Date",
+                "Contract_Start_Date",
+                "Contract_Expiration_Date"
+            ]
         },
-        "dict_contract": {
-          "gold": "PowerTrust Preferred Plan",
-          "silver": "PowerTrust Plan",
-          "bronze": "Flex TM Response Only Contract + Annual PM",
-          "extended warranty": "Warranty Upgrade"
-      },
-        "prep_contract_col_install" : ["ContractNumber","SerialNumber", "was_startedup", "startup_date",
-              "Warranty_Start_Date", "Warranty_Expiration_Date", "BillingStreet", "BillingCity",
-              "BillingState", "BillingPostalCode", "BillingCountry", "BillingAddress",
-              "StartupCustomer", "StartupAddress", "StartupCity", "StartupState",
-              "StartupPostalCode", "StartupCountry", "Eaton_ContractType", "Contract_Start_Date",
-              "Contract_Expiration_Date", "Service_Plan", "Contract_Status"],
-        "contract_date_cols" : ["Warranty_Start_Date", "Warranty_Expiration_Date",
-            "Contract_Start_Date", "Contract_Expiration_Date"]
+        "srnum_pattern": {
+            "pat_srnum": [
+                "(\\w+-\\w+ \\(.+\\))",
+                "([\\w+-]+\\w)"
+            ],
+            "pat_srnum_services": [
+                "([\\w+-]+\\w)"
+            ],
+            "pat_srnum1": [
+                "(\\w+-\\w+ \\(.+\\))",
+                "|(\\w+-\\w+-\\w+-\\w+-\\w+-\\w+ )",
+                "|(\\w+-\\w+-\\w+-\\w+-\\w+ )",
+                "|(\\w+-\\w+-\\w+-\\w+ )",
+                "|(\\w+-\\w+-\\w+ )",
+                "|(\\w+-\\w+ )",
+                "|(\\w+-\\w+-\\w+-\\w+,)",
+                "|(\\w+-\\w+,)"
+            ],
+            "pat_single_srnum": "(^t)|(^o)|(^\\d+-\\d+-\\d+ )",
+            "pat_mob": "\\d\\d\\d-\\d\\d\\d-\\d\\d\\d\\d",
+            "dict_char": {
+                "\\(": "-",
+                " ": "-",
+                "-&-": "-",
+                "-&": "-",
+                "&-": "-",
+                "&": "-",
+                "unit": "-",
+                ",-": ",",
+                "-,": ",",
+                ":": "-"
+            }
+        }
     },
-      "srnum_pattern": {
-        "pat_srnum": [
-                        "(\\w+-\\w+ \\(.+\\))",
-                        "([\\w+-]+\\w)"
-        ],
-          "pat_srnum_services": [
-                        "([\\w+-]+\\w)"
-        ],
-          "pat_srnum1": [
-
-                  "(\\w+-\\w+ \\(.+\\))",
-                  "|(\\w+-\\w+-\\w+-\\w+-\\w+-\\w+ )",
-                  "|(\\w+-\\w+-\\w+-\\w+-\\w+ )",
-                  "|(\\w+-\\w+-\\w+-\\w+ )",
-                  "|(\\w+-\\w+-\\w+ )",
-                  "|(\\w+-\\w+ )",
-                  "|(\\w+-\\w+-\\w+-\\w+,)",
-                  "|(\\w+-\\w+,)"
-          ],
-        "pat_single_srnum" : "(^t)|(^o)|(^\\d+-\\d+-\\d+ )",
-        "pat_mob" : "\\d\\d\\d-\\d\\d\\d-\\d\\d\\d\\d",
-        "dict_char" : {
-            "\\(": "-",
-            " ": "-",
-            "-&-": "-",
-            "-&": "-",
-            "&-": "-",
-            "&": "-",
-            "unit": "-",
-            ",-": ",",
-            "-,": ",",
-            ":": "-"
-      }
-
-    }},
-  "install_base" : {
-      "sr_num_validation": {
-          "exact_match_filter" : ["qts", "cyrus one"]
-      },
-      "dict_display_parts": {
-          "pn_logic_tray": {
-              "txt_search": [
-                  "SA"
-              ],
-              "PartsOfInterest": [
-                  "SA00011",
-                  "SA00012",
-                  "SA00013"
-              ]
-          },
-          "pn_door_assembly": {
-              "txt_search": [
-                  "DOR"
-              ],
-              "PartsOfInterest": [
-                  "DOR09240",
-                  "DOR09583",
-                  "DOR09323",
-                  "DOR10653",
-                  "DOR10461"
-              ]
-          },
-          "pn_input_breaker_panel": {
-              "txt_search": [
-                  "PNL"
-              ],
-              "PartsOfInterest": [
-                  "PNL08804",
-                  "PNL08872",
-                  "PNL12362",
-                  "PNL09356",
-                  "PNL09687",
-                  "PNL11423",
-                  "PNL10646",
-                  "PNL10459"
-              ]
-          },
-          "pn_chasis": {
-            "PartsOfInterest": [
-                "CHS05558",
-                "CHS07944",
-                "CHS08045",
-                "CHS08045-BK00",
-                "CHS09706",
-                "CHS10005",
-                "CHS10171",
-                "CHS10172",
-                "CHS10320",
-                "CHS10321",
-                "CHS10586",
-                "CHS11182",
-                "CHS11729",
-                "CHS12376",
-                "CHS12642",
-                "CHS12651",
-                "CHS13905",
-                "CHS13913",
-                "CHS13921",
-                "CHS15772",
-                "CHS17195",
-                "CHS17205",
-                "CHS17796",
-                "CHS18240",
-                "CHS18315",
-                "CHS18421-BK",
-                "CHS18421-BU05",
-                "CHS18421-BU1",
-                "CHS18421-WH",
-                "CHS18421-WH1",
-                "CHS18421-YW",
-                "CHS18542-BK",
-                "CHS18542-BU04",
-                "CHS18542-RD01",
-                "CHS18542-WH",
-                "CHS18542-WH1",
-                "CHS19359-BK",
-                "CHS19359-WH",
-                "CHS19526-BK",
-                "CHS71519-BK00",
-                "CHS71519-WH00",
-                "CHS74269-BK",
-                "ENC06600",
-                "ENC07822",
-                "ENC09325",
-                "ENC11287",
-                "ENC11530",
-                "ENC12850",
-                "ENC19390",
-                "ENC19390-WH",
-                "ENC65222",
-                "ENC65222-BK00",
-                "ENC65222-WH00",
-                "MOD06606",
-                "MOD06607",
-                "MOD06608",
-                "MOD06609",
-                "MOD19390",
-                "MOD19390-BK",
-                "MOD19390-WH",
-                "MOD67807",
-                "MOD68441-BK00",
-                "MOD68441-WH00",
-                "MOD69340-BK00",
-                "MOD69340-WH00",
-                "MOD73955-BK00",
-                "MOD74268-BK",
-                "MOD75544-KK-BK00",
-                "MOD75544-KK-WH00",
-                "MOD75544-KS-BK00",
-                "MOD75544-KS-WH00",
-                "MOD75544-SK-BK00",
-                "MOD75544-SK-WH00",
-                "MOD75544-SS-BK00",
-                "MOD75544-SS-WH00",
-                "MOD75671-KK-BK00",
-                "MOD76113",
-                "MOD76114",
-                "MOD76117"
+    "install_base": {
+        "sr_num_validation": {
+            "exact_match_filter": [
+                "qts",
+                "cyrus one"
+            ]
+        },
+        "dict_display_parts": {
+            "pn_logic_tray": {
+                "txt_search": [
+                    "SA"
+                ],
+                "PartsOfInterest": [
+                    "SA00011",
+                    "SA00012",
+                    "SA00013"
+                ]
+            },
+            "pn_door_assembly": {
+                "txt_search": [
+                    "DOR"
+                ],
+                "PartsOfInterest": [
+                    "DOR09240",
+                    "DOR09583",
+                    "DOR09323",
+                    "DOR10653",
+                    "DOR10461"
+                ]
+            },
+            "pn_input_breaker_panel": {
+                "txt_search": [
+                    "PNL"
+                ],
+                "PartsOfInterest": [
+                    "PNL08804",
+                    "PNL08872",
+                    "PNL12362",
+                    "PNL09356",
+                    "PNL09687",
+                    "PNL11423",
+                    "PNL10646",
+                    "PNL10459"
+                ]
+            },
+            "pn_chasis": {
+                "PartsOfInterest": [
+                    "CHS05558",
+                    "CHS07944",
+                    "CHS08045",
+                    "CHS08045-BK00",
+                    "CHS09706",
+                    "CHS10005",
+                    "CHS10171",
+                    "CHS10172",
+                    "CHS10320",
+                    "CHS10321",
+                    "CHS10586",
+                    "CHS11182",
+                    "CHS11729",
+                    "CHS12376",
+                    "CHS12642",
+                    "CHS12651",
+                    "CHS13905",
+                    "CHS13913",
+                    "CHS13921",
+                    "CHS15772",
+                    "CHS17195",
+                    "CHS17205",
+                    "CHS17796",
+                    "CHS18240",
+                    "CHS18315",
+                    "CHS18421-BK",
+                    "CHS18421-BU05",
+                    "CHS18421-BU1",
+                    "CHS18421-WH",
+                    "CHS18421-WH1",
+                    "CHS18421-YW",
+                    "CHS18542-BK",
+                    "CHS18542-BU04",
+                    "CHS18542-RD01",
+                    "CHS18542-WH",
+                    "CHS18542-WH1",
+                    "CHS19359-BK",
+                    "CHS19359-WH",
+                    "CHS19526-BK",
+                    "CHS71519-BK00",
+                    "CHS71519-WH00",
+                    "CHS74269-BK",
+                    "ENC06600",
+                    "ENC07822",
+                    "ENC09325",
+                    "ENC11287",
+                    "ENC11530",
+                    "ENC12850",
+                    "ENC19390",
+                    "ENC19390-WH",
+                    "ENC65222",
+                    "ENC65222-BK00",
+                    "ENC65222-WH00",
+                    "MOD06606",
+                    "MOD06607",
+                    "MOD06608",
+                    "MOD06609",
+                    "MOD19390",
+                    "MOD19390-BK",
+                    "MOD19390-WH",
+                    "MOD67807",
+                    "MOD68441-BK00",
+                    "MOD68441-WH00",
+                    "MOD69340-BK00",
+                    "MOD69340-WH00",
+                    "MOD73955-BK00",
+                    "MOD74268-BK",
+                    "MOD75544-KK-BK00",
+                    "MOD75544-KK-WH00",
+                    "MOD75544-KS-BK00",
+                    "MOD75544-KS-WH00",
+                    "MOD75544-SK-BK00",
+                    "MOD75544-SK-WH00",
+                    "MOD75544-SS-BK00",
+                    "MOD75544-SS-WH00",
+                    "MOD75671-KK-BK00",
+                    "MOD76113",
+                    "MOD76114",
+                    "MOD76117"
+                ]
+            }
+        },
+        "main_breaker_cols": {
+            "export_col_data": [
+                "PartNumber_BOM_BOM",
+                "Input CB",
+                "AMP Trip",
+                "kAIC @ Voltage",
+                "Rated, Trip",
+                "kVA",
+                "MFR"
             ]
         }
-      },
-      "main_breaker_cols": {
-          "export_col_data" : ["PartNumber_BOM_BOM", "Input CB", "AMP Trip", "kAIC @ Voltage", "Rated, Trip", "kVA", "MFR"]
-
-      }
-  },
-  "output_contacts_lead": {
-    "Contracts_dict_format": {
-      "Serial_Number": {
-        "actual_datasoure_name": "SerialNumber",
-        "output_format": "text : upper"
-      },
-      "Source": {
-        "actual_datasoure_name": "Source",
-        "output_format": "text : capitalize each word"
-      },
-      "Date": {
-        "actual_datasoure_name": "Date",
-        "output_format": "date : mm/dd/yyyy"
-      },
-      "Site_Number": {
-        "actual_datasoure_name": "Email__c",
-        "output_format": "text : capitalize each word"
-      },
-      "Site_Name": {
-        "actual_datasoure_name": "Name_of_Company__c",
-        "output_format": "text : capitalize each word"
-      },
-      "Name": {
-        "actual_datasoure_name": "Contact_Name__c",
-        "output_format": "text : capitalize each word"
-      },
-      "Company": {
-        "actual_datasoure_name": "",
-        "output_format": "text : capitalize each word"
-      },
-      "Title": {
-        "actual_datasoure_name": "",
-        "output_format": "text : capitalize each word"
-      },
-      "Email": {
-        "actual_datasoure_name": "Email__c",
-        "output_format": "text : lower"
-      },
-      "Company_Phone": {
-        "actual_datasoure_name": "Company_Phone_Contract",
-        "output_format": "text : lower"
-      },
-      "Fax": {
-        "actual_datasoure_name": "",
-        "output_format": "text : capitalize each word"
-      },
-      "Address1": {
-        "actual_datasoure_name": "Address__c",
-        "output_format": "text : upper"
-      },
-      "Address2": {
-        "actual_datasoure_name": "",
-        "output_format": "text : upper"
-      },
-      "City": {
-        "actual_datasoure_name": "City__c",
-        "output_format": "text : capitalize each word"
-      },
-      "State": {
-        "actual_datasoure_name": "State__c",
-        "output_format": "text : capitalize each word"
-      },
-      "Zipcode": {
-        "actual_datasoure_name": "Zipcode__c",
-        "output_format": "numeric : no_decimal"
-      },
-      "Country": {
-        "actual_datasoure_name": "Country__c",
-        "output_format": "text : capitalize each word"
-      }
     },
-    "PM_dict_format": {
-      "Serial_Number": {
-        "actual_datasoure_name": "SerialNumber",
-        "output_format": "text : upper"
-      },
-      "Source": {
-        "actual_datasoure_name": "Source",
-        "output_format": "text : capitalize each word"
-      },
-      "Date": {
-        "actual_datasoure_name": "Date",
-        "output_format": "date : mm/dd/yyyy"
-      },
-      "Site_Number": {
-        "actual_datasoure_name": "",
-        "output_format": "text : capitalize each word"
-      },
-      "Site_Name": {
-        "actual_datasoure_name": "Name_of_Company__c",
-        "output_format": "text : capitalize each word"
-      },
-      "Name": {
-        "actual_datasoure_name": "PM_Contact__c",
-        "output_format": "text : capitalize each word"
-      },
-      "Company": {
-        "actual_datasoure_name": "",
-        "output_format": "text : capitalize each word"
-      },
-      "Title": {
-        "actual_datasoure_name": "",
-        "output_format": "text : capitalize each word"
-      },
-      "Email": {
-        "actual_datasoure_name": "PM_Email__c",
-        "output_format": "text : lower"
-      },
-      "Company_Phone": {
-        "actual_datasoure_name": "Company_Phone_PM",
-        "output_format": "text : lower"
-      },
-      "Fax": {
-        "actual_datasoure_name": "",
-        "output_format": "text : capitalize each word"
-      },
-      "Address1": {
-        "actual_datasoure_name": "Address__c",
-        "output_format": "text : upper"
-      },
-      "Address2": {
-        "actual_datasoure_name": "",
-        "output_format": "text : upper"
-      },
-      "City": {
-        "actual_datasoure_name": "City__c",
-        "output_format": "text : capitalize each word"
-      },
-      "State": {
-        "actual_datasoure_name": "State__c",
-        "output_format": "text : capitalize each word"
-      },
-      "Zipcode": {
-        "actual_datasoure_name": "Zipcode__c",
-        "output_format": "numeric : no_decimal"
-      },
-      "Country": {
-        "actual_datasoure_name": "Country__c",
-        "output_format": "text : capitalize each word"
-      }
-    },
-    "Renewal_dict_format": {
-      "Serial_Number": {
-        "actual_datasoure_name": "SerialNumber",
-        "output_format": "text : upper"
-      },
-      "Source": {
-        "actual_datasoure_name": "Source",
-        "output_format": "text : capitalize each word"
-      },
-      "Date": {
-        "actual_datasoure_name": "Date",
-        "output_format": "date : mm/dd/yyyy"
-      },
-      "Site_Number": {
-        "actual_datasoure_name": "",
-        "output_format": "text : capitalize each word"
-      },
-      "Site_Name": {
-        "actual_datasoure_name": "Name_of_Company__c",
-        "output_format": "text : capitalize each word"
-      },
-      "Name": {
-        "actual_datasoure_name": "Renewal_Contact__c",
-        "output_format": "text : capitalize each word"
-      },
-      "Company": {
-        "actual_datasoure_name": "",
-        "output_format": "text : capitalize each word"
-      },
-      "Title": {
-        "actual_datasoure_name": "",
-        "output_format": "text : capitalize each word"
-      },
-      "Email": {
-        "actual_datasoure_name": "Renewal_Email__c",
-        "output_format": "text : lower"
-      },
-      "Company_Phone": {
-        "actual_datasoure_name": "Company_Phone_renewal",
-        "output_format": "text : lower"
-      },
-      "Fax": {
-        "actual_datasoure_name": "",
-        "output_format": "text : capitalize each word"
-      },
-      "Address1": {
-        "actual_datasoure_name": "Address__c",
-        "output_format": "text : upper"
-      },
-      "Address2": {
-        "actual_datasoure_name": "",
-        "output_format": "text : upper"
-      },
-      "City": {
-        "actual_datasoure_name": "City__c",
-        "output_format": "text : capitalize each word"
-      },
-      "State": {
-        "actual_datasoure_name": "State__c",
-        "output_format": "text : capitalize each word"
-      },
-      "Zipcode": {
-        "actual_datasoure_name": "Zipcode__c",
-        "output_format": "numeric : no_decimal"
-      },
-      "Country": {
-        "actual_datasoure_name": "Country__c",
-        "output_format": "text : capitalize each word"
-      }
+    "output_contacts_lead": {
+        "Contracts_dict_format": {
+            "Serial_Number": {
+                "actual_datasoure_name": "SerialNumber",
+                "output_format": "text : upper"
+            },
+            "Source": {
+                "actual_datasoure_name": "Source",
+                "output_format": "text : capitalize each word"
+            },
+            "Date": {
+                "actual_datasoure_name": "Date",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "Site_Number": {
+                "actual_datasoure_name": "Email__c",
+                "output_format": "text : capitalize each word"
+            },
+            "Site_Name": {
+                "actual_datasoure_name": "Name_of_Company__c",
+                "output_format": "text : capitalize each word"
+            },
+            "Name": {
+                "actual_datasoure_name": "Contact_Name__c",
+                "output_format": "text : capitalize each word"
+            },
+            "Company": {
+                "actual_datasoure_name": "",
+                "output_format": "text : capitalize each word"
+            },
+            "Title": {
+                "actual_datasoure_name": "",
+                "output_format": "text : capitalize each word"
+            },
+            "Email": {
+                "actual_datasoure_name": "Email__c",
+                "output_format": "text : lower"
+            },
+            "Company_Phone": {
+                "actual_datasoure_name": "Company_Phone_Contract",
+                "output_format": "text : lower"
+            },
+            "Fax": {
+                "actual_datasoure_name": "",
+                "output_format": "text : capitalize each word"
+            },
+            "Address1": {
+                "actual_datasoure_name": "Address__c",
+                "output_format": "text : upper"
+            },
+            "Address2": {
+                "actual_datasoure_name": "",
+                "output_format": "text : upper"
+            },
+            "City": {
+                "actual_datasoure_name": "City__c",
+                "output_format": "text : capitalize each word"
+            },
+            "State": {
+                "actual_datasoure_name": "State__c",
+                "output_format": "text : capitalize each word"
+            },
+            "Zipcode": {
+                "actual_datasoure_name": "Zipcode__c",
+                "output_format": "numeric : no_decimal"
+            },
+            "Country": {
+                "actual_datasoure_name": "Country__c",
+                "output_format": "text : capitalize each word"
+            }
+        },
+        "PM_dict_format": {
+            "Serial_Number": {
+                "actual_datasoure_name": "SerialNumber",
+                "output_format": "text : upper"
+            },
+            "Source": {
+                "actual_datasoure_name": "Source",
+                "output_format": "text : capitalize each word"
+            },
+            "Date": {
+                "actual_datasoure_name": "Date",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "Site_Number": {
+                "actual_datasoure_name": "",
+                "output_format": "text : capitalize each word"
+            },
+            "Site_Name": {
+                "actual_datasoure_name": "Name_of_Company__c",
+                "output_format": "text : capitalize each word"
+            },
+            "Name": {
+                "actual_datasoure_name": "PM_Contact__c",
+                "output_format": "text : capitalize each word"
+            },
+            "Company": {
+                "actual_datasoure_name": "",
+                "output_format": "text : capitalize each word"
+            },
+            "Title": {
+                "actual_datasoure_name": "",
+                "output_format": "text : capitalize each word"
+            },
+            "Email": {
+                "actual_datasoure_name": "PM_Email__c",
+                "output_format": "text : lower"
+            },
+            "Company_Phone": {
+                "actual_datasoure_name": "Company_Phone_PM",
+                "output_format": "text : lower"
+            },
+            "Fax": {
+                "actual_datasoure_name": "",
+                "output_format": "text : capitalize each word"
+            },
+            "Address1": {
+                "actual_datasoure_name": "Address__c",
+                "output_format": "text : upper"
+            },
+            "Address2": {
+                "actual_datasoure_name": "",
+                "output_format": "text : upper"
+            },
+            "City": {
+                "actual_datasoure_name": "City__c",
+                "output_format": "text : capitalize each word"
+            },
+            "State": {
+                "actual_datasoure_name": "State__c",
+                "output_format": "text : capitalize each word"
+            },
+            "Zipcode": {
+                "actual_datasoure_name": "Zipcode__c",
+                "output_format": "numeric : no_decimal"
+            },
+            "Country": {
+                "actual_datasoure_name": "Country__c",
+                "output_format": "text : capitalize each word"
+            }
+        },
+        "Renewal_dict_format": {
+            "Serial_Number": {
+                "actual_datasoure_name": "SerialNumber",
+                "output_format": "text : upper"
+            },
+            "Source": {
+                "actual_datasoure_name": "Source",
+                "output_format": "text : capitalize each word"
+            },
+            "Date": {
+                "actual_datasoure_name": "Date",
+                "output_format": "date : mm/dd/yyyy"
+            },
+            "Site_Number": {
+                "actual_datasoure_name": "",
+                "output_format": "text : capitalize each word"
+            },
+            "Site_Name": {
+                "actual_datasoure_name": "Name_of_Company__c",
+                "output_format": "text : capitalize each word"
+            },
+            "Name": {
+                "actual_datasoure_name": "Renewal_Contact__c",
+                "output_format": "text : capitalize each word"
+            },
+            "Company": {
+                "actual_datasoure_name": "",
+                "output_format": "text : capitalize each word"
+            },
+            "Title": {
+                "actual_datasoure_name": "",
+                "output_format": "text : capitalize each word"
+            },
+            "Email": {
+                "actual_datasoure_name": "Renewal_Email__c",
+                "output_format": "text : lower"
+            },
+            "Company_Phone": {
+                "actual_datasoure_name": "Company_Phone_renewal",
+                "output_format": "text : lower"
+            },
+            "Fax": {
+                "actual_datasoure_name": "",
+                "output_format": "text : capitalize each word"
+            },
+            "Address1": {
+                "actual_datasoure_name": "Address__c",
+                "output_format": "text : upper"
+            },
+            "Address2": {
+                "actual_datasoure_name": "",
+                "output_format": "text : upper"
+            },
+            "City": {
+                "actual_datasoure_name": "City__c",
+                "output_format": "text : capitalize each word"
+            },
+            "State": {
+                "actual_datasoure_name": "State__c",
+                "output_format": "text : capitalize each word"
+            },
+            "Zipcode": {
+                "actual_datasoure_name": "Zipcode__c",
+                "output_format": "numeric : no_decimal"
+            },
+            "Country": {
+                "actual_datasoure_name": "Country__c",
+                "output_format": "text : capitalize each word"
+            }
+        }
     }
-  }
 }
