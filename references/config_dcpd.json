@@ -139,7 +139,7 @@
                   "input_date_format": ""
               },
               "SOStatus": {
-                  "actual_datasoure_name": "Sales Order Status",
+                  "actual_datasoure_name": "Item Status",
                   "data_type": "text",
                   "is_nullable": 1.0,
                   "output_format": "text : capitalize each word",
