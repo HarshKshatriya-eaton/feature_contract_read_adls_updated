@@ -981,7 +981,7 @@
                 "output_format": "text : upper"
             },
             "Product_Name": {
-                "actual_datasoure_name": "Product_M2M_Org",
+                "actual_datasoure_name": "product_prodclass",
                 "output_format": "text : upper"
             },
             "Install_Date": {

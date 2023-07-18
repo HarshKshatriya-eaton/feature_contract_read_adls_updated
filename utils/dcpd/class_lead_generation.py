@@ -15,6 +15,9 @@ here on. This technical information may not be reproduced or used without
 direct written permission from Eaton Corporation.
 """
 
+import os
+os.chdir("C:/Users/E9780837/OneDrive - Eaton/Desktop/git_iLead/ileads_lead_generation")
+
 
 import numpy as np
 import pandas as pd
@@ -492,6 +495,7 @@ class LeadGeneration:
             ls_cols = ['Job_Index', 'InstallDate', 'Product_M2M', 'SerialNumber_M2M']
             if type_ == 'lead_id':
                 key = 'Job_Index'
+
                 if 'InstallDate' not in df_install.columns:
                     df_install['InstallDate'] = df_install['startup_date']. \
                         fillna(df_install['ShipmentDate'])
@@ -501,7 +505,7 @@ class LeadGeneration:
                     df_install['InstallDate'] = df_install['startup_date']. \
                         fillna(df_install['InstallDate'])
 
-                df_install['Product_M2M'] = df_install['Product_M2M'].str.lower()
+                df_install['Product_M2M'] = df_install['product_prodclass'].str.lower() #Product_M2M
                 # df_install = df_install.drop_duplicates(subset=['Job_Index'])
 
             elif type_ == 'meta_data':
