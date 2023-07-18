@@ -882,7 +882,7 @@
             },
             "BillTo_State": {
                 "actual_datasoure_name": "BillingState",
-                "output_format": "text : capitalize each word"
+                "output_format": "text : upper"
             },
             "BillTo_PostalCode": {
                 "actual_datasoure_name": "BillingPostalCode",
@@ -904,7 +904,7 @@
             },
             "Component": {
                 "actual_datasoure_name": "Component",
-                "output_format": "text : capitalize each word"
+                "output_format": ""
             },
             "Source": {
                 "actual_datasoure_name": "source",
@@ -972,7 +972,7 @@
             },
             "Lead_Type": {
                 "actual_datasoure_name": "lead_type",
-                "output_format": "text : capitalize each word"
+                "output_format": ""
             }
         },
         "ref_install_base": {
@@ -1026,7 +1026,7 @@
             },
             "Ship_To_State": {
                 "actual_datasoure_name": "ShipTo_State",
-                "output_format": "text : capitalize each word"
+                "output_format": "text : upper"
             },
             "Ship_To_Postal_Code": {
                 "actual_datasoure_name": "ShipTo_Zip",
@@ -1046,7 +1046,7 @@
             },
             "Contract_Coverage": {
                 "actual_datasoure_name": "Service_Plan",
-                "output_format": ""
+                "output_format": "text : capitalize each word"
             },
             "Contract_Coverage_Description": {
                 "actual_datasoure_name": "",
@@ -1222,7 +1222,7 @@
             },
             "Billing_State": {
                 "actual_datasoure_name": "BillingState",
-                "output_format": "text : capitalize each word"
+                "output_format": "text : upper"
             },
             "Billing_Postal_Code": {
                 "actual_datasoure_name": "BillingPostalCode",
@@ -1246,7 +1246,7 @@
             },
             "Sold_To_State": {
                 "actual_datasoure_name": "SoldTo_State",
-                "output_format": "text : capitalize each word"
+                "output_format": "text : upper"
             },
             "Sold_To_Postal_Code": {
                 "actual_datasoure_name": "SoldTo_Zip",
@@ -1270,7 +1270,7 @@
             },
             "Startup_State": {
                 "actual_datasoure_name": "StartupState",
-                "output_format": ""
+                "output_format": "text : upper"
             },
             "Startup_PostalCode": {
                 "actual_datasoure_name": "StartupPostalCode",
@@ -1282,7 +1282,7 @@
             },
             "pn_logic_tray": {
                 "actual_datasoure_name": "pn_logic_tray",
-                "output_format": ""
+                "output_format": "text : upper"
             },
             "is_valid_logic_tray_lead": {
                 "actual_datasoure_name": "is_valid_logic_tray_lead",
@@ -1290,7 +1290,7 @@
             },
             "pn_door_assembly": {
                 "actual_datasoure_name": "pn_door_assembly",
-                "output_format": ""
+                "output_format": "text : upper"
             },
             "is_valid_door_assembly_lead": {
                 "actual_datasoure_name": "is_valid_door_assembly_lead",
@@ -1298,7 +1298,7 @@
             },
             "pn_input_breaker_panel": {
                 "actual_datasoure_name": "pn_input_breaker_panel",
-                "output_format": ""
+                "output_format": "text : upper"
             },
             "is_valid_input_breaker_panel_lead": {
                 "actual_datasoure_name": "is_valid_input_breaker_panel_lead",
@@ -1306,7 +1306,7 @@
             },
             "pn_chasis": {
                 "actual_datasoure_name": "pn_chasis",
-                "output_format": ""
+                "output_format": "text : upper"
             },
             "is_valid_chasis_lead": {
                 "actual_datasoure_name": "is_valid_chasis_lead",
