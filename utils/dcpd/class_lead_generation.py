@@ -15,10 +15,6 @@ here on. This technical information may not be reproduced or used without
 direct written permission from Eaton Corporation.
 """
 
-import os
-os.chdir("C:/Users/E9780837/OneDrive - Eaton/Desktop/git_iLead/ileads_lead_generation")
-
-
 import numpy as np
 import pandas as pd
 import traceback
@@ -50,16 +46,19 @@ class LeadGeneration:
         _step = 'Read Merged Contracts and Install Base data'
         try:
             df_install = self.pipeline_contract_install()
+            logger.app_success(f"***** {df_install.SerialNumber_M2M.nunique()} *****")
             logger.app_success(_step)
 
             # ***** PreProcess BOM data *****
             _step = 'Process BOM data and identify leads'
             # Read Data
             df_leads = self.pipeline_bom_identify_lead(df_install)
+            logger.app_success(f"***** {df_leads.SerialNumber_M2M.nunique()} *****")
             logger.app_success(_step)
 
             _step = 'Merge data: Install and BOM'
             df_leads = self.pipeline_merge(df_leads, df_install, 'meta_data')
+            logger.app_success(f"***** {df_leads.SerialNumber_M2M.nunique()} *****")
             logger.app_success(_step)
 
             _step = 'Adding JCOMM and Sidecar Fields to Lead Generation Data'
@@ -354,7 +353,6 @@ class LeadGeneration:
                                              })
             input_format = self.config['database']['bom']['Dictionary Format']
             df_bom = self.format.format_data(df_bom, input_format)
-            # df_bom = read_data(db='bom', type_='data', sep='\t')
 
             # Merge raw bom data with processed_merge_contract_install dataframe
             _step = 'Merge data: Install and BOM'
@@ -500,13 +498,12 @@ class LeadGeneration:
                     df_install['InstallDate'] = df_install['startup_date']. \
                         fillna(df_install['ShipmentDate'])
 
-                    # df_install['InstallDate'] = df_install['ShipmentDate'].copy()
                 else:
                     df_install['InstallDate'] = df_install['startup_date']. \
                         fillna(df_install['InstallDate'])
 
-                df_install['Product_M2M'] = df_install['product_prodclass'].str.lower() #Product_M2M
-                # df_install = df_install.drop_duplicates(subset=['Job_Index'])
+                #Product_M2M : change request by stephen on 17 July, 23.
+                df_install['Product_M2M'] = df_install['product_prodclass'].str.lower()
 
             elif type_ == 'meta_data':
                 key = 'SerialNumber_M2M'
@@ -514,7 +511,9 @@ class LeadGeneration:
                 ls_cols = ls_cols + ['SerialNumber_M2M']
                 ls_cols.remove('SerialNumber')
 
-            df_out = df_bom.merge(df_install[ls_cols], on=key, how='inner')
+            # Changed join from "inner" to "right" on 19th July 23 (Bug CIPILEADS-533)
+            df_out = df_bom.merge(df_install[ls_cols], on=key, how='right')
+
         except Exception as e:
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception from e
