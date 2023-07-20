@@ -277,7 +277,9 @@ class Format:
                     form_ = form_.replace('numeric : ', '')
                     form_ = pd.to_numeric(form_)
                 df_out[col] = df_data[name_].round(decimals=form_)
-            df_out[col] = df_data[name_].fillna('')
+
+            if "text" in form_:
+                df_out[col] = df_out[col].fillna('')
 
 
         return df_out
