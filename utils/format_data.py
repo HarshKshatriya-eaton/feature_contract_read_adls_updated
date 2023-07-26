@@ -278,7 +278,7 @@ class Format:
                     form_ = pd.to_numeric(form_)
                 df_out[col] = df_data[name_].round(decimals=form_)
 
-            if "text" in form_:
+            if "text" in str(form_):
                 df_out[col] = df_out[col].fillna('')
 
 
