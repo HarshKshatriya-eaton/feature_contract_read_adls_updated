@@ -801,8 +801,6 @@ class InstallBase:
                 ls_parts_of_interest = dict_display_parts[col_name_out]['PartsOfInterest']
                 ls_parts_of_interest = [str.lower(txt) for txt in ls_parts_of_interest]
 
-                print(ls_parts_of_interest)
-
                 df_sub_1 = df_sub.copy()
                 df_sub_1['can_raise_lead'] = df_sub['PartNumber_BOM_BOM'].isin(ls_parts_of_interest)
                 df_sub_1 = df_sub_1.groupby('Job_Index')['can_raise_lead'].apply(
