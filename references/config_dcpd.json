@@ -41,7 +41,8 @@
             "lead_opportunities": "ref_lead_opportunities.csv",
             "product_class": "ref_product_class.csv",
             "decode_sr_num": "ref_decode_serialnumber.csv",
-            "ref_sheet_pdi": "ref_sheet_pdi.csv"
+            "ref_sheet_pdi": "ref_sheet_pdi.csv",
+            "area_region": "ref_state_region.csv"
         },
         "Processed": {
             "customer": {
@@ -997,12 +998,12 @@
                 "output_format": ""
             },
             "CSE_Area": {
-                "actual_datasoure_name": "",
-                "output_format": "text : upper"
+                "actual_datasoure_name": "CSE Area",
+                "output_format": ""
             },
             "Region": {
-                "actual_datasoure_name": "",
-                "output_format": "text : capitalize each word"
+                "actual_datasoure_name": "Region",
+                "output_format": ""
             },
             "Party_Site_Number": {
                 "actual_datasoure_name": "",

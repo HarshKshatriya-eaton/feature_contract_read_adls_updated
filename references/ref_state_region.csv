@@ -1,0 +1,52 @@
+﻿State,Abreviation,Region,CSE Area
+Alabama,AL,Southeast,SE7
+Alaska,AK,West,WE1
+Arizona,AZ,West,WE1
+Arkansas,AR,Gulf,CE3
+California,CA,West,WE2
+Colorado,CO,West,WE1
+Connecticut,CT,Northeast,NE9
+Delaware,DE,Northeast,NE8
+District of Columbia,DC,Northeast,NE8
+Florida,FL,Southeast,SE7
+Georgia,GA,Southeast,SE7
+Hawaii,HI,West,WE2
+Idaho,ID,West,WE1
+Illinois,IL,Central East,CE4
+Indiana,IN,Central East,CE4
+Iowa,IA,Central West,CE3
+Kansas,KS,Central East,CE3
+Kentucky,KY,Southeast,CE5
+Louisiana,LA,Gulf,SE6
+Maine,ME,Northeast,NE9
+Maryland,MD,Northeast,NE8
+Massachusetts,MA,Northeast,NE9
+Michigan,MI,Central East,CE5
+Minnesota,MN,Central West,CE4
+Mississippi,MS,Southeast,SE7
+Missouri,MO,Central West,CE3
+Montana,MT,West,WE1
+Nebraska,NE,Central West,CE3
+Nevada,NV,West,WE2
+New Hampshire,NH,Northeast,NE9
+New Jersey,NJ,Northeast,NE9
+New Mexico,NM,Gulf,WE1
+New York,NY,Northeast,NE9
+North Carolina,NC,Southeast,CE5
+North Dakota,ND,Central West,CE3
+Ohio,OH,Central East,CE5
+Oklahoma,OK,Gulf,CE3
+Oregon,OR,West,WE1
+Pennsylvania,PA,Northeast,NE8
+Rhode Island,RI,Northeast,NE9
+South Carolina,SC,Southeast,SE7
+South Dakota,SD,Central West,CE3
+Tennessee,TN,Southeast,CE5
+Texas,TX,Gulf,SE6
+Utah,UT,West,WE1
+Vermont,VT,Northeast,NE9
+Virginia,VA,Northeast,NE8
+Washington,WA,West,WE1
+West Virginia,WV,Northeast,NE8
+Wisconsin,WI,Central East,CE4
+Wyoming,WY,West,WE1
