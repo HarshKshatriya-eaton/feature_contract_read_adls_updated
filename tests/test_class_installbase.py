@@ -957,7 +957,18 @@ class TestFilterProductClass:
                 'Total_Quantity': [2.00, 80.00, 6.00, 6.00, 6.00, 28.00]
             }
 
-        expected_op = {'Job_Index': ['01322-0000', '01422-0000', '29612-0000', '12033-0000', '32892-0000', '32895-02440'], 'pn_logic_tray': [np.nan, np.nan, np.nan, np.nan, np.nan, np.nan], 'is_valid_logic_tray_lead': [np.nan, np.nan, np.nan, np.nan, np.nan, np.nan], 'pn_door_assembly': [np.nan, np.nan, np.nan, 'dor08880', np.nan, 'dor09240'], 'is_valid_door_assembly_lead': [np.nan, np.nan, np.nan, 0.0, np.nan, 1.0], 'pn_input_breaker_panel': [np.nan, 'pnl08804', np.nan, np.nan, np.nan, np.nan], 'is_valid_input_breaker_panel_lead': [np.nan, 1.0, np.nan, np.nan, np.nan, np.nan]}
+        expected_op = {
+            'Job_Index': ['01322-0000', '01422-0000', '29612-0000', '12033-0000', '32892-0000', '32895-02440'],
+            'pn_logic_tray': [np.nan, np.nan, np.nan, np.nan, np.nan, np.nan],
+            'is_valid_logic_tray_lead': [np.nan, np.nan, np.nan, np.nan, np.nan, np.nan],
+            'pn_door_assembly': [np.nan, np.nan, np.nan, '(# Other Parts: 1)', np.nan, 'DOR09240'],
+            'is_valid_door_assembly_lead': [np.nan, np.nan, np.nan, 0.0, np.nan, 1.0],
+            'pn_input_breaker_panel': [np.nan, 'PNL08804', np.nan, np.nan, np.nan, np.nan],
+            'is_valid_input_breaker_panel_lead': [np.nan, 1.0, np.nan, np.nan, np.nan, np.nan],
+            'pn_chasis': ['(# Other Parts: 1)']*6,
+            'is_valid_chasis_lead': [0]*6
+            }
+
         expected_df = pd.DataFrame(expected_op)
         df_org = pd.DataFrame(data)
         df_out = obj_install_base.id_display_parts(df_org)

@@ -1,4 +1,5 @@
-"""@file class_installbase.py.
+"""
+@file class_installbase.py.
 
 @brief This module process below M2M Data:
     -Shipment Data
@@ -782,6 +783,8 @@ class InstallBase:
             df_out = df_data[['Job_Index']].drop_duplicates()
 
             for col_name_out in dict_display_parts:
+                # col_name_out =  list(dict_display_parts.keys())[0]
+
                 if 'txt_search' in dict_display_parts[col_name_out].keys():
                     part_num_keys = dict_display_parts[col_name_out]['txt_search']
                     part_num_keys = [item.lower() for item in part_num_keys]
@@ -794,6 +797,7 @@ class InstallBase:
                 else:
                     df_sub = df_data
 
+
                 ls_parts_of_interest = dict_display_parts[col_name_out]['PartsOfInterest']
                 ls_parts_of_interest = [str.lower(txt) for txt in ls_parts_of_interest]
 
@@ -804,9 +808,14 @@ class InstallBase:
                 df_sub_1 = df_sub_1.rename(
                     columns={'can_raise_lead': f'is_valid_{col_name_out.replace("pn_", "")}_lead'})
 
+                df_sub['can_raise_lead'] = df_sub['PartNumber_BOM_BOM'].isin(
+                    ls_parts_of_interest)
+
                 df_sub = df_sub.groupby('Job_Index')['PartNumber_BOM_BOM'].apply(
-                    ', '.join).reset_index()
+                    lambda x: self.summarize_part_num(x, ls_parts_of_interest)).reset_index()
+
                 df_sub = df_sub.rename(columns={'PartNumber_BOM_BOM': col_name_out})
+
                 df_sub = df_sub.merge(df_sub_1, on='Job_Index', how='left')
 
                 df_out = df_out.merge(df_sub, on='Job_Index', how='left')
@@ -816,6 +825,31 @@ class InstallBase:
             logger.app_info("failed in ")
             raise Exception from e
 
+    def summarize_part_num(self, part_list, list_of_interest):
+        """
+        Summarize part numbers for a JonIndex.
+
+        :param part_list: list of PartNumbers in a product.
+        :type part_list: list
+        :param list_of_interest: list of part number of interest.
+        :type list_of_interest: list
+        :return: Output format PartNumber of interest (other PartNumbers)
+        :rtype: string
+
+        """
+        part_list = list(np.unique(part_list))
+
+        ls_present = [str.upper(pn) for pn in part_list if (pn in list_of_interest)]
+        other_parts = len(part_list) - len(ls_present)
+
+        if other_parts < 0:
+            print(other_parts, "Part list: ", part_list, "\nParts of interest:", list_of_interest)
+
+        out = "" if len(ls_present)==0 else (", ".join(ls_present))
+        sep = "" if len(out) == 0 else " "
+        out += "" if other_parts==0 else (sep + "(# Other Parts: " + str(other_parts) + ")")
+
+        return out
 
 # %% *** Call ***
 

@@ -14,11 +14,17 @@ and majorly on a reference leads data as input and generates the leads for custo
 here on. This technical information may not be reproduced or used without
 direct written permission from Eaton Corporation.
 """
-
+import os
 import numpy as np
 import pandas as pd
 import traceback
 from string import punctuation
+
+path = os.getcwd()
+path = os.path.join(path.split('ileads_lead_generation')[0],
+                    'ileads_lead_generation')
+os.chdir(path)
+
 from utils.dcpd.class_business_logic import BusinessLogic
 from utils.dcpd.class_serial_number import SerialNumber
 from utils.format_data import Format
@@ -61,23 +67,21 @@ class LeadGeneration:
             logger.app_success(f"***** {df_leads.SerialNumber_M2M.nunique()} *****")
             logger.app_success(_step)
 
+            # Service data
             _step = 'Adding JCOMM and Sidecar Fields to Lead Generation Data'
-
             df_leads = self.pipeline_add_jcomm_sidecar(df_leads)
-
             logger.app_success(_step)
 
+            # Post Process : Leads
             _step = 'Post Process output before formatting to calculate standard offering.'
-
             df_leads = self.post_proecess_leads(df_leads)
-
             logger.app_success(_step)
 
             _step = "Post Processing and Deriving columns on output iLeads"
             df_leads = self.post_process_output_ilead(df_leads)
-
             logger.app_success(_step)
 
+            # Post Process : InstallBase
             _step = "Post Processing and Deriving columns on reference install leads"
             df_leads = self.post_process_ref_install(df_leads)
 
@@ -205,9 +209,10 @@ class LeadGeneration:
             current_date = pd.Timestamp.now().normalize()
 
             # Create the 'is_under_contract' column based on conditions
-            ref_install['is_under_contract'] = (pd.to_datetime(ref_install['Contract_Expiration_Date'],
-                                                               errors='coerce') >= current_date
-                                                ) & ~(ref_install['Contract_Expiration_Date'].isna())
+            ref_install['is_under_contract'] = (
+                pd.to_datetime(ref_install['Contract_Expiration_Date'],
+                               errors='coerce') >= current_date
+                ) & ~(ref_install['Contract_Expiration_Date'].isna())
 
             logger.app_success(_step)
 
@@ -218,6 +223,23 @@ class LeadGeneration:
             ref_install.loc[:, 'flag_decommissioned'] = False
             ref_install.loc[:, 'flag_prior_lead'] = False
             ref_install.loc[:, 'flag_prior_service_lead'] = False
+
+            # Area
+            ref_area = IO.read_csv(
+                self.mode, {
+                    'file_dir': self.config['file']['dir_ref'],
+                    'file_name': self.config['file']['Reference']['area_region']
+                    })
+
+            ref_install['Key_region'] =  ref_install['StartupState'].copy()
+            ref_install.loc[
+                pd.isna(ref_install['Key_region']), 'Key_region'] = ref_install['ShipTo_State']
+
+            ref_area.Abreviation = ref_area.Abreviation.str.lower()
+            ref_install = ref_install.merge(
+                ref_area[['Abreviation',"Region",'CSE Area']],
+                left_on='Key_region', right_on='Abreviation', how="left")
+            del ref_install['Key_region']
 
             return ref_install
         except Exception as e:
