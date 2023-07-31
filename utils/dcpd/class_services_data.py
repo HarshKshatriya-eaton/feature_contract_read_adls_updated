@@ -26,6 +26,12 @@ import re
 import os
 import pandas as pd
 import numpy as np
+
+path = os.getcwd()
+path = os.path.join(path.split('ileads_lead_generation')[0],
+                    'ileads_lead_generation')
+os.chdir(path)
+
 from utils import AppLogger
 from utils import IO
 from utils import Filter

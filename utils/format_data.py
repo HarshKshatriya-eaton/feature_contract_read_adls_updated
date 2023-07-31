@@ -277,6 +277,10 @@ class Format:
                     form_ = form_.replace('numeric : ', '')
                     form_ = pd.to_numeric(form_)
                 df_out[col] = df_data[name_].round(decimals=form_)
+            elif form_ == 'bool : 0/1':
+                df_out[col] = df_data[name_]
+            else:
+                logger.app_info(f"Unknown format: {form_}")
 
             if ("text" in str(form_)) | (form_ == ""):
                 df_out[col] = df_out[col].fillna('')

@@ -842,9 +842,6 @@ class InstallBase:
         ls_present = [str.upper(pn) for pn in part_list if (pn in list_of_interest)]
         other_parts = len(part_list) - len(ls_present)
 
-        if other_parts < 0:
-            print(other_parts, "Part list: ", part_list, "\nParts of interest:", list_of_interest)
-
         out = "" if len(ls_present)==0 else (", ".join(ls_present))
         sep = "" if len(out) == 0 else " "
         out += "" if other_parts==0 else (sep + "(# Other Parts: " + str(other_parts) + ")")

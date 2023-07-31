@@ -944,7 +944,7 @@
                 "output_format": "text : capitalize each word"
             },
             "flag_raise_lead": {
-                "actual_datasoure_name": "flag_std_offer",
+                "actual_datasoure_name": "",
                 "output_format": "bool : 0/1"
             },
             "is_standard_offering": {
@@ -1047,6 +1047,10 @@
             },
             "Contract_Coverage": {
                 "actual_datasoure_name": "Service_Plan",
+                "output_format": "text : capitalize each word"
+            },
+            "Eaton_ContractType": {
+                "actual_datasoure_name": "Eaton_ContractType",
                 "output_format": "text : capitalize each word"
             },
             "Contract_Coverage_Description": {
