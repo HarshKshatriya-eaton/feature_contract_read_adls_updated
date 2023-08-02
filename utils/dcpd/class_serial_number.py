@@ -404,11 +404,13 @@ class SerialNumber:
                     int(dict_data['ix_beg']), int(dict_data['ix_end'])+1)
 
             if dict_data['type'] == 'alpha':
+                filter_size = 100
                 count_sr = (
                     (self.identify_index(dict_data['ix_end']) -
                      self.identify_index(dict_data['ix_beg'])) + 1)
-                rge_sr_num = self.letter_range(
-                    dict_data['ix_beg'], count_sr)
+                if count_sr < filter_size:          # BugFix: Consider the expansion where count is not greater than size
+                    rge_sr_num = self.letter_range(
+                        dict_data['ix_beg'], count_sr)
 
             ls_srnum = [(dict_data['pre_fix'] + str(ix_sr) +
                         dict_data['post_fix']) for ix_sr in rge_sr_num]
