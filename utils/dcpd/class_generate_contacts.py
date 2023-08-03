@@ -18,30 +18,40 @@ direct written permission from Eaton Corporation.
 
 # %% ***** Setup Environment *****
 # import all required modules
-
+import traceback
+import pandas as pd
+from utils import IO
+from utils import AppLogger
+from utils.format_data import Format
+from utils.dcpd import Contract
+from utils.class_iLead_contact import ilead_contact
+from utils.filter_data import Filter
 import os
+import numpy as np
 
 path = os.getcwd()
 path = os.path.join(path.split('ileads_lead_generation')[0],
                     'ileads_lead_generation')
 os.chdir(path)
 
-import traceback
-import pandas as pd
-from utils import IO
-from utils import AppLogger
-from utils.format_data import Format
 
+contractObj = Contract()
+gc = ilead_contact()
+filter_ = Filter()
 logger = AppLogger(__name__)
 
+# %% Generate Contacts
 
 class Contacts:
     """Class will extract and process contract data and processed data."""
 
     def __init__(self, mode='local'):
-        """Initialise environment variables, class instance and variables used
-        throughout the modules."""
+        """
+        Initialise environment variables, class instance and variables.
 
+        :param mode: DESCRIPTION, defaults to 'local'
+        :type mode: sttring, optional
+        """
         # class instance
         self.format = Format()
         self.mode = mode
@@ -53,12 +63,180 @@ class Contacts:
         # steps
         self.contact_contracts = 'generate contract'
 
-    def generate_contacts(self, ref_data=None, sr_num_data=None):
+        # Read reference data
+        _step = 'Read reference files'
+
+        file_dir = {
+            'file_dir': self.config['file']['dir_ref'],
+            'file_name': self.config['file']['Reference']['contact_type']}
+        ref_df = IO.read_csv(self.mode, file_dir)
+        self.ref_df = gc.format_reference_file(ref_df)
+
+        logger.app_success(_step)
+
+    def pipeline_contact(self):
+        """
+        Pipeline for extracting contacts from multiple sources.
+
+        :return: DESCRIPTION
+        :rtype: TYPE
+
+        """
+        try:
+            # Generate Contact:
+            _step = "Generate contact"
+            df_con = self.deploy_across_sources()
+            logger.app_success(_step)
+
+            # Export results
+            _step = "Export results"
+
+            IO.write_csv(
+                self.mode,
+                {'file_dir': self.config['file']['dir_results'],
+                 'file_name': self.config['file']['Processed']['output_iLead_contact']['file_name']
+                 }, df_con)
+
+            logger.app_success(_step)
+
+        except Exception as excp:
+            logger.app_fail(self.contact_contracts, f"{traceback.print_exc()}")
+            raise ValueError from excp
+
+        return "successfull !"
+
+    def deploy_across_sources(self):
+
+        dict_sources = {
+            'services': True,
+            'contracts': True
+        }
+
+        df_out = pd.DataFrame()
+        for src in dict_sources:
+            # src = list(dict_sources.keys())[0]
+            f_analyze = dict_sources[src]
+
+            if f_analyze:
+                df_data = self.generate_contacts(src)
+                df_out = pd.concat([df_out, df_data])
+
+                del df_data
+
+        return df_out
+
+    def generate_contacts(self, src):
+
+        # Read raw data
+        file_dir = {'file_dir': self.config['file']['dir_data'],
+                    'file_name': self.config['file']['Raw'][src]['file_name']}
+        df_data = IO.read_csv(self.mode, file_dir)
+        del file_dir
+
+        ls_dict = [src]
+        ls_dict += ["PM", "Renewal"] if src == "contracts" else []
+
+        df_results = pd.DataFrame()
+        for dict_src in ls_dict:
+            #  dict_src = ls_dict[0]
+            logger.app_info(dict_src, level=0)
+
+            # dict_contact
+            dict_contact = self.config['output_contacts_lead'][dict_src]
+
+            # exception handling
+            df_data, dict_updated = self.exception_src(
+                dict_src, df_data, dict_contact)
+
+            # prep data
+            df_data, dict_updated = self.prep_data(df_data, dict_contact)
+            del dict_contact
+
+            # Generate contact
+            df_contact = gc.create_contact(
+                df_data, dict_updated, dict_src,
+                f_form_date=False, ref_df_all=self.ref_df)
+
+            # Concat outputs
+            df_results = pd.concat([df_results, df_contact])
+            del df_contact
+
+            # Postprocess data
+            ls_col_drop = [(col) for col in df_data.columns if col.startswith("nc_")]
+            if len(ls_col_drop) > 0:
+                df_data = df_data.drop(columns=ls_col_drop)
+
+        return df_results
+
+    def prep_data(self, df_data, dict_in):
+        df_data = df_data.replace('nan', '')
+
+        for key in dict_in:
+            ls_col = dict_in[key]
+
+            if isinstance(ls_col, list):
+                n_col = 'nc_' + key
+
+                df_data.loc[:, n_col] = filter_.prioratized_columns(
+                    df_data, ls_col)
+                dict_in[key] = n_col
+            else:
+                dict_in[key] = ls_col
+
+        return df_data, dict_in
+
+    def exception_src(self, src, df_data, dict_contact):
+
+        if src == "services":
+            # Read serial numbers
+            file_dir = {
+                'file_dir': (
+                    self.config['file']['dir_results']
+                    + self.config['file']['dir_intermediate']),
+                'file_name': self.config['file']['Processed']['services'][
+                    'serial_number_services']}
+            df_sr_num = IO.read_csv(self.mode, file_dir)
+            del file_dir
+
+            # Merge Data
+            df_data = df_data.merge(df_sr_num, on='Id', how="left")
+
+            # Update contact dictionary
+            dict_contact['Serial Number'] = 'SerialNumber'
+
+        elif src == "contracts":
+            # Read serial numbers
+            file_dir =  {
+                'file_dir': self.config['file']['dir_results'] +
+                self.config['file']['dir_intermediate'],
+                'file_name':
+                    self.config['file']['Processed']['contracts']['file_name']}
+
+            df_sr_num = IO.read_csv(self.mode, file_dir)
+            df_sr_num = df_sr_num[['ContractNumber', 'SerialNumber']]
+
+            del file_dir
+
+            # Merge Data
+            df_data = df_data.merge(df_sr_num, on='ContractNumber', how="left")
+
+            # Data prep
+            df_data.Zipcode__c = pd.to_numeric(
+                df_data.Zipcode__c, errors="coerce")
+
+            # Update contact dictionary
+            dict_contact['Serial Number'] = 'SerialNumber'
+        else:
+            print(f"No exception for {src}")
+
+        return df_data, dict_contact
+
+    def generate_contacts_contract(self, ref_data=None, sr_num_data=None):
 
         try:
 
             _step = 'Read contracts and processed contracts data'
-            # ref_data = pd.read_csv('./data/contract.csv',encoding='cp1252')
+
             if ref_data is not None and sr_num_data is not None:
                 ref_data = ref_data
                 sr_num_data = sr_num_data
@@ -71,7 +249,7 @@ class Contacts:
                                         })
                 sr_num_data = IO.read_csv(self.mode,
                                           {'file_dir': self.config['file']['dir_results'] +
-                                                       self.config['file']['dir_intermediate'],
+                                           self.config['file']['dir_intermediate'],
                                            'file_name':
                                                self.config['file']['Processed']['contracts'][
                                                    'file_name']
@@ -84,7 +262,8 @@ class Contacts:
             sr_contracts_data = pd.merge(ref_data, sr_num_data[['SerialNumber', 'ContractNumber']],
                                          on='ContractNumber', how='left')
             # Drop absolute duplicates
-            sr_contracts_data = sr_contracts_data.drop_duplicates(subset=None, keep='first')
+            sr_contracts_data = sr_contracts_data.drop_duplicates(
+                subset=None, keep='first')
             sr_contracts_data.dropna(subset=['SerialNumber'], inplace=True)
             ls_req_cols = ["SerialNumber", "AccountId", "LastModifiedDate", "Address__c",
                            "City__c", "Contact_Name__c", "Country__c", "Email__c",
@@ -106,7 +285,8 @@ class Contacts:
 
             ls_contract_cols = ["Contact_Name__c", "Email__c", "Mobile_Phone__c", "Phone_Number__c",
                                 "Phone__c", "Mobile__c"]
-            ls_pm_cols = ["PM_Contact__c", "PM_Email__c", "PM_Mobile__c", "PM_Phone__c"]
+            ls_pm_cols = ["PM_Contact__c", "PM_Email__c",
+                          "PM_Mobile__c", "PM_Phone__c"]
             ls_ren_cols = ["Renewal_Contact__c", "Renewal_Email__c", "Renewal_Mobile__c",
                            "Renewal_Phone__c"]
 
@@ -165,7 +345,8 @@ class Contacts:
 
             # Drop extra cols
             new_df = new_df.drop(['Source_1', 'Source_2', 'Source_3'], axis=1)
-            new_df['LastModifiedDate'] = pd.to_datetime(new_df['LastModifiedDate'])
+            new_df['LastModifiedDate'] = pd.to_datetime(
+                new_df['LastModifiedDate'])
 
             _step = 'Do Formatting as per output dict'
 
@@ -174,10 +355,13 @@ class Contacts:
             df_contract = new_df[new_df['Source'] == 'Contract']
             df_contract['Date'] = df_contract['LastModifiedDate'].dt.date
             df_contract['time'] = df_contract['LastModifiedDate'].dt.time
-            df_contract.sort_values(['Date', 'time'], ascending=[False, False], inplace=True)
-            df_contract.drop_duplicates(subset='SerialNumber', keep='first', inplace=True)
+            df_contract.sort_values(['Date', 'time'], ascending=[
+                                    False, False], inplace=True)
+            df_contract.drop_duplicates(
+                subset='SerialNumber', keep='first', inplace=True)
             df_contract.reset_index(drop=True, inplace=True)
-            df_contract['Zipcode__c'] = pd.to_numeric(df_contract['Zipcode__c'], errors='coerce')
+            df_contract['Zipcode__c'] = pd.to_numeric(
+                df_contract['Zipcode__c'], errors='coerce')
             output_format = self.config['output_contacts_lead']['Contracts_dict_format']
             df_contract = self.format.format_output(df_contract, output_format)
 
@@ -185,10 +369,13 @@ class Contacts:
             df_pm = new_df[new_df['Source'] == 'PM']
             df_pm['Date'] = df_pm['LastModifiedDate'].dt.date
             df_pm['time'] = df_pm['LastModifiedDate'].dt.time
-            df_pm.sort_values(['Date', 'time'], ascending=[False, False], inplace=True)
-            df_pm.drop_duplicates(subset='SerialNumber', keep='first', inplace=True)
+            df_pm.sort_values(['Date', 'time'], ascending=[
+                              False, False], inplace=True)
+            df_pm.drop_duplicates(subset='SerialNumber',
+                                  keep='first', inplace=True)
             df_pm.reset_index(drop=True, inplace=True)
-            df_pm['Zipcode__c'] = pd.to_numeric(df_pm['Zipcode__c'], errors='coerce')
+            df_pm['Zipcode__c'] = pd.to_numeric(
+                df_pm['Zipcode__c'], errors='coerce')
             output_format = self.config['output_contacts_lead']['PM_dict_format']
             df_pm = self.format.format_output(df_pm, output_format)
 
@@ -196,10 +383,13 @@ class Contacts:
             df_renewal = new_df[new_df['Source'] == 'Renewal']
             df_renewal['Date'] = df_renewal['LastModifiedDate'].dt.date
             df_renewal['time'] = df_renewal['LastModifiedDate'].dt.time
-            df_renewal.sort_values(['Date', 'time'], ascending=[False, False], inplace=True)
-            df_renewal.drop_duplicates(subset='SerialNumber', keep='first', inplace=True)
+            df_renewal.sort_values(['Date', 'time'], ascending=[
+                                   False, False], inplace=True)
+            df_renewal.drop_duplicates(
+                subset='SerialNumber', keep='first', inplace=True)
             df_contract.reset_index(drop=True, inplace=True)
-            df_renewal['Zipcode__c'] = pd.to_numeric(df_renewal['Zipcode__c'], errors='coerce')
+            df_renewal['Zipcode__c'] = pd.to_numeric(
+                df_renewal['Zipcode__c'], errors='coerce')
             output_format = self.config['output_contacts_lead']['Renewal_dict_format']
             df_renewal = self.format.format_output(df_renewal, output_format)
 
@@ -210,11 +400,12 @@ class Contacts:
             contact_contracts = pd.concat([df_contract, df_pm, df_renewal])
             contact_contracts = contact_contracts.reset_index(drop=True)
 
-            # write results for validation
-            IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
-                                                 self.config['file']['dir_intermediate'],
-                                     'file_name': "contact_contracts.csv"
-                                     }, contact_contracts)
+            IO.write_csv(
+                self.mode,
+                {'file_dir': self.config['file']['dir_results'] +
+                 self.config['file']['dir_intermediate'],
+                 'file_name': "contact_contracts.csv"},
+                contact_contracts)
 
             logger.app_success(self.contact_contracts)
 
@@ -223,9 +414,10 @@ class Contacts:
             raise ValueError from excp
         return contact_contracts
 
-
 # %% *** Call ***
 
 if __name__ == "__main__":
     obj = Contacts()
-    obj.generate_contacts()
+    obj.pipeline_contact()
+
+# %%

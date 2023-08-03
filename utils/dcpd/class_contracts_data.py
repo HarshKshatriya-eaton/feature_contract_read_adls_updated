@@ -67,8 +67,8 @@ class Contract:
         self.mode = mode
 
         # variables
-        self.config = IO.read_json(mode='local', config={
-            "file_dir": './references/', "file_name": 'config_dcpd.json'})
+        self.config = IO.read_json(mode="local", config={
+            "file_dir": "./references/", "file_name": "config_dcpd.json"})
 
         self.ls_cols_startup = self.config['contracts']['config_cols']['ls_cols_startup']
         self.pat_single_srnum = self.config['contracts']['srnum_pattern']['pat_single_srnum']
