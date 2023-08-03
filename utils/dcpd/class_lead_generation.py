@@ -271,10 +271,17 @@ class LeadGeneration:
                     component_life_years = pd.DateOffset(years=row['Life__Years'])
                     return (component_date_code + component_life_years).strftime('%m/%d/%Y')
 
+            def update_eosl(row):
+                if row['lead_type'] == 'EOSL':
+                    return row['Component_Due_Date']
+                else:
+                    return row['EOSL']
+
             _step = "Derive column Component_Due_Date based on Lead_Type, Component_Date_Code"
             # Apply the custom function to create the 'Component_Due_Date' column
             output_ilead_df['Component_Due_Date'] = output_ilead_df.apply(
                 calculate_component_due_date, axis=1)
+            output_ilead_df['EOSL'] = output_ilead_df.apply(update_eosl, axis=1)
 
             logger.app_success(_step)
 
