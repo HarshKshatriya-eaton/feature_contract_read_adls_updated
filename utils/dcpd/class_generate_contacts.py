@@ -162,9 +162,6 @@ class Contacts:
                 df_data, dict_updated, dict_src,
                 f_form_date=False, ref_df_all=obj.ref_df)
 
-            # Keep latest
-            df_contact = self.filter_latest(df_contact)
-
             # Concat outputs
             df_results = pd.concat([df_results, df_contact])
             del df_contact
@@ -176,12 +173,7 @@ class Contacts:
 
         return df_results
 
-    def filter_latest(self, df_contact):
-        df_contact = df_contact \
-            .sort_values(by=['Serial Number', 'Date'], ascending=False) \
-                .drop_duplicates(subset="Serial Number", keep=False)
 
-        return df_contact
 
     def prep_data(self, df_data, dict_in):
 
@@ -278,9 +270,19 @@ class Contacts:
         print(df_con.shape)
         df_con = df_con[df_con["flag_include"]]
         print(df_con.shape)
-
         df_con.drop(columns=ls_flags, inplace=True)
+
+        # Keep latest
+        df_con = self.filter_latest(df_con)
+
         return df_con
+
+    def filter_latest(self, df_contact):
+        df_contact = df_contact \
+            .sort_values(by=['Serial Number', 'Date'], ascending=False) \
+                .drop_duplicates(subset="Serial Number", keep=False)
+
+        return df_contact
 
     def generate_contacts_contract(self, ref_data=None, sr_num_data=None):
 
