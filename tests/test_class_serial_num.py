@@ -17,19 +17,22 @@ direct written permission from Eaton Corporation.
 
 # Import system path
 import sys
+
 sys.path.append(".")
 
 # Initialize class instance
 import pandas as pd
 import pytest
 from utils.dcpd.class_serial_number import SerialNumber
+
 sr_num_class = SerialNumber()
 
+
 # Pytest execution command
-#!pytest ./test/test_class_serial_num.py
-#!pytest --cov
-#!pytest --cov=.\src --cov-report html:.\coverage\ .\test\
-#!pytest --cov=.\src\class_ProSQL.py --cov-report html:.\coverage\ .\test\
+# !pytest ./test/test_class_serial_num.py
+# !pytest --cov
+# !pytest --cov=.\src --cov-report html:.\coverage\ .\test\
+# !pytest --cov=.\src\class_ProSQL.py --cov-report html:.\coverage\ .\test\
 
 # Coverage code
 # !coverage run -m pytest  -v -s
@@ -92,8 +95,8 @@ def test_prep_srnum_ideal_data():
 
     '''
     df_input = pd.DataFrame(data={'SerialNumberOrg':
-                                  [' STS20134-299',
-                                   '#ONYMG-1949-3784 ']
+                                      [' STS20134-299',
+                                       '#ONYMG-1949-3784 ']
                                   })
 
     actual_op = sr_num_class.prep_srnum(df_input)
@@ -101,6 +104,7 @@ def test_prep_srnum_ideal_data():
               'ONYMG-1949-3784']
     assert all([a == b for a, b in zip(actual_op, exp_op)])
     # assert actual_op == exp_op  # Both methods can be used.
+
 
 # %% Py tests for Validate get_serialnumber function
 
@@ -112,7 +116,7 @@ def test_prep_srnum_ideal_data():
         (None, None, None)
     ],
 )
-def test_get_srnum_input_validation(ar_serialnum, ar_installsize,ar_key_serial):
+def test_get_srnum_input_validation(ar_serialnum, ar_installsize, ar_key_serial):
     '''
     Validates serial number input parameters
 
@@ -129,15 +133,16 @@ def test_get_srnum_input_validation(ar_serialnum, ar_installsize,ar_key_serial):
 
     '''
     with pytest.raises(Exception) as info:
-        sr_num_class.get_serialnumber(ar_serialnum, ar_installsize,ar_key_serial)
+        sr_num_class.get_serialnumber(ar_serialnum, ar_installsize, ar_key_serial)
         assert info.type != ValueError
+
 
 # Validate the output obtained from the test and actual results for df_couldnot
 
 
 def test_get_srnum_output():
     '''
-    Validates output of the inserted data against the expected output. 
+    Validates output of the inserted data against the expected output.
 
     Returns
     -------
@@ -148,7 +153,7 @@ def test_get_srnum_output():
     ar_installsize = [2]
     ar_key_serial = ['2455:458']
     actual_output1, actual_output2 = sr_num_class.get_serialnumber(
-        ar_serialnum, ar_installsize,ar_key_serial)
+        ar_serialnum, ar_installsize, ar_key_serial)
     exp_op = pd.DataFrame()
     assert all([a == b for a, b in zip(actual_output2, exp_op)])
 
@@ -166,12 +171,13 @@ def test_get_srnum_empty_data():
         sr_num_class.get_serialnumber(pd.DataFrame(), 0)
     assert info.type != ValueError
 
+
 # Validate the output obtained from the test and actual results for df_out
 
 
 def test_get_srnum_validoutput():
     '''
-    Validates output of the inserted data against expected output for serial 
+    Validates output of the inserted data against expected output for serial
     number field.
 
     Returns
@@ -183,7 +189,7 @@ def test_get_srnum_validoutput():
     ar_installsize = [2]
     ar_key_serial = ['121:456']
     actual_out_test, actual_out_test1 = sr_num_class.get_serialnumber(
-        ar_serialnum, ar_installsize,ar_key_serial)
+        ar_serialnum, ar_installsize, ar_key_serial)
     actual_output1 = actual_out_test['SerialNumber'].iloc[0]
     exp_op = '180-0557-1b'
     assert all([a == b for a, b in zip(actual_output1, exp_op)])
@@ -216,7 +222,7 @@ def test_validate_srnum_input(ar_serialnum):
     ----------
     ar_serialnum : List of values
         DESCRIPTION.It specifies the serial number value to be processed.
- 
+
     Returns
     -------
     None.
@@ -287,6 +293,7 @@ def test_known_range_empty_data():
         sr_num_class.known_range(pd.DataFrame())
     assert info.type != ValueError
 
+
 # Method is not implemented. This function enhances testcase coverage mostly.
 
 # %% unknown range function
@@ -332,6 +339,7 @@ def test_unknown_range_empty_data():
         sr_num_class.known_range(pd.DataFrame())
     assert info.type != ValueError
 
+
 #  More corner cases to be included.
 #  Method currently supports direct unit testcases.
 
@@ -359,7 +367,7 @@ def test_generate_seq_list_input():
 
 def test_generate_seq_list_empty_data():
     '''
-    Validates output for empty dataframes 
+    Validates output for empty dataframes
 
     Returns
     -------
@@ -369,6 +377,7 @@ def test_generate_seq_list_empty_data():
     with pytest.raises(Exception) as info:
         sr_num_class.generate_seq_list(pd.DataFrame())
     assert info.type != ValueError
+
 
 # Covered basic testing approach.
 # Include more cases depending upon the discussed cases
@@ -411,6 +420,7 @@ def test_generate_seq_errorfunc():
         sr_num_class.generate_seq(out, sr_num, size)
         assert info.type == Exception
 
+
 def test_generate_seq_alpha_char():
     '''
     Validate generate sequence function for alphabet range.
@@ -427,6 +437,7 @@ def test_generate_seq_alpha_char():
         sr_num_class.generate_seq(out, sr_num, size)
         assert info.type == Exception
 
+
 # %% Validation for letter function
 
 
@@ -439,7 +450,7 @@ def test_generate_seq_alpha_char():
     ])
 def test_letter_range_input(seq_, size):
     '''
-    Function validates if the datatype of input characters are passed in 
+    Function validates if the datatype of input characters are passed in
     required format.
 
     Parameters
@@ -459,15 +470,70 @@ def test_letter_range_input(seq_, size):
         assert info.type != Exception
 
 
+# Identify index function testing
+@pytest.mark.parametrize(
+    "seq_",
+    [
+        ("a"),
+        (None),
+        (0)
+    ])
+def test_identify_index_input(seq_):
+    '''
+    Function validates index based on input params
+
+    Parameters
+    ----------
+    seq_ : Char
+        DESCRIPTION. Character datatypes are passed.
+    Returns
+    -------
+    None.
+
+    '''
+    with pytest.raises(Exception) as info:
+        sr_num_class.identify_index(seq_)
+        assert info.type != Exception
+
+
+# Covering the functionality for convert index
+@pytest.mark.parametrize(
+    "ix_n,pwr",
+    [
+        (None, None)
+    ])
+def test_convert_index_input(ix_n, pwr):
+    '''
+    Function validates if the datatype of input characters are passed in
+    required format.
+
+    Parameters
+    ----------
+     ix_n : Int
+        DESCRIPTION. Integer datatypes are passed.
+    size : Int
+        DESCRIPTION. Count to increment.
+
+    Returns
+    -------
+    None.
+
+    '''
+    with pytest.raises(Exception) as info:
+        sr_num_class.convert_index(ix_n, pwr)
+        assert info.type != Exception
+
+
 # %% Validation for identify sequence type function
 vals = ['12017004-51-59,61', 10]
+
 
 @pytest.mark.parametrize(
     "vals",
     [
-        (['12017004-51-59,61', 10,'121:10']),
-        (['180-0557-1-2b', 2,'121:10']),
-        (['180-0557-b-c'], 2,'121:10'),
+        (['12017004-51-59,61', 10, '121:10']),
+        (['180-0557-1-2b', 2, '121:10']),
+        (['180-0557-b-c'], 2, '121:10'),
         (None, None, None),
         (['110-115'], 10, '121:10'),
         (['110-0631,1-2'], 2, '1254:78')
@@ -503,7 +569,6 @@ def test_identify_seq_empty_data():
     with pytest.raises(Exception) as info:
         sr_num_class.identify_seq_type(pd.DataFrame())
     assert info.type == Exception
-
 
 # %%
 # test cases: 1. Data type
