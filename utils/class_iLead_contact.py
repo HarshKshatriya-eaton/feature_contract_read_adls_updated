@@ -562,9 +562,7 @@ class ilead_contact:
         # Serial Number
         try:
             data["SerialNumberOrg"] = data["Serial Number"].copy()
-            data["Serial Number"] = self.clean_meta_data(
-                data[["SerialNumberOrg"]], "SerialNumber", "clean"
-            )
+            #data["Serial Number"] = self.clean_meta_data(data[["SerialNumberOrg"]], "SerialNumber", "clean")
             data["Serial Number"] = data["Serial Number"].str.upper()
 
             data["DateOrg"] = data["Date"].copy()

@@ -1,4 +1,5 @@
-"""@file class_generate_contacts.py.
+"""
+@file class_generate_contacts.py.
 
 @brief : For DCPD business; analyze contracts data and generate contacts.
 
@@ -20,19 +21,20 @@ direct written permission from Eaton Corporation.
 # import all required modules
 import traceback
 import pandas as pd
+import numpy as np
+
+import os
+path = os.getcwd()
+path = os.path.join(
+    path.split('ileads_lead_generation')[0], 'ileads_lead_generation')
+os.chdir(path)
+
 from utils import IO
 from utils import AppLogger
 from utils.format_data import Format
 from utils.dcpd import Contract
 from utils.class_iLead_contact import ilead_contact
 from utils.filter_data import Filter
-import os
-import numpy as np
-
-path = os.getcwd()
-path = os.path.join(path.split('ileads_lead_generation')[0],
-                    'ileads_lead_generation')
-os.chdir(path)
 
 
 contractObj = Contract()
@@ -88,6 +90,9 @@ class Contacts:
             df_con = self.deploy_across_sources()
             logger.app_success(_step)
 
+            # PostProcess kdata
+            df_con = self.post_process(df_con)
+
             # Export results
             _step = "Export results"
 
@@ -128,9 +133,9 @@ class Contacts:
     def generate_contacts(self, src):
 
         # Read raw data
-        file_dir = {'file_dir': self.config['file']['dir_data'],
-                    'file_name': self.config['file']['Raw'][src]['file_name']}
-        df_data = IO.read_csv(self.mode, file_dir)
+        file_dir = {'file_dir': obj.config['file']['dir_data'],
+                    'file_name': obj.config['file']['Raw'][src]['file_name']}
+        df_data = IO.read_csv(obj.mode, file_dir)
         del file_dir
 
         ls_dict = [src]
@@ -142,20 +147,23 @@ class Contacts:
             logger.app_info(dict_src, level=0)
 
             # dict_contact
-            dict_contact = self.config['output_contacts_lead'][dict_src]
+            dict_contact = obj.config['output_contacts_lead'][dict_src]
 
             # exception handling
-            df_data, dict_updated = self.exception_src(
+            df_data, dict_updated = obj.exception_src(
                 dict_src, df_data, dict_contact)
 
             # prep data
-            df_data, dict_updated = self.prep_data(df_data, dict_contact)
+            df_data, dict_updated = obj.prep_data(df_data, dict_contact)
             del dict_contact
 
             # Generate contact
             df_contact = gc.create_contact(
                 df_data, dict_updated, dict_src,
-                f_form_date=False, ref_df_all=self.ref_df)
+                f_form_date=False, ref_df_all=obj.ref_df)
+
+            # Keep latest
+            df_contact = self.filter_latest(df_contact)
 
             # Concat outputs
             df_results = pd.concat([df_results, df_contact])
@@ -168,8 +176,16 @@ class Contacts:
 
         return df_results
 
+    def filter_latest(self, df_contact):
+        df_contact = df_contact \
+            .sort_values(by=['Serial Number', 'Date'], ascending=False) \
+                .drop_duplicates(subset="Serial Number", keep=False)
+
+        return df_contact
+
     def prep_data(self, df_data, dict_in):
-        df_data = df_data.replace('nan', '')
+
+        #df_data = df_data.replace(np.NaN, '')
 
         for key in dict_in:
             ls_col = dict_in[key]
@@ -177,8 +193,12 @@ class Contacts:
             if isinstance(ls_col, list):
                 n_col = 'nc_' + key
 
-                df_data.loc[:, n_col] = filter_.prioratized_columns(
-                    df_data, ls_col)
+                df_data[ls_col] = df_data[ls_col].fillna("").astype(str)
+
+                #df_data.loc[:, n_col] = filter_.prioratized_columns( df_data, ls_col)
+                df_data.loc[:, n_col] = df_data[ls_col].apply(
+                    lambda x: '; '.join(y for y in np.unique(x) if ((len(str(y)) > 2) & pd.notna(y)) ), axis=1)
+
                 dict_in[key] = n_col
             else:
                 dict_in[key] = ls_col
@@ -226,10 +246,41 @@ class Contacts:
 
             # Update contact dictionary
             dict_contact['Serial Number'] = 'SerialNumber'
+        elif src == "Renewal":
+            # Update contact dictionary
+            dict_contact['Serial Number'] = 'SerialNumber'
+        elif src == "PM":
+            # Update contact dictionary
+            dict_contact['Serial Number'] = 'SerialNumber'
         else:
             print(f"No exception for {src}")
 
         return df_data, dict_contact
+
+    def post_process(self, df_con):
+
+        ls_cols_must = ["Name",	 "Email",	"Company_Phone"]
+        ls_flags = []
+        df_con.loc[:, "flag_include"] = False
+
+        for col in ls_cols_must:
+            # Clean Name
+            df_con.loc[:, col] = df_con[col].apply(lambda x: x.rstrip('_-*'))
+
+            # Identiy Valid entries
+            n_col = f"f_{col}"
+            ls_flags += [n_col]
+            df_con.loc[:, n_col] = pd.notna(df_con[col]) & (df_con[col] != "")
+
+            df_con.loc[:, "flag_include"] = (
+                df_con["flag_include"] | df_con.loc[:, n_col])
+
+        print(df_con.shape)
+        df_con = df_con[df_con["flag_include"]]
+        print(df_con.shape)
+
+        df_con.drop(columns=ls_flags, inplace=True)
+        return df_con
 
     def generate_contacts_contract(self, ref_data=None, sr_num_data=None):
 
