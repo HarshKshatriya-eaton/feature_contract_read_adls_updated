@@ -14,6 +14,8 @@ and majorly on a reference leads data as input and generates the leads for custo
 here on. This technical information may not be reproduced or used without
 direct written permission from Eaton Corporation.
 """
+# %% Setup Environment
+
 import os
 import numpy as np
 import pandas as pd
@@ -34,8 +36,10 @@ from utils import IO
 logger = AppLogger(__name__)
 punctuation = punctuation + ' '
 
+# %% Lead Generation
 
 class LeadGeneration:
+
     def __init__(self, mode='local'):
         self.mode = mode
         self.srnum = SerialNumber()
@@ -359,20 +363,21 @@ class LeadGeneration:
         # Read : Reference lead opportunities
         _step = "Read : Reference lead opportunities"
         try:
-            ref_lead_opp = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_ref'],
-                                                   'file_name':
-                                                       self.config['file']['Reference']
-                                                       ['lead_opportunities']
-                                                   })
+            ref_lead_opp = IO.read_csv(
+                self.mode, {
+                'file_dir': self.config['file']['dir_ref'],
+                'file_name': self.config['file']['Reference']['lead_opportunities']
+                })
 
             # Read : Raw BOM data
             _step = "Read raw data : BOM"
 
-            df_bom = IO.read_csv(self.mode, {'file_dir': self.config['file']['dir_data'],
-                                             'file_name': self.config['file']['Raw']['bom']
-                                             ['file_name'],
-                                             'sep': '\t'
-                                             })
+            df_bom = IO.read_csv(
+                self.mode, {
+                    'file_dir': self.config['file']['dir_data'],
+                    'file_name': self.config['file']['Raw']['bom']['file_name'],
+                    'sep': '\t'})
+
             input_format = self.config['database']['bom']['Dictionary Format']
             df_bom = self.format.format_data(df_bom, input_format)
 
@@ -382,7 +387,8 @@ class LeadGeneration:
             df_bom = self.pipeline_merge(df_bom, df_install, type_='lead_id')
             logger.app_success(_step)
 
-            ref_lead_opp = ref_lead_opp.dropna(subset=['EOSL', 'Life__Years'], how='all') \
+            ref_lead_opp = ref_lead_opp.dropna(
+                subset=['EOSL', 'Life__Years'], how='all') \
                 .reset_index(drop=True)
 
             # Identify Lead from Part Number TLN and BOM
@@ -566,7 +572,7 @@ class LeadGeneration:
 
         return df_contract
 
-    # %% ***** Lead Identification *****
+    # ***** Lead Identification *****
 
     def identify_leads(self, df_bom, ref_lead_opp):  # pragma: no cover
         """
@@ -589,8 +595,6 @@ class LeadGeneration:
             # Lead_id_bases is changed from PartNumber_TLN_BOM
             lead_id_basedon = 'Product_M2M'
 
-            # TODO : based on Product_M2M if (pdu, sts, rpp) then life_in_years should be
-            # TODO : life_in_years should be populate with
             # Subset data : Ref
             ls_cols_ref[0] = lead_id_basedon
 
@@ -606,17 +610,17 @@ class LeadGeneration:
 
             # dropping duplicates on reference lead and bom_install dataframe
             # df_bom = df_bom[ls_cols[:-1]].drop_duplicates()
-            ref_lead = ref_lead.drop_duplicates(subset=[lead_id_basedon, 'Component']) \
+            ref_lead = ref_lead.drop_duplicates(
+                subset=[lead_id_basedon, 'Component']) \
                 .reset_index(drop=True)
             df_data = df_bom.drop_duplicates(subset=[lead_id_basedon, 'SerialNumber_M2M']) \
                 .reset_index(drop=True)
             df_data['key_value'] = df_data[lead_id_basedon]
 
             # Id Leads
-            df_leads_tln = self.id_leads_for_partno(df_data, ref_lead, lead_id_basedon)
-
+            df_leads_tln = self.id_leads_for_partno(
+                df_data, ref_lead, lead_id_basedon)
             del df_data, ref_lead
-
             logger.app_info("Leads After PartNumber_M2M is :" + str(df_leads_tln.shape))
 
             # Identify Leads: BOM
@@ -634,7 +638,8 @@ class LeadGeneration:
             df_data['key_value'] = df_data[lead_id_basedon]
 
             # Id Leads
-            df_leads_bom = self.id_leads_for_partno(df_data, ref_lead, lead_id_basedon)
+            df_leads_bom = self.id_leads_for_partno(
+                df_data, ref_lead, lead_id_basedon)
 
             del df_data, ref_lead
             logger.app_info("Leads After PartNumber_BOM_BOM is :" + str(df_leads_bom.shape))
@@ -708,10 +713,13 @@ class LeadGeneration:
             # rename 'Product_M2M' or "PartNumber_BOM_BOM" column to "key"
             ref_lead = ref_lead.rename(
                 columns={ref_lead.columns[0]: 'key'})
+
             # find the length on values in key column and store them in a new col called "len_key"
             ref_lead['len_key'] = ref_lead.key.str.len()
+
             # sort the values in descending order i.e 3,2,1 based on values of "len_key" column.
             ref_lead = ref_lead.sort_values(by=['len_key'], ascending=False)
+
             # convert all the values in "key" column to lowercase
             ref_lead['key'] = ref_lead['key'].str.lower()
 
@@ -1039,7 +1047,9 @@ class LeadGeneration:
 
         return df_leads
 
-
+#%%
 if __name__ == "__main__":
     obj = LeadGeneration()
     obj.main_lead_generation()
+
+# %%
