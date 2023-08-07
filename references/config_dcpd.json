@@ -944,7 +944,7 @@
                 "output_format": "text : capitalize each word"
             },
             "flag_raise_lead": {
-                "actual_datasoure_name": "",
+                "actual_datasoure_name": "flag_raise_in_gp",
                 "output_format": "bool : 0/1"
             },
             "is_standard_offering": {
