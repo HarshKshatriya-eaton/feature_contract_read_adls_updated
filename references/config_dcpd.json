@@ -1650,6 +1650,10 @@
         }
     },
     "output_contacts_lead": {
+        "dict_dbs": {
+            "services": 1,
+            "contracts": 1
+        },
         "services": {
             "Serial Number": "",
             "Source": "",

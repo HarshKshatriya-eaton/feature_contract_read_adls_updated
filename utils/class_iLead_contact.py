@@ -20,8 +20,8 @@ import pandas as pd
 class ilead_contact:
     """Functions involved in generating contacts file."""
 
-    def __init__(self):
-        self.TH_MIN_INSTALL_DATE = pd.to_datetime("1/1/2000")
+    def __init__(self, TH_DATE):
+        self.TH_MIN_INSTALL_DATE = TH_DATE
 
     def get_city(self, zc, zcdb):
         """
