@@ -262,23 +262,11 @@ class LeadGeneration:
             # Calculate the current year
             current_year = pd.Timestamp.now().year
 
-            # Define a custom function to calculate the 'Component_Due_Date'
-            def calculate_component_due_date(row):
-                if row['lead_type'] == 'EOSL':
-                    EOSL_Year = int(row['EOSL'])
-                    # TODO: take year from EOSL date column
-                    first_day_of_year = pd.to_datetime(f'01/01/{EOSL_Year}', format='%m/%d/%Y')
-                    return first_day_of_year.strftime('%m/%d/%Y')
-                else:
-                    component_date_code = pd.to_datetime(row['date_code'],
-                                                         format='%m/%d/%Y')
-                    component_life_years = pd.DateOffset(years=row['Life__Years'])
-                    return (component_date_code + component_life_years).strftime('%m/%d/%Y')
-
             _step = "Derive column Component_Due_Date based on Lead_Type, Component_Date_Code"
             # Apply the custom function to create the 'Component_Due_Date' column
             output_ilead_df['Component_Due_Date'] = output_ilead_df.apply(
-                calculate_component_due_date, axis=1)
+                self.calculate_component_due_date, axis=1)
+            output_ilead_df['EOSL'] = output_ilead_df.apply(self.update_eosl, axis=1)
 
             logger.app_success(_step)
 
@@ -1047,7 +1035,33 @@ class LeadGeneration:
 
         return df_leads
 
-#%%
+    def calculate_component_due_date(self, row):
+        """
+        Define a custom function to calculate the 'Component_Due_Date'
+        """
+        if row['lead_type'] == 'EOSL':
+            EOSL_Year = int(row['EOSL'])
+            first_day_of_year = pd.to_datetime(f'01/01/{EOSL_Year}',
+                                               format='%m/%d/%Y')
+            return first_day_of_year.strftime('%m/%d/%Y')
+        else:
+            component_date_code = pd.to_datetime(row['date_code'],
+                                                 format='%m/%d/%Y')
+            component_life_years = pd.DateOffset(years=row['Life__Years'])
+            return (component_date_code + component_life_years).strftime(
+                '%m/%d/%Y')
+
+    def update_eosl(self, row):
+        """
+        Changes the format of EOSL column from year to date
+        """
+        if row['lead_type'] == 'EOSL':
+            return row['Component_Due_Date']
+        else:
+            return row['EOSL']
+
+
+
 if __name__ == "__main__":
     obj = LeadGeneration()
     obj.main_lead_generation()

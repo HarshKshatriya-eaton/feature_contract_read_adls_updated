@@ -17,8 +17,6 @@ direct written permission from Eaton Corporation.
 
 
 from utils.logger import AppLogger
-
 from utils.io import IO
-
 from utils.filter_data import Filter
 from utils.format_data import Format
