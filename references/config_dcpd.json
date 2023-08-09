@@ -36,6 +36,7 @@
             }
         },
         "Reference": {
+            "contact_type": "type_of_contact.csv",
             "bom": "reference_BOM.csv",
             "customer": "AccountManagerListing.csv",
             "lead_opportunities": "ref_lead_opportunities.csv",
@@ -56,6 +57,9 @@
                 "before_classify": "b4_classify_leads.csv",
                 "after_classify": "a4_classify_leads.csv"
             },
+            "output_iLead_contact": {
+                "file_name": "output_iLead_contact.csv"
+            },
             "processed_install": {
                 "file_name": "processed_install.csv"
             },
@@ -73,7 +77,7 @@
                 "file_name": "processed_services.csv",
                 "validation": "processed_services_validation.csv",
                 "intermediate": "proceesed_services_jcomm_sidecar.csv",
-                "serial_number_services": "SerialNumber_ServicesData.csv"
+                "serial_number_services": "Raw_Services_Data_SerialNum_Expanded.csv"
             },
             "contact": {
                 "file_name": "contact_contracts.csv"
@@ -1650,6 +1654,154 @@
         }
     },
     "output_contacts_lead": {
+        "dict_dbs": {
+            "services": 1,
+            "contracts": 1
+        },
+        "services": {
+            "Serial Number": "",
+            "Source": "",
+            "Date": "ClosedDate",
+            "Party_Number": "",
+            "Party_Name": "",
+            "Site_Number": "",
+            "Site_Name": "",
+            "Name": "Contact_Name1__c",
+            "Company": [
+                "Company_Name__c",
+                "Company__c"
+            ],
+            "Title": "",
+            "Email": [
+                "ContactEmail",
+                "Contact_Email1__c",
+                "Contact_Email__c",
+                "Email__c"
+            ],
+            "Company_Phone": [
+                "ContactPhone",
+                "Contact_Phone1__c",
+                "Contact_Phone__c",
+                "Phone__c",
+                "Shipping_Contact_Phone__c",
+                "ContactMobile"
+            ],
+            "Fax": "",
+            "Address1": [
+                "Billing_Street__c",
+                "Address__c"
+            ],
+            "Address2": "",
+            "City": [
+                "Billing_City__c",
+                "City__c",
+                "Shipping_City1__c",
+                "Shipping_City__c"
+            ],
+            "Zipcode": [
+                "Billing_Zip_Code_Postal_Code__c",
+                "Shipping_Zip_Code1__c",
+                "Shipping_Zip_Code_Postal_Code__c",
+                "Zipcode__c"
+            ],
+            "State": [
+                "Billing_State__c",
+                "Shipping_State1__c",
+                "Shipping_State__c",
+                "State__c"
+            ],
+            "Country": [
+                "Billing_Country__c",
+                "Country__c",
+                "Shipping_Country1__c",
+                "Shipping_Country__c"
+            ]
+        },
+        "contracts": {
+            "Serial Number": "",
+            "Source": "",
+            "Date": "LastModifiedDate",
+            "Party_Number": "",
+            "Party_Name": "",
+            "Site_Number": "",
+            "Site_Name": "",
+            "Name": "Contact_Name__c",
+            "Company": "Name_of_Company__c",
+            "Title": "",
+            "Email": "Email__c",
+            "Company_Phone": [
+                "Phone__c",
+                "Phone_Number__c",
+                "Mobile_Phone__c",
+                "Mobile__c"
+            ],
+            "Fax": "",
+            "Address1": "Address__c",
+            "Address2": "",
+            "City": "City__c",
+            "Zipcode": "Zipcode__c",
+            "State": "State__c",
+            "Country": [
+                "Country__c",
+                "Country_c__c"
+            ]
+        },
+        "PM": {
+            "Serial Number": "",
+            "Source": "",
+            "Date": "LastModifiedDate",
+            "Party_Number": "",
+            "Party_Name": "",
+            "Site_Number": "",
+            "Site_Name": "",
+            "Name": "PM_Contact__c",
+            "Company": [],
+            "Title": "",
+            "Email": "PM_Email__c",
+            "Company_Phone": [
+                "PM_Mobile__c",
+                "PM_Phone__c"
+            ],
+            "Fax": "",
+            "Address1": "Address__c",
+            "Address2": "",
+            "City": "City__c",
+            "Zipcode": "Zipcode__c",
+            "State": "State__c",
+            "Country": [
+                "Country__c",
+                "Country_c__c"
+            ]
+        },
+        "Renewal": {
+            "Serial Number": "",
+            "Source": "",
+            "Date": "LastModifiedDate",
+            "Party_Number": "",
+            "Party_Name": "",
+            "Site_Number": "",
+            "Site_Name": "",
+            "Name": [
+                "Renewal_Contact__c"
+            ],
+            "Company": [],
+            "Title": "",
+            "Email": "Renewal_Email__c",
+            "Company_Phone": [
+                "Renewal_Mobile__c",
+                "Renewal_Phone__c"
+            ],
+            "Fax": "",
+            "Address1": "Address__c",
+            "Address2": "",
+            "City": "City__c",
+            "Zipcode": "Zipcode__c",
+            "State": "State__c",
+            "Country": [
+                "Country__c",
+                "Country_c__c"
+            ]
+        },
         "Contracts_dict_format": {
             "Serial_Number": {
                 "actual_datasoure_name": "SerialNumber",
