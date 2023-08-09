@@ -19,21 +19,22 @@ direct written permission from Eaton Corporation.
 """
 
 # %% ***** Setup Environment *****
-from utils import IO
-from utils import AppLogger
-from utils.format_data import Format
-from utils.dcpd import Contract
-from utils.class_iLead_contact import ilead_contact
-from utils.filter_data import Filter
-import numpy as np
-import pandas as pd
-import traceback
 import os
 path = os.getcwd()
 path = os.path.join(
     path.split('ileads_lead_generation')[0], 'ileads_lead_generation')
 os.chdir(path)
 
+import numpy as np
+import pandas as pd
+import traceback
+
+from utils import IO
+from utils import AppLogger
+from utils.format_data import Format
+from utils.dcpd import Contract
+from utils.class_iLead_contact import ilead_contact
+from utils.filter_data import Filter
 
 contractObj = Contract()
 filter_ = Filter()
