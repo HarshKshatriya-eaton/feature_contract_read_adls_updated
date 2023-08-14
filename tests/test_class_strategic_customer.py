@@ -99,21 +99,68 @@ class TestIdentification:
         """
         input_data_contact = [{'Serial_Number': '110-2798-87', 'Email__c': 'michael_balk@optum.com'},
                       {'Serial_Number': '411-0062', 'Email__c': 'mmcnulty@drwholdings.com'},
-                      {'Serial_Number': '110-2993-27', 'Email__c': 'larry.scharp@fortunedatacenters.com'}]
+                      {'Serial_Number': '110-2993-27', 'Email__c': 'larry.scharp@fortunedatacenters.com'},
+                      {'Serial_Number': '111-2222-33', 'Email__c': 'test_customer@test1.com'},
+                      {'Serial_Number': '111-2222-34', 'Email__c': 'test_customer@test2.com'}
+                      ]
         df_contact = pd.DataFrame(input_data_contact)
         df_contact = obj_strategic_customer.read_contact(df_contact)
 
-        input_data_leads = [{'Customer': 'parsons electric', 'ShipTo_Customer': 'unitedhealth group', 'SerialNumber_M2M': '110-2798-87'}, {'Customer': 'cupertino electric, inc.', 'ShipTo_Customer': 'apple lazaneo', 'SerialNumber_M2M': '110-2768'}, {'Customer': 'qts', 'ShipTo_Customer': 'schneider electric', 'SerialNumber_M2M': 't18-26-us-s-4313'}]
+        input_data_leads = [{'Customer': 'parsons electric', 'ShipTo_Customer': 'unitedhealth group', 'SerialNumber_M2M': '110-2798-87'}, {'Customer': 'cupertino electric, inc.', 'ShipTo_Customer': 'apple lazaneo', 'SerialNumber_M2M': '110-2768'}, {'Customer': 'qts', 'ShipTo_Customer': 'schneider electric', 'SerialNumber_M2M': 't18-26-us-s-4313'}, {'Customer': 'test1', 'ShipTo_Customer': 'test1-energy-providers', 'SerialNumber_M2M': '111-2222-33'}, {'Customer': 'test1', 'ShipTo_Customer': 'power electric/test1-energy-providers', 'SerialNumber_M2M': '111-2222-33'}, {'Customer': 'test2', 'ShipTo_Customer': 'test2-energy-providers', 'SerialNumber_M2M': '111-2222-34'}, {'Customer': 'test2', 'ShipTo_Customer': 'power electric/test2-energy-providers', 'SerialNumber_M2M': '111-2222-34'}]
         df_leads = pd.DataFrame(input_data_leads)
         df_leads= obj_strategic_customer.read_processed_m2m(df_leads)
         df_leads = obj_strategic_customer.summarize_contacts(df_contact, df_leads)
 
-        ref_data = [{'DisplayName': 'DisplayName', ' Condition 1': 'MatchType_00', ' ': 'CompanyName', ' Condition 2': 'MatchType_01', ' .1': 'CompanyAliasName', ' Condition 3': 'MatchType_02', ' .2': 'CompanyDomain'}, {'DisplayName': 'ABB', ' Condition 1': 'begins with', ' ': 'ABB;Zenith', ' Condition 2': 'begins with', ' .1': 'ABB;Zenith', ' Condition 3': 'ends with', ' .2': 'abb.com'}, {'DisplayName': 'Aligned Energy, LLC', ' Condition 1': 'begins with', ' ': 'Aligned Energy, LLC;Align;Intertech', ' Condition 2': 'begins with', ' .1': 'Aligned Energy, LLC;Align;Intertech', ' Condition 3': 'ends with', ' .2': 'aligneddc.com'}]
+        ref_data = [{'DisplayName': 'DisplayName', ' Condition 1': 'MatchType_00', ' ': 'CompanyName', ' Condition 2': 'MatchType_01', ' .1': 'CompanyAliasName', ' Condition 3': 'MatchType_02', ' .2': 'CompanyDomain'}, {'DisplayName': 'ABB', ' Condition 1': 'begins with', ' ': 'ABB;Zenith', ' Condition 2': 'begins with', ' .1': 'ABB;Zenith', ' Condition 3': 'ends with', ' .2': 'abb.com'}, {'DisplayName': 'Aligned Energy, LLC', ' Condition 1': 'begins with', ' ': 'Aligned Energy, LLC;Align;Intertech', ' Condition 2': 'begins with', ' .1': 'Aligned Energy, LLC;Align;Intertech', ' Condition 3': 'ends with', ' .2': 'aligneddc.com'}, {'DisplayName': 'test1', ' Condition 1': 'begins with', ' ': 'random_val', ' Condition 2': 'begins with', ' .1': 'test1', ' Condition 3': 'ends with', ' .2': 'random.com'}, {'DisplayName': 'test2', ' Condition 1': 'contains', ' ': 'random_val', ' Condition 2': 'contains', ' .1': 'test2', ' Condition 3': 'ends with', ' .2': 'random.com'}]
         ref_ac_manager = pd.DataFrame(ref_data)
         ref_df = obj_strategic_customer.read_ref_data(ref_ac_manager)
         result = obj_strategic_customer.pipeline_identify_customers(ref_df, df_leads)
-        expected_output = pd.DataFrame([{'Serial_Number': '110-2768', 'CompanyName': 'cupertino electric, inc', 'CompanyAliasName': 'apple lazaneo', 'CompanyDomain': np.nan, 'StrategicCustomer': 'Other', 'StrategicCustomer_new': 'cupertino electric, inc'}, {'Serial_Number': '110-2798-87', 'CompanyName': 'parsons electric', 'CompanyAliasName': 'unitedhealth group', 'CompanyDomain': 'michael_balk@optum.com', 'StrategicCustomer': 'Other', 'StrategicCustomer_new': 'parsons electric'}, {'Serial_Number': 't18-26-us-s-4313', 'CompanyName': 'qts', 'CompanyAliasName': 'schneider electric', 'CompanyDomain': np.nan, 'StrategicCustomer': 'Other', 'StrategicCustomer_new': 'qts'}])
+        expected_output = pd.DataFrame([
+            {'Serial_Number': '111-2222-33',
+             'CompanyName': 'test1',
+             'CompanyAliasName': 'test1-energy-providers',
+             'CompanyDomain': 'test_customer@test1.com',
+             'StrategicCustomer': 'test1',
+             'StrategicCustomer_new': 'test1'},
+            {'Serial_Number': '111-2222-34',
+             'CompanyName': 'test2',
+             'CompanyAliasName': 'power electric/test2-energy-providers',
+             'CompanyDomain': 'test_customer@test2.com',
+             'StrategicCustomer': 'test2',
+             'StrategicCustomer_new': 'test2'},
+            {'Serial_Number': '111-2222-34',
+             'CompanyName': 'test2',
+             'CompanyAliasName': 'test2-energy-providers',
+             'CompanyDomain': 'test_customer@test2.com',
+             'StrategicCustomer': 'test2',
+             'StrategicCustomer_new': 'test2'},
+            {'Serial_Number': '110-2768',
+             'CompanyName': 'cupertino electric, inc',
+             'CompanyAliasName': 'apple lazaneo', 'CompanyDomain': np.nan,
+             'StrategicCustomer': 'Other',
+             'StrategicCustomer_new': 'cupertino electric, inc'},
+            {'Serial_Number': '110-2798-87', 'CompanyName': 'parsons electric',
+             'CompanyAliasName': 'unitedhealth group',
+             'CompanyDomain': 'michael_balk@optum.com',
+             'StrategicCustomer': 'Other',
+             'StrategicCustomer_new': 'parsons electric'},
+            {'Serial_Number': 't18-26-us-s-4313', 'CompanyName': 'qts',
+             'CompanyAliasName': 'schneider electric', 'CompanyDomain': np.nan,
+             'StrategicCustomer': 'Other', 'StrategicCustomer_new': 'qts'},
+            {'Serial_Number': '111-2222-33',
+             'CompanyName': 'test1',
+             'CompanyAliasName': 'power electric/test1-energy-providers',
+             'CompanyDomain': 'test_customer@test1.com',
+             'StrategicCustomer': 'Other',
+             'StrategicCustomer_new': 'test1'}
+            ]
+        )
 
+        result = result.reset_index()
+
+        expected_output = expected_output.reset_index()
+        result = result.drop("index", axis=1)
+        expected_output = expected_output.drop("index", axis=1)
         assert_frame_equal(result.sort_index(axis=1), expected_output.sort_index(axis=1),
                            check_dtype=False, check_exact=False, check_names=True)
 

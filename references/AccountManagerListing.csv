@@ -18,7 +18,7 @@ Meta	begins with	Meta;GOLDFRAME;Facebook;Siculus;Woolhawk	begins with	Meta;GOLDF
 "Holder Construction Group, LLC"	begins with	"Holder Construction Group, LLC;Holder Construction"	begins with	"Holder Construction Group, LLC;Holder Construction"	ends with	holderconstruction.com
 Liberty Mutual Insurance Co	begins with	Liberty Mutual Insurance Co	begins with	Liberty Mutual Insurance Co	ends with	libertymutual.com
 Markley Group	begins with	Markley Group	begins with	Markley Group	ends with	markleygroup.com
-QTS	begins with	"QTS;Quality Technology Services;Quality Technology Services, LLC"	begins with	"QTS;Quality Technology Services;Quality Technology Services, LLC"	ends with	qtsdatacenters.com
+QTS	contains	"QTS;Quality Technology Services"	contains	"QTS;Quality Technology Services;Quality Technology Services, LLC"	ends with	qtsdatacenters.com
 RBC Stratford Computer Center	begins with	RBC Stratford Computer Center;RBC	begins with	RBC Stratford Computer Center;RBC	ends with	rbcroyalbank.com
 "Sabey Construction, Inc."	begins with	"Sabey Construction, Inc."	begins with	"Sabey Construction, Inc."	ends with	sabey.com
 "Stack Infrastructure, Inc."	begins with	"Stack Infrastructure, Inc.;Fortune Data Centers"	begins with	"Stack Infrastructure, Inc.;Fortune Data Centers"	ends with	stackinfra.com
