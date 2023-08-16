@@ -450,19 +450,8 @@ class StrategicCustomer:
                         any(
                             list(
                                 map(
-                                    lambda y:
-                                    # Unlike "startswith" and "endswith" "in"
-                                    # method can't be applied to tuples so we
-                                    # individually have to check if a string
-                                    # exists in x.
-                                    any(
-                                        list(
-                                            map(
-                                                lambda z:
-                                                z in y,
-                                                ac_info[ls_col[1]].split(';')
-                                            )
-                                        )
+                                    lambda y: self.check_contains(
+                                        y, ac_info, ls_col
                                     ),
                                     str(x).split(', ')
                                 )
@@ -486,7 +475,22 @@ class StrategicCustomer:
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception from e
 
+    def check_contains(self, row, ac_info, ls_col):
+        """
+        The method checks whether the row contains any of the keywords
+        provided in the AccountManagerListing file
+        """
+        contains_val = any(
+            list(
+                map(
+                    lambda z:
+                    z in row,
+                    ac_info[ls_col[1]].split(';')
+                )
+            )
+        )
 
+        return contains_val
 # %%
 
 
