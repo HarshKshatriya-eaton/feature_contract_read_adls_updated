@@ -180,11 +180,18 @@ class StrategicCustomer:
                          'file_name']}
                 )
 
-            dict_cols = {
-                'Customer': 'CompanyName',
-                'ShipTo_Customer': 'CompanyAliasName',
-                'SerialNumber_M2M': 'Serial_Number'
-            }
+            if 'Serial_Number' in df_leads.columns:
+                dict_cols = {
+                    'Customer': 'CompanyName',
+                    'ShipTo_Customer': 'CompanyAliasName'
+                }
+            else:
+                dict_cols = {
+                    'Customer': 'CompanyName',
+                    'ShipTo_Customer': 'CompanyAliasName',
+                    'SerialNumber_M2M': 'Serial_Number'
+                }
+
             df_leads = df_leads.rename(dict_cols, axis=1)
             df_leads = df_leads.loc[
                        :, ['Serial_Number', 'CompanyName', 'CompanyAliasName']]
@@ -314,9 +321,11 @@ class StrategicCustomer:
 
             # Identify
             ref_df = ref_df.reset_index(drop=True)
+            # Iterate the reference file for every stretegic customer detail
             for row_ix in ref_df.index:
                 # row_ix = ref_df.index[0]
 
+                # Select the row from reference file
                 ac_info = ref_df.iloc[row_ix, 1:]
                 display_name = ref_df.DisplayName[row_ix]
                 flag_all, ls_col_exp = self.identify_customer(
@@ -381,6 +390,8 @@ class StrategicCustomer:
                           'CompanyAliasName', 'CompanyDomain']
             ls_col_out = []
 
+            # Iterate over the different filters i.e. CompanyName
+            # CompanyAliasName, CompanyDomain
             for con_ix in dict_con.keys():
 
                 # con_ix = 0    con_ix = 1 con_ix = 2
@@ -395,22 +406,57 @@ class StrategicCustomer:
                         str).fillna('')
 
                     df_input.loc[:, n_col] = df_input[ls_col[1]].apply(
+                        # Iterate over the diffrent entries in the raw data column
+                        # e.g. CompanyName is "ABC, ABC Cooperation", we
+                        # iterate over both and execute the lambda function
                         lambda x:
-                        any(list(map(
-                            lambda y:
-                            y.startswith(
-                                tuple(ac_info[ls_col[1]].split(';'))),
-                            x.split(', '))))
+                        any(
+                            list(
+                                map(
+                                    # For every y we check if any single
+                                    # refrence value is present
+                                    # For e.g. refrence condition is begins with
+                                    # "ABC; ABC Cooperation", we check if any
+                                    # one of condition exists in x. To do this
+                                    # we apply startswith to the tuple
+                                    # (ABC, ABC Cooperation)
+                                    lambda y:
+                                    y.startswith(
+                                        tuple(ac_info[ls_col[1]].split(';'))
+                                    ),
+                                    x.split(', ')
+                                )
+                            )
+                        )
                     )
-
                 elif ac_info[ls_col[0]] == 'ends with':
                     df_input.loc[:, n_col] = df_input[ls_col[1]].apply(
                         lambda x:
-                        any(list(map(
-                            lambda y:
-                            y.endswith(
-                                tuple(ac_info[ls_col[1]].split(';'))),
-                            str(x).split(', '))))
+                        any(
+                            list(
+                                map(
+                                    lambda y:
+                                    y.endswith(
+                                        tuple(ac_info[ls_col[1]].split(';'))
+                                    ),
+                                    str(x).split(', ')
+                                )
+                            )
+                         )
+                    )
+                elif ac_info[ls_col[0]] == 'contains':
+                    df_input.loc[:, n_col] = df_input[ls_col[1]].apply(
+                        lambda x:
+                        any(
+                            list(
+                                map(
+                                    lambda y: self.check_contains(
+                                        y, ac_info, ls_col
+                                    ),
+                                    str(x).split(', ')
+                                )
+                            )
+                         )
                     )
                 elif ac_info[ls_col[0]] == 'equals':
                     df_input.loc[:, n_col] = df_input[ls_col[1]].apply(
@@ -429,7 +475,22 @@ class StrategicCustomer:
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception from e
 
+    def check_contains(self, row, ac_info, ls_col):
+        """
+        The method checks whether the row contains any of the keywords
+        provided in the AccountManagerListing file
+        """
+        contains_val = any(
+            list(
+                map(
+                    lambda z:
+                    z in row,
+                    ac_info[ls_col[1]].split(';')
+                )
+            )
+        )
 
+        return contains_val
 # %%
 
 
