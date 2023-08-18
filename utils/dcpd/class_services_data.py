@@ -284,6 +284,10 @@ class ProcessServiceIncidents:
                           }
             IO.write_csv(self.mode, output_dir, df_out)
 
+            # This functionality to be implemented if user wants to extract serial numbers from the raw services data.
+            # The file to be saved as an intermediate data file
+            # serial_number_expand = self.services_raw_serial_num(df_out)
+
             loggerObj.app_debug(f"{_step}: SUCCEEDED", 1)
         except Exception as excep:
 
@@ -485,6 +489,62 @@ class ProcessServiceIncidents:
 
         return validate_srnum
 
+    def services_raw_serial_num(self, df_services_serialnum):
+
+        _step = 'Read raw services data and expand serial numbers'
+
+        try:
+            if df_services_serialnum is not None:
+                df_services_serialnum = df_services_serialnum
+            else:
+                # Read corresponding serial number data file for raw services data
+                file_dir = {'file_dir': self.config['file']['dir_results'] + self.config['file'][
+                    'dir_intermediate'],
+                            'file_name': self.config['file']['Processed']['services'][
+                                'serial_number_services']
+                            }
+                df_services_serialnum = IO.read_csv(self.mode, file_dir)
+
+            df_out = df_services_serialnum
+
+            # Serial number validation - Expand serial numbers
+            expand_srnumdf = contractObj.get_range_srum(df_out)
+
+            # Removing the rows with none values
+            expand_srnumdf['SerialNumber'].replace('', np.nan, inplace=True)
+            expand_srnumdf.dropna(subset=['SerialNumber'], inplace=True)
+
+            # Validate serial number data
+            validate_srnum = contractObj.validate_contract_install_sr_num(expand_srnumdf)
+
+            # Filter rows with valid serial number
+            validate_srnum = validate_srnum.loc[validate_srnum.flag_validinstall]
+
+            # Drop flag_valid column
+            del validate_srnum['flag_validinstall']
+
+            # Rename serialnumber col value to Final serial number
+            validate_srnum.rename(columns={'SerialNumber': 'F_SerialNumber'}, inplace=True)
+
+            # Perform a group by operation and fetch max result (Unique key filtering)
+            validate_srnum = validate_srnum.groupby('SerialNumber_Partial', group_keys=False).max()
+
+            validate_srnum.rename(columns={'F_SerialNumber': 'SerialNumber'}, inplace=True)
+            # Export JCOMM and Sidecar fields to intermediate file
+            output_dir = {'file_dir': self.config['file']['dir_results'] + self.config[
+                'file']['dir_intermediate'],
+                          'file_name': self.config['file']['Processed']['services'][
+                              'sr_num_expand_raw_serv']
+                          }
+            IO.write_csv(self.mode, output_dir, validate_srnum)
+
+            loggerObj.app_success(_step)
+
+        except Exception as excep:
+            loggerObj.app_fail(_step, f'{traceback.print_exc()}')
+            raise Exception('f"{_step}: Failed') from excep
+
+        return validate_srnum
 
 # %% *** Call ***
 
