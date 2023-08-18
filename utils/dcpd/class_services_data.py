@@ -286,7 +286,7 @@ class ProcessServiceIncidents:
 
             # This functionality to be implemented if user wants to extract serial numbers from the raw services data.
             # The file to be saved as an intermediate data file
-            # serial_number_expand = self.services_raw_serial_num(df_out)
+            # serial_number_expand = self.services_raw_serial_num()
 
             loggerObj.app_debug(f"{_step}: SUCCEEDED", 1)
         except Exception as excep:
@@ -489,23 +489,18 @@ class ProcessServiceIncidents:
 
         return validate_srnum
 
-    def services_raw_serial_num(self, df_services_serialnum):
+    def services_raw_serial_num(self):
 
         _step = 'Read raw services data and expand serial numbers'
 
         try:
-            if df_services_serialnum is not None:
-                df_services_serialnum = df_services_serialnum
-            else:
-                # Read corresponding serial number data file for raw services data
-                file_dir = {'file_dir': self.config['file']['dir_results'] + self.config['file'][
-                    'dir_intermediate'],
-                            'file_name': self.config['file']['Processed']['services'][
-                                'serial_number_services']
-                            }
-                df_services_serialnum = IO.read_csv(self.mode, file_dir)
-
-            df_out = df_services_serialnum
+            # Read corresponding serial number data file for raw services data
+            file_dir = {'file_dir': self.config['file']['dir_results'] + self.config['file'][
+                'dir_intermediate'],
+                        'file_name': self.config['file']['Processed']['services'][
+                            'serial_number_services']
+                        }
+            df_out = IO.read_csv(self.mode, file_dir)
 
             # Serial number validation - Expand serial numbers
             expand_srnumdf = contractObj.get_range_srum(df_out)
@@ -530,7 +525,8 @@ class ProcessServiceIncidents:
             validate_srnum = validate_srnum.groupby('SerialNumber_Partial', group_keys=False).max()
 
             validate_srnum.rename(columns={'F_SerialNumber': 'SerialNumber'}, inplace=True)
-            # Export JCOMM and Sidecar fields to intermediate file
+
+            # Export validated result fields to intermediate file
             output_dir = {'file_dir': self.config['file']['dir_results'] + self.config[
                 'file']['dir_intermediate'],
                           'file_name': self.config['file']['Processed']['services'][
