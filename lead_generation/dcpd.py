@@ -24,6 +24,9 @@ import traceback
 from lead_generation.base import LeadGeneration
 from utils.dcpd import InstallBase
 from utils.dcpd import Contract
+from utils.dcpd import ProcessServiceIncidents
+from utils.dcpd import Contacts
+from utils.dcpd import LeadGeneration
 
 
 # %% *** Define Class ***
@@ -35,61 +38,103 @@ class DCPD(LeadGeneration):
 
     def __init__(self):
         try:
+            self.lead_pipeline()
+        except Exception as excp:
+            logger.app_fail(
+                f"{__name__}", f'{traceback.print_exc()}')
+            raise Exception('Lead generation: Failed') from excp
+
+    def lead_pipeline(self):
+
+        try:
             step_ = 'Install Base'
-            status = self.etl_installbase()
+            self.etl_installbase()
             logger.app_success(f"Preprocess {step_} Data")
 
             step_ = 'Contract'
-            status = self.etl_contracts()
+            self.etl_contracts()
             logger.app_success(f"Preprocess {step_} Data")
 
             step_ = 'Services'
-            status = self.etl_services()
+            self.etl_services()
             logger.app_success(f"Preprocess {step_} Data")
 
             step_ = 'Contact'
-            status = self.etl_contacts()
+            self.etl_contacts()
             logger.app_success(f"Preprocess {step_} Data")
 
             step_ = 'Lead Management'
-            status = self.etl_lead_management()
+            self.etl_lead_management()
             logger.app_success(f"Preprocess {step_} Data")
 
             step_ = 'Lead Generation'
-            status = self.lead_generation()
+            self.lead_generation()
             logger.app_success(f"Preprocess {step_} Data")
+        except Exception as e:
+            logger.app_fail(
+                f"Lead generation pipeline for {__name__}",
+                f'{traceback.print_exc()}')
+            raise Exception from e
 
-        except Exception as excp:
-            logger.app_fail(f"process install for {__name__}", f'{traceback.print_exc()}')
-            raise Exception('f"{self.main_contract}: Failed') from excp
 
     def etl_installbase(self):
         try:
             obj = InstallBase()
             self.df_data = obj.main_install()
         except Exception as e:
-            logger.app_fail(f"process install for {__name__}", f'{traceback.print_exc()}')
+            logger.app_fail(
+                f"Process install for {__name__}", f'{traceback.print_exc()}')
             raise Exception from e
 
-    def etl_services(self):
 
-        print('Implemented etl_contracts!')
+    def etl_services(self):
+        try:
+            obj = ProcessServiceIncidents()
+            self.df_data = obj.main_services()
+        except Exception as e:
+            logger.app_fail(
+                f"Process services for {__name__}", f'{traceback.print_exc()}')
+            raise Exception from e
+
 
     def etl_contracts(self):
         try:
             obj = Contract()
             self.df_data = obj.main_contracts()
         except Exception as e:
-            logger.app_fail(f"process contract for {__name__}", f'{traceback.print_exc()}')
+            logger.app_fail(
+                f"Process contracts for {__name__}", f'{traceback.print_exc()}')
             raise Exception from e
 
+
     def etl_contacts(self):
-        print('Implemented etl_contacts!')
+        try:
+            obj = Contacts()
+            self.df_data = obj.main_contact()
+        except Exception as e:
+            logger.app_fail(
+                f"Process contacts for {__name__}", f'{traceback.print_exc()}')
+            raise Exception from e
+
 
     def etl_lead_management(self):
-        print('Implemented etl_lead_management !')
+        print('NOT Implemented etl_lead_management !')
 
-    def etl_lead_generation(self):
-        print('Implemented etl_lead_management !')
+
+    def lead_generation(self):
+        try:
+            obj = LeadGeneration()
+            self.df_data = obj.main_lead_generation()
+        except Exception as e:
+            logger.app_fail(
+                f"Lead generation for {__name__}", f'{traceback.print_exc()}')
+            raise Exception from e
+
+
+# %%
+
+if __name__ == "__main__":
+    obj_dcpd = DCPD()
+
 
 # %%

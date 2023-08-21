@@ -159,7 +159,7 @@ class Contract:
             logger.app_success(_step)
             # Identify Startups
             _step = 'Identify Startups'
-            df_contract[['was_startedup', 'startup_date']] = self.id_startup(
+            df_contract.loc[:, ['was_startedup', 'startup_date']] = self.id_startup(
                 df_contract[self.ls_cols_startup])
             logger.app_success(_step)
 
@@ -409,10 +409,10 @@ class Contract:
                 col = ls_cols_startup[ix_col]
 
                 if ix_col == 0:
-                    df_startup_org['startup_date'] = df_startup_org[col]
+                    df_startup_org.loc[:, 'startup_date'] = df_startup_org[col]
                 else:
-                    df_startup_org['startup_date'] = df_startup_org['startup_date'].fillna(
-                        df_startup_org[col])
+                    df_startup_org.loc[:, 'startup_date'] = df_startup_org[
+                        'startup_date'].fillna(df_startup_org[col])
 
                 logger.app_debug(
                     f"# NAs in Startup: "
