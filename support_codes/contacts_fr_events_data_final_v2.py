@@ -99,7 +99,7 @@ def extract_email(txt):
     if len(txt) == 0:
         return ""
 
-    pat_email = "\.com"
+    pat_email = "\.com$"
     txt = str.split(str.replace(txt, "\n", " "), " ")
     res = [(val) for val in txt if re.search(pat_email, val)]
 
@@ -196,9 +196,10 @@ def extract_contact_name(txt):
 
 # %%
 
-df_data = pd.read_csv("./data/case_data.csv") # pd.read_csv("./data/event_data.csv")
-ls_columns = ['Id', 'Description']
-df_data = df_data[ls_columns]
+# df_data = pd.read_csv("./data/case_data.csv") # pd.read_csv("./data/event_data.csv")
+df_data = pd.read_csv("../data/events.csv", encoding='cp1252')
+# ls_columns = ['Id', 'Description']
+# df_data = df_data[ls_columns]
 
 df_data.Description = df_data.Description.fillna("")
 
@@ -214,6 +215,6 @@ df_data.loc[:, "email"] = df_data.Description.apply(
 df_data.loc[:, "address"] = df_data.Description.apply(
     lambda x: extract_address(x, pat_address))
 
-df_data.to_csv("./support_codes/temp_results.csv")#, index=False)
+df_data.to_csv("../data/events_data.csv")#, index=False)
 
 # %%

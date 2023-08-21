@@ -305,7 +305,7 @@ class Contacts:
         :rtype: pandas DataFrame.
 
         """
-        if src == "services":
+        if src == "services" or src == "events":
             # Read serial numbers
             file_dir = {
                 'file_dir': (

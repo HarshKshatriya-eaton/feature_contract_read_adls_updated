@@ -33,6 +33,9 @@
             },
             "renewal": {
                 "file_name": "RenewalContract.csv"
+            },
+            "events": {
+                "file_name": "events_data.csv"
             }
         },
         "Reference": {
@@ -1655,8 +1658,7 @@
     },
     "output_contacts_lead": {
         "dict_dbs": {
-            "services": 1,
-            "contracts": 1
+            "events": 1
         },
         "services": {
             "Serial Number": "",
@@ -1716,6 +1718,27 @@
                 "Shipping_Country1__c",
                 "Shipping_Country__c"
             ]
+        },
+        "events": {
+            "Serial Number": "",
+            "Source": "",
+            "Date": "EndDate",
+            "Party_Number": "",
+            "Party_Name": "",
+            "Site_Number": "",
+            "Site_Name": "",
+            "Name": "contact_name",
+            "Company": "",
+            "Title": "",
+            "Email": "email",
+            "Company_Phone": "contact",
+            "Fax": "",
+            "Address1": "address",
+            "Address2": "",
+            "City": "",
+            "Zipcode": "",
+            "State": "",
+            "Country": ""
         },
         "contracts": {
             "Serial Number": "",
