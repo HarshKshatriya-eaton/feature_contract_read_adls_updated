@@ -59,22 +59,22 @@ class LeadGeneration:
 
         _step = 'Read Merged Contracts and Install Base data'
         try:
-            df_install = self.pipeline_contract_install()
+            df_install = obj.pipeline_contract_install()
             logger.app_success(_step)
 
             # ***** PreProcess BOM data *****
             _step = 'Process BOM data and identify leads'
             # Read Data
-            df_leads = self.pipeline_bom_identify_lead(df_install)
+            df_leads = obj.pipeline_bom_identify_lead(df_install)
             logger.app_success(_step)
 
             _step = 'Merge data: Install and BOM'
-            df_leads = self.pipeline_merge(df_leads, df_install, 'meta_data')
+            df_leads = obj.pipeline_merge(df_leads, df_install, 'meta_data')
             logger.app_success(_step)
 
             # Service data
             _step = 'Adding JCOMM and Sidecar Fields to Lead Generation Data'
-            df_leads = self.pipeline_add_jcomm_sidecar(df_leads)
+            df_leads = obj.pipeline_add_jcomm_sidecar(df_leads)
             logger.app_success(_step)
 
             # Post Process : Leads
@@ -248,7 +248,7 @@ class LeadGeneration:
             del ref_install['Key_region']
 
             # *** BillTo customer ***
-            ref_install = self.get_billto_data(ref_install)
+            # ref_install = self.get_billto_data(ref_install)
 
             # *** Strategic account ***
             ref_install = self.update_Strategic_acoount(ref_install)
@@ -257,10 +257,6 @@ class LeadGeneration:
         except Exception as e:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
-
-
-
-
 
     def update_Strategic_acoount(self, ref_install):
         """
@@ -333,10 +329,46 @@ class LeadGeneration:
             output_ilead_df['Component_Due_in (Category)'] = output_ilead_df[
                 'Component_Due_in (years)'].apply(categorize_due_in_category)
 
+            # Add prod meta data
+            output_ilead_df = self.prod_meta_data(output_ilead_df)
+
             return output_ilead_df
         except Exception as e:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
+
+
+    def prod_meta_data(self, output_ilead_df):
+
+        # Partnumber for chasis decides the axle
+        _step = "Product meta data"
+        try:
+            # Read reference data
+            ref_chasis = IO.read_csv(
+                obj.mode, {
+                    'file_dir': obj.config['file']['dir_ref'],
+                    'file_name': obj.config['file']['Reference']['chasis']
+                    })
+            ref_chasis = ref_chasis.drop_duplicates(subset=['key_chasis'])
+
+            # Get part numbers
+            output_ilead_df['key_chasis'] = output_ilead_df['pn_chasis'].copy()
+            output_ilead_df['key_chasis']= output_ilead_df['key_chasis'].fillna("(")
+            output_ilead_df.loc[:, 'key_chasis'] = output_ilead_df[
+                'key_chasis'].apply(
+                    lambda x: x.split(sep = " (")[0] if x[0] != "(" else "")
+
+            # Attach data
+            output_ilead_df = output_ilead_df.merge(
+                ref_chasis, on = 'key_chasis', how='left')
+
+            return output_ilead_df
+        except Exception as e:
+            logger.app_fail(_step, f'{traceback.print_exc()}')
+            raise Exception('f"{_step}: Failed') from e
+
+
+
 
     def pipeline_add_jcomm_sidecar(self, df_leads: object, service_df=None):
         """
