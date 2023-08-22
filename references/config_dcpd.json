@@ -1221,6 +1221,10 @@
                 "actual_datasoure_name": "ShipmentDate",
                 "output_format": "date : mm/dd/yyyy"
             },
+            "Billing_Customer": {
+                "actual_datasoure_name": "BillingAddress",
+                "output_format": "text : capitalize each word"
+            },
             "Billing_Address": {
                 "actual_datasoure_name": "BillingAddress",
                 "output_format": "text : capitalize each word"

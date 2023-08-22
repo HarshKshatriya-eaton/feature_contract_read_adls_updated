@@ -129,7 +129,7 @@ class SerialNumber:
             df_data['f_valid'] = (
                     df_data['f_valid_end'] & df_data['f_valid_content'])
 
-            loggerObj.app_success(current_step)
+            #loggerObj.app_success(current_step)
 
         except Exception as e:
             loggerObj.app_fail(current_step, f"{traceback.print_exc()}")
@@ -164,7 +164,7 @@ class SerialNumber:
             df_input[col] = df_input[col].str.replace(' ', '')
             df_input[col] = df_input[col].str.replace(r'&', r'-')
             # TODO: Test '&' is replaced by comma.
-            loggerObj.app_success(current_step)
+            #loggerObj.app_success(current_step)
 
         except Exception as e:
             loggerObj.app_fail(current_step, f"{traceback.print_exc()}")
@@ -220,7 +220,7 @@ class SerialNumber:
                 df_out = pd.concat([df_out_known, df_out_unknown])
             else:
                 df_out = df_out_unknown.copy()
-            loggerObj.app_success(current_step)
+            #loggerObj.app_success(current_step)
 
         except Exception as e:
             loggerObj.app_fail(current_step, f"{traceback.print_exc()}")
@@ -314,7 +314,7 @@ class SerialNumber:
             df_out_unknown = pd.concat(ls_seq_out_unknown.tolist())
 
             could_not = df_input.loc[df_input['f_analyze'] == False, :]
-            loggerObj.app_success(current_step)
+            #loggerObj.app_success(current_step)
 
         except Exception as e:
             loggerObj.app_fail(current_step, f"{traceback.print_exc()}")
@@ -353,7 +353,7 @@ class SerialNumber:
                     range(int(split_sr[0]), int(split_sr[1]) + 1)
                 )
 
-            loggerObj.app_success(current_step)
+            #loggerObj.app_success(current_step)
 
         # except Exception as e:
         #     loggerObj.app_fail(current_step, f"{traceback.print_exc()}")
@@ -465,7 +465,7 @@ class SerialNumber:
             sr_num = vals[0]
             install_size = vals[1]
             key_serial = vals[2]
-            loggerObj.app_success(sr_num)
+            #loggerObj.app_success(sr_num)
 
             f_analyze = True
             dict_out = {'type': '', 'ix_beg': '',
@@ -593,7 +593,7 @@ class SerialNumber:
                 dict_out['ix_beg'] = ix_beg
                 dict_out['ix_end'] = ix_end
 
-            loggerObj.app_success(current_step)
+            #loggerObj.app_success(current_step)
 
         except Exception as e:
             loggerObj.app_fail(current_step, f'{traceback.print_exc()}')
@@ -632,7 +632,7 @@ class SerialNumber:
                 # ix_sr = list(range(ix, ix+size))[0]
                 srnum = self.convert_index(ix_sr, pwr)
                 ls_sr_num.append(srnum)
-            loggerObj.app_success(current_step)
+            #loggerObj.app_success(current_step)
 
         except Exception as e:
             loggerObj.app_fail(current_step, f"{traceback.print_exc()}")
@@ -666,7 +666,7 @@ class SerialNumber:
                 pwr_alpha = len(seq_) - pos - 1
                 val_aplha = (26 ** pwr_alpha) * ix_aplha
                 val_total = val_total + val_aplha
-            loggerObj.app_success(current_step)
+            #loggerObj.app_success(current_step)
 
         except Exception as e:
             loggerObj.app_fail(current_step, f"{traceback.print_exc()}")

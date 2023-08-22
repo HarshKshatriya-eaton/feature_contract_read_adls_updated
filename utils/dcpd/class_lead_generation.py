@@ -29,9 +29,13 @@ os.chdir(path)
 
 from utils.dcpd.class_business_logic import BusinessLogic
 from utils.dcpd.class_serial_number import SerialNumber
+from utils.strategic_customer import StrategicCustomer
 from utils.format_data import Format
 from utils import AppLogger
 from utils import IO
+from utils import Filter
+
+obj_filt = Filter()
 
 logger = AppLogger(__name__)
 punctuation = punctuation + ' '
@@ -56,19 +60,16 @@ class LeadGeneration:
         _step = 'Read Merged Contracts and Install Base data'
         try:
             df_install = self.pipeline_contract_install()
-            logger.app_success(f"***** {df_install.SerialNumber_M2M.nunique()} *****")
             logger.app_success(_step)
 
             # ***** PreProcess BOM data *****
             _step = 'Process BOM data and identify leads'
             # Read Data
             df_leads = self.pipeline_bom_identify_lead(df_install)
-            logger.app_success(f"***** {df_leads.SerialNumber_M2M.nunique()} *****")
             logger.app_success(_step)
 
             _step = 'Merge data: Install and BOM'
             df_leads = self.pipeline_merge(df_leads, df_install, 'meta_data')
-            logger.app_success(f"***** {df_leads.SerialNumber_M2M.nunique()} *****")
             logger.app_success(_step)
 
             # Service data
@@ -140,7 +141,6 @@ class LeadGeneration:
         return 'successfully !'
 
     #  ***** Pipelines ****
-
     def post_proecess_leads(self, df_leads):
 
         # All other displays: Invalid
@@ -187,6 +187,7 @@ class LeadGeneration:
 
         return df_leads
 
+
     def post_process_ref_install(self, ref_install):
         """
         This module derives new columns for the blank columns after formatting the output.
@@ -200,8 +201,9 @@ class LeadGeneration:
 
             # TODO: for calculation if startup date has values used that else use shipment date.
 
-            ref_install['Product_Age'] = (pd.Timestamp.now().normalize() - pd.to_datetime(
-                ref_install['ShipmentDate'])) / np.timedelta64(1, 'Y')
+            ref_install['Product_Age'] = (
+                pd.Timestamp.now().normalize()
+                - pd.to_datetime(ref_install['ShipmentDate'])) / np.timedelta64(1, 'Y')
 
             ref_install['Product_Age'] = ref_install['Product_Age'].astype(int)
 
@@ -245,10 +247,77 @@ class LeadGeneration:
                 left_on='Key_region', right_on='Abreviation', how="left")
             del ref_install['Key_region']
 
+            # *** BillTo customer ***
+            ref_install = self.get_billto_data(ref_install)
+
+            # *** Strategic account ***
+            ref_install = self.update_Strategic_acoount(ref_install)
+
             return ref_install
         except Exception as e:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
+
+
+    def get_billto_data(self, ref_install):
+        """
+        Update billto information for the contracts data
+
+        :param ref_install: Install base data
+        :type ref_install: pandas dataframe
+        :return: InstallBase data with updated BillTo information.
+        :rtype: pandas dataframe
+
+        """
+        df_raw_contract = IO.read_csv(
+            self.mode,
+            {'file_dir': self.config['file']['dir_data'],
+             'file_name': self.config['file']['Raw']['contracts']['file_name']
+             })
+
+        ls_cols = [
+            'ContractNumber', 'BillingAddress', 'BillingStreet', 'BillingCity',
+            'BillingState', 'BillingPostalCode', 'BillingCountry']
+        df_raw_contract = df_raw_contract[ls_cols]
+        df_raw_contract = df_raw_contract[
+            pd.notna(df_raw_contract['BillingStreet'])]
+        del ls_cols
+
+        # Prep data : rename_ cillto
+        ls_cols = ref_install.columns[ref_install.columns.str.contains(
+            "bill", case=False)]
+        dict_rename = {}
+        for col in ls_cols:
+            dict_rename[col] = col + '_old'
+        ref_install = ref_install.rename(dict_rename, axis=1)
+        del dict_rename
+
+        ref_install = ref_install.merge(
+            df_raw_contract, how='left', on='ContractNumber')
+
+        return ref_install
+
+
+    def update_Strategic_acoount(self, ref_install):
+        """
+
+        :param ref_install: DESCRIPTION
+        :type ref_install: TYPE
+        :return: DESCRIPTION
+        :rtype: pandas dataframe
+
+        """
+        # Update customer name
+        ref_install['Customer_old'] = ref_install['Customer'].copy()
+        ref_install['Customer'] = obj_filt.prioratized_columns(
+            ref_install, ['StartupCustomer', 'ShipTo_Customer'])
+
+        # Update strategic account logic
+        obj_sc = StrategicCustomer('local')
+        df_customer = obj_sc.main_customer_list(df_leads=ref_install)
+
+
+        return ref_install
 
     def post_process_output_ilead(self, output_ilead_df):
         """
@@ -1061,7 +1130,7 @@ class LeadGeneration:
             return row['EOSL']
 
 
-
+#%%
 if __name__ == "__main__":
     obj = LeadGeneration()
     obj.main_lead_generation()
