@@ -59,22 +59,22 @@ class LeadGeneration:
 
         _step = 'Read Merged Contracts and Install Base data'
         try:
-            df_install = obj.pipeline_contract_install()
+            df_install = self.pipeline_contract_install()
             logger.app_success(_step)
 
             # ***** PreProcess BOM data *****
             _step = 'Process BOM data and identify leads'
             # Read Data
-            df_leads = obj.pipeline_bom_identify_lead(df_install)
+            df_leads = self.pipeline_bom_identify_lead(df_install)
             logger.app_success(_step)
 
             _step = 'Merge data: Install and BOM'
-            df_leads = obj.pipeline_merge(df_leads, df_install, 'meta_data')
+            df_leads = self.pipeline_merge(df_leads, df_install, 'meta_data')
             logger.app_success(_step)
 
             # Service data
             _step = 'Adding JCOMM and Sidecar Fields to Lead Generation Data'
-            df_leads = obj.pipeline_add_jcomm_sidecar(df_leads)
+            df_leads = self.pipeline_add_jcomm_sidecar(df_leads)
             logger.app_success(_step)
 
             # Post Process : Leads
@@ -345,9 +345,9 @@ class LeadGeneration:
         try:
             # Read reference data
             ref_chasis = IO.read_csv(
-                obj.mode, {
-                    'file_dir': obj.config['file']['dir_ref'],
-                    'file_name': obj.config['file']['Reference']['chasis']
+                self.mode, {
+                    'file_dir': self.config['file']['dir_ref'],
+                    'file_name': self.config['file']['Reference']['chasis']
                     })
             ref_chasis = ref_chasis.drop_duplicates(subset=['key_chasis'])
 
