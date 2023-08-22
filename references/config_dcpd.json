@@ -1658,7 +1658,8 @@
     },
     "output_contacts_lead": {
         "dict_dbs": {
-            "events": 1
+            "services": 1,
+            "contracts": 1
         },
         "services": {
             "Serial Number": "",

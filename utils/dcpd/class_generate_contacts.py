@@ -305,7 +305,7 @@ class Contacts:
         :rtype: pandas DataFrame.
 
         """
-        if src == "services" or src == "events":
+        if src == "services":
             # Read serial numbers
             file_dir = {
                 'file_dir': (
@@ -318,6 +318,25 @@ class Contacts:
 
             # Merge Data
             df_data = df_data.merge(df_sr_num, on='Id', how="left")
+
+            # Update contact dictionary
+            dict_contact['Serial Number'] = 'SerialNumber'
+
+        elif src == "events":
+            # Read serial numbers
+            file_dir = {
+                'file_dir': (
+                    self.config['file']['dir_results']
+                    + self.config['file']['dir_intermediate']),
+                'file_name': self.config['file']['Processed']['services'][
+                    'serial_number_services']}
+            df_sr_num = IO.read_csv(self.mode, file_dir)
+            del file_dir
+
+            # Merge Data
+            df_data = df_data.merge(
+                df_sr_num , left_on='WhatId', right_on='Id', how="left"
+            )
 
             # Update contact dictionary
             dict_contact['Serial Number'] = 'SerialNumber'
