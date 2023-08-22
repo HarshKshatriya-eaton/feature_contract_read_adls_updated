@@ -696,9 +696,9 @@
                 },
                 "Contract_Sales_Order__c": {
                     "actual_datasoure_name": "Contract_Sales_Order__c",
-                    "data_type": "text",
+                    "data_type": "numeric",
                     "is_nullable": 1.0,
-                    "output_format": "",
+                    "output_format": "numeric : no_decimal",
                     "input_date_format": ""
                 }
             },

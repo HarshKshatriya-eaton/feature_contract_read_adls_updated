@@ -259,43 +259,7 @@ class LeadGeneration:
             raise Exception('f"{_step}: Failed') from e
 
 
-    def get_billto_data(self, ref_install):
-        """
-        Update billto information for the contracts data
 
-        :param ref_install: Install base data
-        :type ref_install: pandas dataframe
-        :return: InstallBase data with updated BillTo information.
-        :rtype: pandas dataframe
-
-        """
-        df_raw_contract = IO.read_csv(
-            self.mode,
-            {'file_dir': self.config['file']['dir_data'],
-             'file_name': self.config['file']['Raw']['contracts']['file_name']
-             })
-
-        ls_cols = [
-            'ContractNumber', 'BillingAddress', 'BillingStreet', 'BillingCity',
-            'BillingState', 'BillingPostalCode', 'BillingCountry']
-        df_raw_contract = df_raw_contract[ls_cols]
-        df_raw_contract = df_raw_contract[
-            pd.notna(df_raw_contract['BillingStreet'])]
-        del ls_cols
-
-        # Prep data : rename_ cillto
-        ls_cols = ref_install.columns[ref_install.columns.str.contains(
-            "bill", case=False)]
-        dict_rename = {}
-        for col in ls_cols:
-            dict_rename[col] = col + '_old'
-        ref_install = ref_install.rename(dict_rename, axis=1)
-        del dict_rename
-
-        ref_install = ref_install.merge(
-            df_raw_contract, how='left', on='ContractNumber')
-
-        return ref_install
 
 
     def update_Strategic_acoount(self, ref_install):
