@@ -248,7 +248,7 @@ class LeadGeneration:
             del ref_install['Key_region']
 
             # *** BillTo customer ***
-            ref_install = self.get_billto_data(ref_install)
+            # ref_install = self.get_billto_data(ref_install)
 
             # *** Strategic account ***
             ref_install = self.update_Strategic_acoount(ref_install)
@@ -257,46 +257,6 @@ class LeadGeneration:
         except Exception as e:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
-
-
-    def get_billto_data(self, ref_install):
-        """
-        Update billto information for the contracts data
-
-        :param ref_install: Install base data
-        :type ref_install: pandas dataframe
-        :return: InstallBase data with updated BillTo information.
-        :rtype: pandas dataframe
-
-        """
-        df_raw_contract = IO.read_csv(
-            self.mode,
-            {'file_dir': self.config['file']['dir_data'],
-             'file_name': self.config['file']['Raw']['contracts']['file_name']
-             })
-
-        ls_cols = [
-            'ContractNumber', 'BillingAddress', 'BillingStreet', 'BillingCity',
-            'BillingState', 'BillingPostalCode', 'BillingCountry']
-        df_raw_contract = df_raw_contract[ls_cols]
-        df_raw_contract = df_raw_contract[
-            pd.notna(df_raw_contract['BillingStreet'])]
-        del ls_cols
-
-        # Prep data : rename_ cillto
-        ls_cols = ref_install.columns[ref_install.columns.str.contains(
-            "bill", case=False)]
-        dict_rename = {}
-        for col in ls_cols:
-            dict_rename[col] = col + '_old'
-        ref_install = ref_install.rename(dict_rename, axis=1)
-        del dict_rename
-
-        ref_install = ref_install.merge(
-            df_raw_contract, how='left', on='ContractNumber')
-
-        return ref_install
-
 
     def update_Strategic_acoount(self, ref_install):
         """
@@ -369,10 +329,46 @@ class LeadGeneration:
             output_ilead_df['Component_Due_in (Category)'] = output_ilead_df[
                 'Component_Due_in (years)'].apply(categorize_due_in_category)
 
+            # Add prod meta data
+            output_ilead_df = self.prod_meta_data(output_ilead_df)
+
             return output_ilead_df
         except Exception as e:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
+
+
+    def prod_meta_data(self, output_ilead_df):
+
+        # Partnumber for chasis decides the axle
+        _step = "Product meta data"
+        try:
+            # Read reference data
+            ref_chasis = IO.read_csv(
+                self.mode, {
+                    'file_dir': self.config['file']['dir_ref'],
+                    'file_name': self.config['file']['Reference']['chasis']
+                    })
+            ref_chasis = ref_chasis.drop_duplicates(subset=['key_chasis'])
+
+            # Get part numbers
+            output_ilead_df['key_chasis'] = output_ilead_df['pn_chasis'].copy()
+            output_ilead_df['key_chasis']= output_ilead_df['key_chasis'].fillna("(")
+            output_ilead_df.loc[:, 'key_chasis'] = output_ilead_df[
+                'key_chasis'].apply(
+                    lambda x: x.split(sep = " (")[0] if x[0] != "(" else "")
+
+            # Attach data
+            output_ilead_df = output_ilead_df.merge(
+                ref_chasis, on = 'key_chasis', how='left')
+
+            return output_ilead_df
+        except Exception as e:
+            logger.app_fail(_step, f'{traceback.print_exc()}')
+            raise Exception('f"{_step}: Failed') from e
+
+
+
 
     def pipeline_add_jcomm_sidecar(self, df_leads: object, service_df=None):
         """

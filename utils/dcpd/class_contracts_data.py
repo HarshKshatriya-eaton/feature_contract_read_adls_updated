@@ -40,7 +40,7 @@ from utils.dcpd.class_business_logic import BusinessLogic
 from utils.dcpd.class_serial_number import SerialNumber
 from utils.dcpd.class_common_srnum_ops import SearchSrnum
 from utils import IO
-
+from utils import Filter
 from utils import AppLogger
 
 logger = AppLogger(__name__)
@@ -763,9 +763,79 @@ class Contract:
             df_contract = df_contract.merge(
                 df_renewal, on='Contract', how='left')
             logger.app_success(self.merge_data)
+
+            df_contract = self.get_billto_data(df_contract)
         except Exception as excp:
             logger.app_fail(self.merge_data, f"{traceback.print_exc()}")
             raise Exception from excp
+
+        return df_contract
+
+    def get_billto_data(self, df_contract):
+        """
+        Update billto information for the contracts data from M2M data
+
+        :param ref_install: Install base data
+        :type ref_install: pandas dataframe
+        :return: InstallBase data with updated BillTo information.
+        :rtype: pandas dataframe
+
+        """
+        # Contract data billto information is not accurate. Therefore
+        # Bill to information for quatract is queries from M2M data using "SO"
+        # as key
+        _step = 'Query BillTo data'
+        try:
+            # M2M data preparation
+            df_raw_m2m = IO.read_csv(
+                self.mode,
+                {'file_dir': self.config['file']['dir_data'],
+                 'file_name': self.config['file']['Raw']['M2M']['file_name']
+                 })
+
+            dict_rename = {
+                "SO": "key_SO",
+                'Sold to Street': 'BillingAddress',
+                'Sold to City': 'BillingCity',
+                'Sold to State': 'BillingState',
+                'Sold to Zip': 'BillingPostalCode',
+                'Sold to Country': 'BillingCountry'}
+            df_raw_m2m = df_raw_m2m.rename(columns=dict_rename)
+            ls_cols = list(dict_rename.values())
+            df_raw_m2m = df_raw_m2m.loc[:, ls_cols]
+            del ls_cols, dict_rename
+
+            # Rename existing "BillTO" columns from contracts for validation
+            ls_cols = df_contract.columns[df_contract.columns.str.contains(
+                "bill", case=False)]
+            dict_rename = {}
+            for col in ls_cols:
+                dict_rename[col] = col + '_old'
+            df_contract = df_contract.rename(dict_rename, axis=1)
+            del dict_rename
+
+            # Query BillTo Information from M2M data
+            obj_filt = Filter()
+            df_contract.loc[:, 'key_contract'] = obj_filt.prioratized_columns(
+                df_contract,
+                ['Contract_Sales_Order__c', 'Original_Sales_Order__c'])
+
+            df_raw_m2m["key_SO"] = df_raw_m2m["key_SO"].astype(str)
+            df_contract = df_contract.merge(
+                df_raw_m2m, how='left',
+                left_on='key_contract', right_on='key_SO')
+
+            # FillIn information
+            ls_cols = df_raw_m2m.columns[df_raw_m2m.columns.str.contains(
+                "bill", case=False)]
+            for col in ls_cols:
+                df_contract.loc[:, col] = obj_filt.prioratized_columns(
+                    df_contract, [col, f'{col}_old'])
+
+            logger.app_success(_step)
+        except Exception as excp:
+             logger.app_fail(_step, f"{traceback.print_exc()}")
+             raise Exception from excp
 
         return df_contract
 
@@ -872,7 +942,7 @@ class Contract:
 
             merge_df = pd.merge(df_install, df, on='SerialNumber', how='left')
 
-            merge_df['was_startedup'] = merge_df['was_startedup'].fillna(False)
+            merge_df.loc[:, 'was_startedup'] = merge_df['was_startedup'].fillna(False)
             merge_df['Contract_Conversion'] = merge_df['Contract_Conversion'].fillna(
                 'No Warranty / Contract')
 

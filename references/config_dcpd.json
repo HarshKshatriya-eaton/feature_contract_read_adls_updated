@@ -43,7 +43,8 @@
             "product_class": "ref_product_class.csv",
             "decode_sr_num": "ref_decode_serialnumber.csv",
             "ref_sheet_pdi": "ref_sheet_pdi.csv",
-            "area_region": "ref_state_region.csv"
+            "area_region": "ref_state_region.csv",
+            "chasis": "ref_chasis.csv"
         },
         "Processed": {
             "customer": {
@@ -696,9 +697,9 @@
                 },
                 "Contract_Sales_Order__c": {
                     "actual_datasoure_name": "Contract_Sales_Order__c",
-                    "data_type": "text",
+                    "data_type": "numeric",
                     "is_nullable": 1.0,
-                    "output_format": "",
+                    "output_format": "numeric : no_decimal",
                     "input_date_format": ""
                 }
             },
@@ -1323,6 +1324,14 @@
             },
             "is_valid_chasis_lead": {
                 "actual_datasoure_name": "is_valid_chasis_lead",
+                "output_format": ""
+            },
+            "rpp_chassis_type": {
+                "actual_datasoure_name": "rpp_chassis_type",
+                "output_format": ""
+            },
+            "rpp_chassis_color": {
+                "actual_datasoure_name": "Color",
                 "output_format": ""
             }
         }
