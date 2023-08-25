@@ -1107,7 +1107,7 @@
                 "output_format": "text : upper"
             },
             "Item_Description": {
-                "actual_datasoure_name": "Description_x",
+                "actual_datasoure_name": "Description",
                 "output_format": "text : upper"
             },
             "Contract_Start_Date": {
