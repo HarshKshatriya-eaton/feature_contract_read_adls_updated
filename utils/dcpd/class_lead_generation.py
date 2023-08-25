@@ -271,12 +271,38 @@ class LeadGeneration:
         # Update customer name
         ref_install['Customer_old'] = ref_install['Customer'].copy()
         ref_install['Customer'] = obj_filt.prioratized_columns(
-            ref_install, ['StartupCustomer', 'ShipTo_Customer'])
+            ref_install, ['StartupCustomer', 'ShipTo_Customer', 'BillingCustomer'])
+        ref_install = ref_install.rename(columns={'StrategicCustomer': 'StrategicCustomer_old'})
+
+        #ref_install = ref_install.rename({"Customer_old": "Customer", "Customer": "End_Customer"})
 
         # Update strategic account logic
         obj_sc = StrategicCustomer('local')
         df_customer = obj_sc.main_customer_list(df_leads=ref_install)
+        df_customer = df_customer.drop_duplicates(subset=['Serial_Number'])
 
+        ref_install = ref_install.merge(
+            df_customer[['Serial_Number', 'StrategicCustomer']],
+            left_on='SerialNumber_M2M', right_on="Serial_Number", how='left')
+
+        # End To Custoimer details
+        ref_install['EndCustomer'] = ref_install['Customer'].copy()
+        dict_cols = {
+            "End_Customer_Address": ['StartupAddress', 'ShipTo_Street'],
+            "End_Customer_City": ['StartupCity', 'ShipTo_City'],
+            "End_Customer_State": ['StartupState', 'ShipTo_State'],
+            "End_Customer_Zip": ['StartupPostalCode', 'ShipTo_Zip']
+            }
+        for col in dict_cols:
+            ls_cols = dict_cols[col]
+            ref_install[col] = ""
+            # Startup columns
+            ref_install.loc[ref_install.was_startedup == True, col] = ref_install.loc[
+                ref_install.was_startedup == True, ls_cols[0]]
+
+            # Shipto columns
+            ref_install.loc[ref_install.was_startedup == False, col] = ref_install.loc[
+                ref_install.was_startedup == False, ls_cols[0]]
 
         return ref_install
 

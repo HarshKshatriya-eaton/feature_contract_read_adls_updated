@@ -795,6 +795,7 @@ class Contract:
 
             dict_rename = {
                 "SO": "key_SO",
+                "Customer": "BillingCustomer",
                 'Sold to Street': 'BillingAddress',
                 'Sold to City': 'BillingCity',
                 'Sold to State': 'BillingState',
@@ -810,7 +811,8 @@ class Contract:
                 "bill", case=False)]
             dict_rename = {}
             for col in ls_cols:
-                dict_rename[col] = col + '_old'
+                if col in df_contract.columns:
+                    dict_rename[col] = col + '_old'
             df_contract = df_contract.rename(dict_rename, axis=1)
             del dict_rename
 
@@ -825,12 +827,13 @@ class Contract:
                 df_raw_m2m, how='left',
                 left_on='key_contract', right_on='key_SO')
 
-            # FillIn information
+            # If SO are unavailable then use billing info from SalesForce
             ls_cols = df_raw_m2m.columns[df_raw_m2m.columns.str.contains(
                 "bill", case=False)]
             for col in ls_cols:
-                df_contract.loc[:, col] = obj_filt.prioratized_columns(
-                    df_contract, [col, f'{col}_old'])
+                if f'{col}_old' in df_contract.columns:
+                    df_contract.loc[:, col] = obj_filt.prioratized_columns(
+                        df_contract, [col, f'{col}_old'])
 
             logger.app_success(_step)
         except Exception as excp:
