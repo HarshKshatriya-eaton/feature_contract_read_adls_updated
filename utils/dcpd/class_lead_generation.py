@@ -294,16 +294,11 @@ class LeadGeneration:
             "End_Customer_Zip": ['StartupPostalCode', 'ShipTo_Zip']
             }
         for col in dict_cols:
-            ls_cols = dict_cols[col]
-            ref_install[col] = ""
+            ls_cols = ['was_startedup'] + dict_cols[col]
             # Startup columns
-            ref_install.loc[ref_install.was_startedup == True, col] = ref_install.loc[
-                ref_install.was_startedup == True, ls_cols[0]]
-
-            # Shipto columns
-            ref_install.loc[ref_install.was_startedup == False, col] = ref_install.loc[
-                ref_install.was_startedup == False, ls_cols[0]]
-
+            ref_install.loc[:, col] = ref_install[ls_cols].apply(
+                lambda x: x[1] if x[0] else x[2], axis=1
+            )
         return ref_install
 
     def post_process_output_ilead(self, output_ilead_df):
