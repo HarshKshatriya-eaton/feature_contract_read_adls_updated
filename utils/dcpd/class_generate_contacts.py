@@ -316,8 +316,21 @@ class Contacts:
             df_sr_num = IO.read_csv(self.mode, file_dir)
             del file_dir
 
+            expanded_sr_num = contractObj.get_range_srum(df_sr_num)
+            expanded_sr_num['SerialNumber'].replace(
+                '', np.nan, inplace=True
+            )
+            expanded_sr_num.dropna(subset=['SerialNumber'], inplace=True)
+            validated_sr_num = contractObj.validate_contract_install_sr_num(
+                expanded_sr_num
+            )
+            validated_sr_num = validated_sr_num.loc[
+                validated_sr_num.flag_validinstall
+            ]
+
             # Merge Data
-            df_data = df_data.merge(df_sr_num, on='Id', how="left")
+            df_data = df_data.merge(validated_sr_num, on='Id', how="left")
+
 
             # Update contact dictionary
             dict_contact['Serial Number'] = 'SerialNumber'
@@ -333,9 +346,21 @@ class Contacts:
             df_sr_num = IO.read_csv(self.mode, file_dir)
             del file_dir
 
+            expanded_sr_num = contractObj.get_range_srum(df_sr_num)
+            expanded_sr_num['SerialNumber'].replace(
+                '', np.nan, inplace=True
+            )
+            expanded_sr_num.dropna(subset=['SerialNumber'], inplace=True)
+            validated_sr_num = contractObj.validate_contract_install_sr_num(
+                expanded_sr_num
+            )
+            validated_sr_num = validated_sr_num.loc[
+                validated_sr_num.flag_validinstall
+            ]
+
             # Merge Data
             df_data = df_data.merge(
-                df_sr_num , left_on='WhatId', right_on='Id', how="left"
+                validated_sr_num , left_on='WhatId', right_on='Id', how="left"
             )
 
             # Update contact dictionary
@@ -433,10 +458,13 @@ class Contacts:
         _step = "Filter to latest data"
 
         try:
-            df_contact = df_contact \
-                .sort_values(by=['Serial Number', 'Date', 'Contact_Type'],
-                             ascending=False) \
-                .drop_duplicates(subset="Serial Number", keep=False)
+            df_contact = df_contact.sort_values(
+                by=['Serial Number', 'Source', 'Contact_Type', 'Date'],
+                ascending=False
+            ).drop_duplicates(
+                subset=['Serial Number', 'Source', 'Contact_Type'],
+                keep=False
+            )
         except Exception as e:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception from e
