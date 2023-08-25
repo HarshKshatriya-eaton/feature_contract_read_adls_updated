@@ -1018,6 +1018,26 @@
                 "actual_datasoure_name": "Customer",
                 "output_format": "text : capitalize each word"
             },
+            "EndCustomer": {
+                "actual_datasoure_name": "EndCustomer",
+                "output_format": "text : capitalize each word"
+            },
+            "End_Customer_Address": {
+                "actual_datasoure_name": "End_Customer_Address",
+                "output_format": "text : capitalize each word"
+            },
+            "End_Customer_City": {
+                "actual_datasoure_name": "End_Customer_City",
+                "output_format": "text : capitalize each word"
+            },
+            "End_Customer_State": {
+                "actual_datasoure_name": "End_Customer_State",
+                "output_format": "text : upper"
+            },
+            "End_Customer_Zip": {
+                "actual_datasoure_name": "End_Customer_Zip",
+                "output_format": ""
+            },
             "Ship_To_Party_Name": {
                 "actual_datasoure_name": "ShipTo_Customer",
                 "output_format": "text : capitalize each word"
@@ -1223,7 +1243,7 @@
                 "output_format": "date : mm/dd/yyyy"
             },
             "Billing_Customer": {
-                "actual_datasoure_name": "BillingAddress",
+                "actual_datasoure_name": "BillingCustomer",
                 "output_format": "text : capitalize each word"
             },
             "Billing_Address": {

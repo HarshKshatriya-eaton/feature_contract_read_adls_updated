@@ -21,6 +21,7 @@ import numpy as np
 import pandas as pd
 import traceback
 from string import punctuation
+import re
 
 path = os.getcwd()
 path = os.path.join(path.split('ileads_lead_generation')[0],
@@ -270,13 +271,34 @@ class LeadGeneration:
         # Update customer name
         ref_install['Customer_old'] = ref_install['Customer'].copy()
         ref_install['Customer'] = obj_filt.prioratized_columns(
-            ref_install, ['StartupCustomer', 'ShipTo_Customer'])
+            ref_install, ['StartupCustomer', 'ShipTo_Customer', 'BillingCustomer'])
+        ref_install = ref_install.rename(columns={'StrategicCustomer': 'StrategicCustomer_old'})
+
+        #ref_install = ref_install.rename({"Customer_old": "Customer", "Customer": "End_Customer"})
 
         # Update strategic account logic
         obj_sc = StrategicCustomer('local')
         df_customer = obj_sc.main_customer_list(df_leads=ref_install)
+        df_customer = df_customer.drop_duplicates(subset=['Serial_Number'])
 
+        ref_install = ref_install.merge(
+            df_customer[['Serial_Number', 'StrategicCustomer']],
+            left_on='SerialNumber_M2M', right_on="Serial_Number", how='left')
 
+        # End To Custoimer details
+        ref_install['EndCustomer'] = ref_install['Customer'].copy()
+        dict_cols = {
+            "End_Customer_Address": ['StartupAddress', 'ShipTo_Street'],
+            "End_Customer_City": ['StartupCity', 'ShipTo_City'],
+            "End_Customer_State": ['StartupState', 'ShipTo_State'],
+            "End_Customer_Zip": ['StartupPostalCode', 'ShipTo_Zip']
+            }
+        for col in dict_cols:
+            ls_cols = ['was_startedup'] + dict_cols[col]
+            # Startup columns
+            ref_install.loc[:, col] = ref_install[ls_cols].apply(
+                lambda x: x[1] if x[0] else x[2], axis=1
+            )
         return ref_install
 
     def post_process_output_ilead(self, output_ilead_df):
@@ -356,7 +378,7 @@ class LeadGeneration:
             output_ilead_df['key_chasis']= output_ilead_df['key_chasis'].fillna("(")
             output_ilead_df.loc[:, 'key_chasis'] = output_ilead_df[
                 'key_chasis'].apply(
-                    lambda x: x.split(sep = " (")[0] if x[0] != "(" else "")
+                    lambda x: re.split(", | \(", x)[0] if x[0] != "(" else "")
 
             # Attach data
             output_ilead_df = output_ilead_df.merge(
