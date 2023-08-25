@@ -1270,6 +1270,10 @@
                 "actual_datasoure_name": "source",
                 "output_format": ""
             },
+            "Sold_To_Customer": {
+                "actual_datasoure_name": "ST_Cust",
+                "output_format": "text : capitalize each word"
+            },
             "Sold_To_Street": {
                 "actual_datasoure_name": "SoldTo_Street",
                 "output_format": "text : capitalize each word"
@@ -1312,6 +1316,10 @@
             },
             "Startup_Country": {
                 "actual_datasoure_name": "StartupCountry",
+                "output_format": ""
+            },
+            "SalesOrder": {
+                "actual_datasoure_name": "SO_x",
                 "output_format": ""
             },
             "pn_logic_tray": {
