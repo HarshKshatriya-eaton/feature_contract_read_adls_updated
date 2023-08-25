@@ -21,6 +21,7 @@ import numpy as np
 import pandas as pd
 import traceback
 from string import punctuation
+import re
 
 path = os.getcwd()
 path = os.path.join(path.split('ileads_lead_generation')[0],
@@ -356,7 +357,7 @@ class LeadGeneration:
             output_ilead_df['key_chasis']= output_ilead_df['key_chasis'].fillna("(")
             output_ilead_df.loc[:, 'key_chasis'] = output_ilead_df[
                 'key_chasis'].apply(
-                    lambda x: x.split(sep = " (")[0] if x[0] != "(" else "")
+                    lambda x: re.split(", | \(", x)[0] if x[0] != "(" else "")
 
             # Attach data
             output_ilead_df = output_ilead_df.merge(
