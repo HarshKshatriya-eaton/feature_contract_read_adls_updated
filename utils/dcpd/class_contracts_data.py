@@ -344,8 +344,12 @@ class Contract:
             input_format = self.config['database']['renewal']['Dictionary Format']
             df_renewal = self.format.format_data(df_renewal, input_format)
             df_renewal.reset_index(drop=True, inplace=True)
-            _step = 'Preprocess data'
-            df_renewal['Contract_Amount'] = df_renewal['Contract_Amount'].fillna(0)
+            df_renewal["Contract Term"] = (
+                pd.to_datetime(df_renewal["Contract_Expiration_Date"])
+                - pd.to_datetime(df_renewal["Contract_Start_Date"])
+            ).dt.days
+            df_renewal["Contract Term"] = df_renewal["Contract Term"]/365
+            df_renewal["Contract Term"] = df_renewal["Contract Term"].round(1)
 
             logger.app_success(self.preprocess_renewal)
         except Exception as excp:
