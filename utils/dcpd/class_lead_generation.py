@@ -115,11 +115,11 @@ class LeadGeneration:
             output_iLead = self.format.format_output(df_leads, iLead_output_format)
 
             lead_type = output_iLead[["Serial_Number", "Lead_Type"]]
+            lead_type["EOSL_reached"] = lead_type["Lead_Type"] == "EOSL"
+            lead_type = lead_type.groupby("Serial_Number")["EOSL_reached"].any()
             ref_install = ref_install.merge(
                 lead_type, on="Serial_Number", how="left"
             )
-            ref_install["EOSL_reached"] = ref_install["Lead_Type"] == "EOSL"
-            ref_install = ref_install.drop(["Lead_Type"], axis=1)
 
             _step = "Exporting reference install file"
 
