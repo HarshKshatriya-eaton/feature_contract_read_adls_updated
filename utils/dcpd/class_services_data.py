@@ -284,6 +284,25 @@ class ProcessServiceIncidents:
                           }
             IO.write_csv(self.mode, output_dir, df_out)
 
+            expanded_sr_num = contractObj.get_range_srum(df_out)
+            expanded_sr_num['SerialNumber'].replace(
+                '', np.nan, inplace=True
+            )
+            expanded_sr_num.dropna(subset=['SerialNumber'], inplace=True)
+            validated_sr_num = contractObj.validate_contract_install_sr_num(
+                expanded_sr_num
+            )
+            validated_sr_num = validated_sr_num.loc[
+                validated_sr_num.flag_validinstall
+            ]
+            IO.write_csv(
+                self.mode,
+                {'file_dir': (
+                        self.config['file']['dir_results']
+                        + self.config['file']['dir_intermediate']),
+                    'file_name': "validated_sr_num.csv"
+                }, validated_sr_num)
+
             loggerObj.app_debug(f"{_step}: SUCCEEDED", 1)
         except Exception as excep:
 

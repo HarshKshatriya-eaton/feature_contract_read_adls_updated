@@ -35,6 +35,7 @@ from utils.format_data import Format
 from utils.dcpd import Contract
 from utils.class_iLead_contact import ilead_contact
 from utils.filter_data import Filter
+from support_codes.contacts_fr_events_data_final_v2 import DataExtraction
 
 contractObj = Contract()
 filter_ = Filter()
@@ -196,8 +197,18 @@ class Contacts:
         try:
             logger.app_info(_step + self.start_msg)
             # Read raw data
-            file_dir = {'file_dir': obj.config['file']['dir_data'],
-                        'file_name': obj.config['file']['Raw'][src]['file_name']}
+            if src != 'events':
+                file_dir = {
+                    'file_dir': obj.config['file']['dir_data'],
+                    'file_name': obj.config['file']['Raw'][src]['file_name']
+                }
+            else:
+                file_dir = {
+                    'file_dir': obj.config['file']['dir_data'],
+                    'file_name': obj.config['file']['Raw'][src]['file_name'],
+                    'encoding': 'cp1252'
+                }
+
             df_data = IO.read_csv(obj.mode, file_dir)
             del file_dir
 
@@ -211,6 +222,9 @@ class Contacts:
 
                 # dict_contact
                 dict_contact = obj.config['output_contacts_lead'][dict_src]
+
+                # extract_data
+                df_data = obj.extract_data(dict_src, df_data)
 
                 # exception handling
                 df_data, dict_updated = obj.exception_src(
@@ -316,20 +330,8 @@ class Contacts:
             df_sr_num = IO.read_csv(self.mode, file_dir)
             del file_dir
 
-            expanded_sr_num = contractObj.get_range_srum(df_sr_num)
-            expanded_sr_num['SerialNumber'].replace(
-                '', np.nan, inplace=True
-            )
-            expanded_sr_num.dropna(subset=['SerialNumber'], inplace=True)
-            validated_sr_num = contractObj.validate_contract_install_sr_num(
-                expanded_sr_num
-            )
-            validated_sr_num = validated_sr_num.loc[
-                validated_sr_num.flag_validinstall
-            ]
-
             # Merge Data
-            df_data = df_data.merge(validated_sr_num, on='Id', how="left")
+            df_data = df_data.merge(df_sr_num, on='Id', how="left")
 
 
             # Update contact dictionary
@@ -346,21 +348,9 @@ class Contacts:
             df_sr_num = IO.read_csv(self.mode, file_dir)
             del file_dir
 
-            expanded_sr_num = contractObj.get_range_srum(df_sr_num)
-            expanded_sr_num['SerialNumber'].replace(
-                '', np.nan, inplace=True
-            )
-            expanded_sr_num.dropna(subset=['SerialNumber'], inplace=True)
-            validated_sr_num = contractObj.validate_contract_install_sr_num(
-                expanded_sr_num
-            )
-            validated_sr_num = validated_sr_num.loc[
-                validated_sr_num.flag_validinstall
-            ]
-
             # Merge Data
             df_data = df_data.merge(
-                validated_sr_num , left_on='WhatId', right_on='Id', how="left"
+                df_sr_num , left_on='WhatId', right_on='Id', how="left"
             )
 
             # Update contact dictionary
@@ -398,6 +388,31 @@ class Contacts:
             logger.app_info(f"No exception for {src}", 1)
 
         return df_data, dict_contact
+
+    def extract_data(self, dict_src, df_data):
+        """
+        This function extracts the Contact details from Events data
+        """
+        if dict_src == "events":
+            usa_states = obj.config['output_contacts_lead']["usa_states"]
+            pat_state_short = ' ' + ' | '.join(list(usa_states.keys())) + ' '
+            pat_state_long = ' ' + ' | '.join(list(usa_states.values())) + ' '
+            pat_address = str.lower(
+                '(' + pat_state_short + '|' + pat_state_long + ')')
+
+            data_extractor = DataExtraction()
+            df_data.Description = df_data.Description.fillna("")
+
+            df_data.loc[:, "contact_name"] = df_data.Description.apply(
+                lambda x: data_extractor.extract_contact_name(x))
+            df_data.loc[:, "contact"] = df_data.Description.apply(
+                lambda x: data_extractor.extract_contact_no(x))
+            df_data.loc[:, "email"] = df_data.Description.apply(
+                lambda x: data_extractor.extract_email(x))
+            df_data.loc[:, "address"] = df_data.Description.apply(
+                lambda x: data_extractor.extract_address(x, pat_address))
+
+        return df_data
 
     def post_process(self, df_con):
         """

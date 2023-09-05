@@ -35,7 +35,7 @@
                 "file_name": "RenewalContract.csv"
             },
             "events": {
-                "file_name": "events_data.csv"
+                "file_name": "events.csv"
             }
         },
         "Reference": {
@@ -80,7 +80,7 @@
                 "file_name": "processed_services.csv",
                 "validation": "processed_services_validation.csv",
                 "intermediate": "proceesed_services_jcomm_sidecar.csv",
-                "serial_number_services": "Raw_Services_Data_SerialNum_Expanded.csv"
+                "serial_number_services": "validated_sr_num.csv"
             },
             "contact": {
                 "file_name": "contact_contracts.csv"
@@ -1487,7 +1487,7 @@
                 "([\\w+-]+\\w)"
             ],
             "pat_srnum_services": [
-                "([\\w+-]+\\w)"
+                "(?:\\w+-)+\\w+"
             ],
             "pat_srnum1": [
                 "(\\w+-\\w+ \\(.+\\))",
@@ -1658,9 +1658,9 @@
     },
     "output_contacts_lead": {
         "dict_dbs": {
+            "events": 1,
             "services": 1,
-            "contracts": 1,
-            "events": 1
+            "contracts": 1
         },
         "services": {
             "Serial Number": "",
@@ -2036,6 +2036,58 @@
                 "actual_datasoure_name": "Country__c",
                 "output_format": "text : capitalize each word"
             }
+        },
+        "usa_states": {
+            "AK": "Alaska",
+            "AL": "Alabama",
+            "AR": "Arkansas",
+            "AZ": "Arizona",
+            "CA": "California",
+            "CO": "Colorado",
+            "CT": "Connecticut",
+            "DC": "District of Columbia",
+            "DE": "Delaware",
+            "FL": "Florida",
+            "GA": "Georgia",
+            "HI": "Hawaii",
+            "IA": "Iowa",
+            "ID": "Idaho",
+            "IL": "Illinois",
+            "KS": "Kansas",
+            "KY": "Kentucky",
+            "LA": "Louisiana",
+            "MA": "Massachusetts",
+            "MD": "Maryland",
+            "ME": "Maine",
+            "MI": "Michigan",
+            "MN": "Minnesota",
+            "MO": "Missouri",
+            "MS": "Mississippi",
+            "MT": "Montana",
+            "NC": "North Carolina",
+            "ND": "North Dakota",
+            "NE": "Nebraska",
+            "NH": "New Hampshire",
+            "NJ": "New Jersey",
+            "NM": "New Mexico",
+            "NV": "Nevada",
+            "NY": "New York",
+            "OH": "Ohio",
+            "OK": "Oklahoma",
+            "OR": "Oregon",
+            "PA": "Pennsylvania",
+            "RI": "Rhode Island",
+            "SC": "South Carolina",
+            "SD": "South Dakota",
+            "TN": "Tennessee",
+            "TX": "Texas",
+            "UT": "Utah",
+            "VA": "Virginia",
+            "VT": "Vermont",
+            "WA": "Washington",
+            "WI": "Wisconsin",
+            "WV": "West Virginia",
+            "WY": "Wyoming"
         }
     }
 }
