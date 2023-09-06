@@ -83,6 +83,7 @@ class DataExtraction:
             if any(ls_valid) | (has_us_state != None):
                 address += txt_part if len(address)==0 else ("\n\n" + txt_part)
 
+        address = address.replace("\n", " ")
         return address
 
 
@@ -140,6 +141,8 @@ class DataExtraction:
             out = "\n".join(out)
         else:
             out =""
+
+        out = out.replace("\n", " ")
         return out
 
 
