@@ -1,0 +1,22 @@
+,Id,WhoId,WhatId,WhoCount,WhatCount,Subject,Location,IsAllDayEvent,ActivityDateTime,ActivityDate,DurationInMinutes,StartDateTime,EndDateTime,EndDate,Description,AccountId,OwnerId,Type,IsPrivate,ShowAs,IsDeleted,IsChild,IsGroupEvent,GroupEventType,CreatedDate,CreatedById,LastModifiedDate,LastModifiedById,SystemModstamp,IsArchived,RecurrenceActivityId,IsRecurrence,RecurrenceStartDateTime,RecurrenceEndDateOnly,RecurrenceTimeZoneSidKey,RecurrenceType,RecurrenceInterval,RecurrenceDayOfWeekMask,RecurrenceDayOfMonth,RecurrenceInstance,RecurrenceMonthOfYear,ReminderDateTime,IsReminderSet,EventSubtype,IsRecurrence2Exclusion,Recurrence2PatternText,Recurrence2PatternVersion,IsRecurrence2,IsRecurrence2Exception,Recurrence2PatternStartDate,Recurrence2PatternTimeZone,Completed_Date__c,Customer_Type__c,Day_s__c,Days_Overdue__c,Demand_Date__c,Due_Date_SINT__c,Open_Issue__c,SPDI_3rd_Party_Technician__c,SPDI_Technician__c,Status_Notes__c,Task_Delayed_Reason_SPWR__c,Turnaround_Time_Days__c,User_Territory__c,Work_Order_Received__c,Work_Type__c,X3rd_Party_Technician_Cost__c,Smiths_SF_Id__c,Attended__c,contact_name,contact,email,address
+43,00U4p00000HYE3tEAH,,5004p00000TduqyAAB,0,1,Coresite NY2 CR103,"Secaucus, NJ",False,7/18/2022 12:00,18-Jul-22,3420,7/18/2022 12:00,7/20/2022 21:00,20-Jul-22,"verify BMS communications and load banking
+1. PDU-1A04 – serial #T21-44-US-S-6279
+2. PDU-1A05 – serial #T21-44-US-S-6286
+3. PDU-1B05 – serial #T21-44-US-S-6284
+4. PDU-1B06 – serial #T21-44-US-S-6283
+5. PDU-1C05 – serial #T21-44-US-S-6285
+6. PDU-1D05 – serial #T21-44-US-S-7278
+
+
+
+
+Address:
+CoreSite NY2 Data Center
+2 Emerson Lane
+Secaucus, NJ 07094
+
+Site Contact:
+Anthony White
+Sr. Manager Data Center Operations
+646-599-1551
+anthony.white@coresite.com",,00546000000toGGAAY,Meeting,False,Busy,False,False,False,,7/14/2022 17:18,00546000000toGQAAY,7/21/2022 14:53,00546000000toGGAAY,7/21/2022 14:53,False,,False,,,,,,,,,,7/18/2022 11:45,True,Event,False,,,False,False,,,,,3,0,,,False,,,,,,Other,True,Warranty,,,False,Anthony White,646-599-1551,anthony.white@coresite.com,"  Address:  CoreSite NY2 Data Center  2 Emerson Lane  Secaucus, NJ 07094"
