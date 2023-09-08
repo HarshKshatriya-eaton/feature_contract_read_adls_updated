@@ -651,7 +651,7 @@
                 "Service_Sales_Manager": {
                     "actual_datasoure_name": "Service_Sales_Manager_PDI__c",
                     "data_type": "text",
-                    "is_nullable": 0.0,
+                    "is_nullable": 1,
                     "output_format": "text : capitalize each word",
                     "input_date_format": ""
                 }
@@ -686,6 +686,20 @@
                     "data_type": "numeric",
                     "is_nullable": 1.0,
                     "output_format": "numeric : 2",
+                    "input_date_format": ""
+                },
+                "Contract_Annual_Amount": {
+                    "actual_datasoure_name": "Contract_Annual_Amount__c",
+                    "data_type": "numeric",
+                    "is_nullable": 1.0,
+                    "output_format": "numeric : 2",
+                    "input_date_format": ""
+                },
+                "Contract_Comments": {
+                    "actual_datasoure_name": "Contract_Comments__c",
+                    "data_type": "text",
+                    "is_nullable": 1.0,
+                    "output_format": "text : capitalize each word",
                     "input_date_format": ""
                 },
                 "Contract_Status": {
@@ -1121,6 +1135,30 @@
             "Contract_Conversion": {
                 "actual_datasoure_name": "Contract_Conversion",
                 "output_format": "text : capitalize each word"
+            },
+            "Contract_Amount": {
+                "actual_datasoure_name": "Contract_Amount",
+                "output_format": ""
+            },
+            "Contract_Annual_Amount": {
+                "actual_datasoure_name": "Contract_Annual_Amount",
+                "output_format": ""
+            },
+            "Contract_Comments__c": {
+                "actual_datasoure_name": "Contract_Comments",
+                "output_format": "text : capitalize each word"
+            },
+            "Contract_Sales_Order__c": {
+                "actual_datasoure_name": "Contract_Sales_Order__c",
+                "output_format": ""
+            },
+            "Contract_Term": {
+                "actual_datasoure_name": "Contract Term",
+                "output_format": ""
+            },
+            "Payment_Frequency": {
+                "actual_datasoure_name": "Payment_Frequency",
+                "output_format": "text : upper"
             },
             "Strategic_Customer_Name": {
                 "actual_datasoure_name": "StrategicCustomer",

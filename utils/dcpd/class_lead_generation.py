@@ -114,6 +114,13 @@ class LeadGeneration:
             iLead_output_format = self.config['output_format']['output_iLead']
             output_iLead = self.format.format_output(df_leads, iLead_output_format)
 
+            lead_type = output_iLead[["Serial_Number", "Lead_Type"]]
+            lead_type["EOSL_reached"] = lead_type["Lead_Type"] == "EOSL"
+            lead_type = lead_type.groupby("Serial_Number")["EOSL_reached"].any()
+            ref_install = ref_install.merge(
+                lead_type, on="Serial_Number", how="left"
+            )
+
             _step = "Exporting reference install file"
 
             ref_install = ref_install.drop_duplicates(subset=['Serial_Number']). \
