@@ -88,7 +88,6 @@ class DataExtraction:
 
 
     def extract_contact_name(self, txt):
-
         # txt = df_data.Description[0]
         # print(txt)
 

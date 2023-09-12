@@ -10,7 +10,7 @@ direct written permission from Eaton Corporation.
 """
 import pandas as pd
 
-from support_codes.contacts_fr_events_data_final_v2 import DataExtraction
+from utils.contacts_fr_events_data_final_v2 import DataExtraction
 from utils import IO
 
 data_extractor = DataExtraction()
@@ -25,7 +25,7 @@ class TestExtract:
         """
         Checks the extraction of names
         """
-        df_data = pd.read_csv("./test_data/events_data_1.csv")
+        df_data = pd.read_csv("test_data/events/events_data_1.csv")
         df_data.loc[:, "contact_name"] = df_data.Description.apply(
             lambda x: data_extractor.extract_contact_name(x))
 
@@ -36,7 +36,7 @@ class TestExtract:
         """
         Checks the extraction of contact number
         """
-        df_data = pd.read_csv("./test_data/events_data_1.csv")
+        df_data = pd.read_csv("test_data/events/events_data_1.csv")
         df_data.loc[:, "contact"] = df_data.Description.apply(
             lambda x: data_extractor.extract_contact_no(x))
 
@@ -47,7 +47,7 @@ class TestExtract:
         """
         Checks the extraction of email
         """
-        df_data = pd.read_csv("./test_data/events_data_2.csv")
+        df_data = pd.read_csv("test_data/events/events_data_2.csv")
         df_data.loc[:, "email"] = df_data.Description.apply(
             lambda x: data_extractor.extract_email(x))
 
@@ -64,7 +64,7 @@ class TestExtract:
         pat_address = str.lower(
             '(' + pat_state_short + '|' + pat_state_long + ')')
 
-        df_data = pd.read_csv("./test_data/events_data_1.csv")
+        df_data = pd.read_csv("test_data/events/events_data_1.csv")
         df_data.loc[:, "address"] = df_data.Description.apply(
             lambda x: data_extractor.extract_address(x, pat_address))
 

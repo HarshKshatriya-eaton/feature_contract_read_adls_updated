@@ -20,6 +20,7 @@ direct written permission from Eaton Corporation.
 
 # %% ***** Setup Environment *****
 import os
+import re
 path = os.getcwd()
 path = os.path.join(
     path.split('ileads_lead_generation')[0], 'ileads_lead_generation')
@@ -35,7 +36,7 @@ from utils.format_data import Format
 from utils.dcpd import Contract
 from utils.class_iLead_contact import ilead_contact
 from utils.filter_data import Filter
-from support_codes.contacts_fr_events_data_final_v2 import DataExtraction
+from utils.contacts_fr_events_data_final_v2 import DataExtraction
 
 contractObj = Contract()
 filter_ = Filter()
@@ -287,7 +288,6 @@ class Contacts:
 
                 if isinstance(ls_col, list):
                     n_col = 'nc_' + key
-
                     df_data[ls_col] = df_data[ls_col].fillna("").astype(str)
 
                     df_data.loc[:, n_col] = df_data[ls_col].apply(
@@ -339,19 +339,20 @@ class Contacts:
 
         elif src == "events":
             # Read serial numbers
-            file_dir = {
-                'file_dir': (
-                    self.config['file']['dir_results']
-                    + self.config['file']['dir_intermediate']),
-                'file_name': self.config['file']['Processed']['services'][
-                    'serial_number_services']}
-            df_sr_num = IO.read_csv(self.mode, file_dir)
-            del file_dir
+            # file_dir = {
+            #     'file_dir': (
+            #         self.config['file']['dir_results']
+            #         + self.config['file']['dir_intermediate']),
+            #     'file_name': self.config['file']['Processed']['services'][
+            #         'serial_number_services']}
+            # df_sr_num = IO.read_csv(self.mode, file_dir)
+            # del file_dir
+            #
+            # # Merge Data
+            # df_data = df_data.merge(
+            #     df_sr_num , left_on='WhatId', right_on='Id', how="left"
+            # )
 
-            # Merge Data
-            df_data = df_data.merge(
-                df_sr_num , left_on='WhatId', right_on='Id', how="left"
-            )
 
             # Update contact dictionary
             dict_contact['Serial Number'] = 'SerialNumber'
@@ -394,7 +395,7 @@ class Contacts:
         This function extracts the Contact details from Events data
         """
         if dict_src == "events":
-            usa_states = obj.config['output_contacts_lead']["usa_states"]
+            usa_states = self.config['output_contacts_lead']["usa_states"]
             pat_state_short = ' ' + ' | '.join(list(usa_states.keys())) + ' '
             pat_state_long = ' ' + ' | '.join(list(usa_states.values())) + ' '
             pat_address = str.lower(
@@ -410,7 +411,14 @@ class Contacts:
             df_data.loc[:, "email"] = df_data.Description.apply(
                 lambda x: data_extractor.extract_email(x))
             df_data.loc[:, "address"] = df_data.Description.apply(
-                lambda x: data_extractor.extract_address(x, pat_address))
+                lambda x: data_extractor.extract_address(x, pat_address)
+            )
+            df_data.loc[:, "Serial Number"] = df_data["Description"].apply(
+                lambda x: self.serial_num(str(x))
+            )
+            df_data.loc[:, "Serial Number"] = df_data["Serial Number"].apply(
+                lambda x: np.nan if len(x) == 0 else x[0]
+            )
 
         return df_data
 
@@ -485,6 +493,10 @@ class Contacts:
             raise Exception from e
 
         return df_contact
+
+    def serial_num(self, col):
+        pattern = self.config['output_contacts_lead']["pat_srnum_event"]
+        return re.findall(pattern, col)
 
 # %% *** Call ***
 
