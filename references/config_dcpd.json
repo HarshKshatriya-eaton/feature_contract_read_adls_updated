@@ -1412,10 +1412,6 @@
                 "actual_datasoure_name": "Match",
                 "output_format": ""
             },
-            "Component": {
-                "actual_datasoure_name": "Component",
-                "output_format": ""
-            },
             "Description": {
                 "actual_datasoure_name": "Description",
                 "output_format": ""
