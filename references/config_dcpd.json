@@ -1399,6 +1399,73 @@
             "rpp_chassis_color": {
                 "actual_datasoure_name": "Color",
                 "output_format": ""
+            },
+            "PartNumber_TLN_BOM": {
+                "actual_datasoure_name": "PartNumber_TLN_BOM",
+                "output_format": ""
+            },
+            "PartNumber_BOM_BOM": {
+                "actual_datasoure_name": "PartNumber_BOM_BOM",
+                "output_format": ""
+            },
+            "Match": {
+                "actual_datasoure_name": "Match",
+                "output_format": ""
+            },
+            "Component": {
+                "actual_datasoure_name": "Component",
+                "output_format": ""
+            },
+            "Description": {
+                "actual_datasoure_name": "Description",
+                "output_format": ""
+            },
+            "End of Prod": {
+                "actual_datasoure_name": "End of Prod",
+                "output_format": ""
+            },
+            "Status": {
+                "actual_datasoure_name": "Status",
+                "output_format": ""
+            },
+            "Life__Years": {
+                "actual_datasoure_name": "Life__Years",
+                "output_format": ""
+            },
+            "EOSL": {
+                "actual_datasoure_name": "EOSL",
+                "output_format": ""
+            },
+            "flag_raise_in_gp": {
+                "actual_datasoure_name": "flag_raise_in_gp",
+                "output_format": ""
+            },
+            "Remark": {
+                "actual_datasoure_name": "Remark",
+                "output_format": ""
+            },"Input CB": {
+                "actual_datasoure_name": "Input CB",
+                "output_format": ""
+            },
+            "AMP Trip": {
+                "actual_datasoure_name": "AMP Trip",
+                "output_format": ""
+            },
+            "kAIC @ Voltage": {
+                "actual_datasoure_name": "kAIC @ Voltage",
+                "output_format": ""
+            },
+            "Rated, Trip": {
+                "actual_datasoure_name": "Rated, Trip",
+                "output_format": ""
+            },
+            "kVA": {
+                "actual_datasoure_name": "kVA",
+                "output_format": ""
+            },
+            "MFA": {
+                "actual_datasoure_name": "MFA",
+                "output_format": ""
             }
         }
     },

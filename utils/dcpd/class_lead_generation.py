@@ -93,6 +93,16 @@ class LeadGeneration:
 
             logger.app_success(_step)
 
+            address_cols = [
+                "End_Customer_Address",
+                "ShipTo_Street",
+                "BillingAddress",
+                "StartupAddress"
+            ]
+            for col in address_cols:
+                df_leads[col] = df_leads[col].str.replace("\n", " ")
+                df_leads[col] = df_leads[col].str.replace("\r", " ")
+
             _step = 'Write output lead to result directory'
 
             df_leads = df_leads.drop(columns=['temp_column', 'component', 'ClosedDate']) \
