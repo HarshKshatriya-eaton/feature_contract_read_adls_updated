@@ -10,8 +10,14 @@
 here on. This technical information may not be reproduced or used without
 direct written permission from Eaton Corporation.
 """
+# Pytest execution command
+#!pytest ./tests/test_class_installbase.py
+#!pytest --cov
+#!pytest --cov=.\src --cov-report html:.\coverage\ .\test\
+#!pytest --cov=.\utils\dcpd\class_generate_contacts.py --cov-report html:.\coverage\ .\test\
 
 import pytest
+import os
 import pandas as pd
 from datetime import datetime
 from pandas._testing import assert_frame_equal
@@ -271,4 +277,5 @@ class TestContacts:
 #Call
 
 if __name__ == "__main__":
+    print(os.getcwd())
     obj_contact = TestContacts()

@@ -37,7 +37,9 @@ class DataExtraction:
             return ""
 
         #print(txt)
-        pat_contact_no = "(\d{2}-\d{3}-\d{3}-\d{4})|(\d{3}-\d{3}-\d{4})|(\d{3}.\d{3}.\d{4})"
+        pat_contact_no = "(\d{2}-\d{3}-\d{3}-\d{4})|(\d{3}-\d{3}-\d{4})" \
+                         "|(\d{3}\.\d{3}\.\d{4})|(( -)\d{10} )|" \
+                         "( \d{2}-\d{10} )|(\d{10})"
         res = re.findall(pat_contact_no, txt)
         res = [item for tpl in res for item in tpl if len(item) > 0]
 
@@ -48,7 +50,7 @@ class DataExtraction:
         if len(txt) == 0:
             return ""
 
-        pat_email = "\.com$"
+        pat_email = ".+@.+\..+"
         txt = str.split(str.replace(txt, "\n", " "), " ")
         res = [(val) for val in txt if re.search(pat_email, val)]
 
@@ -102,10 +104,14 @@ class DataExtraction:
         pat_contact_no = "(\d{2}-\d{3}-\d{3}-\d{4})|(\d{3}-\d{3}-\d{4})|(\d{3}.\d{3}.\d{4})"
         out = []
 
+        flag_contact_there = False
         for pat_contact_name in ls_pat_contact_name:
         # pat_contact_name = ls_pat_contact_name[1]
             res = [(val) for val in txt_parts if re.search(pat_contact_name, str.lower(val))]
+            if flag_contact_there and pat_contact_name == "contact":
+                continue
             if len(res) > 0:
+                flag_contact_there = True
                 res = str.lower(res[0])
 
                 res = res[(res.find(pat_contact_name) + len(pat_contact_name) ):]
@@ -141,7 +147,7 @@ class DataExtraction:
         else:
             out =""
 
-        out = out.replace("\n", " ")
+        out = out.replace("\n", ", ")
         return out
 
 
