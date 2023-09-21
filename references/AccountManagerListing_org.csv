@@ -1,0 +1,5 @@
+	Condition 1		Condition 2 ((must be an exact match))		Condition 3	
+DisplayName	MatchType_00	CompanyName	MatchType_01	CompanyAliasName	MatchType_02	CompanyDomain
+QTS	Begins With	QTS;Quality Technology Services	Ends With	Quality Technology Services	ends with	qts.com
+Digital Realty	Begins With	"Digital Realty;Digital Realty Trust;Digital Realty Trust, LLP;Digital Realty Trust;Digital Realty"	Ends With	"Digital Realty;Digital Realty Trust;Digital Realty Trust, LLP;Digital Realty Trust;Digital Realty"	ends with	DigitalRealty.com
+Cyrus One	Begins With	"Cyrus One;CyrusOne;CyrusOne LLC;CyrusOne, Inc"	Ends With	"Cyrus One;CyrusOne;CyrusOne LLC;CyrusOne, Inc"	ends with	CyrusOne.com
