@@ -1400,46 +1400,7 @@
                 "actual_datasoure_name": "Color",
                 "output_format": ""
             },
-            "PartNumber_TLN_BOM": {
-                "actual_datasoure_name": "PartNumber_TLN_BOM",
-                "output_format": ""
-            },
-            "PartNumber_BOM_BOM": {
-                "actual_datasoure_name": "PartNumber_BOM_BOM",
-                "output_format": ""
-            },
-            "Match": {
-                "actual_datasoure_name": "Match",
-                "output_format": ""
-            },
-            "Description": {
-                "actual_datasoure_name": "Description",
-                "output_format": ""
-            },
-            "End of Prod": {
-                "actual_datasoure_name": "End of Prod",
-                "output_format": ""
-            },
-            "Status": {
-                "actual_datasoure_name": "Status",
-                "output_format": ""
-            },
-            "Life__Years": {
-                "actual_datasoure_name": "Life__Years",
-                "output_format": ""
-            },
-            "EOSL": {
-                "actual_datasoure_name": "EOSL",
-                "output_format": ""
-            },
-            "flag_raise_in_gp": {
-                "actual_datasoure_name": "flag_raise_in_gp",
-                "output_format": ""
-            },
-            "Remark": {
-                "actual_datasoure_name": "Remark",
-                "output_format": ""
-            },"Input CB": {
+            "Input CB": {
                 "actual_datasoure_name": "Input CB",
                 "output_format": ""
             },
