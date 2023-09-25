@@ -1399,6 +1399,30 @@
             "rpp_chassis_color": {
                 "actual_datasoure_name": "Color",
                 "output_format": ""
+            },
+            "Input CB": {
+                "actual_datasoure_name": "Input CB",
+                "output_format": ""
+            },
+            "AMP Trip": {
+                "actual_datasoure_name": "AMP Trip",
+                "output_format": ""
+            },
+            "kAIC @ Voltage": {
+                "actual_datasoure_name": "kAIC @ Voltage",
+                "output_format": ""
+            },
+            "Rated, Trip": {
+                "actual_datasoure_name": "Rated, Trip",
+                "output_format": ""
+            },
+            "kVA": {
+                "actual_datasoure_name": "kVA",
+                "output_format": ""
+            },
+            "MFA": {
+                "actual_datasoure_name": "MFA",
+                "output_format": ""
             }
         }
     },
