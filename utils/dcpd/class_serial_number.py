@@ -719,13 +719,13 @@ if __name__ == '__main__':
     # 11100067
     #ar_serialnum = ['110-0466','442-0002-7a-12a', '442-0002-7a-12a']
     # ar_serialnum = ['112-0058-1-7','112-0058-6-9,11-12']
-    ar_serialnum = ['180-05578a']
+    ar_serialnum = ['110-0126AB']
     # ar_serialnum = ['118-110-1,2,3']   # Need to resolve
-    ar_installsize = [1]
+    ar_installsize = [2]
 
     df_out_srs, df_out_couldnot = sr_num.get_serialnumber(
          ar_serialnum, ar_installsize,"1")
-    # print("The df Out data is ",df_out_srs)
+    print("The df Out data is ",df_out_srs)
     #df_data = pd.read_csv('./data/SerialNumber.csv')
     #df_data = df_data[df_data['SO'] == 1930]
     #print("New data updated ", df_data)
