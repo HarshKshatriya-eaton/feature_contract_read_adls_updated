@@ -275,6 +275,7 @@ class ProcessServiceIncidents:
                 df_data)  # , dict_cols_srnum)
 
             df_out = df_out.rename({"ContractNumber": 'Id'}, axis=1)
+            df_out.dropna(subset=["SerialNumber"], inplace=True)
 
             # Export intermediate serial number data to be consumed for identifying jcomm component
             output_dir = {'file_dir': self.config['file']['dir_results'] + self.config['file'][
@@ -300,7 +301,8 @@ class ProcessServiceIncidents:
                 {'file_dir': (
                         self.config['file']['dir_results']
                         + self.config['file']['dir_intermediate']),
-                    'file_name': "validated_sr_num.csv"
+                    'file_name': self.config['file']['Processed']['services'][
+                              'validated_sr_num']
                 }, validated_sr_num)
 
             loggerObj.app_debug(f"{_step}: SUCCEEDED", 1)

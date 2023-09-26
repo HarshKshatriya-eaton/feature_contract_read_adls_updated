@@ -352,8 +352,9 @@ class Contacts:
                     'file_dir': (
                         self.config['file']['dir_results']
                         + self.config['file']['dir_intermediate']),
-                    'file_name': self.config['file']['Processed'][src][
-                        'serial_number_services']}
+                    'file_name': self.config['file']['Processed']['services'][
+                              'validated_sr_num']
+                }
                 df_sr_num = IO.read_csv(self.mode, file_dir)
                 del file_dir
 
@@ -452,17 +453,21 @@ class Contacts:
                         .apply(
                         lambda x: self.serial_num(str(x))
                     )
+
                     df_data = df_data.explode("SerialNumber").astype(str)
-                    df_data = contractObj.validate_contract_install_sr_num(
-                        df_data
-                    )
-                    df_data = df_data.loc[df_data.flag_validinstall]
-                    del df_data['flag_validinstall']
-                    del df_data['SerialNumber']
-                    df_data.rename(
-                        columns={'SerialNumber_Partial': 'SerialNumber'},
-                        inplace=True
-                    )
+
+                    output_dir = {
+                        'file_dir': self.config['file']['dir_results'] +
+                                    self.config['file'][
+                                        'dir_validation'],
+                        'file_name':
+                            self.config['file']['Processed']['contact'][
+                                'events_sr_num']
+                    }
+
+                    IO.write_csv(self.mode, output_dir, df_data)
+                    # df_data = contractObj.get_range_srum(df_data)
+
                     df_data = df_data.loc[
                         (df_data['contact'] != df_data['SerialNumber'])
                     ]
@@ -530,22 +535,32 @@ class Contacts:
             n_col = f"f_{col}"
             ls_flags += [n_col]
 
-            le = len(df_con[col].astype(str)[0])
             flag1 = pd.notna(df_con[col])
             flag2 = (df_con[col] != "")
-            flag3 = le >= ml
-            flag = flag1 & flag2 & flag3
+            flag = flag1 & flag2
             df_con.loc[:, n_col] = flag
-            # df_con.loc[:, n_col] = (
-            #     pd.notna(df_con[col]) &
-            #     (df_con[col] != "") &
-            #     le >= ml
-            # )
 
             df_con.loc[:, "flag_include"] = (
                     df_con["flag_include"] | df_con.loc[:, n_col]
             )
 
+        df_con = df_con.loc[
+            (df_con["Name"].str.len() >= min_length["Name"]) |
+            (df_con["Email"].str.len() >= min_length["Email"]) |
+            (df_con["Company_Phone"].str.len() >= min_length["Company_Phone"])
+        ]
+        df_con.rename(
+            columns={'Serial Number': 'SerialNumber'},
+            inplace=True
+        )
+        df_con = contractObj.validate_contract_install_sr_num(df_con)
+        df_con = df_con.loc[df_con.flag_validinstall]
+        del df_con['flag_validinstall']
+        del df_con['SerialNumber']
+        df_con.rename(
+            columns={'SerialNumber_Partial': 'SerialNumber'},
+            inplace=True
+        )
         df_con = df_con[df_con["flag_include"]]
         ls_flags.append("flag_include")
         df_con.drop(columns=ls_flags, inplace=True)
@@ -566,10 +581,10 @@ class Contacts:
 
         try:
             df_contact = df_contact.sort_values(
-                by=['Serial Number', 'Source', 'Contact_Type', 'Date'],
+                by=['SerialNumber', 'Source', 'Contact_Type', 'Date'],
                 ascending=False
             ).drop_duplicates(
-                subset=['Serial Number', 'Source', 'Contact_Type'],
+                subset=['SerialNumber', 'Source', 'Contact_Type'],
                 keep="first"
             )
         except Exception as e:

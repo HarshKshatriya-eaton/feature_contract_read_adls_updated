@@ -267,10 +267,10 @@ class Contract:
 
             # Step 1: Exact Match
             df_contract["match_flag"] = False
-            for index, row in df_contract.iterrows():
-                serial_number = row["SerialNumber"]
-                if serial_number in df_install["SerialNumber"].values:
-                    df_contract.at[index, "match_flag"] = True
+            df_contract["match_flag"] = df_contract.SerialNumber.apply(
+                lambda x: True if x in df_install["SerialNumber"].values
+                else False
+            )
 
             # Step 2: Filter df_install based on "StrategicCustomer"
             df_filtered = df_install[~df_install["StrategicCustomer"].isin(ls_exact_match)]
@@ -316,7 +316,8 @@ class Contract:
 
             IO.write_csv(self.mode, {'file_dir': self.config['file']['dir_results'] +
                                                  self.config['file']['dir_validation'],
-                                     'file_name': "contract_install_srnum_validation.csv"
+                                     'file_name': self.config['file']['Processed']
+                                     ['contracts']['contract_srnum_validation']
                                      }, df_contract)
 
             logger.app_success(_step)

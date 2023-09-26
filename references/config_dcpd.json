@@ -74,16 +74,19 @@
             },
             "contracts": {
                 "file_name": "processed_contract.csv",
-                "validation": "processed_contract_b4_install_validation.csv"
+                "validation": "processed_contract_b4_install_validation.csv",
+                "contract_srnum_validation": "contract_install_srnum_validation.csv"
             },
             "services": {
                 "file_name": "processed_services.csv",
                 "validation": "processed_services_validation.csv",
                 "intermediate": "proceesed_services_jcomm_sidecar.csv",
-                "serial_number_services": "validated_sr_num.csv"
+                "serial_number_services": "Raw_Services_Data_SerialNum_Expanded.csv",
+                "validated_sr_num": "validated_sr_num.csv"
             },
             "contact": {
-                "file_name": "contact_contracts.csv"
+                "file_name": "contact_contracts.csv",
+                "events_sr_num": "events_sr_num.csv"
             }
         }
     },
@@ -1658,9 +1661,9 @@
     },
     "output_contacts_lead": {
         "dict_dbs": {
-            "events": 1,
             "services": 1,
-            "contracts": 1
+            "contracts": 1,
+            "events": 1
         },
         "services": {
             "Serial Number": "",
