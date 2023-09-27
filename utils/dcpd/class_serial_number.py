@@ -165,6 +165,10 @@ class SerialNumber:
             df_input[col] = df_input[col].str.replace(' ', '')
             df_input[col] = df_input[col].str.replace(r'&', r'-')
             # TODO: Test '&' is replaced by comma.
+            df_input[col] = df_input.apply(
+                lambda row: self.modify_sr_num(row), axis=1
+            )
+
             loggerObj.app_success(current_step)
 
         except Exception as e:
@@ -706,6 +710,35 @@ class SerialNumber:
 
         return total_txt
 
+    def modify_sr_num(self, row):
+        serial_num = row.SerialNumberOrg
+        size = row.InstallSize
+        parts = serial_num.split("-")
+        if (
+            # Either total number of parts are 3 or if they are 4 then last part
+            # only contains 2 characters so that they can be expanded
+                ((len(parts) <= 3) or (len(parts) == 4 and len(parts[-1]) == 2))
+                and len(parts) > 1 and size == 2
+        ):
+            last = parts[-1]
+            if len(last) >= 2:
+                comp = last[:-2]
+                alpha1 = last[-2:-1]
+                alpha2 = last[-1:]
+
+                if alpha1.isalpha() and alpha2.isalpha():
+                    comp1 = ""
+                    for i in range(0, len(parts) - 1):
+                        comp1 += parts[i]
+                        comp1 += "-"
+
+                    comp2 = alpha1 + "-" + alpha2
+                    if comp != "":
+                        return comp1 + comp + "-" + comp2
+                    return comp1 + comp2
+
+        return serial_num
+
 
 # %%
 if __name__ == '__main__':
@@ -716,11 +749,11 @@ if __name__ == '__main__':
     # ar_installsize = [17, 2, 2, 4]
     # 11100067
     # ar_serialnum = ['110-0466', '442-0002-7a-12a', '442-0002-7a-12a','bcb-180-0557-1-2b-bus']
-    ar_serialnum = ['442-0002-7a-12a']
+    ar_serialnum = ['110-0140AB']
     # ar_serialnum = ['112-0058-1-7','112-0058-6-9,11-12']
     # ar_serialnum = ['180-05578a']
     # ar_serialnum = ['118-110-1,2,3']   # Need to resolve
-    ar_installsize = [1]#, 1, 1,1]
+    ar_installsize = [2]#, 1, 1,1]
     sr_num.validate_srnum(ar_serialnum)
     df_out_srs, df_out_couldnot = sr_num.get_serialnumber(
         ar_serialnum, ar_installsize, "1")
