@@ -713,31 +713,42 @@ class SerialNumber:
         return total_txt
 
     def modify_sr_num(self, row):
+        """
+        Method to expand 2 alphabet strings with hyphen seperator
+        @param row: row entry containing SerialNumber, InstallSize, KeySerial
+        @return: updated serial number string
+        """
         serial_num = row.SerialNumberOrg
         size = row.InstallSize
-        parts = serial_num.split("-")
+        serial_num_parts = serial_num.split("-")
         if (
-            # Either total number of parts are 3 or if they are 4 then last part
-            # only contains 2 characters so that they can be expanded
-                ((len(parts) <= 3) or (len(parts) == 4 and len(parts[-1]) == 2))
-                and len(parts) > 1 and size == 2
+                (
+                    (len(serial_num_parts) <= 3) or # Original Serial Number with 2 hyphen
+                    (len(serial_num_parts) == 4 and len(serial_num_parts[-1]) == 2) # Updated Serial Number with 3 hyphens
+                    # but last part contains only 2 alphabets i.e. after expansion it will
+                    # have 3 hyphens. For. e.g. X-Y-Z-ab expands into X-Y-Z-a and Y-Y-Z-b.
+                    # Haven't come across this case yet but handled it considering future
+                    # possiblity
+                )
+                and len(serial_num_parts) > 1 and size == 2
         ):
-            last = parts[-1]
-            if len(last) >= 2:
-                comp = last[:-2]
-                alpha1 = last[-2:-1]
-                alpha2 = last[-1:]
+            last_part = serial_num_parts[-1]
+            if len(last_part) >= 2:
+                last_part_prefix = last_part[:-2]
+                char1 = last_part[-2:-1]
+                char2 = last_part[-1:]
 
-                if alpha1.isalpha() and alpha2.isalpha():
-                    comp1 = ""
-                    for i in range(0, len(parts) - 1):
-                        comp1 += parts[i]
-                        comp1 += "-"
-
-                    comp2 = alpha1 + "-" + alpha2
-                    if comp != "":
-                        return comp1 + comp + "-" + comp2
-                    return comp1 + comp2
+                if (
+                    # Check if the 2 characters are consecutive alphabets
+                        char1.isalpha() and char2.isalpha() and
+                        (ord(char2) - ord(char1)) == 1
+                ):
+                    updated_sr_num = "-".join(serial_num_parts[:-1])
+                    updated_sr_num = updated_sr_num + "-"
+                    hyphen_sep_alpha = char1 + "-" + char2
+                    if last_part_prefix != "":
+                        return updated_sr_num + last_part_prefix + "-" + hyphen_sep_alpha
+                    return updated_sr_num + hyphen_sep_alpha
 
         return serial_num
 
@@ -751,7 +762,7 @@ if __name__ == '__main__':
     # ar_installsize = [17, 2, 2, 4]
     # 11100067
     # ar_serialnum = ['110-0466', '442-0002-7a-12a', '442-0002-7a-12a','bcb-180-0557-1-2b-bus']
-    ar_serialnum = ['110-0140AB']
+    ar_serialnum = ['110-014-0AB']
     # ar_serialnum = ['112-0058-1-7','112-0058-6-9,11-12']
     # ar_serialnum = ['180-05578a']
     # ar_serialnum = ['118-110-1,2,3']   # Need to resolve
