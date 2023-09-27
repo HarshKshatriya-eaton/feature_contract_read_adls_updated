@@ -164,7 +164,9 @@ class SerialNumber:
                 pat_punc).str.rstrip(pat_punc)
             df_input[col] = df_input[col].str.replace(' ', '')
             df_input[col] = df_input[col].str.replace(r'&', r'-')
-            # TODO: Test '&' is replaced by comma.
+
+            # Change made: 2023-27-9 Expand AB suffix for specific cases
+            # Change made for correct expansion
             df_input[col] = df_input.apply(
                 lambda row: self.modify_sr_num(row), axis=1
             )
