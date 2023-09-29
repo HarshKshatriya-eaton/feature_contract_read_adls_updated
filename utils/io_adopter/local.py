@@ -52,6 +52,11 @@ def read_json_local(config):
 
 #  *** CSV ***
 def read_csv_local(config):
+    """
+    Method to read csv file from local machine
+    @param config: config contains location of the file, filename and encoding
+    @return: pandas dataframe for the csv file
+    """
     _step = f'Read csv : {config}'
     try:
         file_name = config['file_name']

@@ -1,13 +1,10 @@
 
 """@file
-
-
+This file contains logic for contact information(name, address, contact,
+number, email) extraction from a given string
 
 @brief
-
-
 @details
-
 
 @copyright 2021 Eaton Corporation. All Rights Reserved.
 @note Eaton Corporation claims proprietary rights to the material disclosed
@@ -20,6 +17,12 @@ import pandas as pd
 import re
 import usaddress
 import string
+from utils import IO
+import os
+path = os.getcwd()
+path = os.path.join(path.split('ileads_lead_generation')[0],
+                    'ileads_lead_generation')
+os.chdir(path)
 
 class DataExtraction:
     """
@@ -28,18 +31,19 @@ class DataExtraction:
     """
 
     def __init__(self):
-        pass
-
-    # %% Define function
+        self.config = IO.read_json(mode="local", config={
+            "file_dir": "./references/", "file_name": "config_dcpd.json"})
 
     def extract_contact_no(self, txt):
+        """
+        Method to extract contact number from input string
+        @param txt: Input string
+        @return: Comma seperated contact_number list
+        """
         if len(txt) == 0:
             return ""
 
-        #print(txt)
-        pat_contact_no = "(\d{2}-\d{3}-\d{3}-\d{4})|(\d{3}-\d{3}-\d{4})" \
-                         "|(\d{3}\.\d{3}\.\d{4})|(( -)\d{10} )|" \
-                         "( \d{2}-\d{10} )|(\d{10})"
+        pat_contact_no = self.config["contact_extraction"]["pat_contact_no"]
         res = re.findall(pat_contact_no, txt)
         res = [item for tpl in res for item in tpl if len(item) > 0]
 
@@ -47,10 +51,15 @@ class DataExtraction:
 
 
     def extract_email(self, txt):
+        """
+        Method to extract email_id from input string
+        @param txt: Input string
+        @return: Comma seperated email_id list
+        """
         if len(txt) == 0:
             return ""
 
-        pat_email = ".+@.+\..+"
+        pat_email = self.config["contact_extraction"]["pat_email"]
         txt = str.split(str.replace(txt, "\n", " "), " ")
         res = [(val) for val in txt if re.search(pat_email, val)]
 
@@ -58,11 +67,13 @@ class DataExtraction:
 
 
     def extract_address(self, txt, pat_address):
+        """
+        Method to extract address from input string
+        @param txt: Input string
+        @return: Address String
+        """
         if len(txt) == 0:
             return ""
-
-        # txt = df_data.Description[0]
-        # print(txt)
 
         address = ""
         txt_parts = str.split(txt, "\r\n\r\n")
@@ -74,7 +85,6 @@ class DataExtraction:
             txt_parts = str.split(txt, "\n")
 
         for txt_part in txt_parts:
-            # txt_part = txt_parts[5]
             txt_part = txt_part.replace("\n", " ").replace( "\r", " ")
 
             ided_txt = usaddress.parse(txt_part)
@@ -90,18 +100,19 @@ class DataExtraction:
 
 
     def extract_contact_name(self, txt):
-        # txt = df_data.Description[0]
-        # print(txt)
-
-        #txt_org = txt
+        """
+        Method to extract name from input string
+        @param txt: Input string
+        @return: Comma seperated Name list
+        """
         if len(txt) == 0:
             return ""
         punc = string.punctuation + " -" + "0123456789" + "\r\n"
 
-        non_contact = "(rpp)|(pdu)|(sts)|(serial)|(cell)|(office)|(mobile)|(contact)"
+        non_contact = self.config["contact_extraction"]["non_contact"]
         txt_parts = str.split(txt, "\r\n\r\n")
         ls_pat_contact_name = ["contact there",  "contact", "poc"] # "contact"
-        pat_contact_no = "(\d{2}-\d{3}-\d{3}-\d{4})|(\d{3}-\d{3}-\d{4})|(\d{3}.\d{3}.\d{4})"
+        pat_contact_no = self.config["contact_extraction"]["pat_contact_no"]
         out = []
 
         flag_contact_there = False
@@ -124,8 +135,6 @@ class DataExtraction:
                     out += [res.title()]
 
         if len(out) > 0:
-            #txt = re.sub("|".join(sorted(out, key = len, reverse = True)), "", txt)
-            print(out)
             txt = re.sub("|".join(out), "", txt)
 
 

@@ -21,6 +21,7 @@ direct written permission from Eaton Corporation.
 # %% ***** Setup Environment *****
 import os
 import re
+
 path = os.getcwd()
 path = os.path.join(
     path.split('ileads_lead_generation')[0], 'ileads_lead_generation')
@@ -36,11 +37,12 @@ from utils.format_data import Format
 from utils.dcpd import Contract
 from utils.class_iLead_contact import ilead_contact
 from utils.filter_data import Filter
-from utils.contacts_fr_events_data_final_v2 import DataExtraction
+from utils.contacts_fr_events_data import DataExtraction
 
 contractObj = Contract()
 filter_ = Filter()
 logger = AppLogger(__name__)
+
 
 # %% Generate Contacts
 
@@ -153,7 +155,7 @@ class Contacts:
                 try:
                     file_dir = {
                         'file_dir': self.config['file']['dir_results'] +
-                        self.config['file']['dir_intermediate'],
+                                    self.config['file']['dir_intermediate'],
                         'file_name': ('processed_contacts' + src)}
                     df_data = IO.read_csv(obj.mode, file_dir)
 
@@ -198,18 +200,10 @@ class Contacts:
         try:
             logger.app_info(_step + self.start_msg)
             # Read raw data
-            if src != 'events':
-                file_dir = {
-                    'file_dir': obj.config['file']['dir_data'],
-                    'file_name': obj.config['file']['Raw'][src]['file_name']
-                }
-            else:
-                file_dir = {
-                    'file_dir': obj.config['file']['dir_data'],
-                    'file_name': obj.config['file']['Raw'][src]['file_name'],
-                    'encoding': 'cp1252'
-                }
-
+            file_dir = {
+                'file_dir': obj.config['file']['dir_data'],
+                'file_name': obj.config['file']['Raw'][src]['file_name']
+            }
             df_data = IO.read_csv(obj.mode, file_dir)
             del file_dir
 
@@ -223,9 +217,6 @@ class Contacts:
 
                 # dict_contact
                 dict_contact = obj.config['output_contacts_lead'][dict_src]
-
-                # extract_data
-                df_data = obj.extract_data(dict_src, df_data)
 
                 # exception handling
                 df_data, dict_updated = obj.exception_src(
@@ -246,12 +237,13 @@ class Contacts:
 
                 # Postprocess data
                 ls_col_drop = [(col)
-                               for col in df_data.columns if col.startswith("nc_")]
+                               for col in df_data.columns if
+                               col.startswith("nc_")]
                 if len(ls_col_drop) > 0:
                     df_data = df_data.drop(columns=ls_col_drop)
 
             file_dir = {'file_dir': self.config['file']['dir_results'] +
-                        self.config['file']['dir_intermediate'],
+                                    self.config['file']['dir_intermediate'],
                         'file_name': ('processed_contacts' + src)}
             status = IO.write_csv(obj.mode, file_dir, df_results)
             del file_dir, status
@@ -274,7 +266,8 @@ class Contacts:
 
         :param df_data: Input data frame.
         :type df_data: pandas DataFrame
-        :param dict_in: disctionary mapping columns from database to contacts field excpected in output
+        :param dict_in: dictionary mapping columns from database to
+         contacts field expected in output
         :type dict_in: dictionary
         :return: Processed data. concatenated column name:
             "nc_" + output field name
@@ -289,6 +282,7 @@ class Contacts:
             )
         try:
             for key in dict_in:
+                # Filter out Company_Phone for minimum length
                 if key == "Company_Phone":
                     min_len = 2
                 else:
@@ -302,8 +296,8 @@ class Contacts:
 
                     df_data.loc[:, n_col] = df_data[ls_col].apply(
                         lambda x:
-                            '; '.join(y for y in np.unique(x)
-                                      if (len(str(y)) > min_len) & pd.notna(y))
+                        '; '.join(y for y in np.unique(x)
+                                  if (len(str(y)) > min_len) & pd.notna(y))
                         , axis=1)
 
                     dict_in[key] = n_col
@@ -350,10 +344,10 @@ class Contacts:
                 # Read serial numbers
                 file_dir = {
                     'file_dir': (
-                        self.config['file']['dir_results']
-                        + self.config['file']['dir_intermediate']),
+                            self.config['file']['dir_results']
+                            + self.config['file']['dir_intermediate']),
                     'file_name': self.config['file']['Processed']['services'][
-                              'validated_sr_num']
+                        'validated_sr_num']
                 }
                 df_sr_num = IO.read_csv(self.mode, file_dir)
                 del file_dir
@@ -361,18 +355,19 @@ class Contacts:
                 # Merge Data
                 df_data = df_data.merge(df_sr_num, on='Id', how="left")
 
-
                 # Update contact dictionary
                 dict_contact['Serial Number'] = 'SerialNumber'
 
             case "events":
+                # extract_data
+                df_data = obj.extract_data(src, df_data)
                 dict_contact['Serial Number'] = 'SerialNumber'
 
             case "contracts":
                 # Read serial numbers
                 file_dir = {
                     'file_dir': self.config['file']['dir_results'] +
-                    self.config['file']['dir_intermediate'],
+                                self.config['file']['dir_intermediate'],
                     'file_name':
                         self.config['file']['Processed'][src]['file_name']}
 
@@ -382,7 +377,8 @@ class Contacts:
                 del file_dir
 
                 # Merge Data
-                df_data = df_data.merge(df_sr_num, on='ContractNumber', how="left")
+                df_data = df_data.merge(df_sr_num, on='ContractNumber',
+                                        how="left")
 
                 # Data prep
                 df_data.Zipcode__c = pd.to_numeric(
@@ -449,7 +445,7 @@ class Contacts:
                             x, pat_address
                         )
                     )
-                    df_data.loc[:, "SerialNumber"] = df_data["Description"]\
+                    df_data.loc[:, "SerialNumber"] = df_data["Description"] \
                         .apply(
                         lambda x: self.serial_num(str(x))
                     )
@@ -548,7 +544,7 @@ class Contacts:
             (df_con["Name"].str.len() >= min_length["Name"]) |
             (df_con["Email"].str.len() >= min_length["Email"]) |
             (df_con["Company_Phone"].str.len() >= min_length["Company_Phone"])
-        ]
+            ]
         df_con.rename(
             columns={'Serial Number': 'SerialNumber'},
             inplace=True
@@ -594,8 +590,14 @@ class Contacts:
         return df_contact
 
     def serial_num(self, col):
+        """
+        Method to extract serial number details from events description
+        @param col: Events data description column
+        @return: list of extracted patterns
+        """
         pattern = self.config['output_contacts_lead']["pat_srnum_event"]
         return re.findall(pattern, col)
+
 
 # %% *** Call ***
 

@@ -10,272 +10,890 @@
 here on. This technical information may not be reproduced or used without
 direct written permission from Eaton Corporation.
 """
-# Pytest execution command
-#!pytest ./tests/test_class_installbase.py
-#!pytest --cov
-#!pytest --cov=.\src --cov-report html:.\coverage\ .\test\
-#!pytest --cov=.\utils\dcpd\class_generate_contacts.py --cov-report html:.\coverage\ .\test\
-
-import pytest
-import os
 import pandas as pd
-from datetime import datetime
-from pandas._testing import assert_frame_equal
+import pytest
+from pandas._testing import assert_frame_equal, assert_series_equal
+import numpy as np
 
 from utils.dcpd.class_generate_contacts import Contacts
 
-obj_contact = Contacts()
+obj = Contacts()
 
-class TestContacts:
+
+class TestPrepData():
     """
-    Check for the parameters to be applicable in the final contacts generated from class_generate_contacts.py
+    This Test class deals with the test cases for prep_data() method
     """
-    def test_read_file(self):
-        with pytest.raises(Exception) as info:
-            obj_contact.generate_contacts()
-            assert info.type ==Exception
 
+    @pytest.mark.parametrize(
+        "df_data, dict_contact, error_type",
+        [
+            (
+                    "", {"Company": ["Company_a", "Company_b"]},
+                    "<class 'Exception'>"
+            ),
+            (
+                    [], {"Company": ["Company_a", "Company_b"]},
+                    "<class 'Exception'>"
+            ),
+            (
+                    pd.DataFrame({"Company_b": ["DEF", "GHI"]}), "",
+                    "<class 'TypeError'>"
+            ),
+            (
+                    pd.DataFrame({"Company_b": ["DEF", "GHI"]}), [],
+                    "<class 'TypeError'>"
+            ),
+            (
+                    pd.DataFrame({"Company_b": ["DEF", "GHI"]}), None,
+                    "<class 'TypeError'>"
 
-    def test_check_occurence_srnum(self):
+            ),
+            (
+                    pd.DataFrame(), {"Company": ["Company_a", "Company_b"]},
+                    "<class 'Exception'>"
+            ),
+            (
+                    None, {"Company": ["Company_a", "Company_b"]},
+                    "<class 'Exception'>"
+            ),
+            (
+                    pd.DataFrame({"Name": ["a", "b"]}),
+                    {"Company": ["Company_a", "Company_b"]},
+                    "<class 'Exception'>"
+            )
+        ]
+    )
+    def test_errors(self, df_data, dict_contact, error_type):
         """
-        check if all sources for a given serial number is captured in results
+        This test cases checks all the invalid inputs for the prep_data()
+        method and raises exceptions
+        @param df_data: Input dataframe
+        @param dict_contact: dictionary mapping columns from database to
+        contacts field expected in output
+        @param error_type: error type raised
+        @return: None
         """
-        ref_data = pd.DataFrame([{'Id': '', 'AccountId': '', 'OwnerExpirationNotice': '', 'StartDate': '',
-                                  'EndDate': '', 'BillingStreet': '', 'BillingCity': '', 'BillingState': '',
-                                  'BillingPostalCode': '', 'BillingCountry': 'US', 'BillingLatitude': '',
-                                  'BillingLongitude': '', 'BillingGeocodeAccuracy': '', 'BillingAddress': '',
-                                  'ShippingStreet': '', 'ShippingCity': '', 'ShippingState': '',
-                                  'ShippingPostalCode': '', 'ShippingCountry': '', 'ShippingLatitude': '',
-                                  'ShippingLongitude': '', 'ShippingGeocodeAccuracy': '', 'ShippingAddress': '',
-                                  'ContractTerm': '', 'OwnerId': '', 'Status': '', 'CompanySignedId': '',
-                                  'CompanySignedDate': '', 'CustomerSignedId': '', 'CustomerSignedTitle': '',
-                                  'CustomerSignedDate': '', 'SpecialTerms': '', 'ActivatedById': '',
-                                  'ActivatedDate': '', 'StatusCode': '', 'Description': '', 'RecordTypeId': '',
-                                  'IsDeleted': '', 'ContractNumber': '5548', 'LastApprovedDate': '', 'CreatedDate': '',
-                                  'CreatedById': '', 'LastModifiedDate': '11/17/2022 21:54', 'LastModifiedById': '',
-                                  'SystemModstamp': '', 'LastActivityDate': '', 'LastViewedDate': '',
-                                  'LastReferencedDate': '', 'Address__c': '', 'Automatic_Roll__c': '', 'City__c': '',
-                                  'Commissioning_Revenue__c': '', 'Contact_Name__c': '', 'Contract_Comments__c': '',
-                                  'Contract_Stage__c': 'Closed', 'Contract_Type__c': '',
-                                  'Conversion_Sold_w_Order__c': '', 'Country__c': 'US',
-                                  'Customer_Tentative_Start_Up_Date__c': '', 'Customer__c': '', 'Email__c': '',
-                                  'Misc_Date__c': '', 'Misc_Revenue__c': '', 'Mobile_Phone__c': '', 'Mobile__c': '',
-                                  'Opportunity__c': '', 'Original_Sales_Order__c': '', 'PDI_Product_Family__c': 'PDU',
-                                  'PDI_Rep__c': 'NGH Power Systems', 'PM_Contact__c': '', 'PM_Email__c': '',
-                                  'PM_Mobile__c': '', 'PM_Phone__c': '', 'Payment_Frequency__c': '', 'Phone__c': '',
-                                  'Product_1_Serial__c': '110-3050-1-6', 'Product_2_Serial__c': '411-1023',
-                                  'Product_3_Serial__c': '', 'Project_Name__c': 'PIMA County 911 Facility',
-                                  'Project_Type__c': '', 'Qty_1__c': '', 'Qty_2__c': '', 'Qty_3__c': '',
-                                  'Qty_Total_del__c': '', 'Regional_Sales_Manager__c': 'John Garrett',
-                                  'Renewal_Contact__c': 'Dan Anderson', 'Renewal_Email__c': '', 'Renewal_Mobile__c': '',
-                                  'Renewal_Phone__c': '(602) 908-7948', 'Scheduled_Commissioning_Date__c': '',
-                                  'Scheduled_Start_Up_Date__c': 'Monday, July 2, 2012',
-                                  'Scheduled_Training_Date__c': '', 'Service_Coordinator_SPDI__c': '00546000000toGQAAY',
-                                  'Service_Hours__c': '', 'Service_Plan__c': '',
-                                  'Service_Sales_Manager_PDI__c': '00546000000toGZAAY',
-                                  'Start_Up_Completed_Date__c': 'Monday, July 2, 2012', 'Start_Up_Revenue__c': '',
-                                  'State__c': 'AZ', 'Time_Date__c': '', 'Time_Revenue__c': '',
-                                  'Todays_Date__c': 'Monday, February 13, 2023', 'Training_Revenue__c': '',
-                                  'Warranty_Expiration_Date__c': '', 'Warranty_Start_Date__c': 'Monday, July 2, 2012',
-                                  'Warranty_Verification_Packet_3mos__c': '', 'Warranty_Verification_Packet__c': '',
-                                  'Zipcode__c': '', 'Smiths_Contract_Number__c': '',
-                                  'Smiths_SF_Id__c': '80020000003bV6IAAU', 'Qty__c': '', 'Type__c': '',
-                                  'Start_date__c': '', 'Duration_of_Contract__c': '', 'Territory__c': '',
-                                  'Customer_Specific__c': '', 'Bank_information__c': '', 'Bank_Name__c': '',
-                                  'Sort_Code__c': '', 'Account_Name__c': '', 'Account_Number__c': '',
-                                  'IBAN_Sort_Code__c': '', 'Country_c__c': '', 'Product_lines__c': '',
-                                  'Name_of_Company__c': 'NGH Power', 'Website_URL_Address__c': '',
-                                  'Phone_Number__c': '', 'Contract_Term__c': '', 'Market__c': '', 'Reseller__c': ''}])
+        with pytest.raises(Exception) as err:
+            df_out, dict_updated = obj.prep_data(df_data, dict_contact)
+        assert error_type == str(err.type)
 
-        sr_num_data = pd.DataFrame([{'SerialNumber': '120-0159-3', 'ContractNumber': '5548'}])
-
-        result = obj_contact.generate_contacts(ref_data, sr_num_data)
-        count_sr_num = result['Serial_Number'].value_counts()['120-0159-3']
-        expected_output = 3
-        assert count_sr_num == expected_output
-
-    def test_no_duplicate_srnum_and_source(self):
+    @pytest.mark.parametrize(
+        "df_data, dict_contact",
+        [
+            (
+                    pd.DataFrame({"Name": ["a", "b"]}), {}
+            )
+        ]
+    )
+    def test_same_op(self, df_data, dict_contact):
         """
-        check if multiple serial nos. for the same source not present
+        This test cases checks all inputs for which dataframe remains unchanged
+        @param df_data: Input dataframe
+        @param dict_contact: dictionary mapping columns from database to
+         contacts field expected in output
+        @return: None
         """
-        ref_data = pd.DataFrame([{'Id': '', 'AccountId': '', 'OwnerExpirationNotice': '', 'StartDate': '',
-                                  'EndDate': '', 'BillingStreet': '', 'BillingCity': '', 'BillingState': '',
-                                  'BillingPostalCode': '', 'BillingCountry': 'US', 'BillingLatitude': '',
-                                  'BillingLongitude': '', 'BillingGeocodeAccuracy': '', 'BillingAddress': '',
-                                  'ShippingStreet': '', 'ShippingCity': '', 'ShippingState': '',
-                                  'ShippingPostalCode': '', 'ShippingCountry': '', 'ShippingLatitude': '',
-                                  'ShippingLongitude': '', 'ShippingGeocodeAccuracy': '', 'ShippingAddress': '',
-                                  'ContractTerm': '', 'OwnerId': '', 'Status': '', 'CompanySignedId': '',
-                                  'CompanySignedDate': '', 'CustomerSignedId': '', 'CustomerSignedTitle': '',
-                                  'CustomerSignedDate': '', 'SpecialTerms': '', 'ActivatedById': '',
-                                  'ActivatedDate': '', 'StatusCode': '', 'Description': '', 'RecordTypeId': '',
-                                  'IsDeleted': '', 'ContractNumber': '5639', 'LastApprovedDate': '', 'CreatedDate': '',
-                                  'CreatedById': '', 'LastModifiedDate': '3/17/2021 16:09', 'LastModifiedById': '',
-                                  'SystemModstamp': '', 'LastActivityDate': '', 'LastViewedDate': '',
-                                  'LastReferencedDate': '', 'Address__c': '', 'Automatic_Roll__c': '', 'City__c': '',
-                                  'Commissioning_Revenue__c': '', 'Contact_Name__c': '', 'Contract_Comments__c': '',
-                                  'Contract_Stage__c': 'Closed', 'Contract_Type__c': '',
-                                  'Conversion_Sold_w_Order__c': '', 'Country__c': 'US',
-                                  'Customer_Tentative_Start_Up_Date__c': '', 'Customer__c': '', 'Email__c': '',
-                                  'Misc_Date__c': '', 'Misc_Revenue__c': '', 'Mobile_Phone__c': '', 'Mobile__c': '',
-                                  'Opportunity__c': '', 'Original_Sales_Order__c': '', 'PDI_Product_Family__c': 'PDU',
-                                  'PDI_Rep__c': 'NGH Power Systems', 'PM_Contact__c': '', 'PM_Email__c': '',
-                                  'PM_Mobile__c': '', 'PM_Phone__c': '', 'Payment_Frequency__c': '', 'Phone__c': '',
-                                  'Product_1_Serial__c': '110-3050-1-6', 'Product_2_Serial__c': '411-1023',
-                                  'Product_3_Serial__c': '', 'Project_Name__c': 'PIMA County 911 Facility',
-                                  'Project_Type__c': '', 'Qty_1__c': '', 'Qty_2__c': '', 'Qty_3__c': '',
-                                  'Qty_Total_del__c': '', 'Regional_Sales_Manager__c': 'John Garrett',
-                                  'Renewal_Contact__c': 'Dan Anderson', 'Renewal_Email__c': '', 'Renewal_Mobile__c': '',
-                                  'Renewal_Phone__c': '', 'Scheduled_Commissioning_Date__c': '',
-                                  'Scheduled_Start_Up_Date__c': 'Monday, July 2, 2012',
-                                  'Scheduled_Training_Date__c': '', 'Service_Coordinator_SPDI__c': '00546000000toGQAAY',
-                                  'Service_Hours__c': '', 'Service_Plan__c': '',
-                                  'Service_Sales_Manager_PDI__c': '00546000000toGZAAY',
-                                  'Start_Up_Completed_Date__c': 'Monday, July 2, 2012', 'Start_Up_Revenue__c': '',
-                                  'State__c': 'AZ', 'Time_Date__c': '', 'Time_Revenue__c': '',
-                                  'Todays_Date__c': 'Monday, February 13, 2023', 'Training_Revenue__c': '',
-                                  'Warranty_Expiration_Date__c': '', 'Warranty_Start_Date__c': 'Monday, July 2, 2012',
-                                  'Warranty_Verification_Packet_3mos__c': '', 'Warranty_Verification_Packet__c': '',
-                                  'Zipcode__c': '', 'Smiths_Contract_Number__c': '',
-                                  'Smiths_SF_Id__c': '80020000003bV6IAAU', 'Qty__c': '', 'Type__c': '',
-                                  'Start_date__c': '', 'Duration_of_Contract__c': '', 'Territory__c': '',
-                                  'Customer_Specific__c': '', 'Bank_information__c': '', 'Bank_Name__c': '',
-                                  'Sort_Code__c': '', 'Account_Name__c': '', 'Account_Number__c': '',
-                                  'IBAN_Sort_Code__c': '', 'Country_c__c': '', 'Product_lines__c': '',
-                                  'Name_of_Company__c': 'NGH Power', 'Website_URL_Address__c': '',
-                                  'Phone_Number__c': '', 'Contract_Term__c': '', 'Market__c': '', 'Reseller__c': ''}])
-
-        sr_num_data = pd.DataFrame([{'SerialNumber': '110-4211-2', 'ContractNumber': '5639'}])
-
-        result = obj_contact.generate_contacts()
-        duplicate_srnum = (result[result.duplicated(subset=['Serial_Number','Source'],keep=False)])
-        num_dup_rows = len(duplicate_srnum.index)
-        expected_output = 0
-        assert num_dup_rows == expected_output
-
-
-    def test_merge_and_all_dtsrc_contact(self):
         """
-        Check if data generated correctly with sr_num and then obtained 3 datasources
+        Input df_data is the same as output df_data
         """
-        ref_data = pd.DataFrame([{'Id': '', 'AccountId': '', 'OwnerExpirationNotice': '', 'StartDate': '',
-                                  'EndDate': '', 'BillingStreet': '', 'BillingCity': '', 'BillingState': '',
-                                  'BillingPostalCode': '', 'BillingCountry': 'US', 'BillingLatitude': '',
-                                  'BillingLongitude': '', 'BillingGeocodeAccuracy': '', 'BillingAddress': '',
-                                  'ShippingStreet': '', 'ShippingCity': '', 'ShippingState': '',
-                                  'ShippingPostalCode': '', 'ShippingCountry': '', 'ShippingLatitude': '',
-                                  'ShippingLongitude': '', 'ShippingGeocodeAccuracy': '', 'ShippingAddress': '',
-                                  'ContractTerm': '', 'OwnerId': '', 'Status': '', 'CompanySignedId': '',
-                                  'CompanySignedDate': '', 'CustomerSignedId': '', 'CustomerSignedTitle': '',
-                                  'CustomerSignedDate': '', 'SpecialTerms': '', 'ActivatedById': '',
-                                  'ActivatedDate': '', 'StatusCode': '', 'Description': '', 'RecordTypeId': '',
-                                  'IsDeleted': '', 'ContractNumber': '4863', 'LastApprovedDate': '', 'CreatedDate': '',
-                                  'CreatedById': '', 'LastModifiedDate': '11/17/2022 21:54', 'LastModifiedById': '',
-                                  'SystemModstamp': '', 'LastActivityDate': '', 'LastViewedDate': '',
-                                  'LastReferencedDate': '', 'Address__c': '', 'Automatic_Roll__c': '', 'City__c': '',
-                                  'Commissioning_Revenue__c': '', 'Contact_Name__c': '', 'Contract_Comments__c': '',
-                                  'Contract_Stage__c': 'Closed', 'Contract_Type__c': '',
-                                  'Conversion_Sold_w_Order__c': '', 'Country__c': 'US',
-                                  'Customer_Tentative_Start_Up_Date__c': '', 'Customer__c': '', 'Email__c': '',
-                                  'Misc_Date__c': '', 'Misc_Revenue__c': '', 'Mobile_Phone__c': '', 'Mobile__c': '',
-                                  'Opportunity__c': '', 'Original_Sales_Order__c': '', 'PDI_Product_Family__c': 'PDU',
-                                  'PDI_Rep__c': 'NGH Power Systems', 'PM_Contact__c': '', 'PM_Email__c': '',
-                                  'PM_Mobile__c': '', 'PM_Phone__c': '', 'Payment_Frequency__c': '', 'Phone__c': '',
-                                  'Product_1_Serial__c': '110-3050-1-6', 'Product_2_Serial__c': '411-1023',
-                                  'Product_3_Serial__c': '', 'Project_Name__c': 'PIMA County 911 Facility',
-                                  'Project_Type__c': '', 'Qty_1__c': '', 'Qty_2__c': '', 'Qty_3__c': '',
-                                  'Qty_Total_del__c': '', 'Regional_Sales_Manager__c': 'John Garrett',
-                                  'Renewal_Contact__c': 'Dan Anderson', 'Renewal_Email__c': '', 'Renewal_Mobile__c': '',
-                                  'Renewal_Phone__c': '(602) 908-7948', 'Scheduled_Commissioning_Date__c': '',
-                                  'Scheduled_Start_Up_Date__c': 'Monday, July 2, 2012',
-                                  'Scheduled_Training_Date__c': '', 'Service_Coordinator_SPDI__c': '00546000000toGQAAY',
-                                  'Service_Hours__c': '', 'Service_Plan__c': '',
-                                  'Service_Sales_Manager_PDI__c': '00546000000toGZAAY',
-                                  'Start_Up_Completed_Date__c': 'Monday, July 2, 2012', 'Start_Up_Revenue__c': '',
-                                  'State__c': 'AZ', 'Time_Date__c': '', 'Time_Revenue__c': '',
-                                  'Todays_Date__c': 'Monday, February 13, 2023', 'Training_Revenue__c': '',
-                                  'Warranty_Expiration_Date__c': '', 'Warranty_Start_Date__c': 'Monday, July 2, 2012',
-                                  'Warranty_Verification_Packet_3mos__c': '', 'Warranty_Verification_Packet__c': '',
-                                  'Zipcode__c': '', 'Smiths_Contract_Number__c': '',
-                                  'Smiths_SF_Id__c': '80020000003bV6IAAU', 'Qty__c': '', 'Type__c': '',
-                                  'Start_date__c': '', 'Duration_of_Contract__c': '', 'Territory__c': '',
-                                  'Customer_Specific__c': '', 'Bank_information__c': '', 'Bank_Name__c': '',
-                                  'Sort_Code__c': '', 'Account_Name__c': '', 'Account_Number__c': '',
-                                  'IBAN_Sort_Code__c': '', 'Country_c__c': '', 'Product_lines__c': '',
-                                  'Name_of_Company__c': 'NGH Power', 'Website_URL_Address__c': '',
-                                  'Phone_Number__c': '', 'Contract_Term__c': '', 'Market__c': '', 'Reseller__c': ''}])
+        df_out, dict_updated = obj.prep_data(df_data, dict_contact)
+        assert_frame_equal(df_out, df_data)
 
-        sr_num_data = pd.DataFrame([{'SerialNumber': '411-1023', 'ContractNumber': '4863'}])
-
-        result = obj_contact.generate_contacts(ref_data,sr_num_data)
-        result = result.loc[result['Serial_Number']=='411-1023','Source']
-        data_source = ','.join(result.astype(str))
-        expected_output = 'Contract,PM,Renewal'
-
-        assert data_source == expected_output
-
-    def test_ltst_dt_same_src(self):
+    def test_valid_entries(self):
         """
-        Check if only latest date corresponding to a given serial number from a source is captured
+        This method checks the output for valid inputs for prep_data() method
+        @return: None
         """
-        ref_data = pd.DataFrame([{'Id': '', 'AccountId': '', 'OwnerExpirationNotice': '', 'StartDate': '',
-                                  'EndDate': '', 'BillingStreet': '', 'BillingCity': '', 'BillingState': '',
-                                  'BillingPostalCode': '', 'BillingCountry': 'US', 'BillingLatitude': '',
-                                  'BillingLongitude': '', 'BillingGeocodeAccuracy': '', 'BillingAddress': '',
-                                  'ShippingStreet': '', 'ShippingCity': '', 'ShippingState': '',
-                                  'ShippingPostalCode': '', 'ShippingCountry': '', 'ShippingLatitude': '',
-                                  'ShippingLongitude': '', 'ShippingGeocodeAccuracy': '', 'ShippingAddress': '',
-                                  'ContractTerm': '', 'OwnerId': '', 'Status': '', 'CompanySignedId': '',
-                                  'CompanySignedDate': '', 'CustomerSignedId': '', 'CustomerSignedTitle': '',
-                                  'CustomerSignedDate': '', 'SpecialTerms': '', 'ActivatedById': '',
-                                  'ActivatedDate': '', 'StatusCode': '', 'Description': '', 'RecordTypeId': '',
-                                  'IsDeleted': '', 'ContractNumber': '5639', 'LastApprovedDate': '', 'CreatedDate': '',
-                                  'CreatedById': '', 'LastModifiedDate': '3/17/2021 16:09', 'LastModifiedById': '',
-                                  'SystemModstamp': '', 'LastActivityDate': '', 'LastViewedDate': '',
-                                  'LastReferencedDate': '', 'Address__c': '', 'Automatic_Roll__c': '', 'City__c': '',
-                                  'Commissioning_Revenue__c': '', 'Contact_Name__c': '', 'Contract_Comments__c': '',
-                                  'Contract_Stage__c': 'Closed', 'Contract_Type__c': '',
-                                  'Conversion_Sold_w_Order__c': '', 'Country__c': 'US',
-                                  'Customer_Tentative_Start_Up_Date__c': '', 'Customer__c': '', 'Email__c': '',
-                                  'Misc_Date__c': '', 'Misc_Revenue__c': '', 'Mobile_Phone__c': '', 'Mobile__c': '',
-                                  'Opportunity__c': '', 'Original_Sales_Order__c': '', 'PDI_Product_Family__c': 'PDU',
-                                  'PDI_Rep__c': 'NGH Power Systems', 'PM_Contact__c': '', 'PM_Email__c': '',
-                                  'PM_Mobile__c': '', 'PM_Phone__c': '', 'Payment_Frequency__c': '', 'Phone__c': '',
-                                  'Product_1_Serial__c': '110-3050-1-6', 'Product_2_Serial__c': '411-1023',
-                                  'Product_3_Serial__c': '', 'Project_Name__c': 'PIMA County 911 Facility',
-                                  'Project_Type__c': '', 'Qty_1__c': '', 'Qty_2__c': '', 'Qty_3__c': '',
-                                  'Qty_Total_del__c': '', 'Regional_Sales_Manager__c': 'John Garrett',
-                                  'Renewal_Contact__c': 'Dan Anderson', 'Renewal_Email__c': '', 'Renewal_Mobile__c': '',
-                                  'Renewal_Phone__c': '', 'Scheduled_Commissioning_Date__c': '',
-                                  'Scheduled_Start_Up_Date__c': 'Monday, July 2, 2012',
-                                  'Scheduled_Training_Date__c': '', 'Service_Coordinator_SPDI__c': '00546000000toGQAAY',
-                                  'Service_Hours__c': '', 'Service_Plan__c': '',
-                                  'Service_Sales_Manager_PDI__c': '00546000000toGZAAY',
-                                  'Start_Up_Completed_Date__c': 'Monday, July 2, 2012', 'Start_Up_Revenue__c': '',
-                                  'State__c': 'AZ', 'Time_Date__c': '', 'Time_Revenue__c': '',
-                                  'Todays_Date__c': 'Monday, February 13, 2023', 'Training_Revenue__c': '',
-                                  'Warranty_Expiration_Date__c': '', 'Warranty_Start_Date__c': 'Monday, July 2, 2012',
-                                  'Warranty_Verification_Packet_3mos__c': '', 'Warranty_Verification_Packet__c': '',
-                                  'Zipcode__c': '', 'Smiths_Contract_Number__c': '',
-                                  'Smiths_SF_Id__c': '80020000003bV6IAAU', 'Qty__c': '', 'Type__c': '',
-                                  'Start_date__c': '', 'Duration_of_Contract__c': '', 'Territory__c': '',
-                                  'Customer_Specific__c': '', 'Bank_information__c': '', 'Bank_Name__c': '',
-                                  'Sort_Code__c': '', 'Account_Name__c': '', 'Account_Number__c': '',
-                                  'IBAN_Sort_Code__c': '', 'Country_c__c': '', 'Product_lines__c': '',
-                                  'Name_of_Company__c': 'NGH Power', 'Website_URL_Address__c': '',
-                                  'Phone_Number__c': '', 'Contract_Term__c': '', 'Market__c': '', 'Reseller__c': ''}])
+        df_data = pd.DataFrame({
+            "Company_a": ["a", "a", np.nan, "a", np.nan],
+            "Company_b": ["b", "a", "c", np.nan, np.nan],
+            "exp_out": ["a; b", "a", "c", "a", ""]
+        })
 
-        sr_num_data = pd.DataFrame([{'SerialNumber': '110-4211-2', 'ContractNumber': '5639'}])
+        dict_contact = {"Company": ["Company_a", "Company_b"]}
+        df_data, dict_updated = obj.prep_data(df_data, dict_contact)
 
-        result = obj_contact.generate_contacts(ref_data,sr_num_data)
-        result_date = result.loc[(result['Serial_Number'] == '110-4211-2') & (result['Source'] == 'Contract')]
-        result_date['Date']=pd.to_datetime(result_date['Date'])
-        output = [{'Serial_Number': '110-4211-2', 'Source': 'Contract', 'Date': datetime.strptime('3/17/2021','%m/%d/%Y'), 'Site_Number': '', 'Site_Name': 'NGH Power', 'Name': '', 'Company': '', 'Title': '', 'Email': '', 'Company_Phone': ';;;', 'Fax': '', 'Address1': '', 'Address2': '', 'City': '', 'State': 'AZ', 'Zipcode': '', 'Country': 'US'}]
-        expected_output = pd.DataFrame(output)
-        assert_frame_equal(result_date,expected_output)
+        # assert_series_equal(df_data["exp_out"].to, df_data["nc_Company"])
+        assert (df_data["exp_out"] == df_data["nc_Company"]).all()
 
-#Call
+
+class TestSerialNumber():
+    """
+        This Test class deals with the test cases for serial_num() method
+    """
+    @pytest.mark.parametrize(
+        "description, error_type",
+        [
+            ([], "<class 'TypeError'>"),
+            (pd.DataFrame(), "<class 'TypeError'>"),
+            (None, "<class 'TypeError'>")
+        ]
+    )
+    def test_errors(self, description, error_type):
+        """
+        This test cases checks all the invalid inputs for the serial_num()
+        method and raises exceptions
+        @param description: Input String
+        @param error_type: error type raised
+        @return: None
+        """
+        with pytest.raises(Exception) as err:
+            sr_num = obj.serial_num(description)
+        assert error_type == str(err.type)
+
+    @pytest.mark.parametrize(
+        "description",
+        [
+            ("")
+        ]
+    )
+    def test_empty_op(self, description):
+        """
+        This method checks the inputs for which op is empty
+        @param description: Input String
+        @return: None
+        """
+        sr_num = obj.serial_num(description)
+        assert sr_num == []
+
+    @pytest.mark.parametrize(
+        "description, op_pattern",
+        [
+            ("a-b", ["a-b"]),
+            ("a-b-c", ["a-b-c"]),
+            ("a-b-c-d-e", ["a-b-c-d-e"]),
+            ("a-b-c d-e", ["a-b-c", "d-e"]),
+            ("a-b-c, RANDOM TEXT d-e", ["a-b-c", "d-e"]),
+            ("PRE a-bc", ["a-bc"]),
+            ("a-bc POST", ["a-bc"])
+        ]
+    )
+    def test_valid_entries(self, description, op_pattern):
+        """
+        This test case checks the output for valid inputs
+        @param description: Input String
+        @param op_pattern: Expected op
+        @return:  None
+        """
+        sr_num = obj.serial_num(description)
+        assert sr_num == op_pattern
+
+
+class TestFilterLatest():
+    """
+    This Test class deals with the test cases for filter_latest() method
+    """
+    @pytest.mark.parametrize(
+        "df, error_type",
+        [
+            ([], "<class 'Exception'>"),
+            ("", "<class 'Exception'>"),
+            (None, "<class 'Exception'>"),
+            (
+                pd.DataFrame(), "<class 'Exception'>"
+            ),
+            (
+                pd.DataFrame({
+                    "Name": ["a", "b"]
+                }),
+                "<class 'Exception'>"
+            ),
+            (
+                pd.DataFrame({
+                    "Name": ["a", "b"],
+                    "Age": ["A", "B"],
+                    "Address": ["C", "D"]
+                }),
+                "<class 'Exception'>"
+            )
+        ]
+    )
+    def test_errors(self, df, error_type):
+        """
+        This test cases checks all the invalid inputs for the filter_latest()
+        @param df: input dataframe
+        @param error_type: error_type raised
+        @return: None
+        """
+        with pytest.raises(Exception) as err:
+            df = obj.filter_latest(df)
+        assert error_type == str(err.type)
+
+    @pytest.mark.parametrize(
+        "df, df_out",
+        [
+            (
+                    pd.DataFrame({
+                        "SerialNumber": ["a"],
+                        "Source": ["A"],
+                        "Contact_Type": ["C"],
+                        "Date": ["1/1/2023"]
+                    }),
+                    pd.DataFrame({
+                        "SerialNumber": ["a"],
+                        "Source": ["A"],
+                        "Contact_Type": ["C"],
+                        "Date": ["1/1/2023"]
+                    })
+            ),
+            (
+                    pd.DataFrame({
+                        "SerialNumber": ["a", "b"],
+                        "Source": ["A", "B"],
+                        "Contact_Type": ["C", "D"],
+                        "Date": ["1/1/2023", "1/1/2022"]
+                    }),
+                    pd.DataFrame({
+                        "SerialNumber": ["b", "a"],
+                        "Source": ["B", "A"],
+                        "Contact_Type": ["D", "C"],
+                        "Date": ["1/1/2022", "1/1/2023"]
+                    })
+            ),
+            (
+                    pd.DataFrame({
+                        "SerialNumber": ["b", "a"],
+                        "Source": ["A", "B"],
+                        "Contact_Type": ["C", "D"],
+                        "Date": ["1/1/2023", "1/1/2022"]
+                    }),
+                    pd.DataFrame({
+                        "SerialNumber": ["b", "a"],
+                        "Source": ["A", "B"],
+                        "Contact_Type": ["C", "D"],
+                        "Date": ["1/1/2023", "1/1/2022"]
+                    }),
+            ),
+            (
+                    pd.DataFrame({
+                        "SerialNumber": ["b", "a", "a", "a", "a"],
+                        "Source": ["A", "B", "C", "C", "C"],
+                        "Contact_Type": ["D", "D", "D", "E", "E"],
+                        "Date": [
+                            "1/1/2022", "1/1/2022", "1/1/2022", "1/1/2023",
+                            "1/1/2022"
+                        ]
+                    }),
+                    pd.DataFrame({
+                        "SerialNumber": ["b", "a", "a", "a"],
+                        "Source": ["A", "C", "C", "B"],
+                        "Contact_Type": ["D", "E", "D", "D"],
+                        "Date": [
+                            "1/1/2022", "1/1/2023", "1/1/2022", "1/1/2022"
+                        ]
+                    })
+            ),
+        ]
+    )
+    def test_valid_entries(self, df, df_out):
+        """
+        Method to test the output of filter_latest() method for valid entries
+        @param df: input dataframe
+        @param df_out: expected dataframe
+        @return: None
+        """
+        df = obj.filter_latest(df)
+        df.reset_index(inplace=True)
+        df = df.drop("index", axis=1)
+        assert_frame_equal(df, df_out)
+
+
+class TestPostProcess():
+    """
+        This Test class deals with the test cases for post_process() method
+    """
+    @pytest.mark.parametrize(
+        "df, error_type",
+        [
+            ([], "<class 'Exception'>"),
+            (pd.DataFrame(), "<class 'Exception'>"),
+            (None, "<class 'Exception'>"),
+            (
+                    pd.DataFrame({
+                        "Name": ["a", "b"]
+                    }),
+                    "<class 'Exception'>"
+            ),
+            (
+                    pd.DataFrame({
+                        "Name": ["a", "b"],
+                        "Email": ["a", "b"],
+                        "Company_Phone": ["a", "b"],
+                        "Serial Number": ["a", "b"],
+                        "Source": ["a", "b"],
+                        "Date": ["a", "b"],
+                    }),
+                    "<class 'Exception'>"
+            ),
+            (
+                    pd.DataFrame({
+                        "Name": ["a", "b"],
+                        "Email": ["a", "b"],
+                        "Company_Phone": ["a", "b"],
+                        "Serial Number": ["a", "b"],
+                        "Source": ["a", "b"],
+                        "Contact_Type": ["a", "b"]
+                    }),
+                    "<class 'Exception'>"
+            ),
+        ]
+    )
+    def test_errors(self, df, error_type):
+        """
+        This test cases checks all the invalid inputs for the post_process()
+        @param df: input dataframe
+        @param error_type: expected error_type
+        @return: None
+        """
+        with pytest.raises(Exception) as err:
+            df = obj.post_process(df)
+        assert error_type == str(err.type)
+
+
+class TestValidateOp():
+    """
+    This Test class deals with the test cases for validate_op() method
+    """
+    @pytest.mark.parametrize(
+        "df, error_type",
+        [
+            ([], "<class 'AttributeError'>"),
+            ("pd.DataFrame()", "<class 'AttributeError'>"),
+            (pd.DataFrame(), "<class 'ValueError'>"),
+            (None, "<class 'AttributeError'>"),
+            (
+                    pd.DataFrame({
+                        "Name": ["a", "b"]
+                    }),
+                    "<class 'KeyError'>"
+            )
+        ]
+    )
+    def test_errors(self, df, error_type):
+        """
+        This test cases checks all the invalid inputs for the validate_op()
+        @param df: input dataframe
+        @param error_type: expected error_type
+        @return: None
+        """
+        with pytest.raises(Exception) as err:
+            df = obj.validate_op(df)
+        assert error_type == str(err.type)
+
+    @pytest.mark.parametrize(
+        "df, df_out",
+        [
+            (
+                    pd.DataFrame({
+                        "Name": ["trial 1"],
+                        "Email": ["abc@domain.com"],
+                        "Company_Phone": ["123-456-7890"],
+                        "Serial Number": ["452-0071-2"]
+                    }),
+                    pd.DataFrame({
+                        "Name": ["trial 1"],
+                        "Email": ["abc@domain.com"],
+                        "Company_Phone": ["123-456-7890"],
+                        "SerialNumber": ["452-0071-2"]
+                    })
+            ),
+            (
+                    pd.DataFrame({
+                        "Name": ["trial 1"],
+                        "Email": [""],
+                        "Company_Phone": [""],
+                        "Serial Number": ["452-0071-2"]
+                    }),
+                    pd.DataFrame({
+                        "Name": ["trial 1"],
+                        "Email": [""],
+                        "Company_Phone": [""],
+                        "SerialNumber": ["452-0071-2"]
+                    }),
+            ),
+            (
+                    pd.DataFrame({
+                        "Name": [""],
+                        "Email": ["abc@domain.com"],
+                        "Company_Phone": [""],
+                        "Serial Number": ["452-0071-2"]
+                    }),
+                    pd.DataFrame({
+                        "Name": [""],
+                        "Email": ["abc@domain.com"],
+                        "Company_Phone": [""],
+                        "SerialNumber": ["452-0071-2"]
+                    })
+            ),
+            (
+                    pd.DataFrame({
+                        "Name": [""],
+                        "Email": [""],
+                        "Company_Phone": ["123-456-7890"],
+                        "Serial Number": ["452-0071-2"]
+                    }),
+                    pd.DataFrame({
+                        "Name": [""],
+                        "Email": [""],
+                        "Company_Phone": ["123-456-7890"],
+                        "SerialNumber": ["452-0071-2"]
+                    })
+            ),
+            (
+                    pd.DataFrame({
+                        "Name": [None],
+                        "Email": [None],
+                        "Company_Phone": [None],
+                        "Serial Number": ["452-0071-2"]
+                    }),
+                    pd.DataFrame(columns=[
+                        "Name", "Email", "Company_Phone", "SerialNumber"
+                    ])
+            ),
+            (
+                    pd.DataFrame({
+                        "Name": [""],
+                        "Email": [""],
+                        "Company_Phone": [""],
+                        "Serial Number": ["452-0071-2"]
+                    }),
+                    pd.DataFrame(columns=[
+                        "Name", "Email", "Company_Phone", "SerialNumber"
+                    ])
+            ),
+            (
+                    pd.DataFrame({
+                        "Name": [""],
+                        "Email": [""],
+                        "Company_Phone": ["(+1)"],
+                        "Serial Number": ["452-0071-2"]
+                    }),
+                    pd.DataFrame(columns=[
+                        "Name", "Email", "Company_Phone", "SerialNumber"
+                    ])
+            ),
+            (
+                    pd.DataFrame({
+                        "Name": ["trial1-"],
+                        "Email": [""],
+                        "Company_Phone": [""],
+                        "Serial Number": ["452-0071-2"]
+                    }),
+                    pd.DataFrame({
+                        "Name": ["trial1"],
+                        "Email": [""],
+                        "Company_Phone": [""],
+                        "SerialNumber": ["452-0071-2"]
+                    }),
+            ),
+            (
+                    pd.DataFrame({
+                        "Name": [None],
+                        "Email": ["abc@domain.com"],
+                        "Company_Phone": [""],
+                        "Serial Number": ["452-0071-2"]
+                    }),
+                    pd.DataFrame({
+                        "Name": [None],
+                        "Email": ["abc@domain.com"],
+                        "Company_Phone": [""],
+                        "SerialNumber": ["452-0071-2"]
+                    })
+            ),
+            (
+                    pd.DataFrame({
+                        "Name": ["pqr"],
+                        "Email": [None],
+                        "Company_Phone": [""],
+                        "Serial Number": ["452-0071-2"]
+                    }),
+                    pd.DataFrame({
+                        "Name": ["pqr"],
+                        "Email": [None],
+                        "Company_Phone": [""],
+                        "SerialNumber": ["452-0071-2"]
+                    })
+            ),
+        ]
+    )
+    def test_valid_entries(self, df, df_out):
+        """
+        This test case verifies the output for diffrent valid entries to method
+        validate_op()
+        @param df: input dataframe
+        @param df_out: Expected output dataframe
+        @return: None
+        """
+        df = obj.validate_op(df)
+        df_out = df_out.fillna("")
+        assert_frame_equal(df, df_out)
+
+
+class TestExtractData():
+    """
+    This Test class deals with the test cases for extract_data() method
+    """
+    @pytest.mark.parametrize(
+        "dict_src, df_data, error_type",
+        [
+            ([], pd.DataFrame(), "<class 'Exception'>"),
+            (pd.DataFrame(), pd.DataFrame(), "<class 'Exception'>"),
+            ("events", [], "<class 'Exception'>"),
+            ("events", "dataframe", "<class 'Exception'>"),
+            (None, pd.DataFrame(), "<class 'Exception'>"),
+            ([], None, "<class 'Exception'>"),
+            (pd.DataFrame(), None, "<class 'Exception'>"),
+            (None, None, "<class 'Exception'>"),
+            (
+                "events",
+                pd.DataFrame({"Company_b": ["DEF", "GHI"]}),
+                "<class 'Exception'>"
+            ),
+        ]
+    )
+    def test_errors(self, dict_src, df_data, error_type):
+        """
+        This test cases checks all the invalid inputs for the extract_data()
+        @param dict_src: input source type
+        @param df_data: input dataframe
+        @param error_type: expected error_type
+        @return: None
+        """
+        with pytest.raises(Exception) as err:
+            df_data = obj.extract_data(dict_src, df_data)
+        assert error_type == str(err.type)
+
+    @pytest.mark.parametrize(
+        "dict_src, df_data",
+        [
+            ("contracts", pd.DataFrame()),
+            ("PM", pd.DataFrame()),
+            ("Renewel", pd.DataFrame()),
+            ("Services", pd.DataFrame()),
+        ]
+    )
+    def test_same_op(self, dict_src, df_data):
+        """
+        This test cases checks all the inputs for which dataframe remains
+        unchanged.
+        @param dict_src: input source type
+        @param df_data: input dataframe
+        @return: None
+        """
+        df_out = obj.extract_data(dict_src, df_data)
+        assert_frame_equal(df_out, df_data)
+
+    def test_config_not_load(self):
+        """
+        This test cases checks all the inputs for which the method can't find
+        dependent files.
+        @param dict_src: input source type
+        @param df_data: input dataframe
+        @return: None
+        """
+        usa_states = (
+            obj.config['output_contacts_lead']["usa_states"]
+        )
+        del obj.config['output_contacts_lead']["usa_states"]
+        with pytest.raises(Exception) as _:
+            df_out = obj.extract_data(
+                "events", pd.DataFrame({"Description": "abcde"})
+            )
+        obj.config['output_contacts_lead']["usa_states"] = usa_states
+
+    @pytest.mark.parametrize(
+        "dict_src, df_data, df_out",
+        [
+            (
+                    "events",
+                    pd.DataFrame({
+                        "Description": [" poc Jhon Doe 118-0023-206"]
+                    }),
+                    pd.DataFrame({
+                        "Description": [" poc Jhon Doe 118-0023-206"],
+                        "contact_name": ["Jhon Doe "],
+                        "contact": [None],
+                        "email": [None],
+                        "address": [None],
+                        "SerialNumber": ["118-0023-206"]
+                    })
+            ),
+            (
+                    "events",
+                    pd.DataFrame({
+                        "Description": [" contact Jhon Doe 118-0023-206"]
+                    }),
+                    pd.DataFrame({
+                        "Description": [" contact Jhon Doe 118-0023-206"],
+                        "contact_name": ["Jhon Doe "],
+                        "contact": [None],
+                        "email": [None],
+                        "address": [None],
+                        "SerialNumber": ["118-0023-206"]
+                    })
+            ),
+            (
+                    "events",
+                    pd.DataFrame({
+                        "Description": [" contact there Jhon Doe 118-0023-206"]
+                    }),
+                    pd.DataFrame({
+                        "Description": [
+                            " contact there Jhon Doe 118-0023-206"],
+                        "contact_name": ["Jhon Doe "],
+                        "contact": [None],
+                        "email": [None],
+                        "address": [None],
+                        "SerialNumber": ["118-0023-206"]
+                    })
+            ),
+            (
+                    "events",
+                    pd.DataFrame({
+                        "Description": [
+                            " +91-123-456-7891 Jhon Doe 118-0023-206"]
+                    }),
+                    pd.DataFrame({
+                        "Description": [
+                            " +91-123-456-7891 Jhon Doe 118-0023-206"],
+                        "contact_name": ["Jhon Doe"],
+                        "contact": ["91-123-456-7891"],
+                        "email": [None],
+                        "address": [" +91-123-456-7891 Jhon Doe 118-0023-206"],
+                        "SerialNumber": ["118-0023-206"]
+                    })
+            ),
+            (
+                    "events",
+                    pd.DataFrame({
+                        "Description": [
+                            "123-456-7891 Jhon Doe 118-0023-206"]
+                    }),
+                    pd.DataFrame({
+                        "Description": [
+                            "123-456-7891 Jhon Doe 118-0023-206"],
+                        "contact_name": ["Jhon Doe"],
+                        "contact": ["123-456-7891"],
+                        "email": [None],
+                        "address": ["123-456-7891 Jhon Doe 118-0023-206"],
+                        "SerialNumber": ["118-0023-206"]
+                    })
+            ),
+            (
+                    "events",
+                    pd.DataFrame({
+                        "Description": [
+                            "1234567891 Jhon Doe 118-0023-206"]
+                    }),
+                    pd.DataFrame({
+                        "Description": [
+                            "1234567891 Jhon Doe 118-0023-206"],
+                        "contact_name": [None],
+                        "contact": ["1234567891"],
+                        "email": [None],
+                        "address": ["1234567891 Jhon Doe 118-0023-206"],
+                        "SerialNumber": ["118-0023-206"]
+                    })
+            ),
+            (
+                    "events",
+                    pd.DataFrame({
+                        "Description": [
+                            "-1234567891 Jhon Doe 118-0023-206"]
+                    }),
+                    pd.DataFrame({
+                        "Description": [
+                            "-1234567891 Jhon Doe 118-0023-206"],
+                        "contact_name": [None],
+                        "contact": ["1234567891"],
+                        "email": [None],
+                        "address": ["-1234567891 Jhon Doe 118-0023-206"],
+                        "SerialNumber": ["118-0023-206"]
+                    })
+            ),
+            (
+                    "events",
+                    pd.DataFrame({
+                        "Description": [
+                            "1234567891 test_mail@domain.com Jhon Doe"
+                            " 118-0023-206"
+                        ]
+                    }),
+                    pd.DataFrame({
+                        "Description": [
+                            "1234567891 test_mail@domain.com Jhon Doe"
+                            " 118-0023-206"
+                        ],
+                        "contact_name": [None],
+                        "contact": ["1234567891"],
+                        "email": ["test_mail@domain.com"],
+                        "address": [
+                            "1234567891 test_mail@domain.com Jhon Doe"
+                            " 118-0023-206"
+                        ],
+                        "SerialNumber": ["118-0023-206"]
+                    })
+            ),
+            (
+                    "events",
+                    pd.DataFrame({
+                        "Description": [
+                            "1234567891 test_mail@check.uni.au Jhon Doe"
+                            " 118-0023-206"
+                        ]
+                    }),
+                    pd.DataFrame({
+                        "Description": [
+                            "1234567891 test_mail@check.uni.au Jhon Doe"
+                            " 118-0023-206"
+                        ],
+                        "contact_name": [None],
+                        "contact": ["1234567891"],
+                        "email": ["test_mail@check.uni.au"],
+                        "address": [
+                            "1234567891 test_mail@check.uni.au Jhon Doe"
+                            " 118-0023-206"
+                        ],
+                        "SerialNumber": ["118-0023-206"]
+                    })
+            ),
+            (
+                    "events",
+                    pd.DataFrame({
+                        "Description": ["1234567891 a@b.c 118-0023-206"]
+                    }),
+                    pd.DataFrame({
+                        "Description": ["1234567891 a@b.c 118-0023-206"],
+                        "contact_name": [None],
+                        "contact": ["1234567891"],
+                        "email": ["a@b.c"],
+                        "address": ["1234567891 a@b.c 118-0023-206"],
+                        "SerialNumber": ["118-0023-206"]
+                    })
+            ),
+            (
+                    "events",
+                    pd.DataFrame({
+                        "Description": ["1234567891 a1@b#.c* 118-0023-206"]
+                    }),
+                    pd.DataFrame({
+                        "Description": ["1234567891 a1@b#.c* 118-0023-206"],
+                        "contact_name": [None],
+                        "contact": ["1234567891"],
+                        "email": ["a1@b#.c*"],
+                        "address": ["1234567891 a1@b#.c* 118-0023-206"],
+                        "SerialNumber": ["118-0023-206"]
+                    })
+            ),
+        ]
+    )
+    def test_valid_entries(self, dict_src, df_data, df_out):
+        """
+        This test cases verifies the op for all the valid inputs
+        @param dict_src: input source type
+        @param df_data: input dataframe
+        @param df_out: Expected dataframe
+        @return: None
+        """
+        df_data = obj.extract_data(
+            "events", df_data
+        )
+        df_out = df_out.fillna("")
+        assert_frame_equal(df_out, df_data)
+
+
+class TestExceptionSrc():
+    """
+    This Test class deals with the test cases for exception_src() method
+    """
+    @pytest.mark.parametrize(
+        "dict_src, df_data, dict_contact, error_type",
+        [
+            ([], pd.DataFrame(), {}, "<class 'TypeError'>"),
+            (pd.DataFrame(), pd.DataFrame(), {}, "<class 'TypeError'>"),
+            ("events", [], {}, "<class 'TypeError'>"),
+            ("events", "pd.DataFrame()", {}, "<class 'TypeError'>"),
+            ("events", pd.DataFrame(), "str", "<class 'TypeError'>"),
+            ("events", pd.DataFrame(), pd.DataFrame(), "<class 'TypeError'>"),
+            (None, pd.DataFrame(), {}, "<class 'TypeError'>"),
+            ("events", None, {}, "<class 'TypeError'>"),
+            ("events", pd.DataFrame(), None, "<class 'TypeError'>"),
+        ]
+    )
+    def test_error(
+            self, dict_src, df_data, dict_contact, error_type
+    ):
+        """
+        This test cases checks all the invalid inputs for the exception_src()
+        @param dict_src: input source type
+        @param df_data: input dataframe
+        @param dict_contact: Mapping columns to output field names.
+        @param error_type: expected error_type
+        @return: None
+        """
+        with pytest.raises(Exception) as err:
+            df_out, dict_updated = obj.exception_src(
+                dict_src, df_data, dict_contact
+            )
+        assert error_type == str(err.type)
+
+    @pytest.mark.parametrize(
+        "dict_src, df_data, dict_contact",
+        [
+            ("Renewal", pd.DataFrame(), {}),
+            ("PM", pd.DataFrame(), {}),
+            ("random", pd.DataFrame(), {})
+        ]
+    )
+    def test_same_op(self, dict_src, df_data, dict_contact):
+        """
+        This test cases checks all the values for which the op remains
+        unchanged from innut
+        @param dict_src: input source type
+        @param df_data: input dataframe
+        @param dict_contact: Mapping columns to output field names.
+        @return: None
+        """
+        df_out, dict_updated = obj.exception_src(
+            dict_src, df_data, dict_contact
+        )
+        assert_frame_equal(df_out, df_data)
+
+    @pytest.mark.parametrize(
+        "dict_src, df_data, dict_contact",
+        [
+            ("services", pd.DataFrame(), {}),
+            ("contracts", pd.DataFrame(), {})
+        ]
+    )
+    def test_config_not_load(
+            self, dict_src, df_data, dict_contact
+    ):
+        """
+        This test cases checks all the values for which the method can't find
+        relevant config files
+        @param dict_src: input source type
+        @param df_data: input dataframe
+        @param dict_contact: Mapping columns to output field names.
+        @return: None
+        """
+        file_name = obj.config['file']['Processed'][dict_src]['file_name']
+        del obj.config['file']['Processed'][dict_src]['file_name']
+
+        with pytest.raises(Exception) as _:
+            df_out, dict_updated = obj.exception_src(
+                dict_src, df_data, dict_contact
+            )
+
+        obj.config['file']['Processed'][dict_src]['file_name'] = file_name
+
 
 if __name__ == "__main__":
-    print(os.getcwd())
-    obj_contact = TestContacts()
+    prep_data_obj = TestPrepData()
+    serial_num_obj = TestSerialNumber()
+    filter_latest_obj = TestFilterLatest()
+    post_process_obj = TestPostProcess()
+    validate_op_obj = TestValidateOp()
+    extract_data_obj = TestExtractData()
+    exception_src_obj = TestExceptionSrc()
