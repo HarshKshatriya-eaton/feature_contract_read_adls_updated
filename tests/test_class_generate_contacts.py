@@ -612,7 +612,7 @@ class TestExtractData():
                     }),
                     pd.DataFrame({
                         "Description": [" poc Jhon Doe 118-0023-206"],
-                        "contact_name": ["Jhon Doe "],
+                        "contact_name": ["Jhon Doe"],
                         "contact": [None],
                         "email": [None],
                         "address": [None],
@@ -626,7 +626,7 @@ class TestExtractData():
                     }),
                     pd.DataFrame({
                         "Description": [" contact Jhon Doe 118-0023-206"],
-                        "contact_name": ["Jhon Doe "],
+                        "contact_name": ["Jhon Doe"],
                         "contact": [None],
                         "email": [None],
                         "address": [None],
@@ -641,7 +641,7 @@ class TestExtractData():
                     pd.DataFrame({
                         "Description": [
                             " contact there Jhon Doe 118-0023-206"],
-                        "contact_name": ["Jhon Doe "],
+                        "contact_name": ["Jhon Doe"],
                         "contact": [None],
                         "email": [None],
                         "address": [None],
@@ -689,7 +689,7 @@ class TestExtractData():
                     pd.DataFrame({
                         "Description": [
                             "1234567891 Jhon Doe 118-0023-206"],
-                        "contact_name": [None],
+                        "contact_name": ["Jhon Doe"],
                         "contact": ["1234567891"],
                         "email": [None],
                         "address": ["1234567891 Jhon Doe 118-0023-206"],
@@ -705,7 +705,7 @@ class TestExtractData():
                     pd.DataFrame({
                         "Description": [
                             "-1234567891 Jhon Doe 118-0023-206"],
-                        "contact_name": [None],
+                        "contact_name": ["Jhon Doe"],
                         "contact": ["1234567891"],
                         "email": [None],
                         "address": ["-1234567891 Jhon Doe 118-0023-206"],
@@ -725,7 +725,7 @@ class TestExtractData():
                             "1234567891 test_mail@domain.com Jhon Doe"
                             " 118-0023-206"
                         ],
-                        "contact_name": [None],
+                        "contact_name": ["Jhon Doe"],
                         "contact": ["1234567891"],
                         "email": ["test_mail@domain.com"],
                         "address": [
@@ -748,7 +748,7 @@ class TestExtractData():
                             "1234567891 test_mail@check.uni.au Jhon Doe"
                             " 118-0023-206"
                         ],
-                        "contact_name": [None],
+                        "contact_name": ["Jhon Doe"],
                         "contact": ["1234567891"],
                         "email": ["test_mail@check.uni.au"],
                         "address": [
@@ -871,8 +871,8 @@ class TestExceptionSrc():
             self, dict_src, df_data, dict_contact
     ):
         """
-        This test cases checks all the values for which the method can't find
-        relevant config files
+        This test cases checks whether the function raises an error if the
+        relevant configuration is missing
         @param dict_src: input source type
         @param df_data: input dataframe
         @param dict_contact: Mapping columns to output field names.

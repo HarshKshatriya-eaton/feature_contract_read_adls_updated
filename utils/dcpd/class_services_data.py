@@ -22,7 +22,6 @@ direct written permission from Eaton Corporation.
 # %% ***** Setup Environment *****
 from string import punctuation
 import traceback
-import re
 import os
 import pandas as pd
 import numpy as np
@@ -40,8 +39,6 @@ from utils.dcpd.class_common_srnum_ops import SearchSrnum
 from utils.dcpd.class_business_logic import BusinessLogic
 import utils.dcpd.class_contracts_data as ccd
 
-# from utils.dcpd import SerialNumber
-
 # Set project path
 path = os.getcwd()
 path = os.path.join(path.split('ileads_lead_generation')[0],
@@ -51,8 +48,6 @@ os.chdir(path)
 # Create instance of the class
 formatObj = Format()
 filterObj = Filter()
-# ioObj = IO()
-# serNumObj = SerialNumber()
 contractObj = ccd.Contract()
 busLogObj = BusinessLogic()
 srnumObj = SearchSrnum()
@@ -70,10 +65,9 @@ class ProcessServiceIncidents:
     """
 
     def __init__(self, mode='local'):
-        self.mode = 'local'
+        self.mode = mode
         self.config = IO.read_json(mode='local', config={
             "file_dir": './references/', "file_name": 'config_dcpd.json'})
-        # self.pat_srnum1 = self.config['contracts']['srnum_pattern']['pat_srnum1']
 
     def main_services(self):  # pragma: no cover
         """
@@ -106,7 +100,8 @@ class ProcessServiceIncidents:
             dict_config_params = dict_config_serv['services'][
                 'services_data_overall']
             upgrade_component = \
-            dict_config_serv['services']['UpgradeComponents']['ComponentName']
+                dict_config_serv['services']['UpgradeComponents'][
+                    'ComponentName']
             df_services_raw = filterObj.filter_data(
                 df_services_raw, dict_config_params)
 
@@ -201,7 +196,6 @@ class ProcessServiceIncidents:
 
             # Identify if sidecar or jcomm comp is present and save results to an intermediate file.
             df_serv_input = validate_srnum  # For testing purposes
-            jcomm_sidecar_obj = self.pipline_component_identify(df_serv_input)
 
             loggerObj.app_success(_step)
 
@@ -421,10 +415,7 @@ class ProcessServiceIncidents:
         _step = 'Read raw services data and perform serial number mapping'
 
         try:
-            if df_services_raw is not None and df_services_serialnum is not None:
-                df_services_raw = df_services_raw
-                df_services_serialnum = df_services_serialnum
-            else:
+            if df_services_raw is None or df_services_serialnum is None:
                 # Read raw services data
 
                 # Specify the file directory and path
@@ -450,9 +441,6 @@ class ProcessServiceIncidents:
 
             # Read and identify JCOMM keyword data
             df_services_jcomm = df_services_raw_merged
-
-            # Read columns required for processing output
-            cols_export = ['Id', 'Customer_Issue_Summary__c', 'SerialNumber']
 
             # JCOMM field processing
             filter_jcomm = df_services_jcomm.Customer_Issue_Summary__c.str.contains(

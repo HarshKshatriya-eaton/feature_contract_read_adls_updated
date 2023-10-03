@@ -364,21 +364,21 @@ class TestServicesFunc:
             obj_services.pipeline_serial_number(df_org)
 
     # TODO: Uncomment and rerun the test case
-    # def test_pipeline_serial_ideal_data(self):
-    #
-    #     self.config = IO.read_json(mode='local', config={
-    #         "file_dir": './references/', "file_name": 'config_dcpd.json'})
-    #     self.mode = 'local'
-    #     file_dir = {'file_dir': self.config['file']['dir_data'],
-    #                 'file_name': self.config['file']['Raw']
-    #                 ['services']['file_name']}
-    #     df_services_raw = IO.read_csv(self.mode, file_dir)
-    #     df_services_raw.head(5)
-    #
-    #     dict_cols_srnum = self.config['services']['SerialNumberColumns']
-    #     with pytest.raises(Exception) as info:
-    #         obj_services.pipeline_serial_number(df_services_raw, dict_cols_srnum)
-    #         assert info == Exception
+    def test_pipeline_serial_ideal_data(self):
+
+        self.config = IO.read_json(mode='local', config={
+            "file_dir": './references/', "file_name": 'config_dcpd.json'})
+        self.mode = 'local'
+        file_dir = {'file_dir': self.config['file']['dir_data'],
+                    'file_name': self.config['file']['Raw']
+                    ['services']['file_name']}
+        df_services_raw = IO.read_csv(self.mode, file_dir)
+        df_services_raw.head(5)
+
+        dict_cols_srnum = self.config['services']['SerialNumberColumns']
+        with pytest.raises(Exception) as info:
+            obj_services.pipeline_serial_number(df_services_raw, dict_cols_srnum)
+            assert info == Exception
 
 
     def test_jcomm_sidecar_test_input(self):

@@ -40,6 +40,11 @@ class DataExtraction:
         @param txt: Input string
         @return: Comma seperated contact_number list
         """
+        if type(txt) != str:
+            raise TypeError(
+                "DataExtraction class extract_contact_name method argument txt"
+                " is not a string"
+            )
         if len(txt) == 0:
             return ""
 
@@ -56,6 +61,11 @@ class DataExtraction:
         @param txt: Input string
         @return: Comma seperated email_id list
         """
+        if type(txt) != str:
+            raise TypeError(
+                "DataExtraction class extract_contact_name method argument txt"
+                " is not a string"
+            )
         if len(txt) == 0:
             return ""
 
@@ -72,6 +82,11 @@ class DataExtraction:
         @param txt: Input string
         @return: Address String
         """
+        if type(txt) != str:
+            raise TypeError(
+                "DataExtraction class extract_contact_name method argument txt"
+                " is not a string"
+            )
         if len(txt) == 0:
             return ""
 
@@ -105,6 +120,11 @@ class DataExtraction:
         @param txt: Input string
         @return: Comma seperated Name list
         """
+        if type(txt) != str:
+            raise TypeError(
+                "DataExtraction class extract_contact_name method argument txt"
+                " is not a string"
+            )
         if len(txt) == 0:
             return ""
         punc = string.punctuation + " -" + "0123456789" + "\r\n"
@@ -151,6 +171,9 @@ class DataExtraction:
                     if (len(text) > 2) & (re.search(non_contact, str.lower(text)) is None):
                         out += [text if len(out) == 0 else ("\n" + text)]
 
+        for i in range(len(out)):
+            name = out[i]
+            out[i] = name.lstrip().rstrip()
         if len(out) > 0:
             out = "\n".join(out)
         else:
