@@ -110,10 +110,12 @@ class TestPrepserialnumber:
         None.
 
         '''
-        df_input = pd.DataFrame(data={'SerialNumberOrg':
-                                          [' STS20134-299',
-                                           '#ONYMG-1949-3784 ']
-                                      })
+        df_input = pd.DataFrame(data={
+            'SerialNumberOrg': [' STS20134-299', '#ONYMG-1949-3784 '],
+            'InstallSize': [1, 1],
+            'KeySerial': 1
+            }
+        )
 
         actual_op = sr_num_class.prep_srnum(df_input)
         exp_op = ['STS20134-299',

@@ -25,10 +25,8 @@ direct written permission from Eaton Corporation.
 # %% ***** Setup Environment *****
 
 import re
-import sys
 import traceback
 import pandas as pd
-import numpy as np
 
 from utils import AppLogger
 
@@ -212,8 +210,6 @@ class SerialNumber:
                 'InstallSize': ar_installsize,
                 'KeySerial': ar_key_serial})
 
-            ref_data = self.ref_data
-
             df_org['known_sr_num'] = False
 
             # UnKnown ranges
@@ -289,7 +285,6 @@ class SerialNumber:
         :rtype:  Pandas Dataframe
 
         """
-        dict = {}
         current_step = 'Unknown range of serial numbers'
 
         try:
@@ -386,7 +381,6 @@ class SerialNumber:
 
         """
         # out = [True] + list(dict_out.values())
-        current_step = 'Generating sequence of serial numbers'
 
         df_out = pd.DataFrame(columns=['SerialNumberOrg', 'SerialNumber'])
         try:
@@ -468,7 +462,6 @@ class SerialNumber:
             # vals = ['12017004-51-59,61', 10]       110-1900-12,14,17,19
             sr_num = vals[0]
             install_size = vals[1]
-            key_serial = vals[2]
             loggerObj.app_success(sr_num)
 
             f_analyze = True
@@ -723,12 +716,15 @@ class SerialNumber:
         serial_num_parts = serial_num.split("-")
         if (
                 (
-                    (len(serial_num_parts) <= 3) or # Original Serial Number with 2 hyphen
-                    (len(serial_num_parts) == 4 and len(serial_num_parts[-1]) == 2) # Updated Serial Number with 3 hyphens
+                    (len(serial_num_parts) <= 3) or # Original Serial Number
+                    # with 2 hyphen e.g. 110-014-0AB
+                    (len(serial_num_parts) == 4 and len(serial_num_parts[-1]) == 2)
+                    # Updated Serial Number with 3 hyphens
                     # but last part contains only 2 alphabets i.e. after expansion it will
                     # have 3 hyphens. For. e.g. X-Y-Z-ab expands into X-Y-Z-a and Y-Y-Z-b.
                     # Haven't come across this case yet but handled it considering future
-                    # possiblity
+                    # possiblity, for e.g. it would be true for e.g. 110-014-0-AB but false
+                    # for e.g. 110-014-0-1AB
                 )
                 and len(serial_num_parts) > 1 and size == 2
         ):
@@ -762,7 +758,7 @@ if __name__ == '__main__':
     # ar_installsize = [17, 2, 2, 4]
     # 11100067
     # ar_serialnum = ['110-0466', '442-0002-7a-12a', '442-0002-7a-12a','bcb-180-0557-1-2b-bus']
-    ar_serialnum = ['110-014-0AB']
+    ar_serialnum = ['110-014-0-AB']
     # ar_serialnum = ['112-0058-1-7','112-0058-6-9,11-12']
     # ar_serialnum = ['180-05578a']
     # ar_serialnum = ['118-110-1,2,3']   # Need to resolve
