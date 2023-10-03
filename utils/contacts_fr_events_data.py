@@ -13,12 +13,11 @@ direct written permission from Eaton Corporation.
 """
 
 # %% Importing the required libraries
-import pandas as pd
 import re
-import usaddress
-import string
-from utils import IO
 import os
+import string
+import usaddress
+from utils import IO
 path = os.getcwd()
 path = os.path.join(path.split('ileads_lead_generation')[0],
                     'ileads_lead_generation')
@@ -181,5 +180,4 @@ class DataExtraction:
 
         out = out.replace("\n", ", ")
         return out
-
 

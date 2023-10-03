@@ -42,7 +42,7 @@ class TestExtract:
         @return: None
         """
         with pytest.raises(Exception) as err:
-            df_data = data_extractor.extract_contact_name(description)
+            _ = data_extractor.extract_contact_name(description)
         assert error_type == str(err.type)
 
     @pytest.mark.parametrize(
@@ -78,7 +78,7 @@ class TestExtract:
         @return: None
         """
         with pytest.raises(Exception) as err:
-            df_data = data_extractor.extract_contact_no(description)
+            _ = data_extractor.extract_contact_no(description)
         assert error_type == str(err.type)
 
     @pytest.mark.parametrize(
@@ -129,7 +129,7 @@ class TestExtract:
         @return: None
         """
         with pytest.raises(Exception) as err:
-            df_data = data_extractor.extract_email(description)
+            _ = data_extractor.extract_email(description)
         assert error_type == str(err.type)
 
     @pytest.mark.parametrize(
@@ -170,7 +170,7 @@ class TestExtract:
         pat_address = str.lower(
             '(' + pat_state_short + '|' + pat_state_long + ')')
         with pytest.raises(Exception) as err:
-            df_data = data_extractor.extract_address(description, pat_address)
+            _ = data_extractor.extract_address(description, pat_address)
         assert error_type == str(err.type)
 
     @pytest.mark.parametrize(
@@ -182,7 +182,7 @@ class TestExtract:
             ),
         ]
     )
-    def test_errors_address(self, description, expected_address):
+    def test_extract_address(self, description, expected_address):
         """
         This test cases checks the extraction of contact address from the given
         string

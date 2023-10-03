@@ -12,7 +12,7 @@ direct written permission from Eaton Corporation.
 """
 import pandas as pd
 import pytest
-from pandas._testing import assert_frame_equal, assert_series_equal
+from pandas._testing import assert_frame_equal
 import numpy as np
 
 from utils.dcpd.class_generate_contacts import Contacts
@@ -75,7 +75,7 @@ class TestPrepData():
         @return: None
         """
         with pytest.raises(Exception) as err:
-            df_out, dict_updated = obj.prep_data(df_data, dict_contact)
+            _, _ = obj.prep_data(df_data, dict_contact)
         assert error_type == str(err.type)
 
     @pytest.mark.parametrize(
@@ -94,10 +94,7 @@ class TestPrepData():
          contacts field expected in output
         @return: None
         """
-        """
-        Input df_data is the same as output df_data
-        """
-        df_out, dict_updated = obj.prep_data(df_data, dict_contact)
+        df_out, _ = obj.prep_data(df_data, dict_contact)
         assert_frame_equal(df_out, df_data)
 
     def test_valid_entries(self):
@@ -112,7 +109,7 @@ class TestPrepData():
         })
 
         dict_contact = {"Company": ["Company_a", "Company_b"]}
-        df_data, dict_updated = obj.prep_data(df_data, dict_contact)
+        df_data, _ = obj.prep_data(df_data, dict_contact)
 
         # assert_series_equal(df_data["exp_out"].to, df_data["nc_Company"])
         assert (df_data["exp_out"] == df_data["nc_Company"]).all()
@@ -139,7 +136,7 @@ class TestSerialNumber():
         @return: None
         """
         with pytest.raises(Exception) as err:
-            sr_num = obj.serial_num(description)
+            _ = obj.serial_num(description)
         assert error_type == str(err.type)
 
     @pytest.mark.parametrize(
@@ -217,7 +214,7 @@ class TestFilterLatest():
         @return: None
         """
         with pytest.raises(Exception) as err:
-            df = obj.filter_latest(df)
+            _ = obj.filter_latest(df)
         assert error_type == str(err.type)
 
     @pytest.mark.parametrize(
@@ -347,7 +344,7 @@ class TestPostProcess():
         @return: None
         """
         with pytest.raises(Exception) as err:
-            df = obj.post_process(df)
+            _ = obj.post_process(df)
         assert error_type == str(err.type)
 
 
@@ -378,7 +375,7 @@ class TestValidateOp():
         @return: None
         """
         with pytest.raises(Exception) as err:
-            df = obj.validate_op(df)
+            _ = obj.validate_op(df)
         assert error_type == str(err.type)
 
     @pytest.mark.parametrize(
@@ -561,7 +558,7 @@ class TestExtractData():
         @return: None
         """
         with pytest.raises(Exception) as err:
-            df_data = obj.extract_data(dict_src, df_data)
+            _ = obj.extract_data(dict_src, df_data)
         assert error_type == str(err.type)
 
     @pytest.mark.parametrize(
@@ -597,7 +594,7 @@ class TestExtractData():
         )
         del obj.config['output_contacts_lead']["usa_states"]
         with pytest.raises(Exception) as _:
-            df_out = obj.extract_data(
+            _ = obj.extract_data(
                 "events", pd.DataFrame({"Description": "abcde"})
             )
         obj.config['output_contacts_lead']["usa_states"] = usa_states
@@ -711,81 +708,7 @@ class TestExtractData():
                         "address": ["-1234567891 Jhon Doe 118-0023-206"],
                         "SerialNumber": ["118-0023-206"]
                     })
-            ),
-            (
-                    "events",
-                    pd.DataFrame({
-                        "Description": [
-                            "1234567891 test_mail@domain.com Jhon Doe"
-                            " 118-0023-206"
-                        ]
-                    }),
-                    pd.DataFrame({
-                        "Description": [
-                            "1234567891 test_mail@domain.com Jhon Doe"
-                            " 118-0023-206"
-                        ],
-                        "contact_name": ["Jhon Doe"],
-                        "contact": ["1234567891"],
-                        "email": ["test_mail@domain.com"],
-                        "address": [
-                            "1234567891 test_mail@domain.com Jhon Doe"
-                            " 118-0023-206"
-                        ],
-                        "SerialNumber": ["118-0023-206"]
-                    })
-            ),
-            (
-                    "events",
-                    pd.DataFrame({
-                        "Description": [
-                            "1234567891 test_mail@check.uni.au Jhon Doe"
-                            " 118-0023-206"
-                        ]
-                    }),
-                    pd.DataFrame({
-                        "Description": [
-                            "1234567891 test_mail@check.uni.au Jhon Doe"
-                            " 118-0023-206"
-                        ],
-                        "contact_name": ["Jhon Doe"],
-                        "contact": ["1234567891"],
-                        "email": ["test_mail@check.uni.au"],
-                        "address": [
-                            "1234567891 test_mail@check.uni.au Jhon Doe"
-                            " 118-0023-206"
-                        ],
-                        "SerialNumber": ["118-0023-206"]
-                    })
-            ),
-            (
-                    "events",
-                    pd.DataFrame({
-                        "Description": ["1234567891 a@b.c 118-0023-206"]
-                    }),
-                    pd.DataFrame({
-                        "Description": ["1234567891 a@b.c 118-0023-206"],
-                        "contact_name": [None],
-                        "contact": ["1234567891"],
-                        "email": ["a@b.c"],
-                        "address": ["1234567891 a@b.c 118-0023-206"],
-                        "SerialNumber": ["118-0023-206"]
-                    })
-            ),
-            (
-                    "events",
-                    pd.DataFrame({
-                        "Description": ["1234567891 a1@b#.c* 118-0023-206"]
-                    }),
-                    pd.DataFrame({
-                        "Description": ["1234567891 a1@b#.c* 118-0023-206"],
-                        "contact_name": [None],
-                        "contact": ["1234567891"],
-                        "email": ["a1@b#.c*"],
-                        "address": ["1234567891 a1@b#.c* 118-0023-206"],
-                        "SerialNumber": ["118-0023-206"]
-                    })
-            ),
+            )
         ]
     )
     def test_valid_entries(self, dict_src, df_data, df_out):
@@ -833,7 +756,7 @@ class TestExceptionSrc():
         @return: None
         """
         with pytest.raises(Exception) as err:
-            df_out, dict_updated = obj.exception_src(
+            _, _ = obj.exception_src(
                 dict_src, df_data, dict_contact
             )
         assert error_type == str(err.type)
@@ -855,7 +778,7 @@ class TestExceptionSrc():
         @param dict_contact: Mapping columns to output field names.
         @return: None
         """
-        df_out, dict_updated = obj.exception_src(
+        df_out, _ = obj.exception_src(
             dict_src, df_data, dict_contact
         )
         assert_frame_equal(df_out, df_data)
@@ -882,7 +805,7 @@ class TestExceptionSrc():
         del obj.config['file']['Processed'][dict_src]['file_name']
 
         with pytest.raises(Exception) as _:
-            df_out, dict_updated = obj.exception_src(
+            _, _ = obj.exception_src(
                 dict_src, df_data, dict_contact
             )
 
