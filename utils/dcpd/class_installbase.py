@@ -196,6 +196,12 @@ class InstallBase:
             # Format Data
             input_format = self.config['database']['M2M']['Dictionary Format']
             df_data_install = obj_format.format_data(df_data_install, input_format)
+            df_data_install["kva"] = df_data_install.Description.apply(
+                lambda x: re.findall("\d+\s{0,1}kva", str(x)))
+            df_data_install["amp"] = df_data_install.Description.apply(
+                lambda x: re.findall("\d+\s{0,1}amp", str(x)))
+            df_data_install["voltage"] = df_data_install.Description.apply(
+                lambda x: re.findall("\d+\s{0,1}v", str(x)))
             df_data_install.reset_index(drop=True, inplace=True)
             df_data_install["ST_Cust"] = df_data_install["Customer"].copy()
 
