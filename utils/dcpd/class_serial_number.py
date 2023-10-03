@@ -25,10 +25,8 @@ direct written permission from Eaton Corporation.
 # %% ***** Setup Environment *****
 
 import re
-import sys
 import traceback
 import pandas as pd
-import numpy as np
 
 from utils import AppLogger
 
@@ -164,7 +162,13 @@ class SerialNumber:
                 pat_punc).str.rstrip(pat_punc)
             df_input[col] = df_input[col].str.replace(' ', '')
             df_input[col] = df_input[col].str.replace(r'&', r'-')
-            # TODO: Test '&' is replaced by comma.
+
+            # Change made: 2023-27-9 Expand AB suffix for specific cases
+            # Change made for correct expansion
+            df_input[col] = df_input.apply(
+                lambda row: self.modify_sr_num(row), axis=1
+            )
+
             loggerObj.app_success(current_step)
 
         except Exception as e:
@@ -205,8 +209,6 @@ class SerialNumber:
                 'SerialNumberOrg': ar_serialnum,
                 'InstallSize': ar_installsize,
                 'KeySerial': ar_key_serial})
-
-            ref_data = self.ref_data
 
             df_org['known_sr_num'] = False
 
@@ -283,7 +285,6 @@ class SerialNumber:
         :rtype:  Pandas Dataframe
 
         """
-        dict = {}
         current_step = 'Unknown range of serial numbers'
 
         try:
@@ -380,7 +381,6 @@ class SerialNumber:
 
         """
         # out = [True] + list(dict_out.values())
-        current_step = 'Generating sequence of serial numbers'
 
         df_out = pd.DataFrame(columns=['SerialNumberOrg', 'SerialNumber'])
         try:
@@ -462,7 +462,6 @@ class SerialNumber:
             # vals = ['12017004-51-59,61', 10]       110-1900-12,14,17,19
             sr_num = vals[0]
             install_size = vals[1]
-            key_serial = vals[2]
             loggerObj.app_success(sr_num)
 
             f_analyze = True
@@ -706,6 +705,49 @@ class SerialNumber:
 
         return total_txt
 
+    def modify_sr_num(self, row):
+        """
+        Method to expand 2 alphabet strings with hyphen seperator
+        @param row: row entry containing SerialNumber, InstallSize, KeySerial
+        @return: updated serial number string
+        """
+        serial_num = row.SerialNumberOrg
+        size = row.InstallSize
+        serial_num_parts = serial_num.split("-")
+        if (
+                (
+                    (len(serial_num_parts) <= 3) or # Original Serial Number
+                    # with 2 hyphen e.g. 110-014-0AB
+                    (len(serial_num_parts) == 4 and len(serial_num_parts[-1]) == 2)
+                    # Updated Serial Number with 3 hyphens
+                    # but last part contains only 2 alphabets i.e. after expansion it will
+                    # have 3 hyphens. For. e.g. X-Y-Z-ab expands into X-Y-Z-a and Y-Y-Z-b.
+                    # Haven't come across this case yet but handled it considering future
+                    # possiblity, for e.g. it would be true for e.g. 110-014-0-AB but false
+                    # for e.g. 110-014-0-1AB
+                )
+                and len(serial_num_parts) > 1 and size == 2
+        ):
+            last_part = serial_num_parts[-1]
+            if len(last_part) >= 2:
+                last_part_prefix = last_part[:-2]
+                char1 = last_part[-2:-1]
+                char2 = last_part[-1:]
+
+                if (
+                    # Check if the 2 characters are consecutive alphabets
+                        char1.isalpha() and char2.isalpha() and
+                        (ord(char2) - ord(char1)) == 1
+                ):
+                    updated_sr_num = "-".join(serial_num_parts[:-1])
+                    updated_sr_num = updated_sr_num + "-"
+                    hyphen_sep_alpha = char1 + "-" + char2
+                    if last_part_prefix != "":
+                        return updated_sr_num + last_part_prefix + "-" + hyphen_sep_alpha
+                    return updated_sr_num + hyphen_sep_alpha
+
+        return serial_num
+
 
 # %%
 if __name__ == '__main__':
@@ -716,11 +758,11 @@ if __name__ == '__main__':
     # ar_installsize = [17, 2, 2, 4]
     # 11100067
     # ar_serialnum = ['110-0466', '442-0002-7a-12a', '442-0002-7a-12a','bcb-180-0557-1-2b-bus']
-    ar_serialnum = ['442-0002-7a-12a']
+    ar_serialnum = ['110-014-0-AB']
     # ar_serialnum = ['112-0058-1-7','112-0058-6-9,11-12']
     # ar_serialnum = ['180-05578a']
     # ar_serialnum = ['118-110-1,2,3']   # Need to resolve
-    ar_installsize = [1]#, 1, 1,1]
+    ar_installsize = [2]#, 1, 1,1]
     sr_num.validate_srnum(ar_serialnum)
     df_out_srs, df_out_couldnot = sr_num.get_serialnumber(
         ar_serialnum, ar_installsize, "1")
