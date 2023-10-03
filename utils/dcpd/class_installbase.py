@@ -197,6 +197,7 @@ class InstallBase:
             input_format = self.config['database']['M2M']['Dictionary Format']
             df_data_install = obj_format.format_data(df_data_install, input_format)
             df_data_install.reset_index(drop=True, inplace=True)
+            df_data_install["ST_Cust"] = df_data_install["Customer"].copy()
 
             # This block will prioritise 'ShipTo_Country' and 'SoldTo_Country'
             # into 'Country' column based on Null value

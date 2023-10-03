@@ -1,2 +1,22 @@
+# to test
 pandas==2.0.3
 setuptools==65.5.1
+azure-functions
+azure-storage-file-datalake
+azure-identity
+azure-keyvault-secrets
+PyYAML
+numpy
+pyzipcode
+config
+python-dateutil
+pyodbc
+sqlalchemy
+openpyxl
+pytest-azurepipelines
+pylint
+pylint-exit
+pylint-json2html
+pytest-cov
+mock
+openpyxl

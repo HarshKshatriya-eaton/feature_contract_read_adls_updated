@@ -21,6 +21,7 @@ import numpy as np
 import pandas as pd
 import traceback
 from string import punctuation
+import re
 
 path = os.getcwd()
 path = os.path.join(path.split('ileads_lead_generation')[0],
@@ -29,9 +30,13 @@ os.chdir(path)
 
 from utils.dcpd.class_business_logic import BusinessLogic
 from utils.dcpd.class_serial_number import SerialNumber
+from utils.strategic_customer import StrategicCustomer
 from utils.format_data import Format
 from utils import AppLogger
 from utils import IO
+from utils import Filter
+
+obj_filt = Filter()
 
 logger = AppLogger(__name__)
 punctuation = punctuation + ' '
@@ -95,6 +100,16 @@ class LeadGeneration:
 
             logger.app_success(_step)
 
+            address_cols = [
+                "End_Customer_Address",
+                "ShipTo_Street",
+                "BillingAddress",
+                "StartupAddress"
+            ]
+            for col in address_cols:
+                df_leads[col] = df_leads[col].str.replace("\n", " ")
+                df_leads[col] = df_leads[col].str.replace("\r", " ")
+
             _step = 'Write output lead to result directory'
 
             df_leads = df_leads.drop(
@@ -121,6 +136,13 @@ class LeadGeneration:
             iLead_output_format = self.config['output_format']['output_iLead']
             output_iLead = self.format.format_output(df_leads,
                                                      iLead_output_format)
+
+            lead_type = output_iLead[["Serial_Number", "Lead_Type"]]
+            lead_type["EOSL_reached"] = lead_type["Lead_Type"] == "EOSL"
+            lead_type = lead_type.groupby("Serial_Number")["EOSL_reached"].any()
+            ref_install = ref_install.merge(
+                lead_type, on="Serial_Number", how="left"
+            )
 
             _step = "Exporting reference install file"
 
@@ -155,7 +177,6 @@ class LeadGeneration:
         return 'successfully !'
 
     #  ***** Pipelines ****
-
     def post_proecess_leads(self, df_leads):
 
         # All other displays: Invalid
@@ -205,6 +226,7 @@ class LeadGeneration:
 
         return df_leads
 
+
     def post_process_ref_install(self, ref_install):
         """
         This module derives new columns for the blank columns after formatting the output.
@@ -219,10 +241,8 @@ class LeadGeneration:
             # TODO: for calculation if startup date has values used that else use shipment date.
 
             ref_install['Product_Age'] = (
-                                                     pd.Timestamp.now().normalize() - pd.to_datetime(
-                                                 ref_install[
-                                                     'ShipmentDate'])) / np.timedelta64(
-                1, 'Y')
+                pd.Timestamp.now().normalize()
+                - pd.to_datetime(ref_install['ShipmentDate'])) / np.timedelta64(1, 'Y')
 
             ref_install['Product_Age'] = ref_install['Product_Age'].astype(int)
 
@@ -271,10 +291,58 @@ class LeadGeneration:
                 left_on='Key_region', right_on='Abreviation', how="left")
             del ref_install['Key_region']
 
+            # *** BillTo customer ***
+            # ref_install = self.get_billto_data(ref_install)
+
+            # *** Strategic account ***
+            ref_install = self.update_Strategic_acoount(ref_install)
+
             return ref_install
         except Exception as e:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
+
+    def update_Strategic_acoount(self, ref_install):
+        """
+
+        :param ref_install: DESCRIPTION
+        :type ref_install: TYPE
+        :return: DESCRIPTION
+        :rtype: pandas dataframe
+
+        """
+        # Update customer name
+        ref_install['Customer_old'] = ref_install['Customer'].copy()
+        ref_install['Customer'] = obj_filt.prioratized_columns(
+            ref_install, ['StartupCustomer', 'ShipTo_Customer', 'BillingCustomer'])
+        ref_install = ref_install.rename(columns={'StrategicCustomer': 'StrategicCustomer_old'})
+
+        #ref_install = ref_install.rename({"Customer_old": "Customer", "Customer": "End_Customer"})
+
+        # Update strategic account logic
+        obj_sc = StrategicCustomer('local')
+        df_customer = obj_sc.main_customer_list(df_leads=ref_install)
+        df_customer = df_customer.drop_duplicates(subset=['Serial_Number'])
+
+        ref_install = ref_install.merge(
+            df_customer[['Serial_Number', 'StrategicCustomer']],
+            left_on='SerialNumber_M2M', right_on="Serial_Number", how='left')
+
+        # End To Custoimer details
+        ref_install['EndCustomer'] = ref_install['Customer'].copy()
+        dict_cols = {
+            "End_Customer_Address": ['StartupAddress', 'ShipTo_Street'],
+            "End_Customer_City": ['StartupCity', 'ShipTo_City'],
+            "End_Customer_State": ['StartupState', 'ShipTo_State'],
+            "End_Customer_Zip": ['StartupPostalCode', 'ShipTo_Zip']
+            }
+        for col in dict_cols:
+            ls_cols = ['was_startedup'] + dict_cols[col]
+            # Startup columns
+            ref_install.loc[:, col] = ref_install[ls_cols].apply(
+                lambda x: x[1] if x[0] else x[2], axis=1
+            )
+        return ref_install
 
     def post_process_output_ilead(self, output_ilead_df):
         """
@@ -327,10 +395,46 @@ class LeadGeneration:
             output_ilead_df['Component_Due_in (Category)'] = output_ilead_df[
                 'Component_Due_in (years)'].apply(categorize_due_in_category)
 
+            # Add prod meta data
+            output_ilead_df = self.prod_meta_data(output_ilead_df)
+
             return output_ilead_df
         except Exception as e:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
+
+
+    def prod_meta_data(self, output_ilead_df):
+
+        # Partnumber for chasis decides the axle
+        _step = "Product meta data"
+        try:
+            # Read reference data
+            ref_chasis = IO.read_csv(
+                self.mode, {
+                    'file_dir': self.config['file']['dir_ref'],
+                    'file_name': self.config['file']['Reference']['chasis']
+                    })
+            ref_chasis = ref_chasis.drop_duplicates(subset=['key_chasis'])
+
+            # Get part numbers
+            output_ilead_df['key_chasis'] = output_ilead_df['pn_chasis'].copy()
+            output_ilead_df['key_chasis']= output_ilead_df['key_chasis'].fillna("(")
+            output_ilead_df.loc[:, 'key_chasis'] = output_ilead_df[
+                'key_chasis'].apply(
+                    lambda x: re.split(", | \(", x)[0] if x[0] != "(" else "")
+
+            # Attach data
+            output_ilead_df = output_ilead_df.merge(
+                ref_chasis, on = 'key_chasis', how='left')
+
+            return output_ilead_df
+        except Exception as e:
+            logger.app_fail(_step, f'{traceback.print_exc()}')
+            raise Exception('f"{_step}: Failed') from e
+
+
+
 
     def pipeline_add_jcomm_sidecar(self, df_leads: object, service_df=None):
         """
@@ -1143,6 +1247,7 @@ class LeadGeneration:
             return row['EOSL']
 
 
+#%%
 if __name__ == "__main__":
     obj = LeadGeneration()
     obj.main_lead_generation()

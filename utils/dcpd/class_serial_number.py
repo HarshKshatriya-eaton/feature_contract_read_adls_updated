@@ -25,14 +25,13 @@ direct written permission from Eaton Corporation.
 # %% ***** Setup Environment *****
 
 import re
-import sys
 import traceback
 import pandas as pd
-import numpy as np
 
 from utils import AppLogger
 
 loggerObj = AppLogger(__name__)
+
 
 # %%
 
@@ -87,7 +86,7 @@ class SerialNumber:
 
             # Should not contain
             pat_invalid_self = [
-                'fwt','exp','crat','seis',                   # Updated 03/07/2023
+                'fwt', 'exp', 'crat', 'seis',  # Updated 03/07/2023
                 'bcb', 'bcms', 'box', 'cab', 'com', 'cratin',
                 'ext', 'floor', 'freig', 'inst',
                 'jbox', 'label', 'line', 'loadbk', 'repo',
@@ -135,7 +134,7 @@ class SerialNumber:
             loggerObj.app_fail(current_step, f"{traceback.print_exc()}")
             raise Exception from e
 
-        return df_data['f_valid']
+        return df_data[['f_valid']]
 
     def prep_srnum(self, df_input):
 
@@ -163,7 +162,13 @@ class SerialNumber:
                 pat_punc).str.rstrip(pat_punc)
             df_input[col] = df_input[col].str.replace(' ', '')
             df_input[col] = df_input[col].str.replace(r'&', r'-')
-            # TODO: Test '&' is replaced by comma.
+
+            # Change made: 2023-27-9 Expand AB suffix for specific cases
+            # Change made for correct expansion
+            df_input[col] = df_input.apply(
+                lambda row: self.modify_sr_num(row), axis=1
+            )
+
             loggerObj.app_success(current_step)
 
         except Exception as e:
@@ -203,15 +208,13 @@ class SerialNumber:
             df_org = pd.DataFrame(data={
                 'SerialNumberOrg': ar_serialnum,
                 'InstallSize': ar_installsize,
-                'KeySerial':ar_key_serial})
-
-            ref_data = self.ref_data
+                'KeySerial': ar_key_serial})
 
             df_org['known_sr_num'] = False
 
             # UnKnown ranges
             df_subset = df_org.loc[df_org['known_sr_num']
-                                   == False, ['SerialNumberOrg', 'InstallSize','KeySerial']]
+                                   == False, ['SerialNumberOrg', 'InstallSize', 'KeySerial']]
             df_out_unknown, df_could_not = self.unknown_range(df_subset)
             del df_subset
 
@@ -228,7 +231,7 @@ class SerialNumber:
 
         return df_out, df_could_not
 
-    def known_range(self, df_input): # pragma: no cover
+    def known_range(self, df_input):  # pragma: no cover
 
         """
         Function contains known dataframe values which have been processed
@@ -282,7 +285,6 @@ class SerialNumber:
         :rtype:  Pandas Dataframe
 
         """
-        dict = {}
         current_step = 'Unknown range of serial numbers'
 
         try:
@@ -294,12 +296,10 @@ class SerialNumber:
             df_input['SerialNumber'] = self.prep_srnum(df_input)
 
             # Identify Type of Sequence:
-            cols = ['SerialNumberOrg', 'InstallSize','KeySerial']
+            cols = ['SerialNumberOrg', 'InstallSize', 'KeySerial']
 
             df_input['out'] = df_input[cols].apply(
                 lambda x: self.identify_seq_type(x), axis=1)
-
-
 
             ix = 0
             for col in ls_results:
@@ -308,7 +308,7 @@ class SerialNumber:
 
             # Generate Sequence
             ls_seq_out_unknown = df_input[
-                ['out', 'SerialNumberOrg', 'InstallSize','KeySerial']].apply(
+                ['out', 'SerialNumberOrg', 'InstallSize', 'KeySerial']].apply(
                 lambda x: self.generate_seq(x[0], x[1], x[2], x[3]), axis=1)
 
             df_out_unknown = pd.concat(ls_seq_out_unknown.tolist())
@@ -357,7 +357,7 @@ class SerialNumber:
 
         # except Exception as e:
         #     loggerObj.app_fail(current_step, f"{traceback.print_exc()}")
-            # raise Exception from e
+        # raise Exception from e
 
         return rge_sr_num
 
@@ -381,7 +381,6 @@ class SerialNumber:
 
         """
         # out = [True] + list(dict_out.values())
-        current_step = 'Generating sequence of serial numbers'
 
         df_out = pd.DataFrame(columns=['SerialNumberOrg', 'SerialNumber'])
         try:
@@ -396,37 +395,36 @@ class SerialNumber:
                     temp_sr = str.split(dict_data['pre_fix'], '-')
                     dict_data['pre_fix'] = '-'.join(temp_sr[:-1])
                     dict_data['ix_end'] = temp_sr[-1] + \
-                        '-' + dict_data['ix_end']
+                                          '-' + dict_data['ix_end']
                     rge_sr_num = self.generate_seq_list(dict_data)
 
             if dict_data['type'] in ['num', 'num_count']:
                 rge_sr_num = range(
-                    int(dict_data['ix_beg']), int(dict_data['ix_end'])+1)
+                    int(dict_data['ix_beg']), int(dict_data['ix_end']) + 1)
 
             if dict_data['type'] == 'alpha':
                 filter_size = 100
                 count_sr = (
-                    (self.identify_index(dict_data['ix_end']) -
-                     self.identify_index(dict_data['ix_beg'])) + 1)
-                if count_sr < filter_size:          # BugFix: Consider the expansion where count is not greater than size
+                        (self.identify_index(dict_data['ix_end']) -
+                         self.identify_index(dict_data['ix_beg'])) + 1)
+                if count_sr < filter_size:  # BugFix: Consider the expansion where count is not greater than size
                     rge_sr_num = self.letter_range(
                         dict_data['ix_beg'], count_sr)
 
             ls_srnum = [(dict_data['pre_fix'] + str(ix_sr) +
-                        dict_data['post_fix']) for ix_sr in rge_sr_num]
+                         dict_data['post_fix']) for ix_sr in rge_sr_num]
             # loggerObj.app_success(current_step)
 
         except:
             ls_srnum = []
 
-
-        if ((len(ls_srnum) > size) #size
+        if ((len(ls_srnum) > size)  # size
                 and (len(ls_srnum) > 100)
                 and (self.data_type == 'm2m')):
             loggerObj.app_debug(
                 f'{sr_num}: {len(ls_srnum)} > {size}', 1)
             ls_srnum = []
-        elif ((len(ls_srnum) > size) #size
+        elif ((len(ls_srnum) > size)  # size
               and (len(ls_srnum) > 150)
               and (self.data_type == 'contract')):
             loggerObj.app_debug(
@@ -435,7 +433,7 @@ class SerialNumber:
 
         df_out['SerialNumber'] = ls_srnum
         df_out['SerialNumberOrg'] = [sr_num] * len(ls_srnum)
-        df_out['KeySerial']= key_serial
+        df_out['KeySerial'] = key_serial
 
         return df_out
 
@@ -464,7 +462,6 @@ class SerialNumber:
             # vals = ['12017004-51-59,61', 10]       110-1900-12,14,17,19
             sr_num = vals[0]
             install_size = vals[1]
-            key_serial = vals[2]
             loggerObj.app_success(sr_num)
 
             f_analyze = True
@@ -478,8 +475,8 @@ class SerialNumber:
             # Type = num_count
             # Example : SrNum : 110-115; InstallSize = 10
             # Here index of unique serial numbers are not provided.
-            # Therefore sequence with length of InstallSize starting from 1
-            # shoud be created
+            # Therefore, sequence with length of InstallSize starting from 1
+            # should be created
 
             if (len(split_sr_num) == 2) and (',' not in sr_num):
                 if sr_num in self.dict_mapping:
@@ -506,7 +503,7 @@ class SerialNumber:
 
             if ("," in split_sr_num[-2]) and (len(split_sr_num[-2].split(",")) == 2):
                 first_val = split_sr_num[-2].split(",")[0]
-                print("The serial number ",sr_num)
+                print("The serial number ", sr_num)
                 second_val = split_sr_num[-2].split(",")[1]
                 split_sr_num.pop(-2)
                 split_sr_num.insert(1, second_val)
@@ -651,7 +648,7 @@ class SerialNumber:
         :raises Exception: Throws ValueError exception for Invalid values
         passed to function.
         :return val_total: Returns integer value depicting count of alphabets
-        requried to be incremented.
+        required to be incremented.
         :rtype:  Integer
 
         """
@@ -708,6 +705,49 @@ class SerialNumber:
 
         return total_txt
 
+    def modify_sr_num(self, row):
+        """
+        Method to expand 2 alphabet strings with hyphen seperator
+        @param row: row entry containing SerialNumber, InstallSize, KeySerial
+        @return: updated serial number string
+        """
+        serial_num = row.SerialNumberOrg
+        size = row.InstallSize
+        serial_num_parts = serial_num.split("-")
+        if (
+                (
+                    (len(serial_num_parts) <= 3) or # Original Serial Number
+                    # with 2 hyphen e.g. 110-014-0AB
+                    (len(serial_num_parts) == 4 and len(serial_num_parts[-1]) == 2)
+                    # Updated Serial Number with 3 hyphens
+                    # but last part contains only 2 alphabets i.e. after expansion it will
+                    # have 3 hyphens. For. e.g. X-Y-Z-ab expands into X-Y-Z-a and Y-Y-Z-b.
+                    # Haven't come across this case yet but handled it considering future
+                    # possiblity, for e.g. it would be true for e.g. 110-014-0-AB but false
+                    # for e.g. 110-014-0-1AB
+                )
+                and len(serial_num_parts) > 1 and size == 2
+        ):
+            last_part = serial_num_parts[-1]
+            if len(last_part) >= 2:
+                last_part_prefix = last_part[:-2]
+                char1 = last_part[-2:-1]
+                char2 = last_part[-1:]
+
+                if (
+                    # Check if the 2 characters are consecutive alphabets
+                        char1.isalpha() and char2.isalpha() and
+                        (ord(char2) - ord(char1)) == 1
+                ):
+                    updated_sr_num = "-".join(serial_num_parts[:-1])
+                    updated_sr_num = updated_sr_num + "-"
+                    hyphen_sep_alpha = char1 + "-" + char2
+                    if last_part_prefix != "":
+                        return updated_sr_num + last_part_prefix + "-" + hyphen_sep_alpha
+                    return updated_sr_num + hyphen_sep_alpha
+
+        return serial_num
+
 
 # %%
 if __name__ == '__main__':
@@ -717,7 +757,8 @@ if __name__ == '__main__':
     #
     # ar_installsize = [17, 2, 2, 4]
     # 11100067
-    #ar_serialnum = ['110-0466','442-0002-7a-12a', '442-0002-7a-12a']
+    # ar_serialnum = ['110-0466', '442-0002-7a-12a', '442-0002-7a-12a','bcb-180-0557-1-2b-bus']
+    ar_serialnum = ['110-014-0-AB']
     # ar_serialnum = ['112-0058-1-7','112-0058-6-9,11-12']
     ar_serialnum = ['110-0126AB']
     # ar_serialnum = ['118-110-1,2,3']   # Need to resolve

@@ -83,7 +83,7 @@ class Contacts:
         logger.app_success(_step)
         self.start_msg = ": STARTED"
 
-    def pipeline_contact(self):
+    def main_contact(self):
         """
         Pipeline for extracting contacts from all sources listed in config.
 
@@ -129,7 +129,7 @@ class Contacts:
         # Read list of databases to be used for generating contacts
         _step = "Read confirguration for contacts"
         try:
-            dict_sources = obj.config['output_contacts_lead']["dict_dbs"]
+            dict_sources = self.config['output_contacts_lead']["dict_dbs"]
         except Exception as e:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise ValueError from e
@@ -157,7 +157,7 @@ class Contacts:
                         'file_dir': self.config['file']['dir_results'] +
                                     self.config['file']['dir_intermediate'],
                         'file_name': ('processed_contacts' + src)}
-                    df_data = IO.read_csv(obj.mode, file_dir)
+                    df_data = IO.read_csv(self.mode, file_dir)
 
                 except:
                     logger.app_fail(_step, f'{traceback.print_exc()}')
@@ -200,11 +200,9 @@ class Contacts:
         try:
             logger.app_info(_step + self.start_msg)
             # Read raw data
-            file_dir = {
-                'file_dir': obj.config['file']['dir_data'],
-                'file_name': obj.config['file']['Raw'][src]['file_name']
-            }
-            df_data = IO.read_csv(obj.mode, file_dir)
+            file_dir = {'file_dir': self.config['file']['dir_data'],
+                        'file_name': self.config['file']['Raw'][src]['file_name']}
+            df_data = IO.read_csv(self.mode, file_dir)
             del file_dir
 
             ls_dict = [src]
@@ -216,20 +214,20 @@ class Contacts:
                 logger.app_info(dict_src, level=0)
 
                 # dict_contact
-                dict_contact = obj.config['output_contacts_lead'][dict_src]
+                dict_contact = self.config['output_contacts_lead'][dict_src]
 
                 # exception handling
-                df_data, dict_updated = obj.exception_src(
+                df_data, dict_updated = self.exception_src(
                     dict_src, df_data, dict_contact)
 
                 # prep data
-                df_data, dict_updated = obj.prep_data(df_data, dict_contact)
+                df_data, dict_updated = self.prep_data(df_data, dict_contact)
                 del dict_contact
 
                 # Generate contact
                 df_contact = self.gc.create_contact(
                     df_data, dict_updated, dict_src,
-                    f_form_date=False, ref_df_all=obj.ref_df)
+                    f_form_date=False, ref_df_all=self.ref_df)
 
                 # Concat outputs
                 df_results = pd.concat([df_results, df_contact])
@@ -245,7 +243,7 @@ class Contacts:
             file_dir = {'file_dir': self.config['file']['dir_results'] +
                                     self.config['file']['dir_intermediate'],
                         'file_name': ('processed_contacts' + src)}
-            status = IO.write_csv(obj.mode, file_dir, df_results)
+            status = IO.write_csv(self.mode, file_dir, df_results)
             del file_dir, status
 
             logger.app_success(_step)
@@ -604,6 +602,6 @@ class Contacts:
 
 if __name__ == "__main__":
     obj = Contacts()
-    df_contacts = obj.pipeline_contact()
+    out = obj.main_contact()
 
 # %%
