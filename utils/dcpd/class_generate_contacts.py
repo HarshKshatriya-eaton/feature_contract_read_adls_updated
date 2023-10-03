@@ -20,6 +20,8 @@ direct written permission from Eaton Corporation.
 
 # %% ***** Setup Environment *****
 import os
+import re
+
 path = os.getcwd()
 path = os.path.join(
     path.split('ileads_lead_generation')[0], 'ileads_lead_generation')
@@ -35,10 +37,12 @@ from utils.format_data import Format
 from utils.dcpd import Contract
 from utils.class_iLead_contact import ilead_contact
 from utils.filter_data import Filter
+from utils.contacts_fr_events_data import DataExtraction
 
 contractObj = Contract()
 filter_ = Filter()
 logger = AppLogger(__name__)
+
 
 # %% Generate Contacts
 
@@ -151,7 +155,7 @@ class Contacts:
                 try:
                     file_dir = {
                         'file_dir': self.config['file']['dir_results'] +
-                        self.config['file']['dir_intermediate'],
+                                    self.config['file']['dir_intermediate'],
                         'file_name': ('processed_contacts' + src)}
                     df_data = IO.read_csv(self.mode, file_dir)
 
@@ -231,12 +235,13 @@ class Contacts:
 
                 # Postprocess data
                 ls_col_drop = [(col)
-                               for col in df_data.columns if col.startswith("nc_")]
+                               for col in df_data.columns if
+                               col.startswith("nc_")]
                 if len(ls_col_drop) > 0:
                     df_data = df_data.drop(columns=ls_col_drop)
 
             file_dir = {'file_dir': self.config['file']['dir_results'] +
-                        self.config['file']['dir_intermediate'],
+                                    self.config['file']['dir_intermediate'],
                         'file_name': ('processed_contacts' + src)}
             status = IO.write_csv(self.mode, file_dir, df_results)
             del file_dir, status
@@ -259,7 +264,8 @@ class Contacts:
 
         :param df_data: Input data frame.
         :type df_data: pandas DataFrame
-        :param dict_in: disctionary mapping columns from database to contacts field excpected in output
+        :param dict_in: dictionary mapping columns from database to
+         contacts field expected in output
         :type dict_in: dictionary
         :return: Processed data. concatenated column name:
             "nc_" + output field name
@@ -267,20 +273,30 @@ class Contacts:
 
         """
         _step = "Pre-Process data"
+        if type(dict_in) != dict:
+            raise TypeError(
+                "Contacts class prep_data method argument dict_in is not a "
+                "dictionary"
+            )
         try:
             for key in dict_in:
+                # Filter out Company_Phone for minimum length
+                if key == "Company_Phone":
+                    min_len = 2
+                else:
+                    min_len = 0
+
                 ls_col = dict_in[key]
 
                 if isinstance(ls_col, list):
                     n_col = 'nc_' + key
-
                     df_data[ls_col] = df_data[ls_col].fillna("").astype(str)
 
                     df_data.loc[:, n_col] = df_data[ls_col].apply(
                         lambda x:
-                            '; '.join(y for y in np.unique(x)
-                                      if (len(str(y)) > 2) & pd.notna(y)),
-                            axis=1)
+                        '; '.join(y for y in np.unique(x)
+                                  if (len(str(y)) > min_len) & pd.notna(y))
+                        , axis=1)
 
                     dict_in[key] = n_col
                 else:
@@ -305,59 +321,160 @@ class Contacts:
         :rtype: pandas DataFrame.
 
         """
-        if src == "services":
-            # Read serial numbers
-            file_dir = {
-                'file_dir': (
-                    self.config['file']['dir_results']
-                    + self.config['file']['dir_intermediate']),
-                'file_name': self.config['file']['Processed']['services'][
-                    'serial_number_services']}
-            df_sr_num = IO.read_csv(self.mode, file_dir)
-            del file_dir
+        if type(src) != str:
+            raise TypeError(
+                "Contacts class exception_src method argument src "
+                "is not a string"
+            )
+        if not isinstance(df_data, pd.DataFrame):
+            raise TypeError(
+                "Contacts class exception_src method argument df_data "
+                "is not a Pandas Dataframe"
+            )
+        if type(dict_contact) != dict:
+            raise TypeError(
+                "Contacts class exception_src method argument dict_contact "
+                "is not a Dictionary"
+            )
 
-            # Merge Data
-            df_data = df_data.merge(df_sr_num, on='Id', how="left")
+        match src:
+            case "services":
+                # Read serial numbers
+                file_dir = {
+                    'file_dir': (
+                            self.config['file']['dir_results']
+                            + self.config['file']['dir_intermediate']),
+                    'file_name': self.config['file']['Processed']['services'][
+                        'validated_sr_num']
+                }
+                df_sr_num = IO.read_csv(self.mode, file_dir)
+                del file_dir
 
-            # Update contact dictionary
-            dict_contact['Serial Number'] = 'SerialNumber'
+                # Merge Data
+                df_data = df_data.merge(df_sr_num, on='Id', how="left")
 
-        elif src == "contracts":
-            # Read serial numbers
-            file_dir = {
-                'file_dir': self.config['file']['dir_results'] +
-                self.config['file']['dir_intermediate'],
-                'file_name':
-                    self.config['file']['Processed']['contracts']['file_name']}
+                # Update contact dictionary
+                dict_contact['Serial Number'] = 'SerialNumber'
 
-            df_sr_num = IO.read_csv(self.mode, file_dir)
-            df_sr_num = df_sr_num[['ContractNumber', 'SerialNumber']]
+            case "events":
+                # extract_data
+                df_data = obj.extract_data(src, df_data)
+                dict_contact['Serial Number'] = 'SerialNumber'
 
-            del file_dir
+            case "contracts":
+                # Read serial numbers
+                file_dir = {
+                    'file_dir': self.config['file']['dir_results'] +
+                                self.config['file']['dir_intermediate'],
+                    'file_name':
+                        self.config['file']['Processed'][src]['file_name']}
 
-            # Merge Data
-            df_data = df_data.merge(df_sr_num, on='ContractNumber', how="left")
+                df_sr_num = IO.read_csv(self.mode, file_dir)
+                df_sr_num = df_sr_num[['ContractNumber', 'SerialNumber']]
 
-            # Data prep
-            df_data.Zipcode__c = pd.to_numeric(
-                df_data.Zipcode__c, errors="coerce")
+                del file_dir
 
-            # Update contact dictionary
-            dict_contact['Serial Number'] = 'SerialNumber'
-        elif src == "Renewal":
-            # Update contact dictionary
-            dict_contact['Serial Number'] = 'SerialNumber'
-        elif src == "PM":
-            # Update contact dictionary
-            dict_contact['Serial Number'] = 'SerialNumber'
-        else:
-            logger.app_info(f"No exception for {src}", 1)
+                # Merge Data
+                df_data = df_data.merge(df_sr_num, on='ContractNumber',
+                                        how="left")
+
+                # Data prep
+                df_data.Zipcode__c = pd.to_numeric(
+                    df_data.Zipcode__c, errors="coerce")
+
+                # Update contact dictionary
+                dict_contact['Serial Number'] = 'SerialNumber'
+
+            case "Renewal":
+                # Update contact dictionary
+                dict_contact['Serial Number'] = 'SerialNumber'
+            case "PM":
+                # Update contact dictionary
+                dict_contact['Serial Number'] = 'SerialNumber'
+            case _:
+                logger.app_info(f"No exception for {src}", 1)
 
         return df_data, dict_contact
 
+    def extract_data(self, src, df_data):
+        """
+        This function extracts the Contact details from Events data
+        """
+        try:
+            _step = "Extract contact details from Events Description"
+            if type(src) != str:
+                raise TypeError(
+                    "Contacts class extract_data method argument dict_src "
+                    "is not a string"
+                )
+            match src:
+                case "events":
+                    try:
+                        usa_states = (
+                            self.config['output_contacts_lead']["usa_states"]
+                        )
+                    except Exception as e:
+                        logger.app_fail(
+                            "usa_states not available in config",
+                            f'{traceback.print_exc()}'
+                        )
+                        raise ValueError from e
+
+                    pat_state_short = (
+                            ' ' + ' | '.join(list(usa_states.keys())) + ' '
+                    )
+                    pat_state_long = (
+                            ' ' + ' | '.join(list(usa_states.values())) + ' '
+                    )
+                    pat_address = str.lower(
+                        '(' + pat_state_short + '|' + pat_state_long + ')')
+
+                    data_extractor = DataExtraction()
+                    df_data.Description = df_data.Description.fillna("")
+
+                    df_data.loc[:, "contact_name"] = df_data.Description.apply(
+                        lambda x: data_extractor.extract_contact_name(x))
+                    df_data.loc[:, "contact"] = df_data.Description.apply(
+                        lambda x: data_extractor.extract_contact_no(x))
+                    df_data.loc[:, "email"] = df_data.Description.apply(
+                        lambda x: data_extractor.extract_email(x))
+                    df_data.loc[:, "address"] = df_data.Description.apply(
+                        lambda x: data_extractor.extract_address(
+                            x, pat_address
+                        )
+                    )
+                    df_data.loc[:, "SerialNumber"] = df_data["Description"] \
+                        .apply(
+                        lambda x: self.serial_num(str(x))
+                    )
+
+                    df_data = df_data.explode("SerialNumber").astype(str)
+
+                    output_dir = {
+                        'file_dir': self.config['file']['dir_results'] +
+                                    self.config['file'][
+                                        'dir_validation'],
+                        'file_name':
+                            self.config['file']['Processed']['contact'][
+                                'events_sr_num']
+                    }
+
+                    IO.write_csv(self.mode, output_dir, df_data)
+                    # df_data = contractObj.get_range_srum(df_data)
+
+                    df_data = df_data.loc[
+                        (df_data['contact'] != df_data['SerialNumber'])
+                    ]
+
+        except Exception as e:
+            logger.app_fail(_step, f'{traceback.print_exc()}')
+            raise Exception from e
+
+        return df_data
+
     def post_process(self, df_con):
         """
-        Postprocess contats which includes following steps.
+        Postprocess contacts which includes following steps.
 
             1. Drop rows if contacts are invalid ()
             2. Drop duplicate for serial number keeping latest contact
@@ -370,27 +487,7 @@ class Contacts:
         """
         _step = "Post process contacts"
         try:
-            # Drop invalid rows. Valid row would have atleast nont empty or nan Name / email / phone.
-            ls_cols_must = ["Name",	 "Email", "Company_Phone"]
-            ls_flags = []
-            df_con.loc[:, "flag_include"] = False
-
-            for col in ls_cols_must:
-                # Clean Name
-                df_con.loc[:, col] = df_con[col].apply(
-                    lambda x: x.rstrip('_-*'))
-
-                # Identiy Valid entries
-                n_col = f"f_{col}"
-                ls_flags += [n_col]
-                df_con.loc[:, n_col] = pd.notna(
-                    df_con[col]) & (df_con[col] != "")
-
-                df_con.loc[:, "flag_include"] = (
-                    df_con["flag_include"] | df_con.loc[:, n_col])
-
-            df_con = df_con[df_con["flag_include"]]
-            df_con.drop(columns=ls_flags, inplace=True)
+            df_con = self.validate_op(df_con)
 
             # Keep latest
             df_con = self.filter_latest(df_con)
@@ -398,6 +495,69 @@ class Contacts:
         except Exception as e:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception from e
+
+        return df_con
+
+    def validate_op(self, df_con):
+        """
+            Drop invalid rows, Valid row would have atleast one non empty
+            or nan Name / email / phone.
+            :param df_con: Data from all contacts.
+            :type df_con: pandas DataFrame.
+            :return: df_con, Validated contact details
+            :rtype: pandas DataFrame.
+
+        """
+        ls_cols_must = ["Name", "Email", "Company_Phone"]
+        ls_flags = []
+        df_con.loc[:, "flag_include"] = False
+
+        min_length = {
+            "Name": 2,
+            "Email": 4,
+            "Company_Phone": 10
+        }
+        for col in ls_cols_must:
+            # Clean Name
+            df_con.loc[:, col] = df_con[col].fillna("")
+            df_con.loc[:, col] = df_con[col].apply(
+                lambda x: x.rstrip('_-* ').lstrip('_-* ')
+            )
+            ml = min_length[col]
+
+            # Identiy Valid entries
+            n_col = f"f_{col}"
+            ls_flags += [n_col]
+
+            flag1 = pd.notna(df_con[col])
+            flag2 = (df_con[col] != "")
+            flag = flag1 & flag2
+            df_con.loc[:, n_col] = flag
+
+            df_con.loc[:, "flag_include"] = (
+                    df_con["flag_include"] | df_con.loc[:, n_col]
+            )
+
+        df_con = df_con.loc[
+            (df_con["Name"].str.len() >= min_length["Name"]) |
+            (df_con["Email"].str.len() >= min_length["Email"]) |
+            (df_con["Company_Phone"].str.len() >= min_length["Company_Phone"])
+            ]
+        df_con.rename(
+            columns={'Serial Number': 'SerialNumber'},
+            inplace=True
+        )
+        df_con = contractObj.validate_contract_install_sr_num(df_con)
+        df_con = df_con.loc[df_con.flag_validinstall]
+        del df_con['flag_validinstall']
+        del df_con['SerialNumber']
+        df_con.rename(
+            columns={'SerialNumber_Partial': 'SerialNumber'},
+            inplace=True
+        )
+        df_con = df_con[df_con["flag_include"]]
+        ls_flags.append("flag_include")
+        df_con.drop(columns=ls_flags, inplace=True)
 
         return df_con
 
@@ -414,15 +574,28 @@ class Contacts:
         _step = "Filter to latest data"
 
         try:
-            df_contact = df_contact \
-                .sort_values(by=['Serial Number', 'Date', 'Contact_Type'],
-                             ascending=False) \
-                .drop_duplicates(subset="Serial Number", keep=False)
+            df_contact = df_contact.sort_values(
+                by=['SerialNumber', 'Source', 'Contact_Type', 'Date'],
+                ascending=False
+            ).drop_duplicates(
+                subset=['SerialNumber', 'Source', 'Contact_Type'],
+                keep="first"
+            )
         except Exception as e:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception from e
 
         return df_contact
+
+    def serial_num(self, col):
+        """
+        Method to extract serial number details from events description
+        @param col: Events data description column
+        @return: list of extracted patterns
+        """
+        pattern = self.config['output_contacts_lead']["pat_srnum_event"]
+        return re.findall(pattern, col)
+
 
 # %% *** Call ***
 

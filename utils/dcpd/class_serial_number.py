@@ -760,17 +760,16 @@ if __name__ == '__main__':
     # ar_serialnum = ['110-0466', '442-0002-7a-12a', '442-0002-7a-12a','bcb-180-0557-1-2b-bus']
     ar_serialnum = ['110-014-0-AB']
     # ar_serialnum = ['112-0058-1-7','112-0058-6-9,11-12']
-    # ar_serialnum = ['180-05578a']
+    ar_serialnum = ['110-0126AB']
     # ar_serialnum = ['118-110-1,2,3']   # Need to resolve
-    ar_installsize = [2]#, 1, 1,1]
-    sr_num.validate_srnum(ar_serialnum)
+    ar_installsize = [2]
+
     df_out_srs, df_out_couldnot = sr_num.get_serialnumber(
-        ar_serialnum, ar_installsize, "1")
-    print("The df Out data is ", df_out_srs)
-    print("The df_could not data is ", df_out_couldnot)
-    # df_data = pd.read_csv('./data/SerialNumber.csv')
-    # df_data = df_data[df_data['SO'] == 1930]
-    # print("New data updated ", df_data)
+         ar_serialnum, ar_installsize,"1")
+    print("The df Out data is ",df_out_srs)
+    #df_data = pd.read_csv('./data/SerialNumber.csv')
+    #df_data = df_data[df_data['SO'] == 1930]
+    #print("New data updated ", df_data)
     # df_data['Serial #'] = df_data['Serial #'].str.lower()
     # df_data['f_include'] = sr_num.validate_srnum(df_data['Serial #'])
     # df_data = df_data[df_data['f_include']]

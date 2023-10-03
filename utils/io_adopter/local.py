@@ -52,11 +52,17 @@ def read_json_local(config):
 
 #  *** CSV ***
 def read_csv_local(config):
+    """
+    Method to read csv file from local machine
+    @param config: config contains location of the file, filename and encoding
+    @return: pandas dataframe for the csv file
+    """
     _step = f'Read csv : {config}'
     try:
         file_name = config['file_name']
         file_dir = config['file_dir']
         sep = ',' if 'sep' not in config else config['sep']
+        encoding = 'utf-8' if 'encoding' not in config else config['encoding']
 
     except Exception as e:
         logger.app_fail("Required config not provided", 1)
@@ -64,7 +70,7 @@ def read_csv_local(config):
 
     try:
         file_path = os.path.join(file_dir, file_name)
-        data = pd.read_csv(file_path, sep=sep)
+        data = pd.read_csv(file_path, sep=sep, encoding=encoding)
 
         logger.app_debug(f"{_step}: SUCCEED", 1)
         return data
