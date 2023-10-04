@@ -196,12 +196,14 @@ class InstallBase:
             # Format Data
             input_format = self.config['database']['M2M']['Dictionary Format']
             df_data_install = obj_format.format_data(df_data_install, input_format)
-            df_data_install["kva"] = df_data_install.Description.apply(
-                lambda x: re.findall("\d+\s{0,1}kva", str(x)))
-            df_data_install["amp"] = df_data_install.Description.apply(
-                lambda x: re.findall("\d+\s{0,1}amp", str(x)))
-            df_data_install["voltage"] = df_data_install.Description.apply(
-                lambda x: re.findall("\d+\s{0,1}v", str(x)))
+            # df_data_install["kva"] = df_data_install.Description.apply(
+            #     lambda x: re.findall("\d+\s{0,1}kva", str(x)))
+            # df_data_install["amp"] = df_data_install.Description.apply(
+            #     lambda x: re.findall("\d+\s{0,1}amp", str(x)))
+            # df_data_install["voltage"] = df_data_install.Description.apply(
+            #     lambda x: re.findall("\d+\s{0,1}v", str(x)))
+
+            df_data_install = self.get_metadata(df_data_install)
             df_data_install.reset_index(drop=True, inplace=True)
             df_data_install["ST_Cust"] = df_data_install["Customer"].copy()
 
@@ -854,6 +856,25 @@ class InstallBase:
         out += "" if other_parts==0 else (sep + "(# Other Parts: " + str(other_parts) + ")")
 
         return out
+
+    def get_metadata(self, df_data_install):
+        """
+        This method calculates kva, amp, voltage metadata from description
+        field.
+        @param df_data_install: Dataframe containing shipment data
+        @return: Updated dataframe containing metadata
+        """
+        kva_search_pattern = self.config['install_base']['kva_search_pattern']
+        amp_search_pattern = self.config['install_base']['amp_search_pattern']
+        voltage_serach_pattern = self.config['install_base']['voltage_serach_pattern']
+        df_data_install["kva"] = df_data_install.Description.apply(
+            lambda x: re.findall(kva_search_pattern, str(x)))
+        df_data_install["amp"] = df_data_install.Description.apply(
+            lambda x: re.findall(amp_search_pattern, str(x)))
+        df_data_install["voltage"] = df_data_install.Description.apply(
+            lambda x: re.findall(voltage_serach_pattern, str(x)))
+
+        return df_data_install
 
 # %% *** Call ***
 

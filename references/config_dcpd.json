@@ -1760,7 +1760,10 @@
                 "kVA",
                 "MFR"
             ]
-        }
+        },
+        "kva_search_pattern": "\\d+\\s{0,1}kva",
+        "amp_search_pattern": "\\d+\\s{0,1}amp",
+        "voltage_serach_pattern": "\\d+\\s{0,1}v"
     },
     "output_contacts_lead": {
         "dict_dbs": {
