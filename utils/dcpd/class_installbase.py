@@ -864,15 +864,27 @@ class InstallBase:
         @param df_data_install: Dataframe containing shipment data
         @return: Updated dataframe containing metadata
         """
-        kva_search_pattern = self.config['install_base']['kva_search_pattern']
-        amp_search_pattern = self.config['install_base']['amp_search_pattern']
-        voltage_serach_pattern = self.config['install_base']['voltage_serach_pattern']
-        df_data_install["kva"] = df_data_install.Description.apply(
-            lambda x: re.findall(kva_search_pattern, str(x)))
-        df_data_install["amp"] = df_data_install.Description.apply(
-            lambda x: re.findall(amp_search_pattern, str(x)))
-        df_data_install["voltage"] = df_data_install.Description.apply(
-            lambda x: re.findall(voltage_serach_pattern, str(x)))
+        try:
+            kva_search_pattern = self.config['install_base']['kva_search_pattern']
+            amp_search_pattern = self.config['install_base']['amp_search_pattern']
+            voltage_serach_pattern = self.config['install_base']['voltage_serach_pattern']
+        except ValueError as err:
+            logger.app_info(
+                "Failed to get required config files in get_metadata() class "
+                "InstallBase"
+            )
+            raise Exception from err
+
+        try:
+            df_data_install["kva"] = df_data_install.Description.apply(
+                lambda x: re.findall(kva_search_pattern, str(x)))
+            df_data_install["amp"] = df_data_install.Description.apply(
+                lambda x: re.findall(amp_search_pattern, str(x)))
+            df_data_install["voltage"] = df_data_install.Description.apply(
+                lambda x: re.findall(voltage_serach_pattern, str(x)))
+        except Exception as err:
+            logger.app_info("failed in get_metadata() class InstallBase")
+            raise Exception from err
 
         return df_data_install
 
