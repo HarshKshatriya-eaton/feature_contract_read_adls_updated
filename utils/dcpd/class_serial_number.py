@@ -758,9 +758,9 @@ if __name__ == '__main__':
     # ar_installsize = [17, 2, 2, 4]
     # 11100067
     # ar_serialnum = ['110-0466', '442-0002-7a-12a', '442-0002-7a-12a','bcb-180-0557-1-2b-bus']
-    ar_serialnum = ['110-014-0-AB']
+    ar_serialnum = ['110-014-0AB']
     # ar_serialnum = ['112-0058-1-7','112-0058-6-9,11-12']
-    ar_serialnum = ['110-0126AB']
+    # ar_serialnum = ['110-0126AB']
     # ar_serialnum = ['118-110-1,2,3']   # Need to resolve
     ar_installsize = [2]
 
@@ -768,27 +768,4 @@ if __name__ == '__main__':
          ar_serialnum, ar_installsize,"1")
     print("The df Out data is ",df_out_srs)
     #df_data = pd.read_csv('./data/SerialNumber.csv')
-    #df_data = df_data[df_data['SO'] == 1930]
-    #print("New data updated ", df_data)
-    # df_data['Serial #'] = df_data['Serial #'].str.lower()
-    # df_data['f_include'] = sr_num.validate_srnum(df_data['Serial #'])
-    # df_data = df_data[df_data['f_include']]
-
-    # from src.class_business_logic import BusinessLogic
-    # cbl = BusinessLogic()
-    # df_data['f_include'] = cbl.idetify_product_fr_serial(df_data['Serial #'])
-    # df_data['f_include'] = df_data['f_include'].isin(['STS','RPP','PDU'])
-    # df_data = df_data[df_data['f_include']]
-
-    # df_data.to_csv('./results/CleanData.csv')
-
-    # df_out_srs, df_out_couldnot = sr_num.get_serialnumber(
-    #     df_data['Serial #'], df_data['Shipper Qty'])
-
-    # print(df_out_srs, df_out_couldnot)
-    # df_data = pd.read_csv("./data/SerialNumber.csv")
-    # df_out_srs, df_out_couldnot = sr_num.get_serialnumber(df_data['Serial #'],'Shipper Qty')
-
-    # df_out_srs.to_csv('./results/output1.csv')
-
 # %%

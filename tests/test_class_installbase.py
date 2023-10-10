@@ -47,6 +47,8 @@ class TestPrioratizedColumn:
     @pytest.mark.parametrize(
         "df_data_install",
         [None,
+         dict(),
+         [],
          (pd.DataFrame()),
          (pd.DataFrame(data={'ShipTo_Country': ['usa', 'usa', None, 'usa',
                                                 None, 'united states']})),
@@ -90,6 +92,8 @@ class TestFilterData:
     @pytest.mark.parametrize(
         "df_filter_data_install",
         [None,
+         dict(),
+         [],
          (pd.DataFrame()),
          (pd.DataFrame(data={
              'InstallSize': [0, 1, 1]
@@ -293,6 +297,8 @@ class TestFilterData:
     @pytest.mark.parametrize(
         "df_install",
         [None,
+         {},
+         [],
          (pd.DataFrame())
          ], )
     def test_filter_data_final_error(self, df_install):
@@ -331,6 +337,8 @@ class TestFilterProductClass:
     @pytest.mark.parametrize(
         "ref_prod",
         [None,
+         [],
+         {},
          (pd.DataFrame()),
          (pd.DataFrame(data={'product_type': ['asd', 'asda', 'dass'],
                              'product_prodclass': ['PDU', 'Trans', 'RPP']})),
@@ -364,6 +372,8 @@ class TestFilterProductClass:
     @pytest.mark.parametrize(
         "df_data_install",
         [None,
+         [],
+         {},
          (pd.DataFrame()),
          (pd.DataFrame(data={'ShipmentDate': ['9/20/1994', '9/20/2004',
                                               '9/20/2014'],
@@ -423,6 +433,8 @@ class TestFilterKeySerial:
     @pytest.mark.parametrize(
         "df_data_install",
         [None,
+         [],
+         {},
          (pd.DataFrame()),
          (pd.DataFrame(data={'Shipper_Index': [123, 121, 342, 321],
                              'ShipperItem_Index': [1, 1, 2, 3],
@@ -500,6 +512,8 @@ class TestCombineSerialnumData:
     @pytest.mark.parametrize(
         "df_srnum_range",
         [None,
+         [],
+         {},
          (pd.DataFrame()),
          (pd.DataFrame(data={'key_serial': ['123:1', '121:1', '342:2'],
                              'Product': ['xyz', 'adx', 'erw']})),
@@ -595,6 +609,8 @@ class TestPreprocessExpandRange:
     @pytest.mark.parametrize(
         "df_data_install",
         [None,
+         {},
+         [],
          (pd.DataFrame()),
          (pd.DataFrame(data={'key_serial': [123, 121, 342, 321]})),
          (pd.DataFrame(data={'Shipper_Qty': [1, 1, 2, 3]}))
@@ -614,6 +630,8 @@ class TestPreprocessExpandRange:
     @pytest.mark.parametrize(
         "df_srnum",
         [None,
+         [],
+         {},
          (pd.DataFrame())
          ])
     def test_preprocess_expand_range_errors_2(self, df_srnum):
@@ -657,6 +675,8 @@ class TestMergeBOMData:
     @pytest.mark.parametrize(
         "df_bom",
         [None,
+         [],
+         {},
          (pd.DataFrame()),
          (pd.DataFrame(data={'Job_Index': [123, 121, 342]})),
          (pd.DataFrame(data={'PartNumber_TLN_BOM': [123, 121, 342]}))
@@ -680,6 +700,8 @@ class TestMergeBOMData:
     @pytest.mark.parametrize(
         "df_data_install",
         [None,
+         [],
+         {},
          (pd.DataFrame()),
          (pd.DataFrame(data={'f_all': [True, True, True],
                              'Shipper_Index': [123, 342, 321],
@@ -701,7 +723,9 @@ class TestMergeBOMData:
     @pytest.mark.parametrize(
         "merge_type",
         [None,
-         " "
+         " ",
+         [],
+         {}
          ])
     def test_merge_bom_data_error_3(self, merge_type):
         """
@@ -734,21 +758,6 @@ class TestMergeBOMData:
 
         assert exp_res.equals(res)
 
-    @pytest.mark.parametrize(
-        "df_install",
-        [None,
-         (pd.DataFrame())
-         ], )
-    def test_merge_main_cb_test(self, df_install):
-        """
-        Provided "df_install" with
-        None DataFrame
-        Empty DataFrame
-        Missing Columns in DataFrame all columns except one, should throw error
-        """
-        with pytest.raises(Exception) as _:
-            obj_install_base.id_main_breaker(df_install)
-
 
 class TestMergeCustomerData:
     """
@@ -758,6 +767,8 @@ class TestMergeCustomerData:
     @pytest.mark.parametrize(
         "df_data_install",
         [None,
+         [],
+         {},
          (pd.DataFrame()),
          (pd.DataFrame(data={'Customer': ['xyz', 'abc', 'mno']})),
          (pd.DataFrame(data={'ShipTo_Customer': ['abc', 'qwe', 'asd']}))
@@ -779,6 +790,8 @@ class TestMergeCustomerData:
     @pytest.mark.parametrize(
         "df_customer",
         [None,
+         [],
+         {},
          (pd.DataFrame()),
          (pd.DataFrame(data={'key': ['xyz:abc', 'abc:qwe', 'mno:asd']})),
          (pd.DataFrame(data={'StrategicCustomer': ['abczsx', 'erddqwe', 'asktigd']}))
@@ -801,17 +814,17 @@ class TestMergeCustomerData:
         """
         Test proper data merge with removal of duplicate values
         """
-        df_data_install = pd.DataFrame(
-            data={'Customer': ['xyz', 'abc', 'mno'],
-                  'ShipTo_Customer': ['abc', 'qwe', 'asd']})
         df_customer = pd.DataFrame(
-            data={'key': ['xyz:abc', 'abc:qwe', 'mno:asd', 'xyz:abc'],
-                  'StrategicCustomer': ['abczsx', 'erddqwe', 'asktigd', 'azxcvb']})
+            data={'Serial_Number': ['1', '3'],
+                  'StrategicCustomer': ['2', '4']})
+        df_data_install = pd.DataFrame(
+            data={'SerialNumber_M2M': ['1', '2', '3'],
+                  'info': ['info1', 'info2', 'info3']})
         exp_res = pd.DataFrame(pd.DataFrame(
-            data={'Customer': ['xyz', 'abc', 'mno'],
-                  'ShipTo_Customer': ['abc', 'qwe', 'asd'],
-                  'key': ['xyz:abc', 'abc:qwe', 'mno:asd'],
-                  'StrategicCustomer': ['abczsx', 'erddqwe', 'asktigd']}))
+            data={'SerialNumber_M2M': ['1', '2', '3'],
+                  'info': ['info1', 'info2', 'info3'],
+                  'Serial_Number': ['1', None, '3'],
+                  'StrategicCustomer': ['2', None, '4']}))
         res = obj_install_base.merge_customdata(df_customer, df_data_install)
 
         assert exp_res.equals(res)
@@ -825,6 +838,8 @@ class TestCleanSerialNumber:
     @pytest.mark.parametrize(
         "df_srnum",
         [None,
+         [],
+         {},
          (pd.DataFrame()),
          'abc',
          ['avc', 21],
@@ -885,6 +900,8 @@ class TestCreateForeignKey:
     @pytest.mark.parametrize(
         "df_srnum",
         [None,
+         [],
+         {},
          (pd.DataFrame()),
          'abc',
          ['avc', 21],
@@ -926,16 +943,19 @@ class TestCreateForeignKey:
 
         assert exp_res.equals(res)
 
-class TestFilterProductClass:
+class TestIDDisplayParts:
     """
     Tests display panel details
     """
     @pytest.mark.parametrize(
         "df_org",
         [None,
+         [],
+         {},
          (pd.DataFrame())
-         ], )
-    def test_display_parts_empty_data(self, df_org):
+         ]
+    )
+    def test_display_parts_err(self, df_org):
         """
         Provided "df_org" with
         None DataFrame
@@ -978,8 +998,32 @@ class TestFilterProductClass:
             obj_install_base.id_display_parts()
             assert info.type == Exception
 
-    def test_id_metadata(self):
+class TestIDMetadata():
+    """
+    Tests ID metadata
+    """
+    @pytest.mark.parametrize(
+        "df_bom",
+        [None,
+         [],
+         {},
+         (pd.DataFrame())
+         ], )
+    def test_id_metadata_err(self, df_bom):
+        """
 
+        None DataFrame
+        Empty DataFrame
+        Missing Columns in DataFrame all columns except one, should throw error
+        """
+        with pytest.raises(Exception) as _:
+            result = obj_install_base.id_metadata(df_bom)
+
+    def test_id_metadata_ideal_val(self):
+        """
+
+        :return:
+        """
         bom_data = [{'Job_Index': '01322-0000', 'PartNumber_TLN_BOM': 'standard pdu'}, {'Job_Index': '01371-0000', 'PartNumber_TLN_BOM': 'standard pdu'}, {'Job_Index': '01375-0000', 'PartNumber_TLN_BOM': 'standard pdu'}, {'Job_Index': '01377-0000', 'PartNumber_TLN_BOM': 'standard pdu'}, {'Job_Index': '01433-0000', 'PartNumber_TLN_BOM': 'standard pdu'}]
         df_bom = pd.DataFrame(bom_data)
         result = obj_install_base.id_metadata(df_bom)
@@ -992,10 +1036,152 @@ class TestFilterProductClass:
         assert_frame_equal(result.sort_index(axis=1), expected_output.sort_index(axis=1),
                            check_dtype=False, check_exact=False, check_names=True)
 
+class TestIDMainBreaker():
+    """
+    Tests ID Main Breaker
+    """
+    @pytest.mark.parametrize(
+        "df_install",
+        [None,
+         {},
+         [],
+         (pd.DataFrame())
+         ], )
+    def test_id_main_breaker_err(self, df_install):
+        """
 
+        None DataFrame
+        Empty DataFrame
+        Missing Columns in DataFrame all columns except one, should throw error
+        """
+        with pytest.raises(Exception) as _:
+            df_data = obj_install_base.id_main_breaker(df_install)
+
+    @pytest.mark.parametrize(
+        "df_install, exp_op",
+        [
+            (
+                pd.DataFrame(data={
+                    "Job_Index": ["123"],
+                    "PartNumber_TLN_BOM": ["123123"],
+                    "PartNumber_BOM_BOM": ["ckb000036"],
+                    "Total_Quantity": ["1"]
+                }),
+                pd.DataFrame(data={
+                    "Job_Index": ["123"],
+                    "pn_main_braker": ["ckb000036"],
+                    "Input CB": ["Input CB"],
+                    "AMP Trip": ["800A"],
+                    "kAIC @ Voltage": ["65/480V"],
+                    "Rated, Trip": ["100%, LSI"],
+                    "kVA": [500.0],
+                    "MFR": ["ETN"]
+                })
+            )
+        ]
+    )
+    def test_id_main_breaker_ideal_val(self, df_install, exp_op):
+        ac_op = obj_install_base.id_main_breaker(df_install)
+        assert_frame_equal(exp_op.sort_index(axis=1),
+                           ac_op.sort_index(axis=1),
+                           check_dtype=False, check_exact=False,
+                           check_names=True)
+
+class TestSummarizePartNumbers():
+    @pytest.mark.parametrize(
+        "part_list, list_of_interest",
+        [
+            (None, None),
+            ({}, {}),
+            (pd.DataFrame(), pd.DataFrame())
+        ]
+    )
+    def test_summarize_part_numbers_err(self, part_list, list_of_interest):
+        with pytest.raises(Exception) as _:
+            out = obj_install_base.summarize_part_num(
+                part_list, list_of_interest
+            )
+
+    @pytest.mark.parametrize(
+        "part_list, list_of_interest, exp_op",
+        [
+            (
+                ["test1", "test2"],
+                ["test2"],
+                'TEST2 (# Other Parts: 1)'
+            ),
+            (
+                ["test1", "test2", "test3", "test4"],
+                ["test2", "test3"],
+                'TEST2, TEST3 (# Other Parts: 2)'
+            )
+        ]
+    )
+    def test_err_summarize_part_no(self, part_list, list_of_interest, exp_op):
+        ac_op = obj_install_base.summarize_part_num(
+            part_list, list_of_interest
+        )
+        assert ac_op == exp_op
+
+class TestGetMetadata():
+    @pytest.mark.parametrize(
+        "df_data_install",
+        [
+            None,
+            {},
+            list(),
+            pd.DataFrame()
+        ]
+    )
+    def test_err_summarize_part_numbers(self, df_data_install):
+        with pytest.raises(Exception) as _:
+            df_data_install = obj_install_base.get_metadata(df_data_install)
+
+    def test_config_not_load(self):
+        """
+        This test cases checks all the inputs for which the method can't find
+        dependent files.
+        @param dict_src: input source type
+        @param df_data: input dataframe
+        @return: None
+        """
+        df_data_install = pd.DataFrame({
+            'Description': ["Test input 100amp, 220 v, 110 kva"]
+        })
+        kva_search_pattern = (
+            obj_install_base.config['install_base']['kva_search_pattern']
+        )
+        del obj_install_base.config['install_base']['kva_search_pattern']
+        with pytest.raises(Exception) as _:
+            _ = obj_install_base.get_metadata(df_data_install)
+        obj_install_base.config['install_base']['kva_search_pattern'] = (
+            kva_search_pattern
+        )
+
+    @pytest.mark.parametrize(
+        "df_data_install, exp_op",
+        [
+            (
+                pd.DataFrame({
+                    'Description': ["Test input 100amp, 220 v, 110 kva"]
+                }),
+                pd.DataFrame({
+                    'Description': ["Test input 100amp, 220 v, 110 kva"],
+                    'kva': [['110 kva']],
+                    'amp': [['100amp']],
+                    'voltage': [['220 v']]
+                })
+            )
+        ]
+    )
+    def test_err_summarize_part_no(self, df_data_install, exp_op):
+        ac_op = obj_install_base.get_metadata(df_data_install)
+        assert_frame_equal(exp_op.sort_index(axis=1),
+                           ac_op.sort_index(axis=1),
+                           check_dtype=False, check_exact=False,
+                           check_names=True)
 
 
 #%%
 if __name__ == "__main__":
     testclass = TestPrioratizedColumn()
-    testclass.test_prioratized_columns_ideal_scenario()
