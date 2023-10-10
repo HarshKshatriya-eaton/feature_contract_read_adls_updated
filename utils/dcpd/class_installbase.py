@@ -30,8 +30,6 @@ direct written permission from Eaton Corporation.
 
 import os
 
-import numpy as np
-
 path = os.getcwd()
 path = os.path.join(path.split('ileads_lead_generation')[0],
                     'ileads_lead_generation')
@@ -42,6 +40,8 @@ import traceback
 from string import punctuation
 from typing import Tuple
 import pandas as pd
+
+import numpy as np
 
 from utils.dcpd.class_business_logic import BusinessLogic
 from utils.dcpd.class_serial_number import SerialNumber
