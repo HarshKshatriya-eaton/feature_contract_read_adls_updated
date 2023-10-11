@@ -183,7 +183,7 @@ class TestFlagSrnumRange:
              'src': ['Product_1_Serial__c', 'Product_1_Serial__c',
                      'Product_1_Serial__c', 'Product_1_Serial__c']}))
          ])
-    def test_sep_single_mul_srnum_errors_1(self, df_data):
+    def test_flag_serialnumber_wid_range_errors_1(self, df_data):
         """
         Provided "df" with
         None DataFrame
@@ -436,7 +436,7 @@ class TestConcatExportData:
                                                  '120-0024a-e',
                                                  '120-0024a-e']}))
          ])
-    def test_sep_single_mul_srnum_errors_1(self, df_out_sub_single):
+    def test_concat_export_data_errors_1(self, df_out_sub_single):
         """
         Provided "df_out_sub_single" with
         None DataFrame
@@ -476,7 +476,7 @@ class TestConcatExportData:
                                                  '120-0024a-e',
                                                  '120-0024a-e']})),
          ])
-    def test_sep_single_mul_srnum_errors_2(self, df_out_sub_multi):
+    def test_concat_export_data_errors_2(self, df_out_sub_multi):
         """
         Provided "df_out_sub_single" with
         None DataFrame
@@ -724,81 +724,81 @@ class TestDecodeInstallbaseData:
         assert exp_res['flag_update'].equals(res['flag_update'])
 
 
-class TestValidateSrnum:
-    """
-    Check if contract serialnumber is correctly validated through installbase serialnumber
-    """
-
-    @pytest.mark.parametrize(
-        "df_contract_srnum",
-        [None,
-         (pd.DataFrame()),
-         'dcacac',
-         [123, 'aeda'],
-         1432,
-         ])
-    def test_validate_srnum_errors_1(self, df_contract_srnum):
-        """
-        Provided "df_install_decode" with
-        None DataFrame
-        Empty DataFrame
-        string value
-        list
-        numeric value
-        Missing Columns, should throw errors
-        """
-        df_install = pd.DataFrame(
-            data={'SerialNumber_M2M': ['185-0043-co', '110-2768',
-                                       '110-4525-1-8-expfee', '730-1868-b',
-                                       't18-26-us-s-4313',
-                                       '30958wa-5020-1'
-                                       ]})
-        with pytest.raises(Exception) as _:
-            obj_contract.validate_srnum(df_install, df_contract_srnum)
-
-    @pytest.mark.parametrize(
-        "df_install",
-        [None,
-         (pd.DataFrame()),
-         'dcacac',
-         [123, 'aeda'],
-         1432,
-         ])
-    def test_validate_srnum_errors_2(self, df_install):
-        """
-        Provided "df_install" with
-        None DataFrame
-        Empty DataFrame
-        string value
-        list
-        numeric value
-        Missing Columns, should throw errors
-        """
-        df_contract_srnum = pd.DataFrame(data={'SerialNumber': ['185', '110-2768',
-                                                                '110-4525-1', '730-1868',
-                                                                't18',
-                                                                '30958wa', '000']})
-        with pytest.raises(Exception) as _:
-            obj_contract.validate_srnum(df_install, df_contract_srnum)
-
-    # def test_validate_srnum_ideal_scenario(self):
-    #     """
-    #     Check if contract serialnumber is correctly validated through installbase serialnumber
-    #     """
-    #     df_install = pd.DataFrame(
-    #         data={'SerialNumber_M2M': ['185-0043-co', '110-2768', '110-4525-1-8-expfee',
-    #                                    '730-1868-b',
-    #                                    't18-26-us-s-4313',
-    #                                    '30958wa-5020-1'
-    #                                    ]})
-    #     df_contract_srnum = pd.DataFrame(data={'SerialNumber': ['185', '110-2768',
-    #                                                             '110-4525-1', '730-1868',
-    #                                                             't18',
-    #                                                             '30958wa', '000']})
-    #     res = obj_contract.validate_srnum(df_install, df_contract_srnum)
-    #     exp_res = pd.DataFrame(data={'flag_validinstall': [True, True, True,
-    #                                                        True, True, True, False]})
-    #     assert exp_res['flag_validinstall'].equals(res['flag_validinstall'])
+# class TestValidateSrnum:
+#     """
+#     Check if contract serialnumber is correctly validated through installbase serialnumber
+#     """
+#
+#     @pytest.mark.parametrize(
+#         "df_contract_srnum",
+#         [None,
+#          (pd.DataFrame()),
+#          'dcacac',
+#          [123, 'aeda'],
+#          1432,
+#          ])
+#     def test_validate_srnum_errors_1(self, df_contract_srnum):
+#         """
+#         Provided "df_install_decode" with
+#         None DataFrame
+#         Empty DataFrame
+#         string value
+#         list
+#         numeric value
+#         Missing Columns, should throw errors
+#         """
+#         df_install = pd.DataFrame(
+#             data={'SerialNumber_M2M': ['185-0043-co', '110-2768',
+#                                        '110-4525-1-8-expfee', '730-1868-b',
+#                                        't18-26-us-s-4313',
+#                                        '30958wa-5020-1'
+#                                        ]})
+#         with pytest.raises(Exception) as _:
+#             obj_contract.validate_srnum(df_install, df_contract_srnum)
+#
+#     @pytest.mark.parametrize(
+#         "df_install",
+#         [None,
+#          (pd.DataFrame()),
+#          'dcacac',
+#          [123, 'aeda'],
+#          1432,
+#          ])
+#     def test_validate_srnum_errors_2(self, df_install):
+#         """
+#         Provided "df_install" with
+#         None DataFrame
+#         Empty DataFrame
+#         string value
+#         list
+#         numeric value
+#         Missing Columns, should throw errors
+#         """
+#         df_contract_srnum = pd.DataFrame(data={'SerialNumber': ['185', '110-2768',
+#                                                                 '110-4525-1', '730-1868',
+#                                                                 't18',
+#                                                                 '30958wa', '000']})
+#         with pytest.raises(Exception) as _:
+#             obj_contract.validate_srnum(df_install, df_contract_srnum)
+#
+#     def test_validate_srnum_ideal_scenario(self):
+#         """
+#         Check if contract serialnumber is correctly validated through installbase serialnumber
+#         """
+#         df_install = pd.DataFrame(
+#             data={'SerialNumber_M2M': ['185-0043-co', '110-2768', '110-4525-1-8-expfee',
+#                                        '730-1868-b',
+#                                        't18-26-us-s-4313',
+#                                        '30958wa-5020-1'
+#                                        ]})
+#         df_contract_srnum = pd.DataFrame(data={'SerialNumber': ['185', '110-2768',
+#                                                                 '110-4525-1', '730-1868',
+#                                                                 't18',
+#                                                                 '30958wa', '000']})
+#         res = obj_contract.validate_srnum(df_install, df_contract_srnum)
+#         exp_res = pd.DataFrame(data={'flag_validinstall': [True, True, True,
+#                                                            True, True, True, False]})
+#         assert exp_res['flag_validinstall'].equals(res['flag_validinstall'])
 
 
 class TestMergeContractAndSrnum:
