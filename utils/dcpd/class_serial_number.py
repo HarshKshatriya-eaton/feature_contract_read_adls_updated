@@ -750,7 +750,7 @@ class SerialNumber:
 
 
 # %%
-if __name__ == '__main__':
+if __name__ == '__main__': # pragma: no cover
     sr_num = SerialNumber(f_reset=True)
     # ar_serialnum = ['180-05578a-q', '180-0557-1-2b',
     #                 '180-0557-1-2', '560-0152-4-8']
