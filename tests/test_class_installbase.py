@@ -35,6 +35,8 @@ from utils.dcpd import InstallBase
 from utils.transform import Transform
 logger = AppLogger('DCPD', level='')
 filters_ = Filter()
+from utils.dcpd.class_business_logic import BusinessLogic
+obj_bus_logic = BusinessLogic()
 obj_install_base = InstallBase()
 import numpy
 #%%
@@ -1181,6 +1183,36 @@ class TestGetMetadata():
                            check_dtype=False, check_exact=False,
                            check_names=True)
 
+class TestIdentifyProductForSerial():
+    @pytest.mark.parametrize(
+        "ar_tln",
+        [
+            None,
+            {},
+            list(),
+            pd.DataFrame()
+        ]
+    )
+    def test_err_identify_prdt_for_serial(self, ar_tln):
+        with pytest.raises(Exception) as _:
+            _ = obj_bus_logic.idetify_product_fr_serial(
+                ar_tln)
+
+    @pytest.mark.parametrize(
+        "ar_tln, ex_op",
+        [
+            (pd.Series(["150-123-3-4"]), pd.Series(["PDU"])),
+            (pd.Series(["350-123-3-4"]), pd.Series(["PDU - Primary"])),
+            (pd.Series(["420-123-3-4"]), pd.Series(["PDU - Secondary"])),
+            (pd.Series(["54-123-3-4"]), pd.Series(["Reactor"])),
+            (pd.Series(["180-123-3-4"]), pd.Series(["RPP"])),
+            (pd.Series(["410-123-3-4"]), pd.Series(["STS"]))
+        ]
+    )
+    def test_err_identify_prdt_for_Serial(self, ar_tln, ex_op):
+        ac_op = obj_bus_logic.idetify_product_fr_serial(
+            ar_tln)
+        assert ac_op[0] == ex_op[0]
 
 #%%
 if __name__ == "__main__":

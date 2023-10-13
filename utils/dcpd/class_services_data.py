@@ -251,7 +251,7 @@ class ProcessServiceIncidents:
             raise Exception('f"{_step}: Failed') from excep
         return df_out
 
-    def pipeline_serial_number(self, df_data, dict_cols_srnum):
+    def pipeline_serial_number(self, df_data, dict_cols_srnum): # pragma: no cover
         """
         Function extracts serial number from raw services data.
 
@@ -585,7 +585,7 @@ class ProcessServiceIncidents:
 # %% *** Call ***
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":# pragma: no cover
     services_obj = ProcessServiceIncidents()
     services_obj.main_services()
 

@@ -83,7 +83,7 @@ class Contacts:
         logger.app_success(_step)
         self.start_msg = ": STARTED"
 
-    def main_contact(self):
+    def main_contact(self): # pragma: no cover
         """
         Pipeline for extracting contacts from all sources listed in config.
 
@@ -118,7 +118,7 @@ class Contacts:
 
         return df_con  # "Successful !"
 
-    def deploy_across_sources(self):
+    def deploy_across_sources(self): # pragma: no cover
         """
         Deploy generate_contacts across data bases listed in config.
 
@@ -178,7 +178,7 @@ class Contacts:
 
         return df_out
 
-    def generate_contacts(self, src):
+    def generate_contacts(self, src):# pragma: no cover
         """
         Generate contacts for individual database.
 
@@ -600,7 +600,7 @@ class Contacts:
 # %% *** Call ***
 
 
-if __name__ == "__main__":
+if __name__ == "__main__": # pragma: no cover
     obj = Contacts()
     out = obj.main_contact()
 

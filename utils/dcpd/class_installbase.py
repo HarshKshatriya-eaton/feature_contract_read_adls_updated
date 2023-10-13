@@ -357,14 +357,6 @@ class InstallBase:
         obj_sc = StrategicCustomer('local')
         df_customer = obj_sc.main_customer_list(df_leads=df_data_install)
 
-        # Read Data
-        # df_customer = IO.read_csv(
-        #     self.mode,
-        #     {'file_dir': self.config['file']['dir_results'],
-        #      'file_name': self.config['file']['Processed']['customer']['file_name']
-        #      }
-        # )
-
         # Merge customer data with shipment, serial number and BOM data
         df_install_data = self.merge_customdata(df_customer, df_data_install)
 
