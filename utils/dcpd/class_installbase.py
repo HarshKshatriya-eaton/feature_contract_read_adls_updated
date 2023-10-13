@@ -30,8 +30,6 @@ direct written permission from Eaton Corporation.
 
 import os
 
-import numpy as np
-
 path = os.getcwd()
 path = os.path.join(path.split('ileads_lead_generation')[0],
                     'ileads_lead_generation')
@@ -42,6 +40,8 @@ import traceback
 from string import punctuation
 from typing import Tuple
 import pandas as pd
+
+import numpy as np
 
 from utils.dcpd.class_business_logic import BusinessLogic
 from utils.dcpd.class_serial_number import SerialNumber
@@ -196,12 +196,6 @@ class InstallBase:
             # Format Data
             input_format = self.config['database']['M2M']['Dictionary Format']
             df_data_install = obj_format.format_data(df_data_install, input_format)
-            # df_data_install["kva"] = df_data_install.Description.apply(
-            #     lambda x: re.findall("\d+\s{0,1}kva", str(x)))
-            # df_data_install["amp"] = df_data_install.Description.apply(
-            #     lambda x: re.findall("\d+\s{0,1}amp", str(x)))
-            # df_data_install["voltage"] = df_data_install.Description.apply(
-            #     lambda x: re.findall("\d+\s{0,1}v", str(x)))
 
             df_data_install = self.get_metadata(df_data_install)
             df_data_install.reset_index(drop=True, inplace=True)
@@ -362,14 +356,6 @@ class InstallBase:
         """
         obj_sc = StrategicCustomer('local')
         df_customer = obj_sc.main_customer_list(df_leads=df_data_install)
-
-        # Read Data
-        # df_customer = IO.read_csv(
-        #     self.mode,
-        #     {'file_dir': self.config['file']['dir_results'],
-        #      'file_name': self.config['file']['Processed']['customer']['file_name']
-        #      }
-        # )
 
         # Merge customer data with shipment, serial number and BOM data
         df_install_data = self.merge_customdata(df_customer, df_data_install)
@@ -711,16 +697,11 @@ class InstallBase:
 
         """
         try:
-            # df_data_install.loc[:, 'key'] = (
-            #         df_data_install['Customer'] + ":" +
-            #         df_data_install['ShipTo_Customer'])
-
             df_custom = df_custom.drop_duplicates(subset=['Serial_Number'])
             df_install_data = df_data_install.merge(
                 df_custom[['Serial_Number', 'StrategicCustomer']],
                 left_on='SerialNumber_M2M', right_on="Serial_Number", how='left')
 
-            # df_data_install.drop(['key'], axis=1, inplace=True)
             logger.app_success(self.step_identify_strategic_customer)
             return df_install_data
         except Exception as excp:
@@ -846,6 +827,11 @@ class InstallBase:
         :rtype: string
 
         """
+        if type(list_of_interest) != list:
+            raise TypeError(
+                "InstallBase class summarize_part_num method argument"
+                " is not a list"
+            )
         part_list = list(np.unique(part_list))
 
         ls_present = [str.upper(pn) for pn in part_list if (pn in list_of_interest)]
