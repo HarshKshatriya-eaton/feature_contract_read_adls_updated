@@ -26,7 +26,9 @@
                 "file_name": "SalesForce_InstallBase.csv"
             },
             "bom": {
-                "file_name": "BOM_data.csv"
+                "file_name": "BOM_data.csv",
+                "bom_deafault": "bomdata_deafault.csv",
+                "bom_sisc": "bomdata_sisc.csv"
             },
             "contracts": {
                 "file_name": "contract.csv"
@@ -292,6 +294,13 @@
                 },
                 "Model": {
                     "actual_datasoure_name": "Product Type",
+                    "data_type": "text",
+                    "is_nullable": 1,
+                    "output_format": "text : capitalize each word",
+                    "input_date_format": ""
+                },
+                "Revision": {
+                    "actual_datasoure_name": "REV",
                     "data_type": "text",
                     "is_nullable": 1,
                     "output_format": "text : capitalize each word",
