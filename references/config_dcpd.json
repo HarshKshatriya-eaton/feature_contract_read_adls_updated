@@ -14,30 +14,44 @@
         "dir_intermediate": "intermediate/",
         "Raw": {
             "services": {
-                "file_name": "case_data.csv"
+                "file_name": "case_data.csv",
+                "header_has_space": true
             },
             "M2M": {
-                "file_name": "M2M_data.csv"
+                "file_name": "M2M_data.csv",
+                "header_has_space": false
             },
             "SerialNumber": {
-                "file_name": "SerialNumber.csv"
+                "file_name": "SerialNumber.csv",
+                "header_has_space": true
             },
             "SalesForce": {
-                "file_name": "SalesForce_InstallBase.csv"
+                "file_name": "SalesForce_InstallBase.csv",
+                "header_has_space": true
             },
             "bom": {
                 "file_name": "BOM_data.csv",
-                "bom_deafault": "bomdata_deafault.csv",
-                "bom_sisc": "bomdata_sisc.csv"
+                "header_has_space": true
+            },
+            "bomdata_deafault": {
+                "file_name": "bomdata_deafault.csv",
+                "header_has_space": true
+            },
+            "bomdata_sisc": {
+                "file_name": "bomdata_sisc.csv",
+                "header_has_space": true
             },
             "contracts": {
-                "file_name": "contract.csv"
+                "file_name": "contract.csv",
+                "header_has_space": true
             },
             "renewal": {
-                "file_name": "RenewalContract.csv"
+                "file_name": "RenewalContract.csv",
+                "header_has_space": true
             },
             "events": {
-                "file_name": "events.csv"
+                "file_name": "events.csv",
+                "header_has_space": true
             }
         },
         "Reference": {

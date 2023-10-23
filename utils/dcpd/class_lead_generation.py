@@ -663,14 +663,14 @@ class LeadGeneration:
         try:
             _step = f'Query install data ({type_}'
             ls_cols = ['Job_Index', 'InstallDate', 'Product_M2M',
-                       'SerialNumber_M2M']
+                       'SerialNumber_M2M', 'Revision', 'PartNumber_TLN_Shipment']
+
             if type_ == 'lead_id':
                 key = 'Job_Index'
 
                 if 'InstallDate' not in df_install.columns:
                     df_install['InstallDate'] = df_install['startup_date']. \
                         fillna(df_install['ShipmentDate'])
-
                 else:
                     df_install['InstallDate'] = df_install['startup_date']. \
                         fillna(df_install['InstallDate'])
@@ -679,15 +679,36 @@ class LeadGeneration:
                 df_install['Product_M2M'] = df_install[
                     'product_prodclass'].str.lower()
 
+                # Divide the install base data into made to order(mto) and made
+                # to stock(mts) category. The entries with job_index are made
+                # to batch, entries without job_index is made to stock
+                df_install_mto = df_install.loc[
+                    df_install["Job_Index"].notna()
+                ]
+                df_install_mts = df_install.loc[
+                    df_install["Job_Index"].isna()
+                ]
+
+                # Changed join from "inner" to "right" on 19th July 23 (Bug CIPILEADS-533)
+                # Joined  made to batch data with bom data on 23rd Oct, 23
+                df_out_mto = df_bom.merge(df_install_mto[ls_cols], on=key, how='right')
+
+                # Added component part numbers for made to stock data on 23rd Oct, 23
+                df_out_mts = self.add_data_mts(df_install_mts[ls_cols], merge_type='left')
+
+                # Append the custom data, batch empty data and batch non_empty data
+                df_out = df_out_mto._append(
+                    df_out_mts, ignore_index=True
+                )
+
             elif type_ == 'meta_data':
                 key = 'SerialNumber_M2M'
                 ls_cols = [col for col in df_install.columns if
                            col not in ls_cols]
                 ls_cols = ls_cols + ['SerialNumber_M2M']
                 ls_cols.remove('SerialNumber')
-
-            # Changed join from "inner" to "right" on 19th July 23 (Bug CIPILEADS-533)
-            df_out = df_bom.merge(df_install[ls_cols], on=key, how='right')
+                # Changed join from "inner" to "right" on 19th July 23 (Bug CIPILEADS-533)
+                df_out = df_bom.merge(df_install[ls_cols], on=key, how='right')
 
         except Exception as e:
             logger.app_fail(_step, f"{traceback.print_exc()}")
@@ -1245,6 +1266,96 @@ class LeadGeneration:
             return row['Component_Due_Date']
         else:
             return row['EOSL']
+
+    def add_data_mts(self, df_install_mts, merge_type):
+        """
+        Method to join made to stock data with standard bom data
+        :param df_install_mts: Made to stock install data
+        :param merge_type: merge type
+        :return: Merged data
+        """
+        # Read Standard BOM data and preprocess standard bom data
+        df_bom_data_default = IO.read_csv(
+            self.mode,
+            {'file_dir': self.config['file']['dir_data'],
+             'file_name': self.config['file']['Raw']['bomdata_deafault']['file_name']}
+        )
+        df_bom_sisc = IO.read_csv(
+            self.mode,
+            {'file_dir': self.config['file']['dir_data'],
+             'file_name': self.config['file']['Raw']['bomdata_sisc']['file_name']}
+        )
+        df_standard_bom = df_bom_sisc._append(
+            df_bom_data_default, ignore_index=True
+        )
+        df_standard_bom.rename(
+            columns={
+                "fparent": "PartNumber_TLN_Shipment",
+                "fcomponent": "PartNumber_BOM_BOM",
+                "fparentrev": "Revision",
+                "fqty": "Total_Quantity"
+            }, inplace=True
+        )
+        df_standard_bom["PartNumber_TLN_Shipment"] = df_standard_bom[
+            "PartNumber_TLN_Shipment"].str.lstrip().str.rstrip()
+        df_standard_bom = df_standard_bom[
+            ['PartNumber_TLN_Shipment', 'PartNumber_BOM_BOM', 'Revision', "Total_Quantity"]
+        ]
+
+        # Preprocess made to stock data
+        df_install_mts["PartNumber_TLN_Shipment"] = df_install_mts[
+            "PartNumber_TLN_Shipment"].astype(str).str.lstrip().str.rstrip()
+
+        # Merge made to stock data with standard bom data based on shipment
+        # number and revision
+        df_install_mts = df_install_mts.merge(
+            df_standard_bom,
+            on=['PartNumber_TLN_Shipment', 'Revision'],
+            how=merge_type
+        )
+
+        # Further divide the mts data based on if the join was successful i.e.
+        # obtained BOM number is null or not.
+        # For the batch data where join fails, it doesn't seem to have a proper
+        # revision, hence we merge it with the first revision available
+        df_install_mts_joined = df_install_mts.loc[
+            df_install_mts["PartNumber_BOM_BOM"].notna()
+        ]
+        df_install_mts_not_joined = df_install_mts.loc[
+            df_install_mts["PartNumber_BOM_BOM"].isna()
+        ]
+
+        # Preprocess standard bom data to select the first revision for every shipment
+        df_standard_bom[["PartNumber_TLN_Shipment", "Revision"]].fillna("", inplace=True)
+        df_standard_bom['key'] = (
+                df_standard_bom["PartNumber_TLN_Shipment"] + ":" +
+                df_standard_bom["Revision"]
+        )
+        df_standard_bom.drop_duplicates(["PartNumber_TLN_Shipment", "key"],
+                                        inplace=True)
+        df_standard_bom.sort_values(by=["key"])
+        df_standard_bom.drop_duplicates(["PartNumber_TLN_Shipment"],
+                                        keep='first', inplace=True)
+        df_standard_bom.drop(["key"], axis=1, inplace=True)
+
+        # Merge the not joined data with the first revision available
+        df_install_mts_not_joined.drop(
+            ["PartNumber_BOM_BOM", "Revision", "Total_Quantity"],
+            axis=1,
+            inplace=True
+        )
+        df_install_mts_not_joined = df_install_mts_not_joined.merge(
+            df_standard_bom,
+            on=['PartNumber_TLN_Shipment'],
+            how=merge_type
+        )
+
+        # Append joined data and unjoined data to get complete made to stock data
+        df_install_mts = df_install_mts_joined._append(
+            df_install_mts_not_joined, ignore_index=True
+        )
+
+        return df_install_mts
 
 
 #%%

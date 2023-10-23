@@ -163,9 +163,13 @@ class Contract:
                     self.config['file']['Raw']['contracts'][
                         'file_name']
                 })
+            header_has_space = self.config['file']['Raw']['contracts'][
+                        'header_has_space']
             input_format = self.config['database']['contracts'][
                 'Dictionary Format']
-            df_contract = self.format.format_data(df_contract, input_format)
+            df_contract = self.format.format_data(
+                df_contract, input_format, header_has_space
+            )
             df_contract.reset_index(drop=True, inplace=True)
             logger.app_success(_step)
             # Identify Startups
@@ -381,10 +385,14 @@ class Contract:
                 'file_dir': self.config['file']['dir_data'],
                 'file_name': self.config['file']['Raw']['renewal'][
                     'file_name']})
+            header_has_space = self.config['file']['Raw']['renewal'][
+                    'header_has_space']
             logger.app_success(_step)
             input_format = self.config['database']['renewal'][
                 'Dictionary Format']
-            df_renewal = self.format.format_data(df_renewal, input_format)
+            df_renewal = self.format.format_data(
+                df_renewal, input_format, header_has_space
+            )
             df_renewal.reset_index(drop=True, inplace=True)
             _step = 'Preprocess data'
             df_renewal['Contract_Amount'] = df_renewal[
@@ -876,10 +884,21 @@ class Contract:
                 'Sold to State': 'BillingState',
                 'Sold to Zip': 'BillingPostalCode',
                 'Sold to Country': 'BillingCountry'}
+
+            dict_rename_up = {}
+            if not self.config['file']['Raw']['M2M']['header_has_space']:
+                for key in dict_rename:
+                    if key.count(" ") != 0:
+                        key1 = str.replace(key, " ", "")
+                        dict_rename_up[key1] = dict_rename[key]
+                    else:
+                        dict_rename_up[key] = dict_rename[key]
+
+            dict_rename = dict_rename_up
             df_raw_m2m = df_raw_m2m.rename(columns=dict_rename)
             ls_cols = list(dict_rename.values())
             df_raw_m2m = df_raw_m2m.loc[:, ls_cols]
-            del ls_cols, dict_rename
+            del ls_cols, dict_rename, dict_rename_up
 
             # Rename existing "BillTO" columns from contracts for validation
             ls_cols = df_contract.columns[df_contract.columns.str.contains(

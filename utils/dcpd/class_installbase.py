@@ -192,10 +192,13 @@ class InstallBase:
                 {'file_dir': self.config['file']['dir_data'],
                  'file_name': self.config['file']['Raw']['M2M']['file_name']
                  })
+            header_has_space = self.config['file']['Raw']['M2M']['header_has_space']
 
             # Format Data
             input_format = self.config['database']['M2M']['Dictionary Format']
-            df_data_install = obj_format.format_data(df_data_install, input_format)
+            df_data_install = obj_format.format_data(
+                df_data_install, input_format, header_has_space
+            )
 
             df_data_install = self.get_metadata(df_data_install)
             df_data_install.reset_index(drop=True, inplace=True)
@@ -309,10 +312,11 @@ class InstallBase:
                 self.mode,
                 {'file_dir': self.config['file']['dir_data'],
                  'file_name': self.config['file']['Raw']['SerialNumber']['file_name']})
+            header_has_space = self.config['file']['Raw']['SerialNumber']['header_has_space']
 
             # Format Data
             input_format = self.config['database']['SerialNumber']['Dictionary Format']
-            df_srnum = obj_format.format_data(df_srnum, input_format)
+            df_srnum = obj_format.format_data(df_srnum, input_format, header_has_space)
             df_srnum.reset_index(drop=True, inplace=True)
 
             # # Format - Punctuation
@@ -445,9 +449,10 @@ class InstallBase:
                                   'file_name': self.config['file']['Raw']['bom']['file_name'],
                                   'sep': '\t'}
                                  )
+            header_has_space = self.config['file']['Raw']['bom']['header_has_space']
             # Format Data
             input_format = self.config['database']['bom']['Dictionary Format']
-            df_bom = obj_format.format_data(df_bom, input_format)
+            df_bom = obj_format.format_data(df_bom, input_format, header_has_space)
             df_bom.reset_index(drop=True, inplace=True)
 
             # Display Part Numbers
@@ -460,6 +465,7 @@ class InstallBase:
             # df_install = self.merge_bomdata(df_bom, df_install, merge_type)
 
             # Drop Duplicates
+            # df_bom = df_bom[ls_cols]
             df_bom = df_bom[['Job_Index', 'PartNumber_TLN_BOM']]
             df_bom = df_bom.drop_duplicates(subset=['Job_Index', 'PartNumber_TLN_BOM']).reset_index(
                 drop=True)
@@ -468,87 +474,10 @@ class InstallBase:
             # Merge main breaker data and display part number data
             df_bom = df_bom.merge(df_main_breaker, on='Job_Index', how='left')
             df_bom = df_bom.merge(df_display_parts, on='Job_Index', how='left')
+            # df_bom = self.id_metadata(df_bom)
 
-            # Read Standard BOM data and preprocess standard bom data
-            df_bom_data_default = IO.read_csv(
-                self.mode,
-                {'file_dir': self.config['file']['dir_data'],
-                 'file_name': self.config['file']['Raw']['bom']['bom_deafault']}
-            )
-            df_bom_sisc = IO.read_csv(
-                self.mode,
-                {'file_dir': self.config['file']['dir_data'],
-                 'file_name': self.config['file']['Raw']['bom']['bom_sisc']}
-            )
-            df_standard_bom = df_bom_sisc._append(
-                df_bom_data_default, ignore_index=True
-            )
-            df_standard_bom.rename(
-                columns={
-                    "fparent": "PartNumber_TLN_Shipment",
-                    "fcomponent": "PartNumber_TLN_BOM",
-                    "fparentrev": "Revision"
-                }, inplace=True
-            )
-            df_standard_bom["PartNumber_TLN_Shipment"] = df_standard_bom["PartNumber_TLN_Shipment"].str.lstrip().str.rstrip()
-            df_standard_bom = df_standard_bom[['PartNumber_TLN_Shipment', 'PartNumber_TLN_BOM', 'Revision']]
-
-            ## Merge Data
-            # Preprocess df_install, seperate df_install based on whether it is a
-            # batch install or custom install, batch installs have non-nan job_index
-            df_install["PartNumber_TLN_Shipment"] = df_install[
-                "PartNumber_TLN_Shipment"].str.lstrip().str.rstrip()
-            df_install_custom = df_install.loc[df_install["Job_Index"] != ""]
-            df_install_batch = df_install.loc[df_install["Job_Index"] == ""]
-
-            # Merge custom install data with bom data based on job_index
-            df_install_custom = df_install_custom.merge(df_bom, on='Job_Index',
-                                          how=merge_type)
-
-            # Merge batch data with standard bom data based on shipment number and revision
-            df_install_batch = df_install_batch.merge(
-                df_standard_bom,
-                on=['PartNumber_TLN_Shipment', 'Revision'],
-                how=merge_type
-            )
-
-            # Further divide the batch data based on if the obtained BOM number is null or not
-            df_install_batch_not_empty = df_install_batch.loc[
-                df_install_batch["PartNumber_TLN_BOM"].notna()
-            ]
-            # For the batch data where BOM number is nan, it doesn't have a proper revision
-            # Hence we merge it with the first revision available
-            df_install_batch_empty = df_install_batch.loc[
-                df_install_batch["PartNumber_TLN_BOM"].isna()
-            ]
-
-            # Preprocess standard bom data to select the first revision for every shipment
-            df_standard_bom[["PartNumber_TLN_Shipment", "Revision"]].fillna("", inplace=True)
-            df_standard_bom['key'] = (
-                df_standard_bom["PartNumber_TLN_Shipment"] + ":" +
-                df_standard_bom["Revision"]
-            )
-            df_standard_bom.drop_duplicates(["PartNumber_TLN_Shipment", "key"], inplace=True)
-            df_standard_bom.sort_values(by=["key"])
-            df_standard_bom.drop_duplicates(["PartNumber_TLN_Shipment"], keep='first', inplace=True)
-            df_standard_bom.drop(["key"], axis=1, inplace=True)
-
-            # Merge the batch empty data with the first revision available
-            df_install_batch_empty.drop(["PartNumber_TLN_BOM", "Revision"], axis=1, inplace=True)
-            df_install_batch_empty = df_install_batch_empty.merge(
-                df_standard_bom,
-                on=['PartNumber_TLN_Shipment'],
-                how=merge_type
-            )
-
-            # Append the custom data, batch empty data and batch non_empty data
-            df_install = df_install_custom._append(
-                df_install_batch_not_empty, ignore_index=True
-            )
-            df_install = df_install._append(
-                df_install_batch_empty, ignore_index=True
-            )
-
+            # Merge Data
+            df_install = df_install.merge(df_bom, on='Job_Index', how=merge_type)
             df_install.loc[:, 'PartNumber_TLN_BOM'] = df_install[
                 'PartNumber_TLN_BOM'].fillna('')
 

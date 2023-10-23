@@ -27,15 +27,17 @@ logger = AppLogger(__name__)
 class Format:
     """Format data """
 
-    def create_rename_dictionary(self, dict_col_dtype):
+    def create_rename_dictionary(self, dict_col_dtype, header_has_space):
         # Pre-process dictionary
         dict_rename = {}
         for col_out in dict_col_dtype:
             col_act = dict_col_dtype[col_out]['actual_datasoure_name']
+            if not header_has_space:
+                col_act = str.replace(col_act, " ", "")
             dict_rename[col_act] = col_out
         return dict_rename
 
-    def format_data(self, df_data, dict_col_dtype):
+    def format_data(self, df_data, dict_col_dtype, header_has_space=True):
         """
         Prepare data for processing including renaming, format, dropna.
 
@@ -56,7 +58,7 @@ class Format:
         logger.app_debug('Format data')
 
         # Pre-process dictionary
-        dict_rename = self.create_rename_dictionary(dict_col_dtype)
+        dict_rename = self.create_rename_dictionary(dict_col_dtype, header_has_space)
         if False:
             dict_rename = {}
             for col_out in dict_col_dtype:
@@ -102,7 +104,7 @@ class Format:
             elif dict_val['data_type'] == 'text':
                 # *** Text ***
                 df_data[col] = df_data[col].fillna("").astype(str)
-                df_data[col] = df_data[col].str.lower()
+                df_data[col] = df_data[col].str.lower().str.lstrip().str.rstrip()
 
             elif dict_val['data_type'] in [
                     'numeric', 'numeric : float', 'numeric : integer']:
