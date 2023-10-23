@@ -16,18 +16,6 @@ direct written permission from Eaton Corporation.
 """
 # %% Setup Environment
 
-import os
-import numpy as np
-import pandas as pd
-import traceback
-from string import punctuation
-import re
-
-path = os.getcwd()
-path = os.path.join(path.split('ileads_lead_generation')[0],
-                    'ileads_lead_generation')
-os.chdir(path)
-
 from utils.dcpd.class_business_logic import BusinessLogic
 from utils.dcpd.class_serial_number import SerialNumber
 from utils.strategic_customer import StrategicCustomer
@@ -35,6 +23,18 @@ from utils.format_data import Format
 from utils import AppLogger
 from utils import IO
 from utils import Filter
+
+import os
+import traceback
+from string import punctuation
+import re
+import numpy as np
+import pandas as pd
+
+path = os.getcwd()
+path = os.path.join(path.split('ileads_lead_generation')[0],
+                    'ileads_lead_generation')
+os.chdir(path)
 
 obj_filt = Filter()
 
@@ -133,11 +133,11 @@ class LeadGeneration:
             ref_install = self.format.format_output(df_leads,
                                                     ref_install_output_format)
 
-            iLead_output_format = self.config['output_format']['output_iLead']
-            output_iLead = self.format.format_output(df_leads,
-                                                     iLead_output_format)
+            ilead_output_format = self.config['output_format']['output_iLead']
+            output_ilead = self.format.format_output(df_leads,
+                                                     ilead_output_format)
 
-            lead_type = output_iLead[["Serial_Number", "Lead_Type"]]
+            lead_type = output_ilead[["Serial_Number", "Lead_Type"]]
             lead_type["EOSL_reached"] = lead_type["Lead_Type"] == "EOSL"
             lead_type = lead_type.groupby("Serial_Number")["EOSL_reached"].any()
             ref_install = ref_install.merge(
@@ -166,7 +166,7 @@ class LeadGeneration:
                           'file_name':
                               self.config['file']['Processed']['output_iLead'][
                                   'file_name']
-                          }, output_iLead)
+                          }, output_ilead)
 
             logger.app_success(_step)
 
@@ -295,14 +295,14 @@ class LeadGeneration:
             # ref_install = self.get_billto_data(ref_install)
 
             # *** Strategic account ***
-            ref_install = self.update_Strategic_acoount(ref_install)
+            ref_install = self.update_strategic_acoount(ref_install)
 
             return ref_install
         except Exception as e:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
 
-    def update_Strategic_acoount(self, ref_install):
+    def update_strategic_acoount(self, ref_install):
         """
 
         :param ref_install: DESCRIPTION
@@ -382,14 +382,13 @@ class LeadGeneration:
             def categorize_due_in_category(x):
                 if x < 0:
                     return "Past Due"
-                elif 0 <= x <= 1:
+                if 0 <= x <= 1:
                     return "Due this year"
-                elif 1 < x <= 3:
+                if 1 < x <= 3:
                     return "Due in 2-3 years"
-                elif 3 < x < 100:
+                if 3 < x < 100:
                     return "Due after 3 years"
-                else:
-                    return "Unknown"  # Or any other default category you want to assign
+                return "Unknown"  # Or any other default category you want to assign
 
             # Apply the function to create the 'Component_Due_in (Category)' column
             output_ilead_df['Component_Due_in (Category)'] = output_ilead_df[
@@ -405,7 +404,6 @@ class LeadGeneration:
 
 
     def prod_meta_data(self, output_ilead_df):
-
         # Partnumber for chasis decides the axle
         _step = "Product meta data"
         try:
@@ -615,7 +613,6 @@ class LeadGeneration:
                                                      errors='coerce'). \
                 dt.strftime('%Y-%m-%d')
 
-            ls_uni = df_leads['Component'].unique()
             df_leads['Component'] = df_leads['Component'].fillna("")
             # Create a new column based on the list values
             df_leads['temp_column'] = df_leads['Component'].apply(
@@ -660,8 +657,8 @@ class LeadGeneration:
         @param type_: pd.Dataframe
         @return: pd.Dataframe
         """
+        _step = f'Query install data ({type_}'
         try:
-            _step = f'Query install data ({type_}'
             ls_cols = ['Job_Index', 'InstallDate', 'Product_M2M',
                        'SerialNumber_M2M', 'Revision', 'PartNumber_TLN_Shipment']
 
@@ -1139,7 +1136,7 @@ class LeadGeneration:
 
                 # Filter data from further processing for keys with lead identified
                 df_temp_data = df_temp_data.loc[
-                    df_temp_data.flag_valid == False, ls_col_in]
+                    df_temp_data.flag_valid is False, ls_col_in]
 
                 # Cross-checking
                 new_size = df_temp_data.shape[0]
@@ -1247,16 +1244,16 @@ class LeadGeneration:
         Define a custom function to calculate the 'Component_Due_Date'
         """
         if row['lead_type'] == 'EOSL':
-            EOSL_Year = int(row['EOSL'])
-            first_day_of_year = pd.to_datetime(f'01/01/{EOSL_Year}',
+            eosl_year = int(row['EOSL'])
+            first_day_of_year = pd.to_datetime(f'01/01/{eosl_year}',
                                                format='%m/%d/%Y')
             return first_day_of_year.strftime('%m/%d/%Y')
-        else:
-            component_date_code = pd.to_datetime(row['date_code'],
-                                                 format='%m/%d/%Y')
-            component_life_years = pd.DateOffset(years=row['Life__Years'])
-            return (component_date_code + component_life_years).strftime(
-                '%m/%d/%Y')
+
+        component_date_code = pd.to_datetime(row['date_code'],
+                                             format='%m/%d/%Y')
+        component_life_years = pd.DateOffset(years=row['Life__Years'])
+        return (component_date_code + component_life_years).strftime(
+            '%m/%d/%Y')
 
     def update_eosl(self, row):
         """
@@ -1264,8 +1261,7 @@ class LeadGeneration:
         """
         if row['lead_type'] == 'EOSL':
             return row['Component_Due_Date']
-        else:
-            return row['EOSL']
+        return row['EOSL']
 
     def add_data_mts(self, df_install_mts, merge_type):
         """
