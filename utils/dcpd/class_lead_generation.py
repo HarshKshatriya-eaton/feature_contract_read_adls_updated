@@ -16,6 +16,13 @@ direct written permission from Eaton Corporation.
 """
 # %% Setup Environment
 
+import os
+import traceback
+from string import punctuation
+import re
+import numpy as np
+import pandas as pd
+
 from utils.dcpd.class_business_logic import BusinessLogic
 from utils.dcpd.class_serial_number import SerialNumber
 from utils.strategic_customer import StrategicCustomer
@@ -23,13 +30,6 @@ from utils.format_data import Format
 from utils import AppLogger
 from utils import IO
 from utils import Filter
-
-import os
-import traceback
-from string import punctuation
-import re
-import numpy as np
-import pandas as pd
 
 path = os.getcwd()
 path = os.path.join(path.split('ileads_lead_generation')[0],
@@ -1136,7 +1136,7 @@ class LeadGeneration:
 
                 # Filter data from further processing for keys with lead identified
                 df_temp_data = df_temp_data.loc[
-                    df_temp_data.flag_valid is False, ls_col_in]
+                    df_temp_data.flag_valid == False, ls_col_in]
 
                 # Cross-checking
                 new_size = df_temp_data.shape[0]
