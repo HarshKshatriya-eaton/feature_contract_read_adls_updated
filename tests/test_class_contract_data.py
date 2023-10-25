@@ -1033,7 +1033,57 @@ class TestMergeContractAndInstall:
     Check if contract and install base data are merged correctly.
     """
 
-    def test_merge_contract_install(self):
+    @pytest.mark.parametrize(
+        "install_df",
+        [None,
+         (pd.DataFrame()),
+         'dcacac',
+         [123, 'aeda'],
+         1432,
+         (pd.DataFrame(data={"PDI_ContractType": ['new', 'new', 'existing']})),
+         ])
+    def test_merge_contract_install_err1(self, install_df):
+        contract_data = {
+            'SerialNumber': ['110-1667', '120-0036', '110-4033',
+                             '110-3751', '411-0207'],
+            'Warranty_Start_Date': [None, None, None, '10/14/2014',
+                                    '10/14/2014'],
+            'Warranty_Expiration_Date': [None, '12/31/2016',
+                                         '1/10/2023', '7/24/2012',
+                                         '10/13/2015'],
+            'Contract_Start_Date': ['1/1/2021', '1/1/2015',
+                                    None, None, '6/16/2020'],
+            'Contract_Expiration_Date': ['12/31/2021', '12/31/2019', None,
+                                         None, '6/15/2021']
+        }
+        contract_df = pd.DataFrame(contract_data)
+        with pytest.raises(Exception) as _:
+            result = obj_contract.merge_contract_install(contract_df, install_df)
+
+    @pytest.mark.parametrize(
+        "contract_df",
+        [None,
+         (pd.DataFrame()),
+         'dcacac',
+         [123, 'aeda'],
+         1432,
+         (pd.DataFrame(data={"PDI_ContractType": ['new', 'new', 'existing']})),
+         ])
+    def test_merge_contract_install_err2(self, contract_df):
+        install_data = {
+            'SerialNumber': ['110-1667', '120-0036', '110-4033', '110-3751',
+                             '411-0207'],
+            'Product': ['Product A', 'Product B', 'Product C', 'Product D',
+                        'Product E'],
+            'Location': ['Location 1', 'Location 2', 'Location 3',
+                         'Location 4', 'Location 5']
+        }
+        install_df = pd.DataFrame(install_data)
+        with pytest.raises(Exception) as _:
+            result = obj_contract.merge_contract_install(contract_df,
+                                                         install_df)
+
+    def test_merge_contract_install_ideal_scenario(self):
         contract_data = {
             'SerialNumber': ['110-1667', '120-0036', '110-4033',
                              '110-3751', '411-0207'],
@@ -1084,3 +1134,6 @@ class TestMergeContractAndInstall:
         print(result.to_dict(orient='list'))
 
         assert_frame_equal(result, expected_df, check_dtype=False, check_exact=False)
+
+# class TestGetBillToData:
+
