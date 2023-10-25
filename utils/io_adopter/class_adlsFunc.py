@@ -53,7 +53,7 @@ class adlsFunc():
                 ['ilead-adls-connection-string', 'ilead-storage-account'])
         else:
             ls_cred = dict.fromkeys(ls_cred)
-        url_vault = "https://cip-ilead-key-vault-prod.vault.azure.net/"
+        url_vault = "https://keyvaulta3caa815a4.vault.azure.net/"
 
         # Setup Environment
         credential = DefaultAzureCredential()

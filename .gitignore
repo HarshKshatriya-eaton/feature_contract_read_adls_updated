@@ -26,8 +26,6 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-data/
-results/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -131,22 +129,7 @@ appsettings.json
 local.settings.json
 
 # Azurite artifacts
-**__blobstorage__
+__blobstorage__
 __queuestorage__
 __azurite_db*__.json
 .python_packages
-**.pylint.d
-src/archieve/
-results/
-data/
-srnum/
-coverage/
-**__pycache__
-**.stats
-**.idea
-**.vscode
-**.pyc
-**junit/
-**pylint*
-**test-output.xml
-references/**.xlsx

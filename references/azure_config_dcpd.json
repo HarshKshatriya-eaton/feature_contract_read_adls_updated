@@ -7,89 +7,59 @@
     "log_var_size": false,
     "key_vault": "",
 
-    "file": {
-        "dir_ref": "./references/",
-        "dir_data": "./data/",
-        "dir_results": "./results/",
-        "dir_validation": "validation/",
-        "dir_intermediate": "intermediate/",
+    "adls":{
+        "input_adls": {
+            "container_name": "source_container",
+            "credentials": {
+                "connection_string": "source-adls-connection-string",
+                "storage_account_name": "source-storage-account-name"
+            },
+            "Raw": {
+                "M2M": {
+                    "directory_name": "m2m-dataset "
 
-        "Raw": {
-            "services": {
-                "file_name": "case_data.csv"
-            },
-            "M2M": {
-                "file_name": "M2M_data.csv"
-            },
-            "SerialNumber": {
-                "file_name": "SerialNumber.csv"
-            },
-            "SalesForce": {
-                "file_name": "SalesForce_InstallBase.csv"
-            },
-            "bom": {
-                "file_name": "BOM_data.csv"
-            },
-            "contracts": {
-                "file_name": "contract.csv"
-            },
-            "renewal": {
-                "file_name": "RenewalContract.csv"
-            },
-            "events": {
-                "file_name": "events.csv"
+                },
+                "SerialNumber": {
+                    "directory_name": " m2m-dataset / serial-number-dataset"
+
+
+                },
+                "services": {
+                    "file_name": "Raw/services/case_data.csv"
+                }
             }
+    
         },
-        "Reference": {
-            "contact_type": "type_of_contact.csv",
-            "bom": "reference_BOM.csv",
-            "customer": "AccountManagerListing.csv",
-            "lead_opportunities": "ref_lead_opportunities.csv",
-            "product_class": "ref_product_class.csv",
-            "decode_sr_num": "ref_decode_serialnumber.csv",
-            "ref_sheet_pdi": "ref_sheet_pdi.csv",
-            "area_region": "ref_state_region.csv",
-            "chasis": "ref_chasis.csv"
+        "reference_adls": {
+            "container_name": "reference-files",
+            "credentials": {
+                "connection_string": "source-adls-connection-string",
+                "storage_account_name": "source-storage-account-name"
+            },
+            "Reference": {
+                "contact_type": "type_of_contact.csv",
+                "bom": "reference_BOM.csv",
+                "customer": "AccountManagerListing.csv",
+                "lead_opportunities": "ref_lead_opportunities.csv",
+                "product_class": "ref_product_class.csv",
+                "decode_sr_num": "ref_decode_serialnumber.csv",
+                "ref_sheet_pdi": "ref_sheet_pdi.csv",
+                "area_region": "ref_state_region.csv",
+                "chasis": "ref_chasis.csv"
+            }
+    
         },
-        "Processed": {
-            "customer": {
-                "file_name": "customer_list.csv",
-                "validation": "customer_list_validation.csv"
+        "result_adls": {
+            "container_name": "destination_container",
+            "credentials": {
+                "connection_string": "destination-adls-connection-string",
+                "storage_account_name": "destination-storage-account-name"
             },
-            "output_iLead": {
-                "file_name": "output_iLead.csv",
-                "validation": "output_iLead_validation_b4_format.csv",
-                "ref_install": "output_ref_install.csv",
-                "before_classify": "b4_classify_leads.csv",
-                "after_classify": "a4_classify_leads.csv"
-            },
-            "output_iLead_contact": {
-                "file_name": "output_iLead_contact.csv"
-            },
-            "processed_install": {
-                "file_name": "processed_install.csv"
-            },
-            "processed_m2m_shipment": {
-                "file_name": "processed_m2m_shipment.csv"
-            },
-            "processed_serialnum": {
-                "file_name": "processed_serialnum.csv"
-            },
-            "contracts": {
-                "file_name": "processed_contract.csv",
-                "validation": "processed_contract_b4_install_validation.csv",
-                "contract_srnum_validation": "contract_install_srnum_validation.csv"
-            },
-            "services": {
-                "file_name": "processed_services.csv",
-                "validation": "processed_services_validation.csv",
-                "intermediate": "proceesed_services_jcomm_sidecar.csv",
-                "serial_number_services": "Raw_Services_Data_SerialNum_Expanded.csv",
-                "validated_sr_num": "validated_sr_num.csv"
-            },
-            "contact": {
-                "file_name": "contact_contracts.csv",
-                "events_sr_num": "events_sr_num.csv"
+            "Processed": {
+                "customer": {
+                    "file_name": "Processed/customer/customer_list.csv",
+                    "validation": "Processed/customer/customer_list_validation.csv"
+                }
             }
         }
     },

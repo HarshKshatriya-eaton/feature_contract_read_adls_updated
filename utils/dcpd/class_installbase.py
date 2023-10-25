@@ -65,7 +65,7 @@ obj_format = Format()
 class InstallBase:
     """This module process the M2M:Shipment Data, M2M:Serial Data, M2M BOM Data."""
 
-    def __init__(self, mode='local') -> pd.DataFrame:
+    def __init__(self, mode, config) -> pd.DataFrame:
         """Initialise environment variables, class instance and
         variables used throughout the modules."""
 
@@ -84,9 +84,7 @@ class InstallBase:
 
         # Variable
         self.ls_char = [' ', '-']
-        self.config = IO.read_json(mode='local', config={
-            "file_dir": './references/', "file_name": 'config_dcpd.json'})
-
+        self.config = config
         self.ls_priority = ['ShipTo_Country', 'SoldTo_Country']
         self.ls_cols_out = ['key_serial', 'SerialNumber', 'Product']
         self.ls_cols_ref = ['ProductClass', 'product_type', 'product_prodclass']
@@ -98,7 +96,6 @@ class InstallBase:
     def main_install(self) -> None:  # pragma: no cover
         """
         Process Data by running the M2M, Serial Number, BOM pipline to for M2M data.
-
         :return: processed and filtered DataFrame
         :rtype: CSV file
 
@@ -131,13 +128,20 @@ class InstallBase:
             filtered_data = self.filter_mtmdata(df_install)
 
             # Export
-            IO.write_csv(
+            if mode == 'local':
+                IO.write_csv(
                 self.mode,
                 {
                     'file_dir': self.config['file']['dir_results'] + self.config['file'][
                         'dir_intermediate'],
                     'file_name': self.config['file']['Processed']['processed_install']['file_name']
                 }, filtered_data)
+            elif mode == 'adls':
+                adls_config = config['adls']['result_adls']
+                file_dir = adls_config['Raw']['M2M']['directory_name']
+                io_adls.write_csv_adls({adls_config, file_dir},filtered_data)
+             else:
+                raise ValueError('Unsupported mode')            
             logger.app_success(self.step_export_data)
 
         except Exception as excp:
@@ -187,11 +191,19 @@ class InstallBase:
         """
         try:
             # This method will read csv data into pandas DataFrame
-            df_data_install = IO.read_csv(
+            
+            if mode == 'local':
+                df_data_install = IO.read_csv(
                 self.mode,
                 {'file_dir': self.config['file']['dir_data'],
                  'file_name': self.config['file']['Raw']['M2M']['file_name']
                  })
+            elif mode == 'adls':
+                adls_config = config['adls']['input_adls']
+                file_dir = adls_config['Raw']['M2M']['directory_name']
+                df_data_install  = io_adls.read_csv_adls({adls_config, file_dir})
+             else:
+                raise ValueError('Unsupported mode')
 
             # Format Data
             input_format = self.config['database']['M2M']['Dictionary Format']
@@ -215,11 +227,19 @@ class InstallBase:
                 columns={'flag_Country': 'is_in_usa'})
 
             # Decode product
-            ref_prod = IO.read_csv(
+            if mode == 'local':
+                ref_prod = IO.read_csv(
                 self.mode,
                 {'file_dir': self.config['file']['dir_ref'],
                  'file_name': self.config['file']['Reference']['product_class']  # ['file_name']
                  })
+            elif mode == 'adls':
+                adls_config = config['adls']['reference_adls']
+                file_dir = adls_config['Raw']['Reference']['product_class']
+                ref_prod  = io_adls.read_csv_adls({adls_config, file_dir})
+             else:
+                raise ValueError('Unsupported mode')
+
 
             # filters product class as per configurations[config_database.json]
             df_data_install, ls_cols = self.filter_product_class(
@@ -299,12 +319,23 @@ class InstallBase:
 
         :raises Exception: Raised if unknown data type provided.
         :return df_srnum: Validated Serial number data
-        :rtype: pd.DataFrame
+        :rtype: pd.DataFrameSerialNumber
 
         """
         try:
             # Read SerialNumber data
-
+            if mode == 'local':
+                df_srnum = IO.read_csv(
+                self.mode,
+                {'file_dir': self.config['file']['dir_data'],
+                 'file_name': self.config['file']['Raw']['']['file_name']})
+            elif mode == 'adls':
+                adls_config = config['adls']['input_adls']
+                file_dir = adls_config['Raw']['SerialNumber']['directory_name']
+                df_srnum  = io_adls.read_csv_adls({adls_config, file_dir})
+             else:
+                raise ValueError('Unsupported mode')
+            
             df_srnum = IO.read_csv(
                 self.mode,
                 {'file_dir': self.config['file']['dir_data'],
@@ -876,9 +907,5 @@ class InstallBase:
 
 # %% *** Call ***
 
-
-if __name__ == "__main__":
-    obj = InstallBase()
-    obj.main_install()
 
 # %%
