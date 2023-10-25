@@ -1294,6 +1294,8 @@ class LeadGeneration:
         )
         df_standard_bom["PartNumber_TLN_Shipment"] = df_standard_bom[
             "PartNumber_TLN_Shipment"].str.lstrip().str.rstrip()
+        df_standard_bom["PartNumber_BOM_BOM"] = df_standard_bom[
+            "PartNumber_BOM_BOM"].str.lstrip().str.rstrip()
         df_standard_bom = df_standard_bom[
             ['PartNumber_TLN_Shipment', 'PartNumber_BOM_BOM', 'Revision', "Total_Quantity"]
         ]
