@@ -105,9 +105,16 @@ class Contract:
             # PreProcess : Renewal data
             df_renewal = self.pipeline_renewal()
 
+            # Read Raw M2M Data
+            df_raw_m2m = IO.read_csv(
+                self.mode,
+                {'file_dir': self.config['file']['dir_data'],
+                 'file_name': self.config['file']['Raw']['M2M']['file_name']
+                 })
             # Merge Contract and Renewal Data
-            df_contract = self.merge_contract_and_renewal(df_contract,
-                                                          df_renewal)
+            df_contract = self.merge_contract_and_renewal(
+                df_contract, df_renewal, df_raw_m2m
+            )
 
             # Decode Contract Type
             df_contract = self.pipeline_decode_contract_type(df_contract)
@@ -820,7 +827,7 @@ class Contract:
 
     #  ***** Data merge *****
     def merge_contract_and_renewal(self, df_contract,
-                                   df_renewal) -> pd.DataFrame:
+                                   df_renewal, df_raw_m2m) -> pd.DataFrame:
         """
          Merge contract data with renewal data.
 
@@ -838,11 +845,6 @@ class Contract:
                 df_renewal, on='Contract', how='left')
             logger.app_success(self.merge_data)
 
-            df_raw_m2m = IO.read_csv(
-                self.mode,
-                {'file_dir': self.config['file']['dir_data'],
-                 'file_name': self.config['file']['Raw']['M2M']['file_name']
-                 })
             df_contract = self.get_billto_data(df_contract, df_raw_m2m)
         except Exception as excp:
             logger.app_fail(self.merge_data, f"{traceback.print_exc()}")
@@ -874,6 +876,17 @@ class Contract:
                 'Sold to State': 'BillingState',
                 'Sold to Zip': 'BillingPostalCode',
                 'Sold to Country': 'BillingCountry'}
+
+            dict_rename_up = {}
+            if not self.config['file']['Raw']['M2M']['header_has_space']:
+                for key in dict_rename:
+                    if key.count(" ") != 0:
+                        key1 = str.replace(key, " ", "")
+                        dict_rename_up[key1] = dict_rename[key]
+                    else:
+                        dict_rename_up[key] = dict_rename[key]
+
+            dict_rename = dict_rename_up
             df_raw_m2m = df_raw_m2m.rename(columns=dict_rename)
             ls_cols = list(dict_rename.values())
             df_raw_m2m = df_raw_m2m.loc[:, ls_cols]

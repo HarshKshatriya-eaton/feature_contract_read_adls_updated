@@ -17,7 +17,8 @@
                 "file_name": "case_data.csv"
             },
             "M2M": {
-                "file_name": "M2M_data.csv"
+                "file_name": "M2M_data.csv",
+                "header_has_space": false
             },
             "SerialNumber": {
                 "file_name": "SerialNumber.csv"

@@ -1024,27 +1024,6 @@ class TestMergeContractAndRenewal:
                                         "IsDeleted": [False, False],
                                         "Contract": ['80046000000cfVRAAY', '80046000000cfVLAAY']})
 
-        ex_op1 = pd.DataFrame({
-            "ContractNumber": [6827, 7783, 6539],
-            "PDI_ContractType": ['new', 'new', 'existing'],
-            "Service_Plan": ['gold', 'extended warranty', 'silver'],
-            "Contract": ['80046000000cfVRAAY', '80046000000cfVLAAY',
-                      '80046000000cfUIAAY'],
-            "Contract_Sales_Order__c": ["1", None, "3"],
-            "Original_Sales_Order__c": ["2", "2", "4"],
-            "BillingCustomer": ["0", "Only Customer", "1"],
-            'BillingAddress': ["1", "6", "7"],
-            'BillingCity': ["2", "7", "8"],
-            'BillingState': ["3", "8", "9"],
-            'BillingPostalCode': ["4", "9", "10"],
-            'BillingCountry': ["5", "10", "11"],
-            "Contract_Status__c": ['closed', 'closed', None],
-            "IsDeleted": [False, False, None]
-        })
-        df_contract = df_contract.merge(
-            df_renewal, on='Contract', how='left')
-        assert_frame_equal(df_contract, ex_op1)
-
         df_raw_m2m = pd.DataFrame({
             "SO": ["1", "2"],
             "Customer": ["a", None],
@@ -1055,7 +1034,9 @@ class TestMergeContractAndRenewal:
             'Sold to Country': ["f", None]
         })
 
-        df_contract = obj_contract.get_billto_data(df_contract, df_raw_m2m)
+        df_contract = obj_contract.merge_contract_and_renewal(
+            df_contract, df_renewal, df_raw_m2m
+        )
         # res = obj_contract.merge_contract_and_renewal(df_contract, df_renewal)
         print(df_contract)
         ex_op2 = pd.DataFrame({
