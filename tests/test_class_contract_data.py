@@ -1004,28 +1004,87 @@ class TestMergeContractAndRenewal:
         """
         Check if contract data and renewal data is getting merged correctly.
         """
-        df_contract = pd.DataFrame(data={"ContractNumber": [6827, 7783, 6539],
-                                         "PDI_ContractType": ['new', 'new', 'existing'],
-                                         "Service_Plan": ['gold', 'extended warranty', 'silver'],
-                                         "Contract": ['80046000000cfVRAAY', '80046000000cfVLAAY',
-                                                      '80046000000cfUIAAY']})
+        df_contract = pd.DataFrame(data={
+            "ContractNumber": [6827, 7783, 6539],
+            "PDI_ContractType": ['new', 'new', 'existing'],
+            "Service_Plan": ['gold', 'extended warranty', 'silver'],
+            "Contract": ['80046000000cfVRAAY', '80046000000cfVLAAY',
+                      '80046000000cfUIAAY'],
+            "Contract_Sales_Order__c": ["1", None, "3"],
+            "Original_Sales_Order__c": ["2", "2", "4"],
+            "BillingCustomer": ["0", "Only Customer", "1"],
+            'BillingAddress': ["1", "6", "7"],
+            'BillingCity': ["2", "7", "8"],
+            'BillingState': ["3", "8", "9"],
+            'BillingPostalCode': ["4", "9", "10"],
+            'BillingCountry': ["5", "10", "11"]
+        })
         df_renewal = pd.DataFrame(data={"Contract_Status__c": ['closed',
                                                                'closed'],
                                         "IsDeleted": [False, False],
                                         "Contract": ['80046000000cfVRAAY', '80046000000cfVLAAY']})
 
-        exp_res = pd.DataFrame(data={"ContractNumber": [6827, 7783, 6539],
-                                     "PDI_ContractType": ['new', 'new', 'existing'],
-                                     "Service_Plan": ['gold',
-                                                      'extended warranty', 'silver'],
-                                     "Contract": ['80046000000cfVRAAY',
-                                                  '80046000000cfVLAAY', '80046000000cfUIAAY'],
-                                     "Contract_Status__c": ['closed', 'closed', None],
-                                     "IsDeleted": [False, False, None],
-                                     })
-        res = obj_contract.merge_contract_and_renewal(df_contract, df_renewal)
+        ex_op1 = pd.DataFrame({
+            "ContractNumber": [6827, 7783, 6539],
+            "PDI_ContractType": ['new', 'new', 'existing'],
+            "Service_Plan": ['gold', 'extended warranty', 'silver'],
+            "Contract": ['80046000000cfVRAAY', '80046000000cfVLAAY',
+                      '80046000000cfUIAAY'],
+            "Contract_Sales_Order__c": ["1", None, "3"],
+            "Original_Sales_Order__c": ["2", "2", "4"],
+            "BillingCustomer": ["0", "Only Customer", "1"],
+            'BillingAddress': ["1", "6", "7"],
+            'BillingCity': ["2", "7", "8"],
+            'BillingState': ["3", "8", "9"],
+            'BillingPostalCode': ["4", "9", "10"],
+            'BillingCountry': ["5", "10", "11"],
+            "Contract_Status__c": ['closed', 'closed', None],
+            "IsDeleted": [False, False, None]
+        })
+        df_contract = df_contract.merge(
+            df_renewal, on='Contract', how='left')
+        assert_frame_equal(df_contract, ex_op1)
 
-        assert exp_res.equals(res)
+        df_raw_m2m = pd.DataFrame({
+            "SO": ["1", "2"],
+            "Customer": ["a", None],
+            'Sold to Street': ["b", "g"],
+            'Sold to City': ["c", "h"],
+            'Sold to State': ["d", "i"],
+            'Sold to Zip': ["e", "j"],
+            'Sold to Country': ["f", None]
+        })
+
+        df_contract = obj_contract.get_billto_data(df_contract, df_raw_m2m)
+        # res = obj_contract.merge_contract_and_renewal(df_contract, df_renewal)
+        print(df_contract)
+        ex_op2 = pd.DataFrame({
+            "ContractNumber": [6827, 7783, 6539],
+            "PDI_ContractType": ['new', 'new', 'existing'],
+            "Service_Plan": ['gold', 'extended warranty', 'silver'],
+            "Contract": ['80046000000cfVRAAY', '80046000000cfVLAAY',
+                         '80046000000cfUIAAY'],
+            "Contract_Sales_Order__c": ["1", None, "3"],
+            "Original_Sales_Order__c": ["2", "2", "4"],
+            "BillingCustomer_old": ["0", "Only Customer", "1"],
+            'BillingAddress_old': ["1", "6", "7"],
+            'BillingCity_old': ["2", "7", "8"],
+            'BillingState_old': ["3", "8", "9"],
+            'BillingPostalCode_old': ["4", "9", "10"],
+            'BillingCountry_old': ["5", "10", "11"],
+            "Contract_Status__c": ['closed', 'closed', None],
+            "IsDeleted": [False, False, None],
+            "key_contract": ["1", "2", "3"],
+            "key_SO": ["1", "2", None],
+            "BillingCustomer": ["a", "Only Customer", "1"],
+            'BillingAddress': ["b", "g", "7"],
+            'BillingCity': ["c", "h", "8"],
+            'BillingState': ["d", "i", "9"],
+            'BillingPostalCode': ["e", "j", "10"],
+            'BillingCountry': ["f", "10", "11"]
+        })
+
+        assert_frame_equal(df_contract, ex_op2)
 
 
 class TestMergeContractAndInstall:
@@ -1040,7 +1099,7 @@ class TestMergeContractAndInstall:
          'dcacac',
          [123, 'aeda'],
          1432,
-         (pd.DataFrame(data={"PDI_ContractType": ['new', 'new', 'existing']})),
+         (pd.DataFrame(data={"test_col": ['new', 'new', 'existing']})),
          ])
     def test_merge_contract_install_err1(self, install_df):
         contract_data = {
@@ -1067,7 +1126,7 @@ class TestMergeContractAndInstall:
          'dcacac',
          [123, 'aeda'],
          1432,
-         (pd.DataFrame(data={"PDI_ContractType": ['new', 'new', 'existing']})),
+         (pd.DataFrame(data={"test_col": ['new', 'new', 'existing']})),
          ])
     def test_merge_contract_install_err2(self, contract_df):
         install_data = {
@@ -1093,7 +1152,8 @@ class TestMergeContractAndInstall:
                                          '1/10/2023', '7/24/2012', '10/13/2015'],
             'Contract_Start_Date': ['1/1/2021', '1/1/2015',
                                     None, None, '6/16/2020'],
-            'Contract_Expiration_Date': ['12/31/2021', '12/31/2019', None, None, '6/15/2021']
+            'Contract_Expiration_Date': ['12/31/2021', '12/31/2019', None, None, '6/15/2021'],
+            'was_startedup': [True, True, True, True, None]
         }
 
         install_data = {
@@ -1119,11 +1179,12 @@ class TestMergeContractAndInstall:
                            'Contract_Expiration_Date': [Timestamp('2021-12-31 00:00:00'),
                                                         Timestamp('2019-12-31 00:00:00'), NaT, NaT,
                                                         Timestamp('2021-06-15 00:00:00')],
+                           'was_startedup': [True, True, True, True, False],
                            'First_Contract_Start_Date': [Timestamp('2021-01-01 00:00:00'),
                                                          Timestamp('2015-01-01 00:00:00'), NaT, NaT,
                                                          Timestamp('2020-06-16 00:00:00')],
                            'Contract_Conversion': ['No Warranty', 'Warranty Conversion',
-                                                   'Warranty Due', 'No Contract', 'New Business']}
+                                                   'No Contract', 'No Contract', 'New Business']}
 
         contract_df = pd.DataFrame(contract_data)
         install_df = pd.DataFrame(install_data)
@@ -1135,5 +1196,58 @@ class TestMergeContractAndInstall:
 
         assert_frame_equal(result, expected_df, check_dtype=False, check_exact=False)
 
-# class TestGetBillToData:
+class TestGetBillToData:
+    @pytest.mark.parametrize(
+        "df_contract",
+        [None,
+         (pd.DataFrame()),
+         'dcacac',
+         [123, 'aeda'],
+         1432,
+         (pd.DataFrame(data={"test_col": ['new', 'new', 'existing']})),
+         ])
+    def test_get_bill_to_data_err1(self, df_contract):
+        with pytest.raises(Exception) as _:
+            df_contract = obj_contract.get_billto_data(df_contract)
 
+    def test_get_bill_to_data_ideal_scenario(self):
+        df_contract = pd.DataFrame({
+            "Contract_Sales_Order__c": ["1", None],
+            "Original_Sales_Order__c": ["2", "2"],
+            "BillingCustomer": ["0", "Only Customer"],
+            'BillingAddress': ["1", "6"],
+            'BillingCity': ["2", "7"],
+            'BillingState': ["3", "8"],
+            'BillingPostalCode': ["4", "9"],
+            'BillingCountry': ["5", "10"]
+        })
+        df_raw_m2m = pd.DataFrame({
+            "SO": ["1", "2"],
+            "Customer": ["a", None],
+            'Sold to Street': ["b", "g"],
+            'Sold to City': ["c", "h"],
+            'Sold to State': ["d", "i"],
+            'Sold to Zip': ["e", "j"],
+            'Sold to Country': ["f", None]
+        })
+
+        ex_op = pd.DataFrame({
+            "Contract_Sales_Order__c": ["1", None],
+            "Original_Sales_Order__c": ["2", "2"],
+            "BillingCustomer_old": ["0", "Only Customer"],
+            'BillingAddress_old': ["1", "6"],
+            'BillingCity_old': ["2", "7"],
+            'BillingState_old': ["3", "8"],
+            'BillingPostalCode_old': ["4", "9"],
+            'BillingCountry_old': ["5", "10"],
+            "key_contract": ["1", "2"],
+            "key_SO": ["1", "2"],
+            "BillingCustomer": ["a", "Only Customer"],
+            'BillingAddress': ["b", "g"],
+            'BillingCity': ["c", "h"],
+            'BillingState': ["d", "i"],
+            'BillingPostalCode': ["e", "j"],
+            'BillingCountry': ["f", "10"]
+        })
+        df_contract = obj_contract.get_billto_data(df_contract, df_raw_m2m)
+        assert_frame_equal(df_contract, ex_op, check_dtype=False, check_exact=False)
