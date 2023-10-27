@@ -192,12 +192,13 @@ class InstallBase:
                 {'file_dir': self.config['file']['dir_data'],
                  'file_name': self.config['file']['Raw']['M2M']['file_name']
                  })
-            header_has_space = self.config['file']['Raw']['M2M']['header_has_space']
 
             # Format Data
             input_format = self.config['database']['M2M']['Dictionary Format']
+            column_rename = self.config['file']['Raw']['M2M']['column_rename']
+            df_data_install = df_data_install.rename(column_rename, axis=1)
             df_data_install = obj_format.format_data(
-                df_data_install, input_format, header_has_space
+                df_data_install, input_format
             )
 
             df_data_install = self.get_metadata(df_data_install)
@@ -312,11 +313,10 @@ class InstallBase:
                 self.mode,
                 {'file_dir': self.config['file']['dir_data'],
                  'file_name': self.config['file']['Raw']['SerialNumber']['file_name']})
-            header_has_space = self.config['file']['Raw']['SerialNumber']['header_has_space']
 
             # Format Data
             input_format = self.config['database']['SerialNumber']['Dictionary Format']
-            df_srnum = obj_format.format_data(df_srnum, input_format, header_has_space)
+            df_srnum = obj_format.format_data(df_srnum, input_format)
             df_srnum.reset_index(drop=True, inplace=True)
 
             # # Format - Punctuation
@@ -449,10 +449,9 @@ class InstallBase:
                                   'file_name': self.config['file']['Raw']['bom']['file_name'],
                                   'sep': '\t'}
                                  )
-            header_has_space = self.config['file']['Raw']['bom']['header_has_space']
             # Format Data
             input_format = self.config['database']['bom']['Dictionary Format']
-            df_bom = obj_format.format_data(df_bom, input_format, header_has_space)
+            df_bom = obj_format.format_data(df_bom, input_format)
             df_bom.reset_index(drop=True, inplace=True)
 
             # Display Part Numbers

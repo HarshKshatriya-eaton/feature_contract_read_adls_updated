@@ -14,44 +14,55 @@
         "dir_intermediate": "intermediate/",
         "Raw": {
             "services": {
-                "file_name": "case_data.csv",
-                "header_has_space": true
+                "file_name": "case_data.csv"
             },
             "M2M": {
                 "file_name": "M2M_data.csv",
-                "header_has_space": false
+                "column_rename": {
+                    "Shipper#": "Shipper #",
+                    "ShipperItem#": "Shipper Item #",
+                    "PartNumber": "Part Number",
+                    "ItemStatus": "Item Status",
+                    "ShipDate": "Ship Date",
+                    "ShiptoCustomer": "Ship to Customer",
+                    "ShiptoStreet": "Ship to Street",
+                    "ShiptoCity": "Ship to City",
+                    "ShiptoState": "Ship to State",
+                    "ShiptoZip": "Ship to Zip",
+                    "ShiptoCountry": "Ship to Country",
+                    "SoldtoStreet": "Sold to Street",
+                    "SoldtoCity": "Sold to City",
+                    "SoldtoState": "Sold to State",
+                    "SoldtoZip": "Sold to Zip",
+                    "SoldtoCountry": "Sold to Country",
+                    "ShippedQty": "Shipped Qty",
+                    "Job#": "Job #",
+                    "ProductType": "Product Type"
+                }
             },
             "SerialNumber": {
-                "file_name": "SerialNumber.csv",
-                "header_has_space": true
+                "file_name": "SerialNumber.csv"
             },
             "SalesForce": {
-                "file_name": "SalesForce_InstallBase.csv",
-                "header_has_space": true
+                "file_name": "SalesForce_InstallBase.csv"
             },
             "bom": {
-                "file_name": "BOM_data.csv",
-                "header_has_space": true
+                "file_name": "BOM_data.csv"
             },
             "bomdata_deafault": {
-                "file_name": "bomdata_deafault.csv",
-                "header_has_space": true
+                "file_name": "bomdata_deafault.csv"
             },
             "bomdata_sisc": {
-                "file_name": "bomdata_sisc.csv",
-                "header_has_space": true
+                "file_name": "bomdata_sisc.csv"
             },
             "contracts": {
-                "file_name": "contract.csv",
-                "header_has_space": true
+                "file_name": "contract.csv"
             },
             "renewal": {
-                "file_name": "RenewalContract.csv",
-                "header_has_space": true
+                "file_name": "RenewalContract.csv"
             },
             "events": {
-                "file_name": "events.csv",
-                "header_has_space": true
+                "file_name": "events.csv"
             }
         },
         "Reference": {
