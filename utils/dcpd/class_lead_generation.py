@@ -379,20 +379,9 @@ class LeadGeneration:
 
             _step = 'Deriving Component_Due_in (Category) based on Due years'
 
-            def categorize_due_in_category(x):
-                if x < 0:
-                    return "Past Due"
-                if 0 <= x <= 1:
-                    return "Due this year"
-                if 1 < x <= 3:
-                    return "Due in 2-3 years"
-                if 3 < x < 100:
-                    return "Due after 3 years"
-                return "Unknown"  # Or any other default category you want to assign
-
             # Apply the function to create the 'Component_Due_in (Category)' column
             output_ilead_df['Component_Due_in (Category)'] = output_ilead_df[
-                'Component_Due_in (years)'].apply(categorize_due_in_category)
+                'Component_Due_in (years)'].apply(self.categorize_due_in_category)
 
             # Add prod meta data
             output_ilead_df = self.prod_meta_data(output_ilead_df)
@@ -1355,6 +1344,21 @@ class LeadGeneration:
 
         return df_install_mts
 
+    def categorize_due_in_category(self, component_due_in_years):
+        """
+        Method categorises component due date
+        :param component_due_in_years: Due date in years
+        :return: Due category
+        """
+        if component_due_in_years < 0:
+            return "Past Due"
+        if 0 <= component_due_in_years <= 1:
+            return "Due this year"
+        if 1 < component_due_in_years <= 3:
+            return "Due in 2-3 years"
+        if 3 < component_due_in_years < 100:
+            return "Due after 3 years"
+        return "Unknown"  # Or any other default category you want to assign
 
 #%%
 if __name__ == "__main__":
