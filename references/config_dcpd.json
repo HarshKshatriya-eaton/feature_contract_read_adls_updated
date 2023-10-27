@@ -18,7 +18,27 @@
             },
             "M2M": {
                 "file_name": "M2M_data.csv",
-                "header_has_space": false
+                "column_rename": {
+                    "Shipper#": "Shipper #",
+                    "ShipperItem#": "Shipper Item #",
+                    "PartNumber": "Part Number",
+                    "ItemStatus": "Item Status",
+                    "ShipDate": "Ship Date",
+                    "ShiptoCustomer": "Ship to Customer",
+                    "ShiptoStreet": "Ship to Street",
+                    "ShiptoCity": "Ship to City",
+                    "ShiptoState": "Ship to State",
+                    "ShiptoZip": "Ship to Zip",
+                    "ShiptoCountry": "Ship to Country",
+                    "SoldtoStreet": "Sold to Street",
+                    "SoldtoCity": "Sold to City",
+                    "SoldtoState": "Sold to State",
+                    "SoldtoZip": "Sold to Zip",
+                    "SoldtoCountry": "Sold to Country",
+                    "ShippedQty": "Shipped Qty",
+                    "Job#": "Job #",
+                    "ProductType": "Product Type"
+                }
             },
             "SerialNumber": {
                 "file_name": "SerialNumber.csv"

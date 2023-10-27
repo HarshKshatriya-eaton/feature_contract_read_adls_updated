@@ -867,6 +867,8 @@ class Contract:
         # as key
         _step = 'Query BillTo data'
         try:
+            column_rename = self.config['file']['Raw']['M2M']['column_rename']
+            df_raw_m2m = df_raw_m2m.rename(column_rename, axis=1)
             # M2M data preparation
             dict_rename = {
                 "SO": "key_SO",
@@ -877,16 +879,6 @@ class Contract:
                 'Sold to Zip': 'BillingPostalCode',
                 'Sold to Country': 'BillingCountry'}
 
-            dict_rename_up = {}
-            if not self.config['file']['Raw']['M2M']['header_has_space']:
-                for key in dict_rename:
-                    if key.count(" ") != 0:
-                        key1 = str.replace(key, " ", "")
-                        dict_rename_up[key1] = dict_rename[key]
-                    else:
-                        dict_rename_up[key] = dict_rename[key]
-
-            dict_rename = dict_rename_up
             df_raw_m2m = df_raw_m2m.rename(columns=dict_rename)
             ls_cols = list(dict_rename.values())
             df_raw_m2m = df_raw_m2m.loc[:, ls_cols]
