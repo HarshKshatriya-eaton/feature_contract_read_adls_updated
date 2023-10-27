@@ -1027,11 +1027,11 @@ class TestMergeContractAndRenewal:
         df_raw_m2m = pd.DataFrame({
             "SO": ["1", "2"],
             "Customer": ["a", None],
-            'Sold to Street': ["b", "g"],
-            'Sold to City': ["c", "h"],
-            'Sold to State': ["d", "i"],
-            'Sold to Zip': ["e", "j"],
-            'Sold to Country': ["f", None]
+            'SoldtoStreet': ["b", "g"],
+            'SoldtoCity': ["c", "h"],
+            'SoldtoState': ["d", "i"],
+            'SoldtoZip': ["e", "j"],
+            'SoldtoCountry': ["f", None]
         })
 
         df_contract = obj_contract.merge_contract_and_renewal(
@@ -1205,11 +1205,11 @@ class TestGetBillToData:
         df_raw_m2m = pd.DataFrame({
             "SO": ["1", "2"],
             "Customer": ["a", None],
-            'Sold to Street': ["b", "g"],
-            'Sold to City': ["c", "h"],
-            'Sold to State': ["d", "i"],
-            'Sold to Zip': ["e", "j"],
-            'Sold to Country': ["f", None]
+            'SoldtoStreet': ["b", "g"],
+            'SoldtoCity': ["c", "h"],
+            'SoldtoState': ["d", "i"],
+            'SoldtoZip': ["e", "j"],
+            'SoldtoCountry': ["f", None]
         })
 
         ex_op = pd.DataFrame({
