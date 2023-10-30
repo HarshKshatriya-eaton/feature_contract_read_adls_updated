@@ -195,7 +195,11 @@ class InstallBase:
 
             # Format Data
             input_format = self.config['database']['M2M']['Dictionary Format']
-            df_data_install = obj_format.format_data(df_data_install, input_format)
+            column_rename = self.config['file']['Raw']['M2M']['column_rename']
+            df_data_install = df_data_install.rename(column_rename, axis=1)
+            df_data_install = obj_format.format_data(
+                df_data_install, input_format
+            )
 
             df_data_install = self.get_metadata(df_data_install)
             df_data_install.reset_index(drop=True, inplace=True)
@@ -450,15 +454,11 @@ class InstallBase:
             df_bom = obj_format.format_data(df_bom, input_format)
             df_bom.reset_index(drop=True, inplace=True)
 
-            ls_cols = ['Job_Index', 'PartNumber_TLN_BOM']
-
             # Display Part Numbers
             df_display_parts = self.id_display_parts(df_bom)
-            # ls_cols = ls_cols + df_display_parts.columns.tolist()[1:]
 
             # Main Breakers
             df_main_breaker = self.id_main_breaker(df_bom)
-            # ls_cols = ls_cols + df_main_breaker.columns.tolist()[1:]
 
             # merge BOM data with shipment and serial number data
             # df_install = self.merge_bomdata(df_bom, df_install, merge_type)
