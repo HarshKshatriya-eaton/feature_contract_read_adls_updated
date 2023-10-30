@@ -6,7 +6,7 @@
     ],
     "log_var_size": false,
     "key_vault": "",
-
+    "conf.env": "local"
     "file": {
         "dir_ref": "./references/",
         "dir_data": "./data/",
@@ -90,6 +90,64 @@
             "contact": {
                 "file_name": "contact_contracts.csv",
                 "events_sr_num": "events_sr_num.csv"
+            }
+        }
+    },
+    "adls":{
+        "input_adls": {
+            "credentials": {
+                "connection_string": "source-adls-connection-string",
+                "storage_account_name": "source-storage-account-name"
+                },
+            "Raw": {
+                "M2M": {
+                    "container_name": "source_container",
+                    "directory_name": "m2m-dataset "
+
+                },
+                "SerialNumber": {
+                    "container_name": "source_container",
+                    "directory_name": " m2m-dataset / serial-number-dataset"
+
+
+                },
+                "services": {
+                    "container_name": "source_container",
+                    "directory_name": "Raw/services/case_data.csv"
+                }
+            }
+    
+        },
+        "reference_adls": {
+            "container_name": "reference-files",
+            "credentials": {
+                "connection_string": "source-adls-connection-string",
+                "storage_account_name": "source-storage-account-name"
+            },
+            "Reference": {
+                "contact_type": "type_of_contact.csv",
+                "bom": "reference_BOM.csv",
+                "customer": "AccountManagerListing.csv",
+                "lead_opportunities": "ref_lead_opportunities.csv",
+                "product_class": "ref_product_class.csv",
+                "decode_sr_num": "ref_decode_serialnumber.csv",
+                "ref_sheet_pdi": "ref_sheet_pdi.csv",
+                "area_region": "ref_state_region.csv",
+                "chasis": "ref_chasis.csv"
+            }
+    
+        },
+        "result_adls": {
+            "container_name": "destination_container",
+            "credentials": {
+                "connection_string": "destination-adls-connection-string",
+                "storage_account_name": "destination-storage-account-name"
+            },
+            "Processed": {
+                "customer": {
+                    "file_name": "Processed/customer/customer_list.csv",
+                    "validation": "Processed/customer/customer_list_validation.csv"
+                }
             }
         }
     },

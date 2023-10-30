@@ -65,7 +65,7 @@ obj_format = Format()
 class InstallBase:
     """This module process the M2M:Shipment Data, M2M:Serial Data, M2M BOM Data."""
 
-    def __init__(self, mode, config) -> pd.DataFrame:
+    def __init__(self,mode, config) -> pd.DataFrame:
         """Initialise environment variables, class instance and
         variables used throughout the modules."""
 
@@ -200,9 +200,9 @@ class InstallBase:
                  })
             elif mode == 'adls':
                 adls_config = config['adls']['input_adls']
-                file_dir = adls_config['Raw']['M2M']['directory_name']
-                df_data_install  = io_adls.read_csv_adls({adls_config, file_dir})
-             else:
+                file_dir = config['adls']['input_adls']['Raw']['M2M']
+                df_data_install  = IO.read_csv_adls({adls_config, file_dir})
+            else:
                 raise ValueError('Unsupported mode')
 
             # Format Data
@@ -236,7 +236,7 @@ class InstallBase:
             elif mode == 'adls':
                 adls_config = config['adls']['reference_adls']
                 file_dir = adls_config['Raw']['Reference']['product_class']
-                ref_prod  = io_adls.read_csv_adls({adls_config, file_dir})
+                ref_prod  = io_adls.read_csv_adls({adls_config})
              else:
                 raise ValueError('Unsupported mode')
 

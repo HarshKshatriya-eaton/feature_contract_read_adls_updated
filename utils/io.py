@@ -34,6 +34,10 @@ class IO():
 
         if mode == 'local':
             return io_local.read_csv_local(config)
+        elif mode == 'azure-adls':
+            return io_adls.input_file_read(
+            self, connection_string, container_name, file_name,
+            directory_name='', sheet_name='', sep=',')
         else:
             logger.app_info(f'Mode {mode} is not implemented')
             raise ValueError ('Not implemented or unknow mode')
@@ -59,20 +63,16 @@ class IO():
 
 
     def read_csv_adls(config) -> pd.DataFrame:
-        connection_string = config['adls']['connection_string']
+        connection_string = config['credentials']['connection_string']
         container_name = config['adls']['container_name']
         file_name = config['adls']['file_path']
-
+        
         try:
-            service_client = DataLakeServiceClient.from_connection_string(connection_string)
-            container_client = service_client.get_container_client(container_name)
-            file_client = container_client.get_file_client(file_name)
 
-            with file_client.get_file_client() as file:
-                 file_contents = file.read_file()
-            # Parse file_contents as a pandas DataFrame or perform other data processing
-
-            return pd.DataFrame()  # Return the DataFrame
+            return io_adls.input_file_read(
+            self, connection_string, container_name, file_name,
+            directory_name='', sheet_name='', sep=',')
+           
         except Exception as e:
         # Handle any exceptions or errors
         raise e
