@@ -102,7 +102,7 @@ class Format:
             elif dict_val['data_type'] == 'text':
                 # *** Text ***
                 df_data[col] = df_data[col].fillna("").astype(str)
-                df_data[col] = df_data[col].str.lower()
+                df_data[col] = df_data[col].str.lower().str.strip()
 
             elif dict_val['data_type'] in [
                     'numeric', 'numeric : float', 'numeric : integer']:

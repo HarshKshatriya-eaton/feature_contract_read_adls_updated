@@ -49,6 +49,12 @@
             "bom": {
                 "file_name": "BOM_data.csv"
             },
+            "bomdata_deafault": {
+                "file_name": "bomdata_deafault.csv"
+            },
+            "bomdata_sisc": {
+                "file_name": "bomdata_sisc.csv"
+            },
             "contracts": {
                 "file_name": "contract.csv"
             },
@@ -313,6 +319,13 @@
                 },
                 "Model": {
                     "actual_datasoure_name": "Product Type",
+                    "data_type": "text",
+                    "is_nullable": 1,
+                    "output_format": "text : capitalize each word",
+                    "input_date_format": ""
+                },
+                "Revision": {
+                    "actual_datasoure_name": "REV",
                     "data_type": "text",
                     "is_nullable": 1,
                     "output_format": "text : capitalize each word",

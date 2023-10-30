@@ -165,7 +165,9 @@ class Contract:
                 })
             input_format = self.config['database']['contracts'][
                 'Dictionary Format']
-            df_contract = self.format.format_data(df_contract, input_format)
+            df_contract = self.format.format_data(
+                df_contract, input_format
+            )
             df_contract.reset_index(drop=True, inplace=True)
             logger.app_success(_step)
             # Identify Startups
@@ -384,7 +386,9 @@ class Contract:
             logger.app_success(_step)
             input_format = self.config['database']['renewal'][
                 'Dictionary Format']
-            df_renewal = self.format.format_data(df_renewal, input_format)
+            df_renewal = self.format.format_data(
+                df_renewal, input_format
+            )
             df_renewal.reset_index(drop=True, inplace=True)
             _step = 'Preprocess data'
             df_renewal['Contract_Amount'] = df_renewal[

@@ -55,16 +55,16 @@ class DCPD(LeadGeneration):
             self.etl_contracts()
             logger.app_success(f"Preprocess {step_} Data")
 
+            step_ = 'Services'
+            self.etl_services()
+            logger.app_success(f"Preprocess {step_} Data")
+
             step_ = 'Contact'
             self.etl_contacts()
             logger.app_success(f"Preprocess {step_} Data")
 
             step_ = 'Install Base Iteration 2'
             self.etl_installbase()
-            logger.app_success(f"Preprocess {step_} Data")
-
-            step_ = 'Services'
-            self.etl_services()
             logger.app_success(f"Preprocess {step_} Data")
 
             step_ = 'Lead Management'

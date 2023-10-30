@@ -143,7 +143,8 @@ class TestGetserialnumber:
             (['442-0083-7b-12b'], [6], ["4785:2356"]),
             (['452-0037-2b-5b'], [4], ["121:458"]),
             (['452-0030-1-2CB'], [2], ['142:54']),
-            (['452-0030-1-2FL'], [2], ["474:121"])
+            (['452-0030-1-2FL'], [2], ["474:121"]),
+            ([pd.DataFrame()], [2], ["474:121"]),
         ],
     )
     def test_get_srnum_input_validation(self, ar_serialnum, ar_installsize, ar_key_serial):
@@ -711,3 +712,59 @@ class TestIdentifySequenceType:
         with pytest.raises(Exception) as info:
             sr_num_class.identify_seq_type(pd.DataFrame())
         assert info.type == Exception
+
+class TestModifySrNumber:
+    @pytest.mark.parametrize(
+        "df",
+        [None,
+         [],
+         {},
+         pd.DataFrame(),
+         pd.DataFrame({"Name": ["a", "b"]})]
+    )
+    def test_modify_sr_num_error(self, df):
+        with pytest.raises(Exception) as _:
+            df['SerialNumberOrg'] = df.apply(
+                lambda row: sr_num_class.modify_sr_num(row), axis=1
+            )
+
+    @pytest.mark.parametrize(
+        "df, df_out",
+        [
+            (
+                    pd.DataFrame({"SerialNumberOrg": ["110-014-0AB"],
+                                  "InstallSize": [2]}),
+                    pd.DataFrame({"SerialNumberOrg": ["110-014-0-A-B"],
+                                  "InstallSize": [2]})
+            ),
+            (
+                    pd.DataFrame({"SerialNumberOrg": ["110-014-0-AB"],
+                                  "InstallSize": [2]}),
+                    pd.DataFrame({"SerialNumberOrg": ["110-014-0-A-B"],
+                                  "InstallSize": [2]})
+            ),
+            (
+                    pd.DataFrame({"SerialNumberOrg": ["110-014-AB"],
+                                  "InstallSize": [2]}),
+                    pd.DataFrame({"SerialNumberOrg": ["110-014-A-B"],
+                                  "InstallSize": [2]})
+            ),
+            (
+                    pd.DataFrame({"SerialNumberOrg": ["110-014-1AB"],
+                                  "InstallSize": [2]}),
+                    pd.DataFrame({"SerialNumberOrg": ["110-014-1-A-B"],
+                                  "InstallSize": [2]})
+            ),
+            (
+                    pd.DataFrame({"SerialNumberOrg": ["110-014-0-1AB"],
+                                  "InstallSize": [2]}),
+                    pd.DataFrame({"SerialNumberOrg": ["110-014-0-1AB"],
+                                  "InstallSize": [2]})
+            )
+        ]
+    )
+    def test_modify_sr_num_valid(self, df, df_out):
+        df['SerialNumberOrg'] = df.apply(
+            lambda row: sr_num_class.modify_sr_num(row), axis=1
+        )
+        assert_frame_equal(df, df_out)
