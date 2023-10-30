@@ -30,6 +30,15 @@ from utils.dcpd.class_contracts_data import Contract
 # filters_ = ConfigureFilts(logger)
 
 obj_contract = Contract()
+obj_contract.config['file']['dir_data'] = "./tests/ip"
+obj_contract.config['file']['dir_ref'] = "./tests/ip"
+obj_contract.config["install_base"]["sr_num_validation"]["exact_match_filter"] = [
+    "qts",
+    "cyrus one"
+]
+obj_contract.config['file']['dir_results'] = "./tests/"
+obj_contract.config['file']['dir_validation'] = "ip"
+obj_contract.config['file']['dir_intermediate'] = "ip"
 
 
 class TestFilterSrnum:
@@ -1024,21 +1033,10 @@ class TestMergeContractAndRenewal:
                                         "IsDeleted": [False, False],
                                         "Contract": ['80046000000cfVRAAY', '80046000000cfVLAAY']})
 
-        df_raw_m2m = pd.DataFrame({
-            "SO": ["1", "2"],
-            "Customer": ["a", None],
-            'SoldtoStreet': ["b", "g"],
-            'SoldtoCity': ["c", "h"],
-            'SoldtoState': ["d", "i"],
-            'SoldtoZip': ["e", "j"],
-            'SoldtoCountry': ["f", None]
-        })
-
         df_contract = obj_contract.merge_contract_and_renewal(
-            df_contract, df_renewal, df_raw_m2m
+            df_contract, df_renewal
         )
-        # res = obj_contract.merge_contract_and_renewal(df_contract, df_renewal)
-        print(df_contract)
+
         ex_op2 = pd.DataFrame({
             "ContractNumber": [6827, 7783, 6539],
             "PDI_ContractType": ['new', 'new', 'existing'],
@@ -1232,3 +1230,36 @@ class TestGetBillToData:
         })
         df_contract = obj_contract.get_billto_data(df_contract, df_raw_m2m)
         assert_frame_equal(df_contract, ex_op, check_dtype=False, check_exact=False)
+
+class TestValidateContractInstallSrNum:
+    @pytest.mark.parametrize(
+        "df_contract_srnum",
+        [None,
+         (pd.DataFrame()),
+         'dcacac',
+         [123, 'aeda'],
+         1432,
+         (pd.DataFrame(data={"test_col": ['new', 'new', 'existing']})),
+         ])
+    def test_validate_contract_install_sr_num_err(self, df_contract_srnum):
+        with pytest.raises(Exception) as _:
+            df_contract_srnum = obj_contract.validate_contract_install_sr_num(
+                df_contract_srnum)
+
+    def test_validate_contract_install_sr_num_ideal_scenario(self):
+        df = pd.read_csv("tests/ip/df_contract_test.csv")
+        df = obj_contract.validate_contract_install_sr_num(df)
+        ex_op = pd.read_csv("tests/ip/contract_install_srnum_validation_ex_op.csv")
+
+        df = df.reset_index()
+        df = df.drop("index", axis=1)
+
+        df["flag_validinstall"] = df["flag_validinstall"].astype(str)
+        ex_op["flag_validinstall"] = ex_op["flag_validinstall"].astype(str)
+
+        df.loc[df["SerialNumber_Partial"] == "", "SerialNumber_Partial"] = "nan"
+        df["SerialNumber_Partial"] = df["SerialNumber_Partial"].astype(str)
+        ex_op["SerialNumber_Partial"] = ex_op["SerialNumber_Partial"].astype(str)
+
+        assert_frame_equal(df, ex_op)
+

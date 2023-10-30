@@ -105,15 +105,9 @@ class Contract:
             # PreProcess : Renewal data
             df_renewal = self.pipeline_renewal()
 
-            # Read Raw M2M Data
-            df_raw_m2m = IO.read_csv(
-                self.mode,
-                {'file_dir': self.config['file']['dir_data'],
-                 'file_name': self.config['file']['Raw']['M2M']['file_name']
-                 })
             # Merge Contract and Renewal Data
             df_contract = self.merge_contract_and_renewal(
-                df_contract, df_renewal, df_raw_m2m
+                df_contract, df_renewal
             )
 
             # Decode Contract Type
@@ -826,8 +820,7 @@ class Contract:
         return df_temp_org
 
     #  ***** Data merge *****
-    def merge_contract_and_renewal(self, df_contract,
-                                   df_renewal, df_raw_m2m) -> pd.DataFrame:
+    def merge_contract_and_renewal(self, df_contract, df_renewal) -> pd.DataFrame:
         """
          Merge contract data with renewal data.
 
@@ -844,6 +837,13 @@ class Contract:
             df_contract = df_contract.merge(
                 df_renewal, on='Contract', how='left')
             logger.app_success(self.merge_data)
+
+            # Read Raw M2M Data
+            df_raw_m2m = IO.read_csv(
+                self.mode,
+                {'file_dir': self.config['file']['dir_data'],
+                 'file_name': self.config['file']['Raw']['M2M']['file_name']
+                 })
 
             df_contract = self.get_billto_data(df_contract, df_raw_m2m)
         except Exception as excp:
