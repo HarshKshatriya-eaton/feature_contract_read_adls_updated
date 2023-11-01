@@ -117,9 +117,11 @@ class InstallBase:
             IO.write_csv(
                 self.mode,
                 {
-                    'file_dir': self.config['file']['dir_results'] + self.config['file'][
-                        'dir_intermediate'],
-                    'file_name': self.config['file']['Processed']['processed_install']['file_name']
+                    'file_dir': self.config['file']['dir_results'] + self.config['file']['dir_intermediate'],
+                    'file_name': self.config['file']['Processed']['processed_install']['file_name'],
+                    'adls_config': self.config['file']['Processed']['adls_credentials'],
+                    'adls_dir': self.config['file']['Processed']['product_class']
+
                 }, df_install)
 
             # Customer Name
@@ -133,9 +135,10 @@ class InstallBase:
             IO.write_csv(
                 self.mode,
                 {
-                    'file_dir': self.config['file']['dir_results'] + self.config['file'][
-                        'dir_intermediate'],
-                    'file_name': self.config['file']['Processed']['processed_install']['file_name']
+                    'file_dir': self.config['file']['dir_results'] + self.config['file']['dir_intermediate'],
+                    'file_name': self.config['file']['Processed']['processed_install']['file_name'],
+                    'adls_config': self.config['file']['Processed']['adls_credentials'],
+                    'adls_dir': self.config['file']['Processed']['processed_install']
                 }, filtered_data)
             logger.app_success(self.step_export_data)
 
@@ -238,7 +241,11 @@ class InstallBase:
                 {'file_dir': self.config['file']['dir_results'] + self.config['file'][
                     'dir_validation'],
                  'file_name': self.config['file']['Processed']['processed_m2m_shipment'][
-                     'file_name']},
+                     'file_name'],
+                 'adls_config': self.config['file']['Processed']['adls_credentials'],
+                 'adls_dir': self.config['file']['Processed']['processed_m2m_shipment']
+                     
+                     },
                 df_data_install)
 
             # filters key_serial column
@@ -341,7 +348,9 @@ class InstallBase:
                 self.mode,
                 {'file_dir': self.config['file']['dir_results'] + self.config['file'][
                     'dir_validation'],
-                 'file_name': self.config['file']['Processed']['processed_serialnum']['file_name']
+                 'file_name': self.config['file']['Processed']['processed_serialnum']['file_name'],
+                 'adls_config': self.config['file']['Processed']['adls_credentials'],
+                 'adls_dir': self.config['file']['Processed']['processed_serialnum']
                  }, df_srnum)
 
             # foreign / parent keys : Serial Number

@@ -19,6 +19,7 @@ direct written permission from Eaton Corporation.
 
 import utils.io_adopter.local as io_local
 import pandas as pd
+from datetime import datetime
 import utils.io_adopter.class_adlsFunc as io_adls
 from azure.storage.filedatalake import DataLakeServiceClient
 from utils import AppLogger
@@ -81,25 +82,25 @@ class IO():
         # Handle any exceptions or errors
         raise e
     
-    def write_csv_adls(config,data):
+    def write_csv_adls(config,dataset):
         connection_string_key = config['adls_config']['connection_string']
         storage_account_name_key = config['adls_config']['storage_account_name']
         try:
             credentials=self.io_adls.read_credentials(self, ls_cred=[connection_string_key,storage_account_name_key])
             connection_string = credentials['ilead-adls-connection-string']
             storage_account_name = credentials['ilead-storage-account']
-            container_name=config['adls_dir']['container_name']
-            directory_name= config['adls_dir']['directory_name']
-            
-            file_name = io_adls.get_latest_file_in_directory(storage_account_name,directory_name)
-
-            return io_adls.input_file_read(
-            self, connection_string, container_name, file_name,
-            directory_name='', sheet_name='', sep=',')
+            output_container_name=config['adls_dir']['container_name']
+            output_directory_name= config['adls_dir']['directory_name']
+            file_name= config['adls_dir']['file_name']
+            timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+            output_file_name = f"{file_name}_{timestamp}"
+            dataset.to_csv(output_file_name, index=False)
+            output_file_write(
+            self, connection_string, dataset, output_container_name,
+            output_file_name, output_directory_name)
            
         except Exception as e:
-        # Handle any exceptions or errors
-        raise e
+            return e
 
 
 

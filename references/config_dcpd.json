@@ -18,7 +18,6 @@
             "adls_credentials": {
                 "connection_string": "source-adls-connection-string",
                 "storage_account_name": "source-storage-account-name"
-
             },
             
 
@@ -108,11 +107,20 @@
             
         },
         "Processed": {
+            "adls_credentials": {
+                "connection_string": "destination-adls-connection-string",
+                "storage_account_name": "destination-storage-account-name"
+
+            },
             "customer": {
+                "container_name": "results",
+                "directory_name": "results",
                 "file_name": "customer_list.csv",
                 "validation": "customer_list_validation.csv"
             },
             "output_iLead": {
+                "container_name": "results",
+                "directory_name": "results",
                 "file_name": "output_iLead.csv",
                 "validation": "output_iLead_validation_b4_format.csv",
                 "ref_install": "output_ref_install.csv",
@@ -120,23 +128,35 @@
                 "after_classify": "a4_classify_leads.csv"
             },
             "output_iLead_contact": {
+                "container_name": "results ",
+                "directory_name": "results ",
                 "file_name": "output_iLead_contact.csv"
             },
             "processed_install": {
+                "container_name": "results ",
+                "directory_name": "results / intermediate ",
                 "file_name": "processed_install.csv"
             },
             "processed_m2m_shipment": {
+                "container_name": " results",
+                "directory_name": " ",
                 "file_name": "processed_m2m_shipment.csv"
             },
             "processed_serialnum": {
+                "container_name": " results",
+                "directory_name": " ",
                 "file_name": "processed_serialnum.csv"
             },
             "contracts": {
+                "container_name": "results ",
+                "directory_name": " ",
                 "file_name": "processed_contract.csv",
                 "validation": "processed_contract_b4_install_validation.csv",
                 "contract_srnum_validation": "contract_install_srnum_validation.csv"
             },
             "services": {
+                "container_name": "results ",
+                "directory_name": " ",
                 "file_name": "processed_services.csv",
                 "validation": "processed_services_validation.csv",
                 "intermediate": "proceesed_services_jcomm_sidecar.csv",
@@ -144,6 +164,8 @@
                 "validated_sr_num": "validated_sr_num.csv"
             },
             "contact": {
+                "container_name": "results ",
+                "directory_name": " ",
                 "file_name": "contact_contracts.csv",
                 "events_sr_num": "events_sr_num.csv"
             }
