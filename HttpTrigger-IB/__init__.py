@@ -14,8 +14,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         # Read the configuration file
         with open(config_file, 'r') as config_file:
             config = json.load(config_file)
-            
-        conf_env = config.get("conf.env", "local")
+
+        conf_env = config.get("conf.env", "azure")
         # Create an instance of InstallBase and call main_install
         obj = InstallBase(self,conf_env,config)
         result = obj.main_install()

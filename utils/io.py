@@ -35,9 +35,7 @@ class IO():
         if mode == 'local':
             return io_local.read_csv_local(config)
         elif mode == 'azure-adls':
-            return io_adls.input_file_read(
-            self, connection_string, container_name, file_name,
-            directory_name='', sheet_name='', sep=',')
+            return read_csv_adls(config)
         else:
             logger.app_info(f'Mode {mode} is not implemented')
             raise ValueError ('Not implemented or unknow mode')
@@ -47,6 +45,8 @@ class IO():
 
         if mode == 'local':
             return io_local.write_csv_local(config, data)
+        elif mode == 'azure-adls':
+            return write_csv_adls(config,data)
         else:
             logger.app_info(f'Mode {mode} is not implemented')
             raise ValueError ('Not implemented or unknow mode')
@@ -63,11 +63,15 @@ class IO():
 
 
     def read_csv_adls(config) -> pd.DataFrame:
-        connection_string = config['credentials']['connection_string']
-        container_name = config['adls']['container_name']
-        file_name = config['adls']['file_path']
-        
+        connection_string_key = config['adls_config']['connection_string']
+        storage_account_name_key = config['adls_config']['storage_account_name']
         try:
+            credentials=self.io_adls.read_credentials(self, ls_cred=[connection_string_key,storage_account_name_key])
+            connection_string = credentials['ilead-adls-connection-string']
+            storage_account_name = credentials['ilead-storage-account']
+            container_name=config['adls_dir']['container_name']
+            directory_name= config['adls_dir']['directory_name']
+            file_name = io_adls.get_latest_file_in_directory(storage_account_name,directory_name)
 
             return io_adls.input_file_read(
             self, connection_string, container_name, file_name,
@@ -77,9 +81,26 @@ class IO():
         # Handle any exceptions or errors
         raise e
     
-    def write_csv_adls(config,dataset):
-        connection_string = 
-        self, connection_string, dataset, output_container_name,
-            output_file_name, output_directory_name='
+    def write_csv_adls(config,data):
+        connection_string_key = config['adls_config']['connection_string']
+        storage_account_name_key = config['adls_config']['storage_account_name']
+        try:
+            credentials=self.io_adls.read_credentials(self, ls_cred=[connection_string_key,storage_account_name_key])
+            connection_string = credentials['ilead-adls-connection-string']
+            storage_account_name = credentials['ilead-storage-account']
+            container_name=config['adls_dir']['container_name']
+            directory_name= config['adls_dir']['directory_name']
+            
+            file_name = io_adls.get_latest_file_in_directory(storage_account_name,directory_name)
+
+            return io_adls.input_file_read(
+            self, connection_string, container_name, file_name,
+            directory_name='', sheet_name='', sep=',')
+           
+        except Exception as e:
+        # Handle any exceptions or errors
+        raise e
+
+
 
 #%%

@@ -393,4 +393,32 @@ class adlsFunc():
         except Exception as e:
             return e
 
+    def get_latest_file_in_default_file_system(storage_account_name, directory_path):
+    # Create a DataLakeFileClient using Azure credentials
+        credential = DefaultAzureCredential()
+        default_file_system_url = f"https://{storage_account_name}.dfs.core.windows.net/$root"
+        file_system_client = DataLakeFileClient(default_file_system_url, directory_path, 'latest', credential=credential)
+
+    # List files in the directory
+        file_list = list(file_system_client.get_paths())
+
+        if file_list:
+        # Sort the file list by last modified timestamp
+            sorted_files = sorted(file_list, key=lambda file: file['last_modified'], reverse=True)
+
+        # Get the latest file
+            latest_file = sorted_files[0]
+
+        # Construct the path to the latest file
+            latest_file_path = f"{directory_path}/{latest_file['name']}"
+
+            return latest_file_path
+
+        return None
+
+
+
+
+
+
 # %%

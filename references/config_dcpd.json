@@ -6,7 +6,7 @@
     ],
     "log_var_size": false,
     "key_vault": "",
-    "conf.env": "local"
+    "conf.env": "azure",
     "file": {
         "dir_ref": "./references/",
         "dir_data": "./data/",
@@ -15,19 +15,32 @@
         "dir_intermediate": "intermediate/",
 
         "Raw": {
+            "adls_credentials": {
+                "connection_string": "source-adls-connection-string",
+                "storage_account_name": "source-storage-account-name"
+
+            },
+            
+
             "services": {
                 "file_name": "case_data.csv"
             },
             "M2M": {
+                "container_name": "m2m-dataset",
+                "directory_name": "m2m-dataset ",
                 "file_name": "M2M_data.csv"
             },
             "SerialNumber": {
+                "container_name": "m2m-dataset",
+                "directory_name": "m2m-dataset / serial-number-dataset ",
                 "file_name": "SerialNumber.csv"
             },
             "SalesForce": {
                 "file_name": "SalesForce_InstallBase.csv"
             },
             "bom": {
+                "container_name": "m2m-dataset / bom-dataset",
+                "directory_name": "m2m-dataset ",
                 "file_name": "BOM_data.csv"
             },
             "contracts": {
@@ -41,15 +54,58 @@
             }
         },
         "Reference": {
-            "contact_type": "type_of_contact.csv",
-            "bom": "reference_BOM.csv",
-            "customer": "AccountManagerListing.csv",
-            "lead_opportunities": "ref_lead_opportunities.csv",
-            "product_class": "ref_product_class.csv",
-            "decode_sr_num": "ref_decode_serialnumber.csv",
-            "ref_sheet_pdi": "ref_sheet_pdi.csv",
-            "area_region": "ref_state_region.csv",
-            "chasis": "ref_chasis.csv"
+            "adls_credentials": {
+                "connection_string": "source-adls-connection-string",
+                "storage_account_name": "source-storage-account-name"
+
+            },
+            "contact_type":{
+                "container_name": "reference-files",
+                "directory_name": "  ",
+                "file_name" : "type_of_contact.csv "
+            },
+            "bom":{
+                "container_name": "reference-files",
+                "directory_name": "  ",
+                "file_name" : "reference_BOM.csv "
+            },
+            "customer":{
+                "container_name": "reference-files",
+                "directory_name": "  ",
+                "file_name" : "AccountManagerListing.csv "
+            },
+            "lead_opportunities":{
+                "container_name": "reference-files",
+                "directory_name": "  ",
+                "file_name" : "ref_lead_opportunities.csv "
+            },
+
+            "product_class":{
+                "container_name": "reference-files",
+                "directory_name": "  ",
+                "file_name" : "ref_product_class.csv "
+            },
+            "decode_sr_num":{
+                "container_name": "reference-files",
+                "directory_name": "  ",
+                "file_name" : "ref_decode_serialnumber.csv "
+            },
+            "ref_sheet_pdi":{
+                "container_name": "reference-files",
+                "directory_name": "  ",
+                "file_name" : "ref_sheet_pdi.csv "
+            },
+            "area_region":{
+                "container_name": "reference-files",
+                "directory_name": "  ",
+                "file_name" : "ref_state_region.csv "
+            },
+            "chasis":{
+                "container_name": "reference-files",
+                "directory_name": "  ",
+                "file_name" : "ref_chasis.csv "
+            }
+            
         },
         "Processed": {
             "customer": {
