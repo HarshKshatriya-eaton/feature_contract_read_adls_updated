@@ -18,8 +18,10 @@ def main(mytimer: func.TimerRequest) -> None:
 
         conf_env = config.get("conf.env", "azure")
         # Create an instance of InstallBase and call main_install
-        obj = InstallBase(self,conf_env,config)
+        obj = InstallBase(conf_env,config)
         result = obj.main_install()
+    except Exception as e:
+        return e
 
 
     if mytimer.past_due:

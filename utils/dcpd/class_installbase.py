@@ -465,12 +465,15 @@ class InstallBase:
         try:
             # Read SerialNumber data
             df_bom = IO.read_csv(self.mode,
-                                 {'file_dir': self.config['file']['dir_data'],
+                                 {
+                                  'file_dir': self.config['file']['dir_data'],
                                   'file_name': self.config['file']['Raw']['bom']['file_name'],
                                   'adls_config': self.config['file']['Raw']['adls_credentials'],
-                                  'adls_dir': self.config['file']['Raw']['bom'] 
+                                  'adls_dir': self.config['file']['Raw']['bom'],
                                   'sep': '\t'
-                                 })
+                                
+                                  }
+                                 )
             # Format Data
             input_format = self.config['database']['bom']['Dictionary Format']
             df_bom = obj_format.format_data(df_bom, input_format)

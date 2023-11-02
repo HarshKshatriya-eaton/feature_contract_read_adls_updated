@@ -7,3 +7,6 @@ pandas
 azure-storage-blob
 azure-storage-file-datalake
 numpy
+azure.storage.filedatalake
+azure.identity
+azure.keyvault.secrets
