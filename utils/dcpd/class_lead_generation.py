@@ -797,6 +797,7 @@ class LeadGeneration:
             df_data = df_bom[ls_cols[:-1]].drop_duplicates()
             df_data['key_value'] = df_data[lead_id_basedon]
 
+            df_data["PartNumber_BOM_BOM"] = df_data["PartNumber_BOM_BOM"].fillna("")
             # Id Leads
             df_leads_bom = self.id_leads_for_partno(
                 df_data, ref_lead, lead_id_basedon)
@@ -825,6 +826,25 @@ class LeadGeneration:
 
             logger.app_debug(
                 f'No of leads b4 classify: {df_leads_out.shape[0]}')
+
+            # Update 'PCB08212' component type based on shipment date, 1 Nov, 2023
+            df_leads_out.loc[
+                (
+                        (df_leads_out.key == 'pcb08212') &
+                        (df_leads_out.InstallDate.astype(
+                            str) < '2015-01-01')
+                ),
+                'Component'
+            ] = 'Monochrome Display'
+            df_leads_out.loc[
+                (
+                        (df_leads_out.key == 'pcb08212') &
+                        (df_leads_out.InstallDate.astype(
+                            str) >= '2015-01-01')
+                ),
+                ['Component', 'Status', 'Life__Years', 'EOSL']
+            ] = ['Color Display', 'Active', 10, np.nan]
+
 
             df_leads_out = self.classify_lead(df_leads_out)
             logger.app_debug(
