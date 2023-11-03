@@ -16,8 +16,9 @@
 
         "Raw": {
             "adls_credentials": {
-                "connection_string": "source-adls-connection-string",
-                "storage_account_name": "source-storage-account-name"
+                "connection_string": "CS-IT-saileadseastusdev001-adls",
+                "storage_account_name": "Name-IT-adls
+                "
             },
             
 
@@ -54,8 +55,8 @@
         },
         "Reference": {
             "adls_credentials": {
-                "connection_string": "source-adls-connection-string",
-                "storage_account_name": "source-storage-account-name"
+                "connection_string": "CS-IT-saileadseastusdev001-adls",
+                "storage_account_name": "Name-IT-adls"
 
             },
             "contact_type":{
@@ -109,7 +110,7 @@
         "Processed": {
             "adls_credentials": {
                 "connection_string": "destination-adls-connection-string",
-                "storage_account_name": "destination-storage-account-name"
+                "storage_account_name": "destination-storage-account-name-cip"
 
             },
             "customer": {
