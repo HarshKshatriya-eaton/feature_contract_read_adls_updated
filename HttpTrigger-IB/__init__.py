@@ -17,8 +17,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
         conf_env = config.get("conf.env", "azure")
         # Create an instance of InstallBase and call main_install
-        #obj = InstallBase(conf_env,config)
-        #result = obj.main_install()
+        obj = InstallBase(conf_env,config)
+        result = obj.main_install()
 
         return func.HttpResponse(f"Function result: {result}", mimetype="text/plain")
     except Exception as e:
