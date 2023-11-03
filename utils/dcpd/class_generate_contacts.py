@@ -22,10 +22,9 @@ direct written permission from Eaton Corporation.
 import os
 import re
 
-path = os.getcwd()
-path = os.path.join(
-    path.split('ileads_lead_generation')[0], 'ileads_lead_generation')
-os.chdir(path)
+#path = os.getcwd()
+#path = os.path.join(path.split('ileads_lead_generation')[0], 'ileads_lead_generation')
+#os.chdir(path)
 
 import numpy as np
 import pandas as pd
