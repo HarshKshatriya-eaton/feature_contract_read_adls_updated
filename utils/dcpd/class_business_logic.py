@@ -15,27 +15,48 @@ here on. This technical information may not be reproduced or used without
 direct written permission from Eaton Corporation.
 """
 # %% ***** Setup Environment *****
-
+import json
+import os
 import re
 import sys
 import traceback
 import pandas as pd
+from utils import IO
 
 
 class BusinessLogic:
 
     def __init__(self):
 
+        config_dir = os.path.join(os.path.dirname(__file__), "../../References")
+        config_file = os.path.join(config_dir, "config_dcpd.json") 
+        try:
+        # Read the configuration file
+            with open(config_file, 'r') as config_file:
+                config = json.load(config_file)
+        except Exception as e:
+            return e
+        mode = config.get("conf.env", "azure")
         # Read Reference: Product from Serial Number
-        ref_prod_fr_srnum = pd.read_csv(
-            './references/ref_decode_serialnumber.csv')
+        ref_prod_fr_srnum = IO.read_csv(
+                self.mode,
+                {'file_dir': self.config['file']['dir_ref'],
+                 'file_name': self.config['file']['Reference']['decode_sr_num']['file_name'],
+                 'adls_config': self.config['file']['Reference']['adls_credentials'],
+                 'adls_dir': self.config['file']['Reference']['decode_sr_num']
+                 })
         ref_prod_fr_srnum['SerialNumberPattern'] = ref_prod_fr_srnum[
             'SerialNumberPattern'].str.lower()
         self.ref_prod_fr_srnum = ref_prod_fr_srnum
 
         # Read Reference: Product from TLN
-        self.ref_lead_opp = pd.read_csv(
-            './references/ref_lead_opportunities.csv')
+        ref_prod_fr_srnum = IO.read_csv(
+                self.mode,
+                {'file_dir': self.config['file']['dir_ref'],
+                 'file_name': self.config['file']['Reference']['lead_opportunities']['file_name'],
+                 'adls_config': self.config['file']['Reference']['adls_credentials'],
+                 'adls_dir': self.config['file']['Reference']['lead_opportunities']
+                 })
 
     def idetify_product_fr_serial(self, ar_serialnumber):
 

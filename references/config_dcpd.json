@@ -17,8 +17,7 @@
         "Raw": {
             "adls_credentials": {
                 "connection_string": "CS-IT-saileadseastusdev001-adls",
-                "storage_account_name": "Name-IT-adls
-                "
+                "storage_account_name": "Name-IT-adls"
             },
             
 

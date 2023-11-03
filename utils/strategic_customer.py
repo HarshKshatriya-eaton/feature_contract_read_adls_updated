@@ -29,6 +29,8 @@ from utils import AppLogger
 from string import punctuation
 import traceback
 import pandas as pd
+import json
+import os
 
 obj_io = IO()
 logger = AppLogger(__name__, level='Debug')
@@ -39,10 +41,18 @@ logger = AppLogger(__name__, level='Debug')
 
 class StrategicCustomer:
 
-    def __init__(self, mode='local'):
-        self.mode = mode
-        self.config = IO.read_json(mode='local', config={
-            "file_dir": './references/', "file_name": 'config_dcpd.json'})
+    def __init__(self):
+        config_dir = os.path.join(os.path.dirname(__file__), "../../References")
+        config_file = os.path.join(config_dir, "config_dcpd.json") 
+        try:
+        # Read the configuration file
+            with open(config_file, 'r') as config_file:
+                config = json.load(config_file)
+        except Exception as e:
+            return e
+        self.mode = config.get("conf.env", "azure")
+
+        
 
         self.dict_con = {0: ['MatchType_00', 'CompanyName'],
                          1: ['MatchType_01', 'CompanyAliasName'],
@@ -90,7 +100,10 @@ class StrategicCustomer:
             IO.write_csv(
                 self.mode,
                 {'file_dir': self.config['file']['dir_results'],
-                 'file_name': self.config['file']['Processed']['customer']['file_name']},
+                 'file_name': self.config['file']['Processed']['customer']['file_name'],
+                 'adls_config': self.config['file']['Processed']['adls_credentials'],
+                 'adls_dir': self.config['file']['Processed']['customer']
+                 },
                 df_out)
 
             return df_out
@@ -123,6 +136,8 @@ class StrategicCustomer:
                     self.mode,
                     {'file_dir': self.config['file']['dir_ref'],
                      'file_name': self.config['file']['Reference']['customer'],
+                     'adls_config': self.config['file']['Reference']['adls_credentials'],
+                     'adls_dir': self.config['file']['Reference']['customer'],
                      'sep': '\t'
                      }
                 )
@@ -176,7 +191,10 @@ class StrategicCustomer:
                     {'file_dir': self.config['file']['dir_results'] + self.config['file'][
                         'dir_intermediate'],
                      'file_name': self.config['file']['Processed']['processed_install'][
-                         'file_name']}
+                         'file_name'],
+                     'adls_config': self.config['file']['Processed']['adls_credentials'],
+                     'adls_dir': self.config['file']['Processed']['processed_install']
+                    }
                 )
 
             if 'Serial_Number' in df_leads.columns:
@@ -243,7 +261,10 @@ class StrategicCustomer:
                     self.mode,
                     {'file_dir': self.config['file']['dir_results'] +
                                  self.config['file']['dir_intermediate'],
-                     'file_name': self.config['file']['Processed']['contact']['file_name']}
+                     'file_name': self.config['file']['Processed']['contact']['file_name'],
+                     'adls_config': self.config['file']['Processed']['adls_credentials'],
+                     'adls_dir': self.config['file']['Processed']['contact']
+                     }
                 )
 
             df_contact = df_contact.rename(columns={'Email__c': "Email"})
@@ -494,7 +515,7 @@ class StrategicCustomer:
 
 
 if __name__ == '__main__':
-    obj_sc = StrategicCustomer('local')
+    obj_sc = StrategicCustomer()
     df_out = obj_sc.main_customer_list()
 
 # %%
