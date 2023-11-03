@@ -31,8 +31,7 @@ direct written permission from Eaton Corporation.
 import os
 
 #path = os.getcwd()
-#path = os.path.join(path.split('ileads_lead_generation')[0],
-                    'ileads_lead_generation')
+#path = os.path.join(path.split('ileads_lead_generation')[0],'ileads_lead_generation')
 #os.chdir(path)
 
 import re
