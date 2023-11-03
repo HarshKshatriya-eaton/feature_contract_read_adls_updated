@@ -4,10 +4,12 @@ import os
 import azure.functions as func
 from utils.dcpd.class_installbase import InstallBase
 
+
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
   
-    config_file = os.path.join(os.getcwd(), "config_dcpd.json") 
+    config_dir = os.path.join(os.path.dirname(__file__), "../References")
+    config_file = os.path.join(config_dir, "config_dcpd.json") 
     try:
         # Read the configuration file
         with open(config_file, 'r') as config_file:
