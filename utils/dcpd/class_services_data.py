@@ -39,10 +39,9 @@ from utils.dcpd.class_business_logic import BusinessLogic
 import utils.dcpd.class_contracts_data as ccd
 
 # Set project path
-path = os.getcwd()
-path = os.path.join(path.split('ileads_lead_generation')[0],
-                    'ileads_lead_generation')
-os.chdir(path)
+#path = os.getcwd()
+#path = os.path.join(path.split('ileads_lead_generation')[0],'ileads_lead_generation')
+#os.chdir(path)
 
 # Create instance of the class
 formatObj = Format()
