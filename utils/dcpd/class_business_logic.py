@@ -28,7 +28,7 @@ class BusinessLogic:
 
     def __init__(self):
 
-        config_dir = os.path.join(os.path.dirname(__file__), "../../References")
+        config_dir = os.path.join(os.path.dirname(__file__), "../References")
         config_file = os.path.join(config_dir, "config_dcpd.json") 
         
         # Read the configuration file
