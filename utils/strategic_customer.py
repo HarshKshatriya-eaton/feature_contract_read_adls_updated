@@ -50,7 +50,7 @@ class StrategicCustomer:
                 config = json.load(config_file)
         except Exception as e:
             return e
-        self.mode = config.get("conf.env", "azure")
+        self.mode = config.get("conf.env", "azure-adls")
 
         
 

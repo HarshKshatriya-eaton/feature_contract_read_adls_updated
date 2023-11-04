@@ -6,7 +6,7 @@
     ],
     "log_var_size": false,
     "key_vault": "",
-    "conf.env": "azure",
+    "conf.env": "azure-adls",
     "file": {
         "dir_ref": "./references/",
         "dir_data": "./data/",
