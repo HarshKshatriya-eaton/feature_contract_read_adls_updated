@@ -75,7 +75,7 @@ class IO():
         if mode == 'local':
             return io_local.read_csv_local(config)
         elif mode == 'azure-adls':
-            return read_csv_adls(config)
+            return IO.read_csv_adls(config)
         else:
             logger.app_info(f'Mode {mode} is not implemented')
             raise ValueError ('Not implemented or unknow mode')
@@ -86,7 +86,7 @@ class IO():
         if mode == 'local':
             return io_local.write_csv_local(config, data)
         elif mode == 'azure-adls':
-            return write_csv_adls(config,data)
+            return IO.write_csv_adls(config,data)
         else:
             logger.app_info(f'Mode {mode} is not implemented')
             raise ValueError ('Not implemented or unknow mode')
