@@ -29,7 +29,7 @@ logger = AppLogger(__name__)
 
 class IO():
 
-
+    @staticmethod
     def read_csv_adls(config) -> pd.DataFrame:
         connection_string_key = config['adls_config']['connection_string']
         storage_account_name_key = config['adls_config']['storage_account_name']
@@ -47,7 +47,7 @@ class IO():
            
         except Exception as e:
             raise e
-        
+    @staticmethod    
     def write_csv_adls(config,dataset):
         connection_string_key = config['adls_config']['connection_string']
         storage_account_name_key = config['adls_config']['storage_account_name']
