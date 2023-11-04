@@ -20,13 +20,13 @@ direct written permission from Eaton Corporation.
 import utils.io_adopter.local as io_local
 import pandas as pd
 from datetime import datetime
-import utils.io_adopter.class_adlsFunc as io_adls
+import utils.io_adopter.class_adlsFunc as adlsFunc
 from azure.storage.filedatalake import DataLakeServiceClient
 from utils import AppLogger
 logger = AppLogger(__name__)
 
 # %% Define class
-
+io_adls = adlsFunc()
 class IO():
 
     @staticmethod
