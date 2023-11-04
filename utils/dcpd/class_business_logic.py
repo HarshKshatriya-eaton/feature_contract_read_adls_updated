@@ -32,9 +32,10 @@ class BusinessLogic:
         config_file = os.path.join(config_dir, "config_dcpd.json") 
         
         # Read the configuration file
-        with open(config_file, 'r') as config_file:
-            config = json.load(config_file)
-        mode = config.get("conf.env", "azure")
+        with open(config_file,'r') as config_file:
+            self.config = json.load(config_file)
+        
+        self.mode = self.config.get("conf.env", "azure")
         # Read Reference: Product from Serial Number
         ref_prod_fr_srnum = IO.read_csv(
                 self.mode,
