@@ -8,7 +8,7 @@ from utils.dcpd.class_installbase import InstallBase
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
   
-    config_dir = os.path.join(os.path.dirname(__file__), "../References")
+    config_dir = os.path.join(os.path.dirname(__file__), "../references")
     config_file = os.path.join(config_dir, "config_dcpd.json") 
     try:
         # Read the configuration file
