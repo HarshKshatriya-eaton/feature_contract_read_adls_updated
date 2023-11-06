@@ -17,6 +17,7 @@ direct written permission from Eaton Corporation.
 
 # %% *** Setup Environment ***
 
+from utils.class_iLead_contact import ilead_contact
 import utils.io_adopter.local as io_local
 import pandas as pd
 from datetime import datetime
