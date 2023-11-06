@@ -554,9 +554,7 @@ class LeadGeneration:
         """
         _step = "Merging leads and services data to extract date code at component level"
         try:
-            if df_services is not None:
-                df_services = df_services
-            else:
+            if df_services is None:
                 df_services = IO.read_csv(self.mode,
                                           {'file_dir': self.config['file'][
                                                            'dir_results'] +
@@ -828,22 +826,26 @@ class LeadGeneration:
                 f'No of leads b4 classify: {df_leads_out.shape[0]}')
 
             # Update 'PCB08212' component type based on shipment date, 1 Nov, 2023
-            df_leads_out.loc[
-                (
-                        (df_leads_out.key == 'pcb08212') &
-                        (df_leads_out.InstallDate.astype(
-                            str) < '2015-01-01')
-                ),
-                'Component'
-            ] = 'Monochrome Display'
-            df_leads_out.loc[
-                (
-                        (df_leads_out.key == 'pcb08212') &
-                        (df_leads_out.InstallDate.astype(
-                            str) >= '2015-01-01')
-                ),
-                ['Component', 'Status', 'Life__Years', 'EOSL']
-            ] = ['Color Display', 'Active', 10, np.nan]
+            part_nums = ['pcb08212', 'sa00012', 'sa00013']
+            for part_num in part_nums:
+                df_leads_out.loc[
+                    (
+                            (df_leads_out.key == part_num) &
+                            (df_leads_out.InstallDate.astype(
+                                str) < '2015-01-01')
+                    ),
+                    'Component'
+                ] = 'Monochrome Display'
+            part_nums = ['sa00012', 'sa00013']
+            for part_num in part_nums:
+                df_leads_out.loc[
+                    (
+                            (df_leads_out.key == part_num) &
+                            (df_leads_out.InstallDate.astype(
+                                str) >= '2015-01-01')
+                    ),
+                    ['Component', 'Status', 'Life__Years', 'EOSL']
+                ] = ['Color Display', 'Active', 10, np.nan]
 
 
             df_leads_out = self.classify_lead(df_leads_out)

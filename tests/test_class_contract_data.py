@@ -1254,6 +1254,8 @@ class TestValidateContractInstallSrNum:
         df = df.reset_index()
         df = df.drop("index", axis=1)
 
+        df = df.drop("Unnamed: 0", axis=1)
+        ex_op = ex_op.drop(["Unnamed: 0", "Unnamed: 0.1"], axis=1)
         df["flag_validinstall"] = df["flag_validinstall"].astype(str)
         ex_op["flag_validinstall"] = ex_op["flag_validinstall"].astype(str)
 

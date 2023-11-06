@@ -22,7 +22,11 @@ from pandas._testing import assert_frame_equal
 from utils.dcpd.class_lead_generation import LeadGeneration
 
 obj_lead = LeadGeneration()
-
+obj_lead.config['file']['dir_data'] = "./tests/ip"
+obj_lead.config['file']['dir_ref'] = "./tests/ip"
+obj_lead.config['file']['dir_results'] = "./tests/"
+obj_lead.config['file']['dir_validation'] = "ip"
+obj_lead.config['file']['dir_intermediate'] = "ip"
 
 class TestPipelineLead:
     """
@@ -261,3 +265,55 @@ class TestPipelineLead:
         with pytest.raises(Exception) as info:
             obj_lead.pipeline_merge_lead_services(data_leads, data_leads)
             assert info.type == Exception
+
+class TestAddDataMTS:
+    @pytest.mark.parametrize(
+        "df_install_mts",
+        [None,
+         (pd.DataFrame()),
+         'dcacac',
+         [123, 'aeda'],
+         1432,
+         (pd.DataFrame(data={"test_col": ['new', 'new', 'existing']})),
+         ])
+    def test_add_data_mts_err(self, df_install_mts):
+        with pytest.raises(Exception) as _:
+            df_out_mts = obj_lead.add_data_mts(df_install_mts, merge_type='left')
+
+    def test_add_data_mts_valid_scenario(self):
+        df_install_mts = pd.read_csv("tests/ip/df_install_mts.csv")
+        df_out_mts_ac = obj_lead.add_data_mts(df_install_mts, merge_type='left')
+        df_out_mts_exp = pd.read_csv("tests/ip/df_out_mts_exp.csv")
+        df_out_mts_exp = df_out_mts_exp.fillna("")
+        df_out_mts_ac = df_out_mts_ac.fillna("")
+        assert_frame_equal(df_out_mts_ac, df_out_mts_exp)
+
+class TestTestContractInstall:
+    def test_contract_install_valid_scenario(self):
+        contract_install = obj_lead.pipeline_contract_install()
+        contract_install_exp = pd.read_csv("tests/ip/contract_install_exp.csv")
+        contract_install_exp = contract_install_exp.fillna("")
+        contract_install = contract_install.fillna("")
+        assert_frame_equal(contract_install_exp, contract_install)
+
+# class TestPipelineBOMIdentifyLead:
+#     @pytest.mark.parametrize(
+#         "df_install",
+#         [None,
+#          (pd.DataFrame()),
+#          'dcacac',
+#          [123, 'aeda'],
+#          1432,
+#          (pd.DataFrame(data={"test_col": ['new', 'new', 'existing']})),
+#          ])
+#     def test_add_data_mts_err(self, df_install):
+#         with pytest.raises(Exception) as _:
+#             df_leads = obj_lead.pipeline_bom_identify_lead(df_install)
+
+    # def test_add_data_mts_valid_scenario(self):
+    #     df_install = pd.read_csv("tests/ip/contract_install_exp.csv")
+    #     df_leads = obj_lead.pipeline_bom_identify_lead(df_install)
+    #     df_out_mts_exp = pd.read_csv("tests/ip/df_out_mts_exp.csv")
+    #     df_out_mts_exp = df_out_mts_exp.fillna("")
+    #     df_out_mts_ac = df_out_mts_ac.fillna("")
+    #     assert_frame_equal(df_out_mts_ac, df_out_mts_exp)
