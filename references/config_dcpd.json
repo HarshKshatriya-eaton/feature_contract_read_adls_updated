@@ -1463,6 +1463,18 @@
             "MFA": {
                 "actual_datasoure_name": "MFA",
                 "output_format": ""
+            },
+            "kva_meta": {
+                "actual_datasoure_name": "kva",
+                "output_format": ""
+            },
+            "amp_meta": {
+                "actual_datasoure_name": "amp",
+                "output_format": ""
+            },
+            "voltage_meta": {
+                "actual_datasoure_name": "voltage",
+                "output_format": ""
             }
         }
     },

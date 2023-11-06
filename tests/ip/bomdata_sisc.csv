@@ -1,0 +1,101 @@
+cfacilityid,fparent,fparentrev,fcomponent,fcomprev,fcomponentDescription,fmeasure,Source,fqty
+SISC                ,02822-100                ,X0 ,04-70468                 ,   ,"BAR,SQ,1/4X1-1/2",LBS,Stock,0.69
+SISC                ,02822-200                ,X0 ,04-70469                 ,   ,"BAR,SQ,1/4X2",LBS,Stock,2.05
+SISC                ,02822-201                ,X0 ,04-70469                 ,   ,"BAR,SQ,1/4X2",LBS,Stock,4.5
+SISC                ,02822-201                ,X1 ,04-70469                 ,   ,"BAR,SQ,1/4X2",LBS,Stock,4.5
+SISC                ,02822-300                ,X0 ,02822-301                ,X0 ,TOP CLAMP                          ,EA ,Stock,1
+SISC                ,02822-300                ,X0 ,02822-302                ,X0 ,CLAMP TIE SUPPORT                  ,EA ,Stock,2
+SISC                ,02822-300                ,X0 ,02822-303                ,X0 ,CLAMP CORE SUPPORT                 ,EA ,Stock,2
+SISC                ,02822-300                ,X0 ,02822-304                ,X0 ,CLAMP BUSBAR SUPPORT               ,EA ,Stock,2
+SISC                ,02822-301                ,X0 ,04-70812                 ,   ,"ANG,5X3X1/4,HR",FT ,Stock,12.65
+SISC                ,02822-302                ,X0 ,04-70886                 ,   ,"ANG,2X2X1/4,HR,3.19LB/FT",LBS,Stock,0.66
+SISC                ,02822-303                ,X0 ,04-70414                 ,   ,"BAR,1/4X2,HR",FT ,Stock,0.57
+SISC                ,02822-304                ,X0 ,04-70015                 ,   ,"SHT,12GA,48X96,SHT,CR",LBS,Stock,0.58
+SISC                ,02822-500                ,X0 ,02822-302                ,X0 ,CLAMP TIE SUPPORT                  ,EA ,Stock,2
+SISC                ,02822-500                ,X0 ,02822-303                ,X0 ,CLAMP CORE SUPPORT                 ,EA ,Stock,2
+SISC                ,02822-500                ,X0 ,02822-501                ,X0 ,BOTTOM CLAMP                       ,EA ,Stock,1
+SISC                ,02822-501                ,X0 ,04-70812                 ,   ,"ANG,5X3X1/4,HR",FT ,Stock,12.65
+SISC                ,02822-800                ,X0 ,04-70833                 ,   ,LAMINATE GP02 .500X72.00X36.00     ,EA ,Stock,0.03
+SISC                ,02822-801                ,X0 ,04-70833                 ,   ,LAMINATE GP02 .500X72.00X36.00     ,EA ,Stock,0.007
+SISC                ,04-12000-07000           ,   ,04-12000                 ,   ,"DOGBONE,3/8x3/8",FT ,Stock,0.58
+SISC                ,04-12000-11000           ,   ,04-12000                 ,   ,"DOGBONE,3/8x3/8",FT ,Stock,0.92
+SISC                ,04-12000-13000           ,   ,04-12000                 ,   ,"DOGBONE,3/8x3/8",FT ,Stock,1.08
+SISC                ,04-12000-15000           ,   ,04-12000                 ,   ,"DOGBONE,3/8x3/8",FT ,Stock,1.25
+SISC                ,04-12000-18000           ,   ,04-12000                 ,   ,"DOGBONE,3/8x3/8",FT ,Stock,1.5
+SISC                ,04-22081-03              ,   ,04-70015                 ,   ,"SHT,12GA,48X96,SHT,CR",LBS,Stock,7.5
+SISC                ,04-22081-03              ,   ,04-70016                 ,   ,"SHT,10GA,48X96,CR",LBS,Stock,10
+SISC                ,04-54051-12750           ,   ,04-54051                 ,   ,"NMX,.007x36.00,410",SY ,Stock,3.26
+SISC                ,04-54064-07000           ,   ,04-54064                 ,   ,"INS CEQUIN IF 3+2 .005x31""         ",SY ,Stock,1
+SISC                ,04-60079-001             ,1,04-70036                 ,   ,"SHT,12GA,48X96,GALV",LBS,Stock,9.56
+SISC                ,04-60079-02              ,0,04-70025                 ,   ,"SHT,10GA,48X96,GALV",LBS,Stock,6.5
+SISC                ,04-60079-1               ,0,04-70036                 ,   ,"SHT,12GA,48X96,GALV",LBS,Stock,8.29
+SISC                ,04-60079-2               ,0,04-70025                 ,   ,"SHT,10GA,48X96,GALV",LBS,Stock,4.5
+SISC                ,04-70003-201             ,   ,04-70003                 ,   ,STEEL SHEET 14GA 4X8FT             ,LBS,Stock,3.6
+SISC                ,04-70003-202             ,   ,04-70003                 ,   ,STEEL SHEET 14GA 4X8FT             ,LBS,Stock,3.49
+SISC                ,04-70036-01              ,   ,04-70036                 ,   ,"SHT,12GA,48X96,GALV",LBS,Stock,4
+SISC                ,04-70036-02              ,   ,04-70036                 ,   ,"SHT,12GA,48X96,GALV",LBS,Stock,5.2
+SISC                ,04-70432-145             ,   ,04-70431-145             ,   ,"BAR,SQ,1/4X1-1/4X145",LBS,Stock,1
+SISC                ,04-70432-152             ,   ,04-70431-152             ,   ,"BAR,SQ,1/4X1-1/4X152",LBS,Stock,1
+SISC                ,04-70480-20              ,   ,04-70480                 ,   ,"CU BAR,RD,3/16X1,SILVER PLATED",LBS,Stock,8.65
+SISC                ,04-72024-07000           ,   ,04-72024                 ,   ,"DOGBONE,1/4x3/8",FT ,Stock,0.58
+SISC                ,04-72024-11000           ,   ,04-72024                 ,   ,"DOGBONE,1/4x3/8",FT ,Stock,0.15
+SISC                ,04-72024-13000           ,   ,04-72024                 ,   ,"DOGBONE,1/4x3/8",FT ,Stock,1.08
+SISC                ,04-72024-15000           ,   ,04-72024                 ,   ,"DOGBONE,1/4x3/8",FT ,Stock,1.25
+SISC                ,04-72024-18000           ,   ,04-72024                 ,   ,"DOGBONE,1/4x3/8",FT ,Stock,1.5
+SISC                ,05-00012-052             ,X0 ,05-00012-051             ,   ,DRAGON TOOTH CONNECTOR 204212      ,EA ,Stock,1
+SISC                ,05-00020-092             ,X0 ,04-70495                 ,   ,"SHT,10GA,TYPE 304,SS",LBS,Stock,0.09
+SISC                ,05-00080-000             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0
+SISC                ,05-00080-001             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-002             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-003             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-004             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-005             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-006             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-007             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-008             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-009             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-010             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-011             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-012             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-013             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-014             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-015             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-016             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-033             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-034             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-035             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-036             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-037             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-038             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-042             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-081             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-082             ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
+SISC                ,05-00080-103             ,   ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.001
+SISC                ,05-00080-104             ,   ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.001
+SISC                ,05-00080-105             ,   ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.001
+SISC                ,05-00080-106             ,   ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.001
+SISC                ,05-00080-107             ,   ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.001
+SISC                ,05-00080-108             ,   ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.001
+SISC                ,05-00080-109             ,   ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.001
+SISC                ,05-00080-110             ,   ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.001
+SISC                ,05-00080-111             ,   ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.001
+SISC                ,05-00080-112             ,   ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.002
+SISC                ,05-00080-113             ,X0 ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.002
+SISC                ,05-00080-114             ,X0 ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.002
+SISC                ,05-00080-115             ,X0 ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.002
+SISC                ,05-00080-116             ,X0 ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.002
+SISC                ,05-00080-118             ,X0 ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.002
+SISC                ,05-00080-119             ,X0 ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.002
+SISC                ,05-00080-120             ,X0 ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.002
+SISC                ,05-00080-121             ,X0 ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.002
+SISC                ,05-00080-122             ,X0 ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.002
+SISC                ,05-00080-123             ,X0 ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.002
+SISC                ,05-00080-124             ,X0 ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.002
+SISC                ,05-00080-125             ,X0 ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.002
+SISC                ,05-00080-126             ,X0 ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.002
+SISC                ,05-00080-127             ,X0 ,ENC56582                 ,0,"BLANK PLSTC PLT,24X48,WH/BK",EA ,Stock,0.002
+SISC                ,05-00080-135             ,X0 ,05-00080-41              ,X0 ,LABEL STRIP RED  1- 42             ,EA ,Stock,1
+SISC                ,05-00080-135             ,X0 ,05-00080-42              ,X0 ,LABEL STRIP YELLOW  43- 84         ,EA ,Stock,1
+SISC                ,05-00080-135             ,X0 ,05-00080-43              ,X0 ,LABEL STRIP BLUE  85- 126          ,EA ,Stock,1
+SISC                ,05-00080-135             ,X0 ,05-00080-44              ,X0 ,LABEL STRIP GREEN  127 - 168       ,EA ,Stock,1
+SISC                ,05-00080-33              ,   ,ENC56581                 ,0,"BLANK PLSTC PLT,24X48,BK",EA ,Stock,0.001
