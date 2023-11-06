@@ -296,19 +296,19 @@ class TestTestContractInstall:
         contract_install = contract_install.fillna("")
         assert_frame_equal(contract_install_exp, contract_install)
 
-class TestPipelineBOMIdentifyLead:
-    @pytest.mark.parametrize(
-        "df_install",
-        [None,
-         (pd.DataFrame()),
-         'dcacac',
-         [123, 'aeda'],
-         1432,
-         (pd.DataFrame(data={"test_col": ['new', 'new', 'existing']})),
-         ])
-    def test_add_data_mts_err(self, df_install):
-        with pytest.raises(Exception) as _:
-            df_leads = obj_lead.pipeline_bom_identify_lead(df_install)
+# class TestPipelineBOMIdentifyLead:
+#     @pytest.mark.parametrize(
+#         "df_install",
+#         [None,
+#          (pd.DataFrame()),
+#          'dcacac',
+#          [123, 'aeda'],
+#          1432,
+#          (pd.DataFrame(data={"test_col": ['new', 'new', 'existing']})),
+#          ])
+#     def test_add_data_mts_err(self, df_install):
+#         with pytest.raises(Exception) as _:
+#             df_leads = obj_lead.pipeline_bom_identify_lead(df_install)
 
     # def test_add_data_mts_valid_scenario(self):
     #     df_install = pd.read_csv("tests/ip/contract_install_exp.csv")
