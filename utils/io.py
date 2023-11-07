@@ -40,7 +40,7 @@ class IO():
             #storage_account_name = credentials['ilead-storage-account']
             container_name=config['adls_dir']['container_name']
             directory_name= config['adls_dir']['directory_name']
-            file_name = io_adls.get_latest_file_in_directory(storage_account_name,directory_name)
+            file_name = io_adls.get_latest_file_in_default_file_system(storage_account_name,directory_name)
 
             return io_adls.input_file_read(
             connection_string, container_name, file_name,
