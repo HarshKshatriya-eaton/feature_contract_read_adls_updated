@@ -18,7 +18,7 @@ from azure.identity import ClientSecretCredential
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 #from azure.identity import ManagedIdentityCredential
-
+from azure.storage.filedatalake import DataLakeFileClient
 
 from io import BytesIO
 from datetime import datetime
