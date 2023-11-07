@@ -76,23 +76,27 @@
             "lead_opportunities":{
                 "container_name": "reference-files",
                 "directory_name": "  ",
-                "file_name" : "ref_lead_opportunities.csv "
+                "file_name" : "ref_lead_opportunities.csv ",
+                "adls_file_name" : "ref_lead_opportunities.csv "
             },
 
             "product_class":{
                 "container_name": "reference-files",
                 "directory_name": "  ",
-                "file_name" : "ref_product_class.csv "
+                "file_name" : "ref_product_class.csv ",
+                "adls_file_name" : "ref_product_class.csv "
             },
             "decode_sr_num":{
                 "container_name": "reference-files",
                 "directory_name": "",
-                "file_name" : "ref_decode_serialnumber.csv "
+                "file_name" : "ref_decode_serialnumber.csv ",
+                "adls_file_name" : "ref_decode_serialnumber.csv "
             },
             "ref_sheet_pdi":{
                 "container_name": "reference-files",
                 "directory_name": "  ",
-                "file_name" : "ref_sheet_pdi.csv "
+                "file_name" : "ref_sheet_pdi.csv ",
+                "adls_file_name" : "ref_sheet_pdi.csv "
             },
             "area_region":{
                 "container_name": "reference-files",

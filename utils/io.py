@@ -41,8 +41,10 @@ class IO():
             #storage_account_name = credentials['ilead-storage-account']
             container_name=config['adls_dir']['container_name']
             directory_name= config['adls_dir']['directory_name']
-
-            file_name = io_adls.list_ADLS_directory_contents(connection_string, container_name, directory_name)
+            if 'adls_file_name' in config['adls_dir']:
+                file_name = config['adls_dir']['adls_file_name']
+            else:
+                file_name = io_adls.list_ADLS_directory_contents(connection_string, container_name, directory_name)
             logging.info("Function is starting.")
             #file_name = io_adls.get_latest_file_in_default_file_system(connection_string) 
 
