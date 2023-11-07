@@ -15,9 +15,9 @@ import pandas as pd
 
 from azure.storage.filedatalake import DataLakeServiceClient
 from azure.identity import ClientSecretCredential
-#from azure.identity import DefaultAzureCredential
+from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
-from azure.identity import ManagedIdentityCredential
+#from azure.identity import ManagedIdentityCredential
 
 
 from io import BytesIO
@@ -58,8 +58,8 @@ class adlsFunc():
         url_vault = "https://ilead-ib-kv01.vault.azure.net/"
 
         # Setup Environment
-        #credential = DefaultAzureCredential()
-        credential = ManagedIdentityCredential()
+        credential = DefaultAzureCredential()
+        #credential = ManagedIdentityCredential()
         secret_client = SecretClient(
             vault_url=url_vault, credential=credential)
         
