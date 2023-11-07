@@ -23,10 +23,9 @@ import traceback
 from string import punctuation
 import re
 
-path = os.getcwd()
-path = os.path.join(path.split('ileads_lead_generation')[0],
-                    'ileads_lead_generation')
-os.chdir(path)
+#path = os.getcwd()
+#path = os.path.join(path.split('ileads_lead_generation')[0],'ileads_lead_generation')
+#os.chdir(path)
 
 from utils.dcpd.class_business_logic import BusinessLogic
 from utils.dcpd.class_serial_number import SerialNumber
