@@ -55,10 +55,14 @@ class adlsFunc():
             ls_cred = dict.fromkeys(ls_cred)
         url_vault = "https://ilead-ib-kv01.vault.azure.net/"
 
-        # Setup Environment
-        credential = DefaultAzureCredential()
-        secret_client = SecretClient(
-            vault_url=url_vault, credential=credential)
+        try :
+            # Setup Environment
+            credential = DefaultAzureCredential()
+            secret_client = SecretClient(
+                vault_url=url_vault, credential=credential)
+        except Exception as e:
+            print(f"Error: {str(e)}")
+            
 
         # Query credentials ADLS Gen2 from Azure keys vaults
         dict_cred = {}
