@@ -18,10 +18,10 @@ import os
 import string
 import usaddress
 from utils import IO
-path = os.getcwd()
-path = os.path.join(path.split('ileads_lead_generation')[0],
+#path = os.getcwd()
+#path = os.path.join(path.split('ileads_lead_generation')[0],
                     'ileads_lead_generation')
-os.chdir(path)
+#os.chdir(path)
 
 class DataExtraction:
     """
