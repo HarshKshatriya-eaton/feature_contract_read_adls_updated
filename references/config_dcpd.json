@@ -16,8 +16,8 @@
 
         "Raw": {
             "adls_credentials": {
-                "connection_string": "CS-IT-saileadseastusdev001-adls",
-                "storage_account_name": "Name-IT-adls"
+                "connection_string": "DefaultEndpointsProtocol=https;AccountName=saileadseastusdev001;AccountKey=OChqrSOYDM8KnnV/ENtNK+FxDF1FbsFYgeX3Pya3390MCfq1u2AOQp8MvtuVMwyTolfzwIb766Lt+AStZ73k+A==;EndpointSuffix=core.windows.net",
+                "storage_account_name": "saileadseastusdev001"
             },
             
 
@@ -54,8 +54,8 @@
         },
         "Reference": {
             "adls_credentials": {
-                "connection_string": "CS-IT-saileadseastusdev001-adls",
-                "storage_account_name": "Name-IT-adls"
+                "connection_string": "DefaultEndpointsProtocol=https;AccountName=saileadseastusdev001;AccountKey=OChqrSOYDM8KnnV/ENtNK+FxDF1FbsFYgeX3Pya3390MCfq1u2AOQp8MvtuVMwyTolfzwIb766Lt+AStZ73k+A==;EndpointSuffix=core.windows.net",
+                "storage_account_name": "saileadseastusdev001"
 
             },
             "contact_type":{
@@ -108,8 +108,8 @@
         },
         "Processed": {
             "adls_credentials": {
-                "connection_string": "destination-adls-connection-string",
-                "storage_account_name": "destination-storage-account-name-cip"
+                "connection_string": "DefaultEndpointsProtocol=https;AccountName=saileadseastuscip001;AccountKey=/1Y97OMvTBRvyZPzxkJie+XRFNk6Cc5mvSMyRbXKshndcFjrKup3m7njmrSMd5WdjYU/vj1EioQV+AStv9vfTg==;EndpointSuffix=core.windows.net",
+                "storage_account_name": "saileadseastuscip001"
 
             },
             "customer": {
