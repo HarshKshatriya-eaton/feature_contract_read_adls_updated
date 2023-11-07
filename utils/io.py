@@ -32,12 +32,12 @@ class IO():
 
     @staticmethod
     def read_csv_adls(config) -> pd.DataFrame:
-        connection_string = config['adls_config']['connection_string']
-        storage_account_name = config['adls_config']['storage_account_name']
+        connection_string_key = config['adls_config']['connection_string']
+        storage_account_name_key = config['adls_config']['storage_account_name']
         try:
-            #credentials=io_adls.read_credentials(ls_cred=[connection_string_key,storage_account_name_key])
-            #connection_string = credentials['ilead-adls-connection-string']
-            #storage_account_name = credentials['ilead-storage-account']
+            credentials=io_adls.read_credentials(ls_cred=[connection_string_key,storage_account_name_key])
+            connection_string = credentials['ilead-adls-connection-string']
+            storage_account_name = credentials['ilead-storage-account']
             container_name=config['adls_dir']['container_name']
             directory_name= config['adls_dir']['directory_name']
 
@@ -53,12 +53,12 @@ class IO():
             raise e
     @staticmethod    
     def write_csv_adls(config,dataset):
-        connection_string = config['adls_config']['connection_string']
-        storage_account_name = config['adls_config']['storage_account_name']
+        connection_string_key = config['adls_config']['connection_string']
+        storage_account_name_key = config['adls_config']['storage_account_name']
         try:
-            #credentials=io_adls.read_credentials(ls_cred=[connection_string_key,storage_account_name_key])
-            #connection_string = credentials['ilead-adls-connection-string']
-            #storage_account_name = credentials['ilead-storage-account']
+            credentials=io_adls.read_credentials(ls_cred=[connection_string_key,storage_account_name_key])
+            connection_string = credentials['ilead-adls-connection-string']
+            storage_account_name = credentials['ilead-storage-account']
             output_container_name=config['adls_dir']['container_name']
             output_directory_name= config['adls_dir']['directory_name']
             file_name= config['adls_dir']['file_name']
