@@ -9,3 +9,4 @@ azure-storage-file-datalake
 numpy
 azure-identity
 azure-keyvault-secrets
+usaddress
