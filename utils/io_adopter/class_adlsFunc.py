@@ -25,8 +25,6 @@ from datetime import datetime
 import logging
 import json
 
-# %%
-
 
 class adlsFunc():
     """
@@ -59,10 +57,8 @@ class adlsFunc():
 
         # Setup Environment
         credential = DefaultAzureCredential()
-        #credential = ManagedIdentityCredential()
         secret_client = SecretClient(
             vault_url=url_vault, credential=credential)
-        
 
         # Query credentials ADLS Gen2 from Azure keys vaults
         dict_cred = {}
@@ -75,6 +71,38 @@ class adlsFunc():
 
         return dict_cred
 
+    def initialize_ADLS_storage_account(self, storage_account_name, client_id,
+                                        client_secret, tenant_id):
+        """
+        Connect ADLS gen2 by using Azure Active Directory (Azure AD).
+
+        Parameters
+        ----------
+        storage_account_name : string.
+        client_id : string
+        client_secret : string
+        tenant_id: string
+
+        Returns
+        -------
+        Initializes ADLS gen2 account
+
+        """
+        try:
+            logging.disable(logging.CRITICAL)
+            global service_client
+
+            credential = ClientSecretCredential(
+                tenant_id, client_id, client_secret)
+
+            service_client = DataLakeServiceClient(
+                account_url="{}://{}.dfs.core.windows.net".format(
+                    "https", storage_account_name), credential=credential)
+
+            logging.disable(logging.NOTSET)
+
+        except Exception as e:
+            return e
 
     def input_file_read(
             self, connection_string, container_name, file_name,
@@ -364,6 +392,7 @@ class adlsFunc():
             logging.disable(logging.NOTSET)
         except Exception as e:
             return e
+        
 
     def get_latest_file_in_default_file_system(storage_account_name, directory_path):
     # Create a DataLakeFileClient using Azure credentials
@@ -388,7 +417,7 @@ class adlsFunc():
 
         return None
 
-
+# %%
 
 
 
