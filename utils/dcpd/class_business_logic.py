@@ -45,18 +45,21 @@ class BusinessLogic:
                  'adls_dir': self.config['file']['Reference']['decode_sr_num']
                  })
 
-        ref_prod_fr_srnum['SerialNumberPattern'] = ref_prod_fr_srnum[
-            'SerialNumberPattern'].str.lower()
+        #ref_prod_fr_srnum['SerialNumberPattern'] = ref_prod_fr_srnum['SerialNumberPattern'].str.lower()
         self.ref_prod_fr_srnum = ref_prod_fr_srnum
 
         # Read Reference: Product from TLN
-        ref_prod_fr_srnum = IO.read_csv(
+        ref_lead_opp = IO.read_csv(
                 self.mode,
                 {'file_dir': self.config['file']['dir_ref'],
                  'file_name': self.config['file']['Reference']['lead_opportunities']['file_name'],
                  'adls_config': self.config['file']['Reference']['adls_credentials'],
                  'adls_dir': self.config['file']['Reference']['lead_opportunities']
                  })
+        
+
+
+
 
     def idetify_product_fr_serial(self, ar_serialnumber):
 
