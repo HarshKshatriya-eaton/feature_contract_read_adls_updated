@@ -33,12 +33,12 @@ class IO():
 
     @staticmethod
     def read_csv_adls(config) -> pd.DataFrame:
-        connection_string = config['adls_config']['connection_string']
-        storage_account_name = config['adls_config']['storage_account_name']
+        connection_string_key = config['adls_config']['connection_string']
+        storage_account_name_key = config['adls_config']['storage_account_name']
         try:
-            #credentials=io_adls.read_credentials(ls_cred=[connection_string_key,storage_account_name_key])
-            #connection_string = credentials['ilead-adls-connection-string']
-            #storage_account_name = credentials['ilead-storage-account']
+            credentials=io_adls.read_credentials(ls_cred=[connection_string_key,storage_account_name_key])
+            connection_string = credentials['ilead-adls-connection-string']
+            storage_account_name = credentials['ilead-storage-account']
             container_name=config['adls_dir']['container_name']
             directory_name= config['adls_dir']['directory_name']
             if 'adls_file_name' in config['adls_dir']:
@@ -65,13 +65,14 @@ class IO():
             output_container_name=config['adls_dir']['container_name']
             output_directory_name= config['adls_dir']['directory_name']
             file_name= config['adls_dir']['file_name']
+            if file_name.endswith(".csv"):
+                file_name = file_name[:-4]
             timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
             output_file_name = f"{file_name}_{timestamp}"
             dataset.to_csv(output_file_name, index=False)
-            result= io_adls.output_file_write(
-            connection_string, dataset, output_container_name,
-            output_file_name, output_directory_name)
-           
+            result= io_adls.output_file_write(connection_string, dataset, output_container_name,output_file_name, output_directory_name)
+            lo
+            return result
         except Exception as e:
             return e
 
