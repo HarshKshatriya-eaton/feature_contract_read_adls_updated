@@ -38,8 +38,7 @@ class IO():
         try:
             credentials=io_adls.read_credentials(ls_cred=[connection_string_key,storage_account_name_key])
             connection_string = credentials.get('ilead_adls_connection_string')
-            #connection_string = credentials['ilead-adls-connection-string']
-            storage_account_name = credentials['ilead-storage-account']
+            storage_account_name = credentials.get('ilead-storage-account')
             container_name=config['adls_dir']['container_name']
             directory_name= config['adls_dir']['directory_name']
             if 'adls_file_name' in config['adls_dir']:
