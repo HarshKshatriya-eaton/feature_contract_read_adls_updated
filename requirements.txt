@@ -10,4 +10,3 @@ numpy
 azure-identity
 azure-keyvault-secrets
 usaddress
-logging
