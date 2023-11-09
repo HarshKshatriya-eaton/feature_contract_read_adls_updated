@@ -20,6 +20,7 @@ import os
 import traceback
 from string import punctuation
 import re
+from datetime import timedelta
 import numpy as np
 import pandas as pd
 
@@ -97,7 +98,6 @@ class LeadGeneration:
             # Post Process : InstallBase
             _step = "Post Processing and Deriving columns on reference install leads"
             df_leads = self.post_process_ref_install(df_leads)
-
             logger.app_success(_step)
 
             address_cols = [
@@ -107,15 +107,15 @@ class LeadGeneration:
                 "StartupAddress"
             ]
             for col in address_cols:
-                df_leads[col] = df_leads[col].str.replace("\n", " ")
-                df_leads[col] = df_leads[col].str.replace("\r", " ")
-
-            _step = 'Write output lead to result directory'
+                if not df_leads[col].isnull().values.all():
+                    df_leads[col] = df_leads[col].str.replace("\n", " ")
+                    df_leads[col] = df_leads[col].str.replace("\r", " ")
 
             df_leads = df_leads.drop(
                 columns=['temp_column', 'component', 'ClosedDate']) \
                 .reset_index(drop=True)
 
+            _step = 'Write output lead to result directory'
             IO.write_csv(self.mode,
                          {'file_dir': self.config['file']['dir_results'] +
                                       self.config['file'][
@@ -290,19 +290,26 @@ class LeadGeneration:
                 ref_area[['Abreviation', "Region", 'CSE Area']],
                 left_on='Key_region', right_on='Abreviation', how="left")
             del ref_install['Key_region']
+            ref_install["Brand"] = 'PDI'
+            ref_install["Clean_Model_ID"] = (
+                ref_install["Brand"] + "-" +
+                ref_install["product_prodclass"]
+            )
 
             # *** BillTo customer ***
             # ref_install = self.get_billto_data(ref_install)
 
             # *** Strategic account ***
-            ref_install = self.update_strategic_acoount(ref_install)
+            ref_install = self.update_strategic_account(ref_install)
+
+            ref_install = self.add_raise_lead_on(ref_install)
 
             return ref_install
         except Exception as e:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
 
-    def update_strategic_acoount(self, ref_install):
+    def update_strategic_account(self, ref_install):
         """
 
         :param ref_install: DESCRIPTION
@@ -1381,6 +1388,45 @@ class LeadGeneration:
         if 3 < component_due_in_years < 100:
             return "Due after 3 years"
         return "Unknown"  # Or any other default category you want to assign
+
+    def add_raise_lead_on(self, ref_install):
+        """
+        Method to calculate the date to raise the lead on
+        :param ref_install: Reference install dataframe
+        :return: Updated reference install dataframe
+        """
+        raise_lead_in = self.config["lead_generation"]["raise_lead_in"]
+        ref_install["Raise_Lead_In"] = raise_lead_in
+        ref_install["Raise_Lead_On"] = (
+            pd.to_datetime(
+                ref_install["Contract_Expiration_Date"],
+                errors='coerce'
+            )
+            - timedelta(raise_lead_in)
+        ).dt.date
+
+        ref_install.loc[
+            (
+                (
+                    (ref_install.Contract_Conversion == 'Warranty Due') |
+                    (ref_install.Contract_Conversion == 'Warranty Conversion') |
+                    (ref_install.Contract_Conversion == 'No Contract')
+                )
+            ),
+            'Lead_type'
+        ] = 'Warranty Conversion'
+        ref_install.loc[
+            (
+                (
+                    (ref_install.Contract_Conversion == 'New Business') |
+                    (ref_install.Contract_Conversion == 'No Warranty / Contract') |
+                    (ref_install.Contract_Conversion == 'No Warranty')
+                )
+            ),
+            'Lead_type'
+        ] = 'Contract Leads'
+
+        return ref_install
 
 #%%
 if __name__ == "__main__":

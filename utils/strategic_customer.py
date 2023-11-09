@@ -196,10 +196,18 @@ class StrategicCustomer:
             df_leads = df_leads.loc[
                        :, ['Serial_Number', 'CompanyName', 'CompanyAliasName']]
 
-            df_leads['CompanyName'] = df_leads['CompanyName'].apply(
-                lambda x: x.lstrip(punctuation).rstrip(punctuation))
-            df_leads['CompanyAliasName'] = df_leads['CompanyAliasName'].apply(
-                lambda x: x.lstrip(punctuation).rstrip(punctuation))
+            # df_leads['CompanyName'] = df_leads['CompanyName'].apply(
+            #     lambda x: x.lstrip(punctuation).rstrip(punctuation))
+            # df_leads['CompanyAliasName'] = df_leads['CompanyAliasName'].apply(
+            #     lambda x: x.lstrip(punctuation).rstrip(punctuation))
+            df_leads['CompanyName'] = (
+                df_leads['CompanyName'].str.lstrip(punctuation)
+                .str.rstrip(punctuation)
+            )
+            df_leads['CompanyAliasName'] = (
+                df_leads['CompanyAliasName'].str.lstrip(punctuation)
+                .str.rstrip(punctuation)
+            )
 
 
             # Format
