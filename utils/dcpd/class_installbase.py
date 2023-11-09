@@ -193,7 +193,8 @@ class InstallBase:
                  'file_name': self.config['file']['Raw']['M2M']['file_name'],
                  'adls_config': self.config['file']['Raw']['adls_credentials'],
                  'adls_dir': self.config['file']['Raw']['M2M']
-                 })
+                 }
+                 )
 
             # Format Data
             input_format = self.config['database']['M2M']['Dictionary Format']
