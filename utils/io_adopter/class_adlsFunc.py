@@ -157,6 +157,8 @@ class adlsFunc():
                 else:
                     out_df = pd.read_csv(BytesIO(downloaded_bytes), sep=sep)
 
+                logging.info("Head of DataFrame:\n%s", out_df.head())
+
             logging.disable(logging.NOTSET)
 
             return out_df
