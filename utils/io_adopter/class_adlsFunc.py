@@ -12,6 +12,7 @@
 
 import numpy as np
 import pandas as pd
+import pyarrow.parquet as pq
 
 from azure.storage.filedatalake import DataLakeServiceClient
 from azure.identity import ClientSecretCredential
@@ -135,7 +136,7 @@ class adlsFunc():
 
             container_client = service_client.get_file_system_client(
                 file_system=container_name)
-
+                
             if directory_name == '':
                 file_client = container_client.get_file_client(file_name)
             else:
@@ -146,10 +147,15 @@ class adlsFunc():
             download = file_client.download_file()
             downloaded_bytes = download.readall()
             out_df = pd.DataFrame()
-            if sheet_name != '':
-                out_df = pd.read_excel(BytesIO(downloaded_bytes), sheet_name)
-            else:
-                out_df = pd.read_csv(BytesIO(downloaded_bytes), sep=sep)
+            try:
+                table = pq.read_table(BytesIO(downloaded_bytes))
+                out_df = table.to_pandas()
+            except pq.lib.ArrowInvalidFile as parquet_error:
+            # If it's not a Parquet file, attempt to read as CSV or Excel
+                if sheet_name != '':
+                    out_df = pd.read_excel(BytesIO(downloaded_bytes), sheet_name)
+                else:
+                    out_df = pd.read_csv(BytesIO(downloaded_bytes), sep=sep)
 
             logging.disable(logging.NOTSET)
 
