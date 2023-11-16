@@ -37,6 +37,8 @@ class BusinessLogic:
             self.config = json.load(config_file)
         
         self.mode = self.config.get("conf.env", "azure-adls")
+
+        logging.info('read reference file initiated')
         # Read Reference: Product from Serial Number
         ref_prod_fr_srnum = IO.read_csv(
                 self.mode,
