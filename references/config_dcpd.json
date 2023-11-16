@@ -86,27 +86,27 @@
             "lead_opportunities":{
                 "container_name": "reference-files",
                 "directory_name": "  ",
-                "file_name" : "ref_lead_opportunities.csv ",
-                "adls_file_name" : "ref_lead_opportunities.csv "
+                "file_name" : "ref_lead_opportunities.csv "
+                
             },
 
             "product_class":{
                 "container_name": "reference-files",
                 "directory_name": "  ",
-                "file_name" : "ref_product_class.csv ",
-                "adls_file_name" : "ref_product_class.csv "
+                "file_name" : "ref_product_class.csv "
+                
             },
             "decode_sr_num":{
                 "container_name": "reference-files",
                 "directory_name": "",
-                "file_name" : "ref_decode_serialnumber.csv ",
-                "adls_file_name" : "ref_decode_serialnumber.csv "
+                "file_name" : "ref_decode_serialnumber.csv "
+                
             },
             "ref_sheet_pdi":{
                 "container_name": "reference-files",
                 "directory_name": "  ",
-                "file_name" : "ref_sheet_pdi.csv ",
-                "adls_file_name" : "ref_sheet_pdi.csv "
+                "file_name" : "ref_sheet_pdi.csv "
+                
             },
             "area_region":{
                 "container_name": "reference-files",
@@ -165,7 +165,12 @@
                 "container_name": "results ",
                 "directory_name": "results / intermediate ",
                 "file_name": "processed_contract.csv",
-                "validation": "processed_contract_b4_install_validation.csv",
+                "validation": {
+                    "container_name": "results ",
+                    "directory_name": "results / validation ",
+                    "file_name": "processed_contract_b4_install_validation.csv"
+                },
+                
                 "contract_srnum_validation": "contract_install_srnum_validation.csv"
             },
             "services": {

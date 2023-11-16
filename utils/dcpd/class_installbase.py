@@ -118,7 +118,7 @@ class InstallBase:
                     'file_dir': self.config['file']['dir_results'] + self.config['file']['dir_intermediate'],
                     'file_name': self.config['file']['Processed']['processed_install']['file_name'],
                     'adls_config': self.config['file']['Processed']['adls_credentials'],
-                    'adls_dir': self.config['file']['Processed']['product_class']
+                    'adls_dir': self.config['file']['Processed']['processed_install']
 
                 }, df_install)
 

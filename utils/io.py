@@ -41,12 +41,12 @@ class IO():
             storage_account_name = credentials.get('ilead-storage-account')
             container_name=config['adls_dir']['container_name']
             directory_name= config['adls_dir']['directory_name']
-            if 'adls_file_name' in config['adls_dir']:
-                file_name = config['adls_dir']['adls_file_name']
+            if 'file_name' in config['adls_dir']:
+                file_name = config['adls_dir']['file_name']
             else:
                 file_name = io_adls.list_ADLS_directory_contents(connection_string, container_name, directory_name)
             logging.info("Function is starting.")
-            #file_name = io_adls.get_latest_file_in_default_file_system(connection_string) 
+            
 
             result= io_adls.input_file_read(connection_string, container_name, file_name, directory_name='', sheet_name='', sep=',')
             logging.info(f"Type of result: {type(result)}")
@@ -59,9 +59,9 @@ class IO():
         connection_string = config['adls_config']['connection_string']
         storage_account_name = config['adls_config']['storage_account_name']
         try:
-            #credentials=io_adls.read_credentials(ls_cred=[connection_string_key,storage_account_name_key])
-            #connection_string = credentials['ilead-adls-connection-string']
-            #storage_account_name = credentials['ilead-storage-account']
+            credentials=io_adls.read_credentials(ls_cred=[connection_string_key,storage_account_name_key])
+            connection_string = credentials.get('ilead_adls_connection_string')
+            storage_account_name = credentials.get('ilead-storage-account')
             output_container_name=config['adls_dir']['container_name']
             output_directory_name= config['adls_dir']['directory_name']
             file_name= config['adls_dir']['file_name']
