@@ -16,8 +16,8 @@
 
         "Raw": {
             "adls_credentials": {
-                "connection_string": "CS-IT-saileadseastusdev001-adls",
-                "storage_account_name": "Name-IT-adls"
+                "connection_string": "IB-St-Connection-String",
+                "storage_account_name": "Name-IB-adls"
             },
             
 
@@ -64,8 +64,8 @@
         },
         "Reference": {
             "adls_credentials": {
-                "connection_string": "CS-IT-saileadseastusdev001-adls",
-                "storage_account_name": "Name-IT-adls"
+                "connection_string": "IB-St-Connection-String",
+                "storage_account_name": "Name-IB-adls"
 
             },
             "contact_type":{
