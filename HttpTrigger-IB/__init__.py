@@ -22,4 +22,4 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
         return func.HttpResponse(f"Function result: {result}", mimetype="text/plain")
     except Exception as e:
-        return func.HttpResponse(f"An error occurred: {str(e)}", status_code=600)
+        return func.HttpResponse(f"An error occurred: {str(e)}", status_code=500)
