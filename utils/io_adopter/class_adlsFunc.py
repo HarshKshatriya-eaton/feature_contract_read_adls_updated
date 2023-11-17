@@ -157,7 +157,7 @@ class adlsFunc():
                 except Exception as csv_error:
                     return csv_error
 
-            logging.info(f"Type of ref_prod_fr_srnum: {type(ref_prod_fr_srnum)}")
+            logging.info(f"Type of ref_prod_fr_srnum: {type(out_df)}")
             logging.info("Head of DataFrame:\n%s", out_df.head())
 
             logging.disable(logging.NOTSET)
