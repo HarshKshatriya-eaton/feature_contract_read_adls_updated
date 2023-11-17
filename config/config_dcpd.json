@@ -992,6 +992,14 @@
                 }
             },
             "Filters": {}
+        },
+        "Reference":{
+            "ref_decode_serialnumber":{
+                "Product":"Product",
+                "SerialNumberPattern":"SerialNumberPattern",
+                "flag_keep":"flag_keep",
+                "partial_flag":"partial_flag"
+             }
         }
     },
     "output_format": {

@@ -35,6 +35,7 @@ class BusinessLogic:
         # Read the configuration file
         with open(config_file,'r') as config_file:
             self.config = json.load(config_file)
+
         logging.info("'config':config")
         self.mode = self.config.get("conf.env", "azure-adls")
 
@@ -47,6 +48,18 @@ class BusinessLogic:
                  'adls_config': self.config['file']['Reference']['adls_credentials'],
                  'adls_dir': self.config['file']['Reference']['decode_sr_num']
                  })
+        
+        section_name = "ref_decode_serialnumber"
+
+        # Check if the specified section exists in the config
+        if section_name in self.config.get("database", {}):
+             column_mapping = self.config["database"][section_name]
+
+        # Assign DataFrame columns based on the mapping
+        for original_column, database_field in column_mapping.items():
+            if original_column in ref_prod_fr_srnum.columns:
+                ref_prod_fr_srnum.rename(columns={original_column: database_field}, inplace=True)
+            
         
         if isinstance(ref_prod_fr_srnum, pd.DataFrame):
             logging.info(ref_prod_fr_srnum.columns)

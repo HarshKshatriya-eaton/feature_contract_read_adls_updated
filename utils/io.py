@@ -50,14 +50,15 @@ class IO():
 
             result= io_adls.input_file_read(connection_string, container_name, file_name, directory_name='', sheet_name='', sep=',')
             logging.info(f"Type of result: {type(result)}")
+            
             return result
            
         except Exception as e:
             raise e
     @staticmethod    
     def write_csv_adls(config,dataset):
-        connection_string = config['adls_config']['connection_string']
-        storage_account_name = config['adls_config']['storage_account_name']
+        connection_string_key = config['adls_config']['connection_string']
+        storage_account_name_key = config['adls_config']['storage_account_name']
         try:
             credentials=io_adls.read_credentials(ls_cred=[connection_string_key,storage_account_name_key])
             connection_string = credentials.get('ilead_adls_connection_string')
@@ -71,7 +72,6 @@ class IO():
             output_file_name = f"{file_name}_{timestamp}"
             dataset.to_csv(output_file_name, index=False)
             result= io_adls.output_file_write(connection_string, dataset, output_container_name,output_file_name, output_directory_name)
-            lo
             return result
         except Exception as e:
             return e
