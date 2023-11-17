@@ -50,6 +50,7 @@ from utils import AppLogger
 
 logger = AppLogger(__name__)
 
+logger.app_info('On file class_install_base')
 from utils import Format
 from utils import Filter
 

@@ -54,7 +54,7 @@ from utils.format_data import Format
 class Contract:
     """Class will extract and process contract data and renewal data."""
 
-    def __init__(self, mode='local'):
+    def __init__(self, mode, config):
         """Initialise environment variables, class instance and variables used
         throughout the modules."""
 
@@ -66,8 +66,7 @@ class Contract:
         self.mode = mode
 
         # variables
-        self.config = IO.read_json(mode="local", config={
-            "file_dir": "./references/", "file_name": "config_dcpd.json"})
+        self.config = config
 
         self.ls_cols_startup = self.config['contracts']['config_cols'][
             'ls_cols_startup']

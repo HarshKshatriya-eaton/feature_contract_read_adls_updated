@@ -29,13 +29,13 @@ class BusinessLogic:
 
     def __init__(self):
 
-        config_dir = os.path.join(os.path.dirname(__file__), "../../references")
+        config_dir = os.path.join(os.path.dirname(__file__), "../../config")
         config_file = os.path.join(config_dir, "config_dcpd.json") 
-        
+        logging.info('config file path fetched')
         # Read the configuration file
         with open(config_file,'r') as config_file:
             self.config = json.load(config_file)
-        
+        logging.info("'config':config")
         self.mode = self.config.get("conf.env", "azure-adls")
 
         logging.info('read reference file initiated')
@@ -51,7 +51,7 @@ class BusinessLogic:
         logging.info('read reference file completed')
         logging.info(f"Type of ref_prod_fr_srnum: {type(ref_prod_fr_srnum)}")
         logging.info(ref_prod_fr_srnum.columns)
-        #ref_prod_fr_srnum['SerialNumberPattern'] = ref_prod_fr_srnum['SerialNumberPattern'].str.lower()
+        ref_prod_fr_srnum['SerialNumberPattern'] = ref_prod_fr_srnum['SerialNumberPattern'].str.lower()
         self.ref_prod_fr_srnum = ref_prod_fr_srnum
 
         # Read Reference: Product from TLN
