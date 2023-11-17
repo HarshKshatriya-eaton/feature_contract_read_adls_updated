@@ -152,12 +152,13 @@ class adlsFunc():
                 out_df = table.to_pandas()
             except pq.lib.ArrowInvalidFile as parquet_error:
             # If it's not a Parquet file, attempt to read as CSV or Excel
-                if sheet_name != '':
-                    out_df = pd.read_excel(BytesIO(downloaded_bytes), sheet_name)
-                else:
+                try:
                     out_df = pd.read_csv(BytesIO(downloaded_bytes), sep=sep)
+                except Exception as csv_error:
+                    return csv_error
 
-                logging.info("Head of DataFrame:\n%s", out_df.head())
+            logging.info(f"Type of ref_prod_fr_srnum: {type(ref_prod_fr_srnum)}")
+            logging.info("Head of DataFrame:\n%s", out_df.head())
 
             logging.disable(logging.NOTSET)
 

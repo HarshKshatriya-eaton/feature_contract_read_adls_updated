@@ -48,9 +48,11 @@ class BusinessLogic:
                  'adls_dir': self.config['file']['Reference']['decode_sr_num']
                  })
         
-        logging.info('read reference file completed')
-        logging.info(f"Type of ref_prod_fr_srnum: {type(ref_prod_fr_srnum)}")
-        logging.info(ref_prod_fr_srnum.columns)
+        if isinstance(ref_prod_fr_srnum, pd.DataFrame):
+            logging.info(ref_prod_fr_srnum.columns)
+        else:
+            logging.error(f"Unexpected type for ref_prod_fr_srnum: {type(ref_prod_fr_srnum)}")
+
         ref_prod_fr_srnum['SerialNumberPattern'] = ref_prod_fr_srnum['SerialNumberPattern'].str.lower()
         self.ref_prod_fr_srnum = ref_prod_fr_srnum
 

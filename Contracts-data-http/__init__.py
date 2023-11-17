@@ -8,7 +8,7 @@ from utils.dcpd.class_contracts_data import Contract
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
   
-    config_dir = os.path.join(os.path.dirname(__file__), "../references")
+    config_dir = os.path.join(os.path.dirname(__file__), "../config")
     config_file = os.path.join(config_dir, "config_dcpd.json") 
     try:
         # Read the configuration file
