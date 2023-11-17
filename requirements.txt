@@ -3,11 +3,11 @@
 # Manually managing azure-functions-worker may cause unexpected issues
 
 azure-functions
-pandas
-azure-storage-blob
 azure-storage-file-datalake
-numpy
 azure-identity
 azure-keyvault-secrets
-usaddress
+azure-storage-blob
+pandas
 pyarrow
+numpy
+usaddress
