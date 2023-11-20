@@ -37,20 +37,23 @@ class IO():
         connection_string_key = config['adls_config']['connection_string']
         storage_account_name_key = config['adls_config']['storage_account_name']
         try:
+            logging.info('going to read credentials')
             credentials=io_adls.read_credentials(ls_cred=[connection_string_key,storage_account_name_key])
             logger.app_info(f'Mode {credentials} is fetched')
             #connection_string = credentials.get('ilead_adls_connection_string')
-            connection_string = credentials.get('teststorage_cs')
+            connection_string = credentials.get('CS_IT_saileadseastusdev001_adls')
             #storage_account_name = credentials.get('ilead-storage-account')
             container_name=config['adls_dir']['container_name']
             directory_name= config['adls_dir']['directory_name']
-            if 'file_name' in config['adls_dir']:
+            if 'file_name' in config['adls_dir'] and config['adls_dir']['file_name'] != "":
                 file_name = config['adls_dir']['file_name']
+                logger.app_info(f"file name In adls_dir: {file_name}")
             else:
                 file_name = io_adls.list_ADLS_directory_contents(connection_string, container_name, directory_name)
+                logger.app_info(f"file name from list: {file_name}")
             logger.app_info("Function is starting.")
             
-            logger.app_info(f'{connection_string}\n, {container_name}\n, {file_name}\n, {directory_name}')
+            logger.app_info(f'connection String: {connection_string}\n, Container name: {container_name}\n, file name: {file_name}\n,  directory name:{directory_name}')
             result= io_adls.input_file_read(connection_string, container_name, file_name, directory_name=directory_name, sep=',')
             logger.app_info(f"Type of result: {result}")
             

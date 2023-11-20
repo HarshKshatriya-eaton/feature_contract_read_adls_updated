@@ -55,6 +55,7 @@ from utils import Format
 from utils import Filter
 
 obj_srnum = SerialNumber()
+logger.app_info('before calling Business Logic')
 obj_bus_logic = BusinessLogic()
 obj_filters = Filter()
 obj_format = Format()
@@ -187,6 +188,7 @@ class InstallBase:
         :rtype: pd.DataFrame
         """
         try:
+            logger.app_info('before executing read df_data_install')
             # This method will read csv data into pandas DataFrame
             df_data_install = IO.read_csv(
                 self.mode,
@@ -196,7 +198,7 @@ class InstallBase:
                  'adls_dir': self.config['file']['Raw']['M2M']
                  }
                  )
-
+            logger.app_info(f'df_data_install from adls-read: {df_data_install}')
             # Format Data
             input_format = self.config['database']['M2M']['Dictionary Format']
             df_data_install = obj_format.format_data(

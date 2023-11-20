@@ -29,7 +29,7 @@ import logging
 class BusinessLogic:
 
     def __init__(self):
-
+        logging.info('inside Business Logic')
         config_dir = os.path.join(os.path.dirname(__file__), "../../config")
         config_file = os.path.join(config_dir, "config_dcpd.json") 
         logging.info('config file path fetched')
@@ -38,7 +38,7 @@ class BusinessLogic:
             self.config = json.load(config_file)#
         #self.config=js.read_json(config_file)
         
-        logging.info("'config':config")
+        #logging.info("'config':config")
         self.mode = self.config.get("conf.env", "azure-adls")
 
         logging.info('read reference file initiated')

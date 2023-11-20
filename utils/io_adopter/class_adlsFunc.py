@@ -130,7 +130,7 @@ class adlsFunc():
         """
         try:
             #logging.disable(logging.CRITICAL)
-
+            logging.info('inside input file read')
             service_client = DataLakeServiceClient.from_connection_string(
                 str(connection_string))
 
@@ -138,8 +138,10 @@ class adlsFunc():
                 file_system=container_name)
                 
             if directory_name == '':
+                logging.info('directory name empty')
                 file_client = container_client.get_file_client(file_name)
             else:
+                logging.info('directory name NOT empty')
                 directory_client = container_client.get_directory_client(
                     directory_name)
                 file_client = directory_client.get_file_client(file_name)
@@ -150,10 +152,11 @@ class adlsFunc():
             logging.info('before checking extension')
             if str(file_name.split('.')[-1]).lower() !='csv':
                 try:
+                    logging.info('inside parquet')
                     table = pq.read_table(BytesIO(downloaded_bytes))
                     out_df = table.to_pandas()
-                    logging.info('inside parquet')
-                except pq.lib.ArrowInvalidFile as parquet_error:
+                    logging.info(f'after reading parquet\n{out_df}')
+                except Exception as parquet_error:
                     return parquet_error
             else:
                 # If it's not a Parquet file, attempt to read as CSV or Excel
@@ -240,7 +243,7 @@ class adlsFunc():
 
         """
         try:
-            logging.disable(logging.CRITICAL)
+            #logging.disable(logging.CRITICAL)
 
             file_dict = {}
             service_client = DataLakeServiceClient.from_connection_string(
@@ -252,6 +255,7 @@ class adlsFunc():
 
             for file in paths:
                 file_dict[str(file.last_modified)] = str((file.name).split("/")[-1])
+                #logging.info(f'file_dict in list files {file_dict}')
 
             if file_dict:
                 file_modified, file_name = sorted(file_dict.items(), reverse=True)[0]
@@ -259,8 +263,8 @@ class adlsFunc():
             else:
                 file_modified = None
                 file_name = None
-
-            logging.disable(logging.NOTSET)
+            logging.info(f'file_name in list files {file_name}')
+           # logging.disable(logging.NOTSET)
 
             return file_name
 
