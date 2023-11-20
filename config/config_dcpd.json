@@ -19,104 +19,102 @@
                 "connection_string": "CS-IT-saileadseastusdev001-adls",
                 "storage_account_name": "Name-IT-adls"
             },
-            
-
             "services": {
-                "container_name": "",
-                "directory_name": " ",
-                "file_name": "case_data.csv"
+                "container_name": "sf-pdi-dataset",
+                "directory_name": "case data",
+                "file_name": ""
             },
             "M2M": {
                 "container_name": "m2m-dataset",
-                "directory_name": "m2m-dataset ",
-                "file_name": "M2M_data.csv"
+                "directory_name": "shipment-dataset",
+                "file_name": ""
             },
             "SerialNumber": {
                 "container_name": "m2m-dataset",
-                "directory_name": "m2m-dataset / serial-number-dataset ",
-                "file_name": "SerialNumber.csv"
+                "directory_name": "serial-number-dataset",
+                "file_name": ""
             },
             "SalesForce": {
                 "container_name": "",
-                "directory_name": " ",
+                "directory_name": "",
                 "file_name": "SalesForce_InstallBase.csv"
             },
             "bom": {
-                "container_name": "m2m-dataset / bom-dataset",
-                "directory_name": "m2m-dataset ",
-                "file_name": "BOM_data.csv"
+                "container_name": "m2m-dataset",
+                "directory_name": "bom-dataset",
+                "file_name": ""
             },
             "contracts": {
-                "container_name": "",
-                "directory_name": " ",
-                "file_name": "contract.csv"
+                "container_name": "sf-pdi-dataset",
+                "directory_name": "contract data",
+                "file_name": ""
             },
             "renewal": {
-                "container_name": "",
-                "directory_name": " ",
-                "file_name": "RenewalContract.csv"
+                "container_name": "sf-pdi-dataset",
+                "directory_name": "renewal data",
+                "file_name": ""
             },
             "events": {
-                "container_name": "",
-                "directory_name": " ",
-                "file_name": "events.csv"
+                "container_name": "sf-pdi-dataset",
+                "directory_name": "event data",
+                "file_name": ""
             }
         },
         "Reference": {
             "adls_credentials": {
-                "connection_string": "CS-IT-saileadseastusdev001-adls",
-                "storage_account_name": "Name-IT-adls"
+                "connection_string": "teststorage-cs",
+                "storage_account_name": "name-teststorage"
 
             },
             "contact_type":{
                 "container_name": "reference-files",
-                "directory_name": "  ",
-                "file_name" : "type_of_contact.csv "
+                "directory_name": "",
+                "file_name" : "type_of_contact.csv"
             },
             "bom":{
                 "container_name": "reference-files",
-                "directory_name": "  ",
-                "file_name" : "reference_BOM.csv "
+                "directory_name": "",
+                "file_name" : "reference_BOM.csv"
             },
             "customer":{
                 "container_name": "reference-files",
-                "directory_name": "  ",
-                "file_name" : "AccountManagerListing.csv "
+                "directory_name": "",
+                "file_name" : "AccountManagerListing.csv"
             },
             "lead_opportunities":{
                 "container_name": "reference-files",
-                "directory_name": "  ",
-                "file_name" : "ref_lead_opportunities.csv "
+                "directory_name": "",
+                "file_name" : "ref_lead_opportunities.csv"
                 
             },
 
             "product_class":{
                 "container_name": "reference-files",
-                "directory_name": "  ",
-                "file_name" : "ref_product_class.csv "
+                "directory_name": "",
+                "file_name" : "ref_product_class.csv"
                 
             },
             "decode_sr_num":{
                 "container_name": "reference-files",
                 "directory_name": "",
-                "file_name" : "ref_decode_serialnumber.csv "
+                "file_name" : "ref_decode_serialnumber.csv"
                 
             },
             "ref_sheet_pdi":{
                 "container_name": "reference-files",
-                "directory_name": "  ",
-                "file_name" : "ref_sheet_pdi.csv "
+                "directory_name": "",
+                "file_name" : "ref_sheet_pdi.csv"
                 
             },
             "area_region":{
                 "container_name": "reference-files",
-                "directory_name": "  ",
-                "file_name" : "ref_state_region.csv "
+                "directory_name": "",
+                "file_name" : "ref_state_region.csv"
             },
             "chasis":{
                 "container_name": "reference-files",
-                "directory_name": "  ",
-                "file_name" : "ref_chasis.csv "
+                "directory_name": "",
+                "file_name" : "ref_chasis.csv"
             }
             
         },
@@ -142,40 +140,40 @@
                 "after_classify": "a4_classify_leads.csv"
             },
             "output_iLead_contact": {
-                "container_name": "results ",
-                "directory_name": "results ",
+                "container_name": "results",
+                "directory_name": "results",
                 "file_name": "output_iLead_contact.csv"
             },
             "processed_install": {
-                "container_name": "results ",
-                "directory_name": "results / intermediate ",
+                "container_name": "results",
+                "directory_name": "intermediate",
                 "file_name": "processed_install.csv"
             },
             "processed_m2m_shipment": {
-                "container_name": " results",
-                "directory_name": " results / validation ",
+                "container_name": "results",
+                "directory_name": "validation",
                 "file_name": "processed_m2m_shipment.csv"
             },
             "processed_serialnum": {
-                "container_name": " results",
-                "directory_name": " results / validation ",
+                "container_name": "results",
+                "directory_name": "validation",
                 "file_name": "processed_serialnum.csv"
             },
             "contracts": {
-                "container_name": "results ",
-                "directory_name": "results / intermediate ",
+                "container_name": "results",
+                "directory_name": "intermediate",
                 "file_name": "processed_contract.csv",
                 "validation": {
-                    "container_name": "results ",
-                    "directory_name": "results / validation ",
+                    "container_name": "results",
+                    "directory_name": "validation",
                     "file_name": "processed_contract_b4_install_validation.csv"
                 },
                 
                 "contract_srnum_validation": "contract_install_srnum_validation.csv"
             },
             "services": {
-                "container_name": "results ",
-                "directory_name": " results / intermediate",
+                "container_name": "results",
+                "directory_name": "results/intermediate",
                 "file_name": "processed_services.csv",
                 "validation": "processed_services_validation.csv",
                 "intermediate": "proceesed_services_jcomm_sidecar.csv",
@@ -183,8 +181,8 @@
                 "validated_sr_num": "validated_sr_num.csv"
             },
             "contact": {
-                "container_name": "results ",
-                "directory_name": " ",
+                "container_name": "results",
+                "directory_name": "",
                 "file_name": "contact_contracts.csv",
                 "events_sr_num": "events_sr_num.csv"
             }

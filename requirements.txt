@@ -2,10 +2,10 @@
 # The Python Worker is managed by Azure Functions platform
 # Manually managing azure-functions-worker may cause unexpected issues
 
-azure-functions
-azure-storage-file-datalake
-azure-identity
-azure-keyvault-secrets
+azure-functions==1.12.0
+azure-storage-file-datalake==12.9.1
+azure-identity==1.12.0
+azure-keyvault-secrets==4.6.0
 azure-storage-blob
 pandas
 pyarrow

@@ -23,8 +23,9 @@ import utils.io_adopter.local as io_local
 import pandas as pd
 from datetime import datetime
 from utils.io_adopter.class_adlsFunc import adlsFunc
-from azure.storage.filedatalake import DataLakeServiceClient
+#from azure.storage.filedatalake import DataLakeServiceClient
 from utils import AppLogger
+import re
 logger = AppLogger(__name__)
 
 # %% Define class
@@ -37,19 +38,21 @@ class IO():
         storage_account_name_key = config['adls_config']['storage_account_name']
         try:
             credentials=io_adls.read_credentials(ls_cred=[connection_string_key,storage_account_name_key])
-            connection_string = credentials.get('ilead_adls_connection_string')
-            storage_account_name = credentials.get('ilead-storage-account')
+            logger.app_info(f'Mode {credentials} is fetched')
+            #connection_string = credentials.get('ilead_adls_connection_string')
+            connection_string = credentials.get('teststorage_cs')
+            #storage_account_name = credentials.get('ilead-storage-account')
             container_name=config['adls_dir']['container_name']
             directory_name= config['adls_dir']['directory_name']
             if 'file_name' in config['adls_dir']:
                 file_name = config['adls_dir']['file_name']
             else:
                 file_name = io_adls.list_ADLS_directory_contents(connection_string, container_name, directory_name)
-            logging.info("Function is starting.")
+            logger.app_info("Function is starting.")
             
-
-            result= io_adls.input_file_read(connection_string, container_name, file_name, directory_name='', sheet_name='', sep=',')
-            logging.info(f"Type of result: {type(result)}")
+            logger.app_info(f'{connection_string}\n, {container_name}\n, {file_name}\n, {directory_name}')
+            result= io_adls.input_file_read(connection_string, container_name, file_name, directory_name=directory_name, sep=',')
+            logger.app_info(f"Type of result: {result}")
             
             return result
            
@@ -83,6 +86,8 @@ class IO():
         if mode == 'local':
             return io_local.read_csv_local(config)
         elif mode == 'azure-adls':
+            logger.app_info(f'Mode {mode} is implemented')
+            logger.app_info(f'Mode {config} is fetched')
             return IO.read_csv_adls(config)
         else:
             logger.app_info(f'Mode {mode} is not implemented')
@@ -105,13 +110,11 @@ class IO():
 
         if mode == 'local':
             return io_local.read_json_local(config)
+        elif mode == 'azure-adls':
+            return read_json_adls(config)
         else:
             logger.app_info(f'Mode {mode} is not implemented')
             raise ValueError ('Not implemented or unknow mode')
 
-
-
-
-
-
+    
 #%%

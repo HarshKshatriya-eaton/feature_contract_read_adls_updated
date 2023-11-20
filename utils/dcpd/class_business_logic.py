@@ -23,6 +23,7 @@ import traceback
 import pandas as pd
 from utils import IO
 import logging
+#import utils.json_creator as js
 
 
 class BusinessLogic:
@@ -34,8 +35,9 @@ class BusinessLogic:
         logging.info('config file path fetched')
         # Read the configuration file
         with open(config_file,'r') as config_file:
-            self.config = json.load(config_file)
-
+            self.config = json.load(config_file)#
+        #self.config=js.read_json(config_file)
+        
         logging.info("'config':config")
         self.mode = self.config.get("conf.env", "azure-adls")
 
@@ -49,23 +51,17 @@ class BusinessLogic:
                  'adls_dir': self.config['file']['Reference']['decode_sr_num']
                  })
         
-        section_name = "ref_decode_serialnumber"
+        # column_mapping = self.config["database"]["Reference"]["ref_decode_serialnumber"]
 
-        # Check if the specified section exists in the config
-        if section_name in self.config.get("database", {}):
-             column_mapping = self.config["database"][section_name]
-
-        # Assign DataFrame columns based on the mapping
-        for original_column, database_field in column_mapping.items():
-            if original_column in ref_prod_fr_srnum.columns:
-                ref_prod_fr_srnum.rename(columns={original_column: database_field}, inplace=True)
+        # for original_column, database_field in column_mapping.items():
+        #     ref_prod_fr_srnum.rename(columns={original_column: database_field}, inplace=True)
             
-        
-        if isinstance(ref_prod_fr_srnum, pd.DataFrame):
-            logging.info(ref_prod_fr_srnum.columns)
-        else:
-            logging.error(f"Unexpected type for ref_prod_fr_srnum: {type(ref_prod_fr_srnum)}")
+        # if isinstance(ref_prod_fr_srnum, pd.DataFrame):
+        #     logging.info(ref_prod_fr_srnum.columns)
+        # else:
+        #     logging.error(f"Unexpected type for ref_prod_fr_srnum: {type(ref_prod_fr_srnum)}")
 
+        logging.error(f"Type for ref_prod_fr_srnum: {type(ref_prod_fr_srnum)}")
         ref_prod_fr_srnum['SerialNumberPattern'] = ref_prod_fr_srnum['SerialNumberPattern'].str.lower()
         self.ref_prod_fr_srnum = ref_prod_fr_srnum
 

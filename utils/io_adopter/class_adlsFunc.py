@@ -110,7 +110,7 @@ class adlsFunc():
 
     def input_file_read(
             self, connection_string, container_name, file_name,
-            directory_name='', sheet_name='', sep=','):
+            directory_name='', sep=','):
         """
         Read files stored on ADLS Gen 2.
 
@@ -129,7 +129,7 @@ class adlsFunc():
         be returned.
         """
         try:
-            logging.disable(logging.CRITICAL)
+            #logging.disable(logging.CRITICAL)
 
             service_client = DataLakeServiceClient.from_connection_string(
                 str(connection_string))
@@ -147,20 +147,26 @@ class adlsFunc():
             download = file_client.download_file()
             downloaded_bytes = download.readall()
             out_df = pd.DataFrame()
-            try:
-                table = pq.read_table(BytesIO(downloaded_bytes))
-                out_df = table.to_pandas()
-            except pq.lib.ArrowInvalidFile as parquet_error:
-            # If it's not a Parquet file, attempt to read as CSV or Excel
+            logging.info('before checking extension')
+            if str(file_name.split('.')[-1]).lower() !='csv':
+                try:
+                    table = pq.read_table(BytesIO(downloaded_bytes))
+                    out_df = table.to_pandas()
+                    logging.info('inside parquet')
+                except pq.lib.ArrowInvalidFile as parquet_error:
+                    return parquet_error
+            else:
+                # If it's not a Parquet file, attempt to read as CSV or Excel
                 try:
                     out_df = pd.read_csv(BytesIO(downloaded_bytes), sep=sep)
+                    logging.info('inside csv')
                 except Exception as csv_error:
                     return csv_error
 
             logging.info(f"Type of ref_prod_fr_srnum: {type(out_df)}")
             logging.info("Head of DataFrame:\n%s", out_df.head())
 
-            logging.disable(logging.NOTSET)
+            #logging.disable(logging.NOTSET)
 
             return out_df
         except Exception as e:
