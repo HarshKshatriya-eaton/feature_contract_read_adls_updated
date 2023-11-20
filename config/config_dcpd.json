@@ -68,8 +68,8 @@
         },
         "Reference": {
             "adls_credentials": {
-                "connection_string": "teststorage-cs",
-                "storage_account_name": "name-teststorage"
+                "connection_string": "CS-IT-saileadseastusdev001-adls",
+                "storage_account_name": "Name-IT-adls"
 
             },
             "contact_type":{
