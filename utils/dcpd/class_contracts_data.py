@@ -24,16 +24,12 @@ direct written permission from Eaton Corporation.
 
 import os
 
-#path = os.getcwd()
-#path = os.path.join(path.split('ileads_lead_generation')[0],'ileads_lead_generation')
-#os.chdir(path)
-
 import re
 import traceback
 from string import punctuation
 from typing import Tuple
-import pandas as pd
 from datetime import datetime
+import pandas as pd
 
 from utils.dcpd.class_business_logic import BusinessLogic
 from utils.dcpd.class_serial_number import SerialNumber
@@ -41,12 +37,16 @@ from utils.dcpd.class_common_srnum_ops import SearchSrnum
 from utils import IO
 from utils import Filter
 from utils import AppLogger
+from utils.format_data import Format
+
+path = os.getcwd()
+path = os.path.join(path.split('ileads_lead_generation')[0],
+                    'ileads_lead_generation')
+os.chdir(path)
 
 logger = AppLogger(__name__)
 
 punctuation = punctuation + ' '
-
-from utils.format_data import Format
 
 
 # from utils import Filter
@@ -54,7 +54,7 @@ from utils.format_data import Format
 class Contract:
     """Class will extract and process contract data and renewal data."""
 
-    def __init__(self, mode, config):
+    def __init__(self, mode='local'):
         """Initialise environment variables, class instance and variables used
         throughout the modules."""
 
@@ -66,7 +66,8 @@ class Contract:
         self.mode = mode
 
         # variables
-        self.config = config
+        self.config = IO.read_json(mode="local", config={
+            "file_dir": "./references/", "file_name": "config_dcpd.json"})
 
         self.ls_cols_startup = self.config['contracts']['config_cols'][
             'ls_cols_startup']
@@ -105,8 +106,9 @@ class Contract:
             df_renewal = self.pipeline_renewal()
 
             # Merge Contract and Renewal Data
-            df_contract = self.merge_contract_and_renewal(df_contract,
-                                                          df_renewal)
+            df_contract = self.merge_contract_and_renewal(
+                df_contract, df_renewal
+            )
 
             # Decode Contract Type
             df_contract = self.pipeline_decode_contract_type(df_contract)
@@ -161,9 +163,12 @@ class Contract:
                     self.config['file']['Raw']['contracts'][
                         'file_name']
                 })
+            df_contract['BillingAddress'] = df_contract['BillingStreet']
             input_format = self.config['database']['contracts'][
                 'Dictionary Format']
-            df_contract = self.format.format_data(df_contract, input_format)
+            df_contract = self.format.format_data(
+                df_contract, input_format
+            )
             df_contract.reset_index(drop=True, inplace=True)
             logger.app_success(_step)
             # Identify Startups
@@ -336,7 +341,7 @@ class Contract:
                 df_contract[
                     "flag_validinstall"] == "Partial_match", "flag_validinstall"] = True
 
-            if ('partial_match' in df_contract.columns):
+            if 'partial_match' in df_contract.columns:
                 df_contract['partial_match'] = df_contract[
                     'partial_match'].fillna(
                     df_contract['SerialNumber'])
@@ -382,17 +387,19 @@ class Contract:
             logger.app_success(_step)
             input_format = self.config['database']['renewal'][
                 'Dictionary Format']
-            df_renewal = self.format.format_data(df_renewal, input_format)
+            df_renewal = self.format.format_data(
+                df_renewal, input_format
+            )
             df_renewal.reset_index(drop=True, inplace=True)
             _step = 'Preprocess data'
             df_renewal['Contract_Amount'] = df_renewal[
                 'Contract_Amount'].fillna(0)
-            df_renewal["Contract Term"] = (
+            df_renewal["Contract Years"] = (
                 pd.to_datetime(df_renewal["Contract_Expiration_Date"])
                 - pd.to_datetime(df_renewal["Contract_Start_Date"])
             ).dt.days
-            df_renewal["Contract Term"] = df_renewal["Contract Term"]/365
-            df_renewal["Contract Term"] = df_renewal["Contract Term"].round(1)
+            df_renewal["Contract Years"] = df_renewal["Contract Years"]/365
+            df_renewal["Contract Years"] = df_renewal["Contract Years"].round(1)
 
             logger.app_success(self.preprocess_renewal)
         except Exception as excp:
@@ -438,13 +445,13 @@ class Contract:
             raise Exception from excp
 
     # ***** Support Codes : Contract *****
-    def id_startup(self, df_startup_org) -> pd.DataFrame:
+    def id_startup(self, df_startup) -> pd.DataFrame:
         """
         Identify if EATON started up the product.
 
-        :param df_startup_org: Dataframe with possible startup date
+        :param df_startup: Dataframe with possible startup date
         fields in the sequence if Priority,
-        :type df_startup_org: pandas DataFrame.
+        :type df_startup: pandas DataFrame.
         :raises Exception: Raised if unknown data type provided.
         :return: Data Frame with two columns:
             was_startedup : Flag indicating if product has StartUp.
@@ -452,6 +459,7 @@ class Contract:
         :rtype: pandas Data Frame
 
         """
+        df_startup_org = df_startup.copy()
         _step = f"{' ' * 5}Identify Start-up"
         try:
             ls_cols_startup = df_startup_org.columns
@@ -708,7 +716,7 @@ class Contract:
                 lambda x: x.lstrip(punctuation).rstrip(punctuation))
 
             # Get Range
-            df_expanded_srnum, df_could_not = self.srnum.get_serialnumber(
+            df_expanded_srnum, _ = self.srnum.get_serialnumber(
                 df_temp_org.SerialNumberOrg, df_temp_org.Qty, 'contract')
 
             df_expanded_srnum['SerialNumberOrg'] = df_expanded_srnum[
@@ -740,7 +748,7 @@ class Contract:
 
         try:
             # Based on quantity column from contracts
-            df_temp_org.loc[:, 'flag_qty'] = (df_temp_org.Qty == 1)
+            df_temp_org.loc[:, 'flag_qty'] = df_temp_org.Qty == 1
 
             # Patterns without range
             df_temp_org.loc[:,
@@ -818,8 +826,7 @@ class Contract:
         return df_temp_org
 
     #  ***** Data merge *****
-    def merge_contract_and_renewal(self, df_contract,
-                                   df_renewal) -> pd.DataFrame:
+    def merge_contract_and_renewal(self, df_contract, df_renewal) -> pd.DataFrame:
         """
          Merge contract data with renewal data.
 
@@ -837,14 +844,21 @@ class Contract:
                 df_renewal, on='Contract', how='left')
             logger.app_success(self.merge_data)
 
-            df_contract = self.get_billto_data(df_contract)
+            # Read Raw M2M Data
+            df_raw_m2m = IO.read_csv(
+                self.mode,
+                {'file_dir': self.config['file']['dir_data'],
+                 'file_name': self.config['file']['Raw']['M2M']['file_name']
+                 })
+
+            df_contract = self.get_billto_data(df_contract, df_raw_m2m)
         except Exception as excp:
             logger.app_fail(self.merge_data, f"{traceback.print_exc()}")
             raise Exception from excp
 
         return df_contract
 
-    def get_billto_data(self, df_contract):
+    def get_billto_data(self, df_contract, df_raw_m2m):
         """
         Update billto information for the contracts data from M2M data
 
@@ -860,12 +874,6 @@ class Contract:
         _step = 'Query BillTo data'
         try:
             # M2M data preparation
-            df_raw_m2m = IO.read_csv(
-                self.mode,
-                {'file_dir': self.config['file']['dir_data'],
-                 'file_name': self.config['file']['Raw']['M2M']['file_name']
-                 })
-
             dict_rename = {
                 "SO": "key_SO",
                 "Customer": "BillingCustomer",
@@ -874,6 +882,7 @@ class Contract:
                 'Sold to State': 'BillingState',
                 'Sold to Zip': 'BillingPostalCode',
                 'Sold to Country': 'BillingCountry'}
+
             df_raw_m2m = df_raw_m2m.rename(columns=dict_rename)
             ls_cols = list(dict_rename.values())
             df_raw_m2m = df_raw_m2m.loc[:, ls_cols]
@@ -960,9 +969,7 @@ class Contract:
         """
         _step = 'Merging contract and install base data'
         try:
-            if df_install is not None:
-                df_install = df_install
-            else:
+            if df_install is None:
                 df_install = self.read_processed_installbase()
                 df_install.loc[:,
                 'SerialNumber'] = df_install.SerialNumber_M2M.astype(str)
@@ -975,7 +982,7 @@ class Contract:
                 self.config['contracts']['config_cols'][
                     'prep_contract_col_install']
                 processed_contract = df_contract.loc[:, ls_prep_contract_cols]
-            except KeyError as excp:
+            except KeyError as _:
                 processed_contract = df_contract
 
             processed_contract = processed_contract.drop_duplicates(

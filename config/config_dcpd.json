@@ -44,6 +44,12 @@
                 "directory_name": "bom-dataset",
                 "file_name": ""
             },
+            "bomdata_deafault": {
+                "file_name": "bomdata_default.csv"
+            },
+            "bomdata_sisc": {
+                "file_name": "bomdata_sisc.csv"
+            },
             "contracts": {
                 "container_name": "sf-pdi-dataset",
                 "directory_name": "contract data",
@@ -452,6 +458,13 @@
                     "is_nullable": 1,
                     "output_format": "text : capitalize each word",
                     "input_date_format": ""
+                },
+                "Revision": {
+                    "actual_datasoure_name": "REV",
+                    "data_type": "text",
+                    "is_nullable": 1,
+                    "output_format": "text : capitalize each word",
+                    "input_date_format": ""
                 }
             },
             "Filters": {
@@ -486,28 +499,28 @@
         "SerialNumber": {
             "Dictionary Format": {
                 "SerialNumber": {
-                    "actual_datasoure_name": "Serial #",
+                    "actual_datasoure_name": "Serial",
                     "data_type": "text",
                     "is_nullable": 0.0,
                     "output_format": "text : upper",
                     "input_date_format": ""
                 },
                 "Shipper_Index": {
-                    "actual_datasoure_name": "Shipper #",
+                    "actual_datasoure_name": "Shipper",
                     "data_type": "numeric : integer",
                     "is_nullable": 0.0,
                     "output_format": "numeric : no_decimal",
                     "input_date_format": ""
                 },
                 "Shipper_Qty": {
-                    "actual_datasoure_name": "Shipper Qty",
+                    "actual_datasoure_name": "ShipperQty",
                     "data_type": "numeric",
                     "is_nullable": 1.0,
                     "output_format": "numeric : no_decimal",
                     "input_date_format": ""
                 },
                 "ShipperItem_Index": {
-                    "actual_datasoure_name": "Shipper Item #",
+                    "actual_datasoure_name": "ShipperItem",
                     "data_type": "numeric : integer",
                     "is_nullable": 0.0,
                     "output_format": "numeric : no_decimal",
@@ -526,28 +539,28 @@
         "bom": {
             "Dictionary Format": {
                 "Job_Index": {
-                    "actual_datasoure_name": "Job #",
+                    "actual_datasoure_name": "Job#",
                     "data_type": "text",
                     "is_nullable": 0.0,
                     "output_format": "text : upper",
                     "input_date_format": ""
                 },
                 "PartNumber_TLN_BOM": {
-                    "actual_datasoure_name": "TLN #",
+                    "actual_datasoure_name": "TLN#",
                     "data_type": "text",
                     "is_nullable": 0.0,
                     "output_format": "text : capitalize each word",
                     "input_date_format": ""
                 },
                 "PartNumber_BOM_BOM": {
-                    "actual_datasoure_name": "BOM Part #",
+                    "actual_datasoure_name": "BOMPart#",
                     "data_type": "text",
                     "is_nullable": 0.0,
                     "output_format": "text : capitalize each word",
                     "input_date_format": ""
                 },
                 "Total_Quantity": {
-                    "actual_datasoure_name": "total Qty",
+                    "actual_datasoure_name": "totalQty",
                     "data_type": "numeric",
                     "is_nullable": 1.0,
                     "output_format": "numeric : no_decimal",
@@ -815,6 +828,13 @@
                     "data_type": "text",
                     "is_nullable": 1,
                     "output_format": "text : capitalize each word",
+                    "input_date_format": ""
+                },
+                "Contract_Term__c": {
+                    "actual_datasoure_name": "Contract_Term__c",
+                    "data_type": "numeric",
+                    "is_nullable": 1.0,
+                    "output_format": "numeric : no_decimal",
                     "input_date_format": ""
                 }
             },
@@ -1256,11 +1276,11 @@
             },
             "Contract_Coverage": {
                 "actual_datasoure_name": "Service_Plan",
-                "output_format": "text : capitalize each word"
+                "output_format": ""
             },
             "Eaton_ContractType": {
                 "actual_datasoure_name": "Eaton_ContractType",
-                "output_format": "text : capitalize each word"
+                "output_format": ""
             },
             "Contract_Coverage_Description": {
                 "actual_datasoure_name": "",
@@ -1302,9 +1322,21 @@
                 "actual_datasoure_name": "Contract_Expiration_Date",
                 "output_format": "date : mm/dd/yyyy"
             },
+            "Raise_Lead_In": {
+                "actual_datasoure_name": "Raise_Lead_In",
+                "output_format": ""
+            },
+            "Raise_Lead_On": {
+                "actual_datasoure_name": "Raise_Lead_On",
+                "output_format": "date : mm/dd/yyyy"
+            },
             "Contract_Conversion": {
                 "actual_datasoure_name": "Contract_Conversion",
                 "output_format": "text : capitalize each word"
+            },
+            "Lead_type": {
+                "actual_datasoure_name": "Lead_type",
+                "output_format": ""
             },
             "Contract_Amount": {
                 "actual_datasoure_name": "Contract_Amount",
@@ -1320,10 +1352,6 @@
             },
             "Contract_Sales_Order__c": {
                 "actual_datasoure_name": "Contract_Sales_Order__c",
-                "output_format": ""
-            },
-            "Contract_Term": {
-                "actual_datasoure_name": "Contract Term",
                 "output_format": ""
             },
             "Payment_Frequency": {
@@ -1592,6 +1620,46 @@
             },
             "MFA": {
                 "actual_datasoure_name": "MFA",
+                "output_format": ""
+            },
+            "kva_meta": {
+                "actual_datasoure_name": "kva",
+                "output_format": ""
+            },
+            "amp_meta": {
+                "actual_datasoure_name": "amp",
+                "output_format": ""
+            },
+            "voltage_meta": {
+                "actual_datasoure_name": "voltage",
+                "output_format": ""
+            },
+            "Brand": {
+                "actual_datasoure_name": "Brand",
+                "output_format": ""
+            },
+            "Clean_Model_ID": {
+                "actual_datasoure_name": "Clean_Model_ID",
+                "output_format": ""
+            },
+            "Contract_Term": {
+                "actual_datasoure_name": "Contract Term",
+                "output_format": ""
+            },
+            "Contract_Expiration_Date": {
+                "actual_datasoure_name": "Contract_Expiration_Date",
+                "output_format": ""
+            },
+            "Contract_Years": {
+                "actual_datasoure_name": "Contract Years",
+                "output_format": ""
+            },
+            "Upgraded_Monitor": {
+                "actual_datasoure_name": "Upgraded_Monitor",
+                "output_format": ""
+            },
+            "Upgrade_Type": {
+                "actual_datasoure_name": "Upgrade_Type",
                 "output_format": ""
             }
         }
@@ -2368,5 +2436,8 @@
         "pat_contact_no":"(\\d{2}-\\d{3}-\\d{3}-\\d{4})|(\\d{3}-\\d{3}-\\d{4})|(\\d{3}\\.\\d{3}\\.\\d{4})|(( -)\\d{10} )|( \\d{2}-\\d{10} )|(\\d{10})|(\\d{3} \\d{3} \\d{4})",
         "pat_email":".+@.+\\..+",
         "non_contact":"(rpp)|(pdu)|(sts)|(serial)|(cell)|(office)|(mobile)|(contact)"
+    },
+    "lead_generation": {
+        "raise_lead_in": 60
     }
 }

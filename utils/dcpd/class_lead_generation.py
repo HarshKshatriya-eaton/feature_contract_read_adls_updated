@@ -17,15 +17,12 @@ direct written permission from Eaton Corporation.
 # %% Setup Environment
 
 import os
-import numpy as np
-import pandas as pd
 import traceback
 from string import punctuation
 import re
-
-#path = os.getcwd()
-#path = os.path.join(path.split('ileads_lead_generation')[0],'ileads_lead_generation')
-#os.chdir(path)
+from datetime import timedelta
+import numpy as np
+import pandas as pd
 
 from utils.dcpd.class_business_logic import BusinessLogic
 from utils.dcpd.class_serial_number import SerialNumber
@@ -34,6 +31,11 @@ from utils.format_data import Format
 from utils import AppLogger
 from utils import IO
 from utils import Filter
+
+path = os.getcwd()
+path = os.path.join(path.split('ileads_lead_generation')[0],
+                    'ileads_lead_generation')
+os.chdir(path)
 
 obj_filt = Filter()
 
@@ -96,7 +98,6 @@ class LeadGeneration:
             # Post Process : InstallBase
             _step = "Post Processing and Deriving columns on reference install leads"
             df_leads = self.post_process_ref_install(df_leads)
-
             logger.app_success(_step)
 
             address_cols = [
@@ -106,15 +107,15 @@ class LeadGeneration:
                 "StartupAddress"
             ]
             for col in address_cols:
-                df_leads[col] = df_leads[col].str.replace("\n", " ")
-                df_leads[col] = df_leads[col].str.replace("\r", " ")
-
-            _step = 'Write output lead to result directory'
+                if not df_leads[col].isnull().values.all():
+                    df_leads[col] = df_leads[col].str.replace("\n", " ")
+                    df_leads[col] = df_leads[col].str.replace("\r", " ")
 
             df_leads = df_leads.drop(
                 columns=['temp_column', 'component', 'ClosedDate']) \
                 .reset_index(drop=True)
 
+            _step = 'Write output lead to result directory'
             IO.write_csv(self.mode,
                          {'file_dir': self.config['file']['dir_results'] +
                                       self.config['file'][
@@ -132,11 +133,11 @@ class LeadGeneration:
             ref_install = self.format.format_output(df_leads,
                                                     ref_install_output_format)
 
-            iLead_output_format = self.config['output_format']['output_iLead']
-            output_iLead = self.format.format_output(df_leads,
-                                                     iLead_output_format)
+            ilead_output_format = self.config['output_format']['output_iLead']
+            output_ilead = self.format.format_output(df_leads,
+                                                     ilead_output_format)
 
-            lead_type = output_iLead[["Serial_Number", "Lead_Type"]]
+            lead_type = output_ilead[["Serial_Number", "Lead_Type"]]
             lead_type["EOSL_reached"] = lead_type["Lead_Type"] == "EOSL"
             lead_type = lead_type.groupby("Serial_Number")["EOSL_reached"].any()
             ref_install = ref_install.merge(
@@ -165,7 +166,7 @@ class LeadGeneration:
                           'file_name':
                               self.config['file']['Processed']['output_iLead'][
                                   'file_name']
-                          }, output_iLead)
+                          }, output_ilead)
 
             logger.app_success(_step)
 
@@ -289,19 +290,43 @@ class LeadGeneration:
                 ref_area[['Abreviation', "Region", 'CSE Area']],
                 left_on='Key_region', right_on='Abreviation', how="left")
             del ref_install['Key_region']
+            ref_install["Brand"] = 'PDI'
+            ref_install["Clean_Model_ID"] = (
+                ref_install["Brand"] + "-" +
+                ref_install["product_prodclass"]
+            )
 
-            # *** BillTo customer ***
-            # ref_install = self.get_billto_data(ref_install)
+            # Upgraded Monitor check, 10 Nov, 23
+            df_service = IO.read_csv(
+                self.mode, {
+                'file_dir': self.config['file']['dir_results'] +
+                            self.config['file'][
+                            'dir_intermediate'],
+                'file_name': self.config['file']['Processed']['services'][
+                      'file_name']
+            })
+            df_service = df_service[df_service.component == 'Display']
+            df_service = df_service.rename(
+                columns={'SerialNumber': 'SerialNumber_M2M'})
+            ref_install = ref_install.merge(df_service[['type', 'SerialNumber_M2M']],
+                                      on='SerialNumber_M2M', how='left')
+            ref_install = ref_install.rename(columns={'type': 'Upgrade_Type'})
+            ref_install.loc[
+                ref_install.Upgrade_Type.notna(), "Upgraded_Monitor"] = True
+            ref_install.loc[
+                ref_install.Upgrade_Type.isna(), "Upgraded_Monitor"] = False
 
             # *** Strategic account ***
-            ref_install = self.update_Strategic_acoount(ref_install)
+            ref_install = self.update_strategic_account(ref_install)
+
+            ref_install = self.add_raise_lead_on(ref_install)
 
             return ref_install
         except Exception as e:
             logger.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from e
 
-    def update_Strategic_acoount(self, ref_install):
+    def update_strategic_account(self, ref_install):
         """
 
         :param ref_install: DESCRIPTION
@@ -378,21 +403,9 @@ class LeadGeneration:
 
             _step = 'Deriving Component_Due_in (Category) based on Due years'
 
-            def categorize_due_in_category(x):
-                if x < 0:
-                    return "Past Due"
-                elif 0 <= x <= 1:
-                    return "Due this year"
-                elif 1 < x <= 3:
-                    return "Due in 2-3 years"
-                elif 3 < x < 100:
-                    return "Due after 3 years"
-                else:
-                    return "Unknown"  # Or any other default category you want to assign
-
             # Apply the function to create the 'Component_Due_in (Category)' column
             output_ilead_df['Component_Due_in (Category)'] = output_ilead_df[
-                'Component_Due_in (years)'].apply(categorize_due_in_category)
+                'Component_Due_in (years)'].apply(self.categorize_due_in_category)
 
             # Add prod meta data
             output_ilead_df = self.prod_meta_data(output_ilead_df)
@@ -404,7 +417,6 @@ class LeadGeneration:
 
 
     def prod_meta_data(self, output_ilead_df):
-
         # Partnumber for chasis decides the axle
         _step = "Product meta data"
         try:
@@ -504,8 +516,7 @@ class LeadGeneration:
                 self.mode, {
                     'file_dir': self.config['file']['dir_data'],
                     'file_name': self.config['file']['Raw']['bom'][
-                        'file_name'],
-                    'sep': '\t'})
+                        'file_name']})
 
             input_format = self.config['database']['bom']['Dictionary Format']
             df_bom = self.format.format_data(df_bom, input_format)
@@ -566,9 +577,7 @@ class LeadGeneration:
         """
         _step = "Merging leads and services data to extract date code at component level"
         try:
-            if df_services is not None:
-                df_services = df_services
-            else:
+            if df_services is None:
                 df_services = IO.read_csv(self.mode,
                                           {'file_dir': self.config['file'][
                                                            'dir_results'] +
@@ -614,7 +623,6 @@ class LeadGeneration:
                                                      errors='coerce'). \
                 dt.strftime('%Y-%m-%d')
 
-            ls_uni = df_leads['Component'].unique()
             df_leads['Component'] = df_leads['Component'].fillna("")
             # Create a new column based on the list values
             df_leads['temp_column'] = df_leads['Component'].apply(
@@ -659,17 +667,17 @@ class LeadGeneration:
         @param type_: pd.Dataframe
         @return: pd.Dataframe
         """
+        _step = f'Query install data ({type_}'
         try:
-            _step = f'Query install data ({type_}'
             ls_cols = ['Job_Index', 'InstallDate', 'Product_M2M',
-                       'SerialNumber_M2M']
+                       'SerialNumber_M2M', 'Revision', 'PartNumber_TLN_Shipment']
+
             if type_ == 'lead_id':
                 key = 'Job_Index'
 
                 if 'InstallDate' not in df_install.columns:
                     df_install['InstallDate'] = df_install['startup_date']. \
                         fillna(df_install['ShipmentDate'])
-
                 else:
                     df_install['InstallDate'] = df_install['startup_date']. \
                         fillna(df_install['InstallDate'])
@@ -678,15 +686,36 @@ class LeadGeneration:
                 df_install['Product_M2M'] = df_install[
                     'product_prodclass'].str.lower()
 
+                # Divide the install base data into made to order(mto) and made
+                # to stock(mts) category. The entries with job_index are made
+                # to batch, entries without job_index is made to stock
+                df_install_mto = df_install.loc[
+                    df_install["Job_Index"].notna()
+                ]
+                df_install_mts = df_install.loc[
+                    df_install["Job_Index"].isna()
+                ]
+
+                # Changed join from "inner" to "right" on 19th July 23 (Bug CIPILEADS-533)
+                # Joined  made to batch data with bom data on 23rd Oct, 23
+                df_out_mto = df_bom.merge(df_install_mto[ls_cols], on=key, how='right')
+
+                # Added component part numbers for made to stock data on 23rd Oct, 23
+                df_out_mts = self.add_data_mts(df_install_mts[ls_cols], merge_type='left')
+
+                # Append the custom data, batch empty data and batch non_empty data
+                df_out = df_out_mto._append(
+                    df_out_mts, ignore_index=True
+                )
+
             elif type_ == 'meta_data':
                 key = 'SerialNumber_M2M'
                 ls_cols = [col for col in df_install.columns if
                            col not in ls_cols]
                 ls_cols = ls_cols + ['SerialNumber_M2M']
                 ls_cols.remove('SerialNumber')
-
-            # Changed join from "inner" to "right" on 19th July 23 (Bug CIPILEADS-533)
-            df_out = df_bom.merge(df_install[ls_cols], on=key, how='right')
+                # Changed join from "inner" to "right" on 19th July 23 (Bug CIPILEADS-533)
+                df_out = df_bom.merge(df_install[ls_cols], on=key, how='right')
 
         except Exception as e:
             logger.app_fail(_step, f"{traceback.print_exc()}")
@@ -789,6 +818,7 @@ class LeadGeneration:
             df_data = df_bom[ls_cols[:-1]].drop_duplicates()
             df_data['key_value'] = df_data[lead_id_basedon]
 
+            df_data["PartNumber_BOM_BOM"] = df_data["PartNumber_BOM_BOM"].fillna("")
             # Id Leads
             df_leads_bom = self.id_leads_for_partno(
                 df_data, ref_lead, lead_id_basedon)
@@ -817,6 +847,29 @@ class LeadGeneration:
 
             logger.app_debug(
                 f'No of leads b4 classify: {df_leads_out.shape[0]}')
+
+            # Update 'PCB08212' component type based on shipment date, 1 Nov, 2023
+            part_nums = ['pcb08212', 'sa00012', 'sa00013']
+            for part_num in part_nums:
+                df_leads_out.loc[
+                    (
+                            (df_leads_out.key == part_num) &
+                            (df_leads_out.InstallDate.astype(
+                                str) < '2015-01-01')
+                    ),
+                    'Component'
+                ] = 'Monochrome Display'
+            part_nums = ['sa00012', 'sa00013']
+            for part_num in part_nums:
+                df_leads_out.loc[
+                    (
+                            (df_leads_out.key == part_num) &
+                            (df_leads_out.InstallDate.astype(
+                                str) >= '2015-01-01')
+                    ),
+                    ['Component', 'Status', 'Life__Years', 'EOSL']
+                ] = ['Color Display', 'Active', 10, np.nan]
+
 
             df_leads_out = self.classify_lead(df_leads_out)
             logger.app_debug(
@@ -1225,16 +1278,16 @@ class LeadGeneration:
         Define a custom function to calculate the 'Component_Due_Date'
         """
         if row['lead_type'] == 'EOSL':
-            EOSL_Year = int(row['EOSL'])
-            first_day_of_year = pd.to_datetime(f'01/01/{EOSL_Year}',
+            eosl_year = int(row['EOSL'])
+            first_day_of_year = pd.to_datetime(f'01/01/{eosl_year}',
                                                format='%m/%d/%Y')
             return first_day_of_year.strftime('%m/%d/%Y')
-        else:
-            component_date_code = pd.to_datetime(row['date_code'],
-                                                 format='%m/%d/%Y')
-            component_life_years = pd.DateOffset(years=row['Life__Years'])
-            return (component_date_code + component_life_years).strftime(
-                '%m/%d/%Y')
+
+        component_date_code = pd.to_datetime(row['date_code'],
+                                             format='%m/%d/%Y')
+        component_life_years = pd.DateOffset(years=row['Life__Years'])
+        return (component_date_code + component_life_years).strftime(
+            '%m/%d/%Y')
 
     def update_eosl(self, row):
         """
@@ -1242,9 +1295,154 @@ class LeadGeneration:
         """
         if row['lead_type'] == 'EOSL':
             return row['Component_Due_Date']
-        else:
-            return row['EOSL']
+        return row['EOSL']
 
+    def add_data_mts(self, df_install_mts, merge_type):
+        """
+        Method to join made to stock data with standard bom data
+        :param df_install_mts: Made to stock install data
+        :param merge_type: merge type
+        :return: Merged data
+        """
+        # Read Standard BOM data and preprocess standard bom data
+        df_bom_data_default = IO.read_csv(
+            self.mode,
+            {'file_dir': self.config['file']['dir_data'],
+             'file_name': self.config['file']['Raw']['bomdata_deafault']['file_name']}
+        )
+        df_bom_sisc = IO.read_csv(
+            self.mode,
+            {'file_dir': self.config['file']['dir_data'],
+             'file_name': self.config['file']['Raw']['bomdata_sisc']['file_name']}
+        )
+        df_standard_bom = df_bom_sisc._append(
+            df_bom_data_default, ignore_index=True
+        )
+        df_standard_bom.rename(
+            columns={
+                "fparent": "PartNumber_TLN_Shipment",
+                "fcomponent": "PartNumber_BOM_BOM",
+                "fparentrev": "Revision",
+                "fqty": "Total_Quantity"
+            }, inplace=True
+        )
+        df_standard_bom["PartNumber_TLN_Shipment"] = df_standard_bom[
+            "PartNumber_TLN_Shipment"].str.lstrip().str.rstrip()
+        df_standard_bom["PartNumber_BOM_BOM"] = df_standard_bom[
+            "PartNumber_BOM_BOM"].str.lstrip().str.rstrip()
+        df_standard_bom = df_standard_bom[
+            ['PartNumber_TLN_Shipment', 'PartNumber_BOM_BOM', 'Revision', "Total_Quantity"]
+        ]
+
+        # Preprocess made to stock data
+        df_install_mts["PartNumber_TLN_Shipment"] = df_install_mts[
+            "PartNumber_TLN_Shipment"].astype(str).str.lstrip().str.rstrip()
+
+        # Merge made to stock data with standard bom data based on shipment
+        # number and revision
+        df_install_mts = df_install_mts.merge(
+            df_standard_bom,
+            on=['PartNumber_TLN_Shipment', 'Revision'],
+            how=merge_type
+        )
+
+        # Further divide the mts data based on if the join was successful i.e.
+        # obtained BOM number is null or not.
+        # For the batch data where join fails, it doesn't seem to have a proper
+        # revision, hence we merge it with the first revision available
+        df_install_mts_joined = df_install_mts.loc[
+            df_install_mts["PartNumber_BOM_BOM"].notna()
+        ]
+        df_install_mts_not_joined = df_install_mts.loc[
+            df_install_mts["PartNumber_BOM_BOM"].isna()
+        ]
+
+        # Preprocess standard bom data to select the first revision for every shipment
+        df_standard_bom[["PartNumber_TLN_Shipment", "Revision"]].fillna("", inplace=True)
+        df_standard_bom['key'] = (
+                df_standard_bom["PartNumber_TLN_Shipment"] + ":" +
+                df_standard_bom["Revision"]
+        )
+        df_standard_bom.drop_duplicates(["PartNumber_TLN_Shipment", "key"],
+                                        inplace=True)
+        df_standard_bom.sort_values(by=["key"])
+        df_standard_bom.drop_duplicates(["PartNumber_TLN_Shipment"],
+                                        keep='first', inplace=True)
+        df_standard_bom.drop(["key"], axis=1, inplace=True)
+
+        # Merge the not joined data with the first revision available
+        df_install_mts_not_joined.drop(
+            ["PartNumber_BOM_BOM", "Revision", "Total_Quantity"],
+            axis=1,
+            inplace=True
+        )
+        df_install_mts_not_joined = df_install_mts_not_joined.merge(
+            df_standard_bom,
+            on=['PartNumber_TLN_Shipment'],
+            how=merge_type
+        )
+
+        # Append joined data and unjoined data to get complete made to stock data
+        df_install_mts = df_install_mts_joined._append(
+            df_install_mts_not_joined, ignore_index=True
+        )
+
+        return df_install_mts
+
+    def categorize_due_in_category(self, component_due_in_years):
+        """
+        Method categorises component due date
+        :param component_due_in_years: Due date in years
+        :return: Due category
+        """
+        if component_due_in_years < 0:
+            return "Past Due"
+        if 0 <= component_due_in_years <= 1:
+            return "Due this year"
+        if 1 < component_due_in_years <= 3:
+            return "Due in 2-3 years"
+        if 3 < component_due_in_years < 100:
+            return "Due after 3 years"
+        return "Unknown"  # Or any other default category you want to assign
+
+    def add_raise_lead_on(self, ref_install):
+        """
+        Method to calculate the date to raise the lead on
+        :param ref_install: Reference install dataframe
+        :return: Updated reference install dataframe
+        """
+        raise_lead_in = self.config["lead_generation"]["raise_lead_in"]
+        ref_install["Raise_Lead_In"] = raise_lead_in
+        ref_install["Raise_Lead_On"] = (
+            pd.to_datetime(
+                ref_install["Contract_Expiration_Date"],
+                errors='coerce'
+            )
+            - timedelta(raise_lead_in)
+        ).dt.date
+
+        ref_install.loc[
+            (
+                (
+                    (ref_install.Contract_Conversion == 'Warranty Due') |
+                    (ref_install.Contract_Conversion == 'Warranty Conversion') |
+                    (ref_install.Contract_Conversion == 'No Contract')
+                )
+            ),
+            'Lead_type'
+        ] = 'Warranty Conversion'
+        ref_install.loc[
+            (
+                (
+                    (ref_install.Contract_Conversion == 'New Business') |
+                    (ref_install.Contract_Conversion == 'No Warranty / Contract') |
+                    (ref_install.Contract_Conversion == 'No Warranty')
+                )
+            ),
+            'Lead_type'
+        ] = 'Contract Leads'
+
+        return ref_install
 
 #%%
 if __name__ == "__main__":

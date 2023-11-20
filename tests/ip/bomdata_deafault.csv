@@ -1,0 +1,101 @@
+cfacilityid,fparent,fparentrev,fcomponent,fcomprev,fcomponentDescription,fmeasure,Source,fqty
+Default             ,001-000009-0097          ,   ,BKT18046                 ,A  ,"U-BKT,SPPT,TOB",EA ,Stock,1
+Default             ,10.3,   ,SLT-0500-.5INCH          ,   ,.5-INCH-BLUE-SEALTITE              ,FT ,Stock,1
+Default             ,10.3,   ,WRE-010-BL               ,   ,10-WIRE-THHN-BLUE                  ,FT ,Stock,1
+Default             ,10.3,   ,WRE-010-RD               ,   ,10-WIRE-THHN-RED                   ,FT ,Stock,1
+Default             ,10.3,   ,WRE-010-WT               ,   ,10-WIRE-THHN-WHITE                 ,FT ,Stock,1
+Default             ,10.3,   ,WRE-034-THHN-BK          ,   ,034-WIRE-THHN-BLACK-4/0,FT ,Stock,60
+Default             ,10.3,   ,WRE57723                 ,   ,"THHN,10AWG,Grn,600V,90C",FT ,Stock,1
+Default             ,010.3-IG                 ,   ,SLT-0500-.5INCH          ,   ,.5-INCH-BLUE-SEALTITE              ,FT ,Stock,1
+Default             ,010.3-IG                 ,   ,WRE-010-BL               ,   ,10-WIRE-THHN-BLUE                  ,FT ,Stock,1
+Default             ,010.3-IG                 ,   ,WRE-010-RD               ,   ,10-WIRE-THHN-RED                   ,FT ,Stock,1
+Default             ,010.3-IG                 ,   ,WRE-010-WT               ,   ,10-WIRE-THHN-WHITE                 ,FT ,Stock,1
+Default             ,010.3-IG                 ,   ,WRE57723                 ,   ,"THHN,10AWG,Grn,600V,90C",FT ,Stock,2
+Default             ,10.4,   ,SLT-0500-.5INCH          ,   ,.5-INCH-BLUE-SEALTITE              ,FT ,Stock,1
+Default             ,10.4,   ,WRE-010-BK               ,   ,"10-WIRE-THHN-BLACK, STRANDED       ",FT ,Stock,1
+Default             ,10.4,   ,WRE-010-BL               ,   ,10-WIRE-THHN-BLUE                  ,FT ,Stock,1
+Default             ,10.4,   ,WRE-010-RD               ,   ,10-WIRE-THHN-RED                   ,FT ,Stock,1
+Default             ,10.4,   ,WRE57723                 ,   ,"THHN,10AWG,Grn,600V,90C",FT ,Stock,1
+Default             ,010.4-IG                 ,   ,SLT-0500-.5INCH          ,   ,.5-INCH-BLUE-SEALTITE              ,FT ,Stock,1
+Default             ,010.4-IG                 ,   ,WRE-010-BK               ,   ,"10-WIRE-THHN-BLACK, STRANDED       ",FT ,Stock,1
+Default             ,010.4-IG                 ,   ,WRE-010-BL               ,   ,10-WIRE-THHN-BLUE                  ,FT ,Stock,1
+Default             ,010.4-IG                 ,   ,WRE-010-RD               ,   ,10-WIRE-THHN-RED                   ,FT ,Stock,1
+Default             ,010.4-IG                 ,   ,WRE57723                 ,   ,"THHN,10AWG,Grn,600V,90C",FT ,Stock,2
+Default             ,10.5,   ,CND57649                 ,   ,"LiqTight,0.75",FT ,Stock,1
+Default             ,10.5,   ,WRE-010-BK               ,   ,"10-WIRE-THHN-BLACK, STRANDED       ",FT ,Stock,1
+Default             ,10.5,   ,WRE-010-BL               ,   ,10-WIRE-THHN-BLUE                  ,FT ,Stock,1
+Default             ,10.5,   ,WRE-010-RD               ,   ,10-WIRE-THHN-RED                   ,FT ,Stock,1
+Default             ,10.5,   ,WRE-010-WT               ,   ,10-WIRE-THHN-WHITE                 ,FT ,Stock,1
+Default             ,10.5,   ,WRE57723                 ,   ,"THHN,10AWG,Grn,600V,90C",FT ,Stock,1
+Default             ,010.5-IG                 ,   ,CND57649                 ,   ,"LiqTight,0.75",FT ,Stock,1
+Default             ,010.5-IG                 ,   ,WRE-010-BK               ,   ,"10-WIRE-THHN-BLACK, STRANDED       ",FT ,Stock,1
+Default             ,010.5-IG                 ,   ,WRE-010-BL               ,   ,10-WIRE-THHN-BLUE                  ,FT ,Stock,1
+Default             ,010.5-IG                 ,   ,WRE-010-RD               ,   ,10-WIRE-THHN-RED                   ,FT ,Stock,1
+Default             ,010.5-IG                 ,   ,WRE-010-WT               ,   ,10-WIRE-THHN-WHITE                 ,FT ,Stock,1
+Default             ,010.5-IG                 ,   ,WRE57723                 ,   ,"THHN,10AWG,Grn,600V,90C",FT ,Stock,2
+Default             ,12.1,   ,SLT-0500-.5INCH          ,   ,.5-INCH-BLUE-SEALTITE              ,FT ,Stock,1
+Default             ,12.1,   ,WRE-012-WT               ,   ,12-WIRE-THHN-WHITE                 ,FT ,Stock,1
+Default             ,12.1,   ,WRE57727                 ,   ,"THHN,12AWG,BK,600V,90C",FT ,Stock,1
+Default             ,12.1,   ,WRE57729                 ,   ,"THHN,12AWG,Grn,600V,90C",FT ,Stock,1
+Default             ,012.1-IG                 ,   ,SLT-0500-.5INCH          ,   ,.5-INCH-BLUE-SEALTITE              ,FT ,Stock,1
+Default             ,012.1-IG                 ,   ,WRE-012-WT               ,   ,12-WIRE-THHN-WHITE                 ,FT ,Stock,1
+Default             ,012.1-IG                 ,   ,WRE57727                 ,   ,"THHN,12AWG,BK,600V,90C",FT ,Stock,1
+Default             ,012.1-IG                 ,   ,WRE57729                 ,   ,"THHN,12AWG,Grn,600V,90C",FT ,Stock,2
+Default             ,12.2,   ,SLT-0500-.5INCH          ,   ,.5-INCH-BLUE-SEALTITE              ,FT ,Stock,1
+Default             ,12.2,   ,WRE-012-BL               ,   ,12-WIRE-THHN-BLUE                  ,FT ,Stock,1
+Default             ,12.2,   ,WRE-012-RD               ,   ,12-WIRE-THHN-RED                   ,FT ,Stock,1
+Default             ,12.2,   ,WRE57729                 ,   ,"THHN,12AWG,Grn,600V,90C",FT ,Stock,1
+Default             ,012.2-IG                 ,   ,SLT-0500-.5INCH          ,   ,.5-INCH-BLUE-SEALTITE              ,FT ,Stock,1
+Default             ,012.2-IG                 ,   ,WRE-012-BL               ,   ,12-WIRE-THHN-BLUE                  ,FT ,Stock,1
+Default             ,012.2-IG                 ,   ,WRE-012-RD               ,   ,12-WIRE-THHN-RED                   ,FT ,Stock,1
+Default             ,012.2-IG                 ,   ,WRE57729                 ,   ,"THHN,12AWG,Grn,600V,90C",FT ,Stock,2
+Default             ,12.3,   ,SLT-0500-.5INCH          ,   ,.5-INCH-BLUE-SEALTITE              ,FT ,Stock,1
+Default             ,12.3,   ,WRE-012-BL               ,   ,12-WIRE-THHN-BLUE                  ,FT ,Stock,1
+Default             ,12.3,   ,WRE-012-RD               ,   ,12-WIRE-THHN-RED                   ,FT ,Stock,1
+Default             ,12.3,   ,WRE-012-WT               ,   ,12-WIRE-THHN-WHITE                 ,FT ,Stock,1
+Default             ,12.3,   ,WRE57729                 ,   ,"THHN,12AWG,Grn,600V,90C",FT ,Stock,1
+Default             ,012.3-IG                 ,   ,SLT-0500-.5INCH          ,   ,.5-INCH-BLUE-SEALTITE              ,FT ,Stock,1
+Default             ,012.3-IG                 ,   ,WRE-012-BL               ,   ,12-WIRE-THHN-BLUE                  ,FT ,Stock,1
+Default             ,012.3-IG                 ,   ,WRE-012-RD               ,   ,12-WIRE-THHN-RED                   ,FT ,Stock,1
+Default             ,012.3-IG                 ,   ,WRE-012-WT               ,   ,12-WIRE-THHN-WHITE                 ,FT ,Stock,1
+Default             ,012.3-IG                 ,   ,WRE57729                 ,   ,"THHN,12AWG,Grn,600V,90C",FT ,Stock,2
+Default             ,12.4,   ,SLT-0500-.5INCH          ,   ,.5-INCH-BLUE-SEALTITE              ,FT ,Stock,1
+Default             ,12.4,   ,WRE-012-BL               ,   ,12-WIRE-THHN-BLUE                  ,FT ,Stock,1
+Default             ,12.4,   ,WRE-012-RD               ,   ,12-WIRE-THHN-RED                   ,FT ,Stock,1
+Default             ,12.4,   ,WRE57727                 ,   ,"THHN,12AWG,BK,600V,90C",FT ,Stock,1
+Default             ,12.4,   ,WRE57729                 ,   ,"THHN,12AWG,Grn,600V,90C",FT ,Stock,1
+Default             ,012.4-IG                 ,   ,SLT-0500-.5INCH          ,   ,.5-INCH-BLUE-SEALTITE              ,FT ,Stock,1
+Default             ,012.4-IG                 ,   ,WRE-012-BL               ,   ,12-WIRE-THHN-BLUE                  ,FT ,Stock,1
+Default             ,012.4-IG                 ,   ,WRE-012-RD               ,   ,12-WIRE-THHN-RED                   ,FT ,Stock,1
+Default             ,012.4-IG                 ,   ,WRE57727                 ,   ,"THHN,12AWG,BK,600V,90C",FT ,Stock,1
+Default             ,012.4-IG                 ,   ,WRE57729                 ,   ,"THHN,12AWG,Grn,600V,90C",FT ,Stock,2
+Default             ,12.5,   ,SLT-0500-.5INCH          ,   ,.5-INCH-BLUE-SEALTITE              ,FT ,Stock,1
+Default             ,12.5,   ,WRE-012-BL               ,   ,12-WIRE-THHN-BLUE                  ,FT ,Stock,1
+Default             ,12.5,   ,WRE-012-RD               ,   ,12-WIRE-THHN-RED                   ,FT ,Stock,1
+Default             ,12.5,   ,WRE-012-WT               ,   ,12-WIRE-THHN-WHITE                 ,FT ,Stock,1
+Default             ,12.5,   ,WRE57727                 ,   ,"THHN,12AWG,BK,600V,90C",FT ,Stock,1
+Default             ,12.5,   ,WRE57729                 ,   ,"THHN,12AWG,Grn,600V,90C",FT ,Stock,1
+Default             ,012.5-IG                 ,   ,SLT-0500-.5INCH          ,   ,.5-INCH-BLUE-SEALTITE              ,FT ,Stock,1
+Default             ,012.5-IG                 ,   ,WRE-012-BL               ,   ,12-WIRE-THHN-BLUE                  ,FT ,Stock,1
+Default             ,012.5-IG                 ,   ,WRE-012-RD               ,   ,12-WIRE-THHN-RED                   ,FT ,Stock,1
+Default             ,012.5-IG                 ,   ,WRE-012-WT               ,   ,12-WIRE-THHN-WHITE                 ,FT ,Stock,1
+Default             ,012.5-IG                 ,   ,WRE57727                 ,   ,"THHN,12AWG,BK,600V,90C",FT ,Stock,1
+Default             ,012.5-IG                 ,   ,WRE57729                 ,   ,"THHN,12AWG,Grn,600V,90C",FT ,Stock,2
+Default             ,26.1,   ,CND57649                 ,   ,"LiqTight,0.75",FT ,Stock,1
+Default             ,26.1,   ,WRE-026-WT               ,   ,6-WIRE-THHN-WHITE                  ,FT ,Stock,1
+Default             ,26.1,   ,WRE57755                 ,   ,"THHN,6AWG,BK,600V,90C",FT ,Stock,1
+Default             ,26.1,   ,WRE57757                 ,   ,"THHN,6AWG,Grn,600V,90C",FT ,Stock,1
+Default             ,26.2,   ,CND57649                 ,   ,"LiqTight,0.75",FT ,Stock,1
+Default             ,26.2,   ,WRE57756                 ,   ,"THHN,6AWG,Blu,600V,90C",FT ,Stock,1
+Default             ,26.2,   ,WRE57757                 ,   ,"THHN,6AWG,Grn,600V,90C",FT ,Stock,1
+Default             ,26.2,   ,WRE57766                 ,   ,"THHN,6AWG,Red,600V,90C",FT ,Stock,1
+Default             ,26.3,   ,CND57649                 ,   ,"LiqTight,0.75",FT ,Stock,1
+Default             ,26.3,   ,WRE-026-WT               ,   ,6-WIRE-THHN-WHITE                  ,FT ,Stock,1
+Default             ,26.3,   ,WRE57756                 ,   ,"THHN,6AWG,Blu,600V,90C",FT ,Stock,1
+Default             ,26.3,   ,WRE57757                 ,   ,"THHN,6AWG,Grn,600V,90C",FT ,Stock,1
+Default             ,26.3,   ,WRE57766                 ,   ,"THHN,6AWG,Red,600V,90C",FT ,Stock,1
+Default             ,26.4,   ,SLT-0600-1.00IN          ,   ,1.00-INCH-BLUE-SEALTITE            ,FT ,Stock,1
+Default             ,26.4,   ,WRE57755                 ,   ,"THHN,6AWG,BK,600V,90C",FT ,Stock,1
+Default             ,26.4,   ,WRE57756                 ,   ,"THHN,6AWG,Blu,600V,90C",FT ,Stock,1
+Default             ,26.4,   ,WRE57757                 ,   ,"THHN,6AWG,Grn,600V,90C",FT ,Stock,1
+Default             ,26.4,   ,WRE57766                 ,   ,"THHN,6AWG,Red,600V,90C",FT ,Stock,1

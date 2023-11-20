@@ -357,7 +357,7 @@ class Contacts:
 
             case "events":
                 # extract_data
-                df_data = obj.extract_data(src, df_data)
+                df_data = self.extract_data(src, df_data)
                 dict_contact['Serial Number'] = 'SerialNumber'
 
             case "contracts":

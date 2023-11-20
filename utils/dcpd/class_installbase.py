@@ -199,8 +199,6 @@ class InstallBase:
 
             # Format Data
             input_format = self.config['database']['M2M']['Dictionary Format']
-            column_rename = self.config['file']['Raw']['M2M']['column_rename']
-            df_data_install = df_data_install.rename(column_rename, axis=1)
             df_data_install = obj_format.format_data(
                 df_data_install, input_format
             )
@@ -244,7 +242,7 @@ class InstallBase:
                      'file_name'],
                  'adls_config': self.config['file']['Processed']['adls_credentials'],
                  'adls_dir': self.config['file']['Processed']['processed_m2m_shipment']
-                     
+
                      },
                 df_data_install)
 
@@ -396,7 +394,7 @@ class InstallBase:
                                       'file_name': self.config['file']['Reference']['ref_sheet_pdi'],
                                       'adls_config': self.config['file']['Reference']['adls_credentials'],
                                       'adls_dir': self.config['file']['Reference']['ref_sheet_pdi']
-                                        
+
                                       })
             # Drop duplicates in reference file
             df_ref_pdi = df_ref_pdi.drop_duplicates(subset='PartNumber_TLN_BOM', keep='first')
@@ -428,7 +426,7 @@ class InstallBase:
             {'file_dir': self.config['file']['dir_ref'],
              'file_name': self.config['file']['Reference']['lead_opportunities'],
              'adls_config': self.config['file']['Reference']['adls_credentials'],
-             'adls_dir': self.config['file']['Reference']['lead_opportunities'] 
+             'adls_dir': self.config['file']['Reference']['lead_opportunities']
             })
 
         export_cols = self.config['install_base']['main_breaker_cols']['export_col_data']
@@ -469,9 +467,8 @@ class InstallBase:
                                   'file_dir': self.config['file']['dir_data'],
                                   'file_name': self.config['file']['Raw']['bom']['file_name'],
                                   'adls_config': self.config['file']['Raw']['adls_credentials'],
-                                  'adls_dir': self.config['file']['Raw']['bom'],
-                                  'sep': '\t'
-                                
+                                  'adls_dir': self.config['file']['Raw']['bom']
+
                                   }
                                  )
             # Format Data

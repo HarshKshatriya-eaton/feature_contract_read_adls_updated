@@ -30,6 +30,15 @@ from utils.dcpd.class_contracts_data import Contract
 # filters_ = ConfigureFilts(logger)
 
 obj_contract = Contract()
+obj_contract.config['file']['dir_data'] = "./tests/ip"
+obj_contract.config['file']['dir_ref'] = "./tests/ip"
+obj_contract.config["install_base"]["sr_num_validation"]["exact_match_filter"] = [
+    "qts",
+    "cyrus one"
+]
+obj_contract.config['file']['dir_results'] = "./tests/"
+obj_contract.config['file']['dir_validation'] = "ip"
+obj_contract.config['file']['dir_intermediate'] = "ip"
 
 
 class TestFilterSrnum:
@@ -183,7 +192,7 @@ class TestFlagSrnumRange:
              'src': ['Product_1_Serial__c', 'Product_1_Serial__c',
                      'Product_1_Serial__c', 'Product_1_Serial__c']}))
          ])
-    def test_sep_single_mul_srnum_errors_1(self, df_data):
+    def test_flag_serialnumber_wid_range_errors_1(self, df_data):
         """
         Provided "df" with
         None DataFrame
@@ -436,7 +445,7 @@ class TestConcatExportData:
                                                  '120-0024a-e',
                                                  '120-0024a-e']}))
          ])
-    def test_sep_single_mul_srnum_errors_1(self, df_out_sub_single):
+    def test_concat_export_data_errors_1(self, df_out_sub_single):
         """
         Provided "df_out_sub_single" with
         None DataFrame
@@ -476,7 +485,7 @@ class TestConcatExportData:
                                                  '120-0024a-e',
                                                  '120-0024a-e']})),
          ])
-    def test_sep_single_mul_srnum_errors_2(self, df_out_sub_multi):
+    def test_concat_export_data_errors_2(self, df_out_sub_multi):
         """
         Provided "df_out_sub_single" with
         None DataFrame
@@ -724,81 +733,81 @@ class TestDecodeInstallbaseData:
         assert exp_res['flag_update'].equals(res['flag_update'])
 
 
-class TestValidateSrnum:
-    """
-    Check if contract serialnumber is correctly validated through installbase serialnumber
-    """
-
-    @pytest.mark.parametrize(
-        "df_contract_srnum",
-        [None,
-         (pd.DataFrame()),
-         'dcacac',
-         [123, 'aeda'],
-         1432,
-         ])
-    def test_validate_srnum_errors_1(self, df_contract_srnum):
-        """
-        Provided "df_install_decode" with
-        None DataFrame
-        Empty DataFrame
-        string value
-        list
-        numeric value
-        Missing Columns, should throw errors
-        """
-        df_install = pd.DataFrame(
-            data={'SerialNumber_M2M': ['185-0043-co', '110-2768',
-                                       '110-4525-1-8-expfee', '730-1868-b',
-                                       't18-26-us-s-4313',
-                                       '30958wa-5020-1'
-                                       ]})
-        with pytest.raises(Exception) as _:
-            obj_contract.validate_srnum(df_install, df_contract_srnum)
-
-    @pytest.mark.parametrize(
-        "df_install",
-        [None,
-         (pd.DataFrame()),
-         'dcacac',
-         [123, 'aeda'],
-         1432,
-         ])
-    def test_validate_srnum_errors_2(self, df_install):
-        """
-        Provided "df_install" with
-        None DataFrame
-        Empty DataFrame
-        string value
-        list
-        numeric value
-        Missing Columns, should throw errors
-        """
-        df_contract_srnum = pd.DataFrame(data={'SerialNumber': ['185', '110-2768',
-                                                                '110-4525-1', '730-1868',
-                                                                't18',
-                                                                '30958wa', '000']})
-        with pytest.raises(Exception) as _:
-            obj_contract.validate_srnum(df_install, df_contract_srnum)
-
-    # def test_validate_srnum_ideal_scenario(self):
-    #     """
-    #     Check if contract serialnumber is correctly validated through installbase serialnumber
-    #     """
-    #     df_install = pd.DataFrame(
-    #         data={'SerialNumber_M2M': ['185-0043-co', '110-2768', '110-4525-1-8-expfee',
-    #                                    '730-1868-b',
-    #                                    't18-26-us-s-4313',
-    #                                    '30958wa-5020-1'
-    #                                    ]})
-    #     df_contract_srnum = pd.DataFrame(data={'SerialNumber': ['185', '110-2768',
-    #                                                             '110-4525-1', '730-1868',
-    #                                                             't18',
-    #                                                             '30958wa', '000']})
-    #     res = obj_contract.validate_srnum(df_install, df_contract_srnum)
-    #     exp_res = pd.DataFrame(data={'flag_validinstall': [True, True, True,
-    #                                                        True, True, True, False]})
-    #     assert exp_res['flag_validinstall'].equals(res['flag_validinstall'])
+# class TestValidateSrnum:
+#     """
+#     Check if contract serialnumber is correctly validated through installbase serialnumber
+#     """
+#
+#     @pytest.mark.parametrize(
+#         "df_contract_srnum",
+#         [None,
+#          (pd.DataFrame()),
+#          'dcacac',
+#          [123, 'aeda'],
+#          1432,
+#          ])
+#     def test_validate_srnum_errors_1(self, df_contract_srnum):
+#         """
+#         Provided "df_install_decode" with
+#         None DataFrame
+#         Empty DataFrame
+#         string value
+#         list
+#         numeric value
+#         Missing Columns, should throw errors
+#         """
+#         df_install = pd.DataFrame(
+#             data={'SerialNumber_M2M': ['185-0043-co', '110-2768',
+#                                        '110-4525-1-8-expfee', '730-1868-b',
+#                                        't18-26-us-s-4313',
+#                                        '30958wa-5020-1'
+#                                        ]})
+#         with pytest.raises(Exception) as _:
+#             obj_contract.validate_srnum(df_install, df_contract_srnum)
+#
+#     @pytest.mark.parametrize(
+#         "df_install",
+#         [None,
+#          (pd.DataFrame()),
+#          'dcacac',
+#          [123, 'aeda'],
+#          1432,
+#          ])
+#     def test_validate_srnum_errors_2(self, df_install):
+#         """
+#         Provided "df_install" with
+#         None DataFrame
+#         Empty DataFrame
+#         string value
+#         list
+#         numeric value
+#         Missing Columns, should throw errors
+#         """
+#         df_contract_srnum = pd.DataFrame(data={'SerialNumber': ['185', '110-2768',
+#                                                                 '110-4525-1', '730-1868',
+#                                                                 't18',
+#                                                                 '30958wa', '000']})
+#         with pytest.raises(Exception) as _:
+#             obj_contract.validate_srnum(df_install, df_contract_srnum)
+#
+#     def test_validate_srnum_ideal_scenario(self):
+#         """
+#         Check if contract serialnumber is correctly validated through installbase serialnumber
+#         """
+#         df_install = pd.DataFrame(
+#             data={'SerialNumber_M2M': ['185-0043-co', '110-2768', '110-4525-1-8-expfee',
+#                                        '730-1868-b',
+#                                        't18-26-us-s-4313',
+#                                        '30958wa-5020-1'
+#                                        ]})
+#         df_contract_srnum = pd.DataFrame(data={'SerialNumber': ['185', '110-2768',
+#                                                                 '110-4525-1', '730-1868',
+#                                                                 't18',
+#                                                                 '30958wa', '000']})
+#         res = obj_contract.validate_srnum(df_install, df_contract_srnum)
+#         exp_res = pd.DataFrame(data={'flag_validinstall': [True, True, True,
+#                                                            True, True, True, False]})
+#         assert exp_res['flag_validinstall'].equals(res['flag_validinstall'])
 
 
 class TestMergeContractAndSrnum:
@@ -1004,28 +1013,57 @@ class TestMergeContractAndRenewal:
         """
         Check if contract data and renewal data is getting merged correctly.
         """
-        df_contract = pd.DataFrame(data={"ContractNumber": [6827, 7783, 6539],
-                                         "PDI_ContractType": ['new', 'new', 'existing'],
-                                         "Service_Plan": ['gold', 'extended warranty', 'silver'],
-                                         "Contract": ['80046000000cfVRAAY', '80046000000cfVLAAY',
-                                                      '80046000000cfUIAAY']})
+        df_contract = pd.DataFrame(data={
+            "ContractNumber": [6827, 7783, 6539],
+            "PDI_ContractType": ['new', 'new', 'existing'],
+            "Service_Plan": ['gold', 'extended warranty', 'silver'],
+            "Contract": ['80046000000cfVRAAY', '80046000000cfVLAAY',
+                      '80046000000cfUIAAY'],
+            "Contract_Sales_Order__c": ["1", None, "3"],
+            "Original_Sales_Order__c": ["2", "2", "4"],
+            "BillingCustomer": ["0", "Only Customer", "1"],
+            'BillingAddress': ["1", "6", "7"],
+            'BillingCity': ["2", "7", "8"],
+            'BillingState': ["3", "8", "9"],
+            'BillingPostalCode': ["4", "9", "10"],
+            'BillingCountry': ["5", "10", "11"]
+        })
         df_renewal = pd.DataFrame(data={"Contract_Status__c": ['closed',
                                                                'closed'],
                                         "IsDeleted": [False, False],
                                         "Contract": ['80046000000cfVRAAY', '80046000000cfVLAAY']})
 
-        exp_res = pd.DataFrame(data={"ContractNumber": [6827, 7783, 6539],
-                                     "PDI_ContractType": ['new', 'new', 'existing'],
-                                     "Service_Plan": ['gold',
-                                                      'extended warranty', 'silver'],
-                                     "Contract": ['80046000000cfVRAAY',
-                                                  '80046000000cfVLAAY', '80046000000cfUIAAY'],
-                                     "Contract_Status__c": ['closed', 'closed', None],
-                                     "IsDeleted": [False, False, None],
-                                     })
-        res = obj_contract.merge_contract_and_renewal(df_contract, df_renewal)
+        df_contract = obj_contract.merge_contract_and_renewal(
+            df_contract, df_renewal
+        )
 
-        assert exp_res.equals(res)
+        ex_op2 = pd.DataFrame({
+            "ContractNumber": [6827, 7783, 6539],
+            "PDI_ContractType": ['new', 'new', 'existing'],
+            "Service_Plan": ['gold', 'extended warranty', 'silver'],
+            "Contract": ['80046000000cfVRAAY', '80046000000cfVLAAY',
+                         '80046000000cfUIAAY'],
+            "Contract_Sales_Order__c": ["1", None, "3"],
+            "Original_Sales_Order__c": ["2", "2", "4"],
+            "BillingCustomer_old": ["0", "Only Customer", "1"],
+            'BillingAddress_old': ["1", "6", "7"],
+            'BillingCity_old': ["2", "7", "8"],
+            'BillingState_old': ["3", "8", "9"],
+            'BillingPostalCode_old': ["4", "9", "10"],
+            'BillingCountry_old': ["5", "10", "11"],
+            "Contract_Status__c": ['closed', 'closed', None],
+            "IsDeleted": [False, False, None],
+            "key_contract": ["1", "2", "3"],
+            "key_SO": ["1", "2", None],
+            "BillingCustomer": ["a", "Only Customer", "1"],
+            'BillingAddress': ["b", "g", "7"],
+            'BillingCity': ["c", "h", "8"],
+            'BillingState': ["d", "i", "9"],
+            'BillingPostalCode': ["e", "j", "10"],
+            'BillingCountry': ["f", "10", "11"]
+        })
+
+        assert_frame_equal(df_contract, ex_op2)
 
 
 class TestMergeContractAndInstall:
@@ -1033,7 +1071,57 @@ class TestMergeContractAndInstall:
     Check if contract and install base data are merged correctly.
     """
 
-    def test_merge_contract_install(self):
+    @pytest.mark.parametrize(
+        "install_df",
+        [None,
+         (pd.DataFrame()),
+         'dcacac',
+         [123, 'aeda'],
+         1432,
+         (pd.DataFrame(data={"test_col": ['new', 'new', 'existing']})),
+         ])
+    def test_merge_contract_install_err1(self, install_df):
+        contract_data = {
+            'SerialNumber': ['110-1667', '120-0036', '110-4033',
+                             '110-3751', '411-0207'],
+            'Warranty_Start_Date': [None, None, None, '10/14/2014',
+                                    '10/14/2014'],
+            'Warranty_Expiration_Date': [None, '12/31/2016',
+                                         '1/10/2023', '7/24/2012',
+                                         '10/13/2015'],
+            'Contract_Start_Date': ['1/1/2021', '1/1/2015',
+                                    None, None, '6/16/2020'],
+            'Contract_Expiration_Date': ['12/31/2021', '12/31/2019', None,
+                                         None, '6/15/2021']
+        }
+        contract_df = pd.DataFrame(contract_data)
+        with pytest.raises(Exception) as _:
+            result = obj_contract.merge_contract_install(contract_df, install_df)
+
+    @pytest.mark.parametrize(
+        "contract_df",
+        [None,
+         (pd.DataFrame()),
+         'dcacac',
+         [123, 'aeda'],
+         1432,
+         (pd.DataFrame(data={"test_col": ['new', 'new', 'existing']})),
+         ])
+    def test_merge_contract_install_err2(self, contract_df):
+        install_data = {
+            'SerialNumber': ['110-1667', '120-0036', '110-4033', '110-3751',
+                             '411-0207'],
+            'Product': ['Product A', 'Product B', 'Product C', 'Product D',
+                        'Product E'],
+            'Location': ['Location 1', 'Location 2', 'Location 3',
+                         'Location 4', 'Location 5']
+        }
+        install_df = pd.DataFrame(install_data)
+        with pytest.raises(Exception) as _:
+            result = obj_contract.merge_contract_install(contract_df,
+                                                         install_df)
+
+    def test_merge_contract_install_ideal_scenario(self):
         contract_data = {
             'SerialNumber': ['110-1667', '120-0036', '110-4033',
                              '110-3751', '411-0207'],
@@ -1043,7 +1131,8 @@ class TestMergeContractAndInstall:
                                          '1/10/2023', '7/24/2012', '10/13/2015'],
             'Contract_Start_Date': ['1/1/2021', '1/1/2015',
                                     None, None, '6/16/2020'],
-            'Contract_Expiration_Date': ['12/31/2021', '12/31/2019', None, None, '6/15/2021']
+            'Contract_Expiration_Date': ['12/31/2021', '12/31/2019', None, None, '6/15/2021'],
+            'was_startedup': [True, True, True, True, None]
         }
 
         install_data = {
@@ -1069,11 +1158,12 @@ class TestMergeContractAndInstall:
                            'Contract_Expiration_Date': [Timestamp('2021-12-31 00:00:00'),
                                                         Timestamp('2019-12-31 00:00:00'), NaT, NaT,
                                                         Timestamp('2021-06-15 00:00:00')],
+                           'was_startedup': [True, True, True, True, False],
                            'First_Contract_Start_Date': [Timestamp('2021-01-01 00:00:00'),
                                                          Timestamp('2015-01-01 00:00:00'), NaT, NaT,
                                                          Timestamp('2020-06-16 00:00:00')],
                            'Contract_Conversion': ['No Warranty', 'Warranty Conversion',
-                                                   'Warranty Due', 'No Contract', 'New Business']}
+                                                   'No Contract', 'No Contract', 'New Business']}
 
         contract_df = pd.DataFrame(contract_data)
         install_df = pd.DataFrame(install_data)
@@ -1084,3 +1174,94 @@ class TestMergeContractAndInstall:
         print(result.to_dict(orient='list'))
 
         assert_frame_equal(result, expected_df, check_dtype=False, check_exact=False)
+
+class TestGetBillToData:
+    @pytest.mark.parametrize(
+        "df_contract",
+        [None,
+         (pd.DataFrame()),
+         'dcacac',
+         [123, 'aeda'],
+         1432,
+         (pd.DataFrame(data={"test_col": ['new', 'new', 'existing']})),
+         ])
+    def test_get_bill_to_data_err1(self, df_contract):
+        with pytest.raises(Exception) as _:
+            df_contract = obj_contract.get_billto_data(df_contract)
+
+    def test_get_bill_to_data_ideal_scenario(self):
+        df_contract = pd.DataFrame({
+            "Contract_Sales_Order__c": ["1", None],
+            "Original_Sales_Order__c": ["2", "2"],
+            "BillingCustomer": ["0", "Only Customer"],
+            'BillingAddress': ["1", "6"],
+            'BillingCity': ["2", "7"],
+            'BillingState': ["3", "8"],
+            'BillingPostalCode': ["4", "9"],
+            'BillingCountry': ["5", "10"]
+        })
+        df_raw_m2m = pd.DataFrame({
+            "SO": ["1", "2"],
+            "Customer": ["a", None],
+            'SoldtoStreet': ["b", "g"],
+            'SoldtoCity': ["c", "h"],
+            'SoldtoState': ["d", "i"],
+            'SoldtoZip': ["e", "j"],
+            'SoldtoCountry': ["f", None]
+        })
+
+        ex_op = pd.DataFrame({
+            "Contract_Sales_Order__c": ["1", None],
+            "Original_Sales_Order__c": ["2", "2"],
+            "BillingCustomer_old": ["0", "Only Customer"],
+            'BillingAddress_old': ["1", "6"],
+            'BillingCity_old': ["2", "7"],
+            'BillingState_old': ["3", "8"],
+            'BillingPostalCode_old': ["4", "9"],
+            'BillingCountry_old': ["5", "10"],
+            "key_contract": ["1", "2"],
+            "key_SO": ["1", "2"],
+            "BillingCustomer": ["a", "Only Customer"],
+            'BillingAddress': ["b", "g"],
+            'BillingCity': ["c", "h"],
+            'BillingState': ["d", "i"],
+            'BillingPostalCode': ["e", "j"],
+            'BillingCountry': ["f", "10"]
+        })
+        df_contract = obj_contract.get_billto_data(df_contract, df_raw_m2m)
+        assert_frame_equal(df_contract, ex_op, check_dtype=False, check_exact=False)
+
+class TestValidateContractInstallSrNum:
+    @pytest.mark.parametrize(
+        "df_contract_srnum",
+        [None,
+         (pd.DataFrame()),
+         'dcacac',
+         [123, 'aeda'],
+         1432,
+         (pd.DataFrame(data={"test_col": ['new', 'new', 'existing']})),
+         ])
+    def test_validate_contract_install_sr_num_err(self, df_contract_srnum):
+        with pytest.raises(Exception) as _:
+            df_contract_srnum = obj_contract.validate_contract_install_sr_num(
+                df_contract_srnum)
+
+    def test_validate_contract_install_sr_num_ideal_scenario(self):
+        df = pd.read_csv("tests/ip/df_contract_test.csv")
+        df = obj_contract.validate_contract_install_sr_num(df)
+        ex_op = pd.read_csv("tests/ip/contract_install_srnum_validation_ex_op.csv")
+
+        df = df.reset_index()
+        df = df.drop("index", axis=1)
+
+        df = df.drop("Unnamed: 0", axis=1)
+        ex_op = ex_op.drop(["Unnamed: 0", "Unnamed: 0.1"], axis=1)
+        df["flag_validinstall"] = df["flag_validinstall"].astype(str)
+        ex_op["flag_validinstall"] = ex_op["flag_validinstall"].astype(str)
+
+        df.loc[df["SerialNumber_Partial"] == "", "SerialNumber_Partial"] = "nan"
+        df["SerialNumber_Partial"] = df["SerialNumber_Partial"].astype(str)
+        ex_op["SerialNumber_Partial"] = ex_op["SerialNumber_Partial"].astype(str)
+
+        assert_frame_equal(df, ex_op)
+
