@@ -17,28 +17,7 @@
                 "file_name": "case_data.csv"
             },
             "M2M": {
-                "file_name": "M2M_data.csv",
-                "column_rename": {
-                    "Shipper#": "Shipper #",
-                    "ShipperItem#": "Shipper Item #",
-                    "PartNumber": "Part Number",
-                    "ItemStatus": "Item Status",
-                    "ShipDate": "Ship Date",
-                    "ShiptoCustomer": "Ship to Customer",
-                    "ShiptoStreet": "Ship to Street",
-                    "ShiptoCity": "Ship to City",
-                    "ShiptoState": "Ship to State",
-                    "ShiptoZip": "Ship to Zip",
-                    "ShiptoCountry": "Ship to Country",
-                    "SoldtoStreet": "Sold to Street",
-                    "SoldtoCity": "Sold to City",
-                    "SoldtoState": "Sold to State",
-                    "SoldtoZip": "Sold to Zip",
-                    "SoldtoCountry": "Sold to Country",
-                    "ShippedQty": "Shipped Qty",
-                    "Job#": "Job #",
-                    "ProductType": "Product Type"
-                }
+                "file_name": "M2M_data.csv"
             },
             "SerialNumber": {
                 "file_name": "SerialNumber.csv"
@@ -50,7 +29,7 @@
                 "file_name": "BOM_data.csv"
             },
             "bomdata_deafault": {
-                "file_name": "bomdata_deafault.csv"
+                "file_name": "bomdata_default.csv"
             },
             "bomdata_sisc": {
                 "file_name": "bomdata_sisc.csv"
@@ -364,28 +343,28 @@
         "SerialNumber": {
             "Dictionary Format": {
                 "SerialNumber": {
-                    "actual_datasoure_name": "Serial #",
+                    "actual_datasoure_name": "Serial",
                     "data_type": "text",
                     "is_nullable": 0.0,
                     "output_format": "text : upper",
                     "input_date_format": ""
                 },
                 "Shipper_Index": {
-                    "actual_datasoure_name": "Shipper #",
+                    "actual_datasoure_name": "Shipper",
                     "data_type": "numeric : integer",
                     "is_nullable": 0.0,
                     "output_format": "numeric : no_decimal",
                     "input_date_format": ""
                 },
                 "Shipper_Qty": {
-                    "actual_datasoure_name": "Shipper Qty",
+                    "actual_datasoure_name": "ShipperQty",
                     "data_type": "numeric",
                     "is_nullable": 1.0,
                     "output_format": "numeric : no_decimal",
                     "input_date_format": ""
                 },
                 "ShipperItem_Index": {
-                    "actual_datasoure_name": "Shipper Item #",
+                    "actual_datasoure_name": "ShipperItem",
                     "data_type": "numeric : integer",
                     "is_nullable": 0.0,
                     "output_format": "numeric : no_decimal",
@@ -404,28 +383,28 @@
         "bom": {
             "Dictionary Format": {
                 "Job_Index": {
-                    "actual_datasoure_name": "Job #",
+                    "actual_datasoure_name": "Job#",
                     "data_type": "text",
                     "is_nullable": 0.0,
                     "output_format": "text : upper",
                     "input_date_format": ""
                 },
                 "PartNumber_TLN_BOM": {
-                    "actual_datasoure_name": "TLN #",
+                    "actual_datasoure_name": "TLN#",
                     "data_type": "text",
                     "is_nullable": 0.0,
                     "output_format": "text : capitalize each word",
                     "input_date_format": ""
                 },
                 "PartNumber_BOM_BOM": {
-                    "actual_datasoure_name": "BOM Part #",
+                    "actual_datasoure_name": "BOMPart#",
                     "data_type": "text",
                     "is_nullable": 0.0,
                     "output_format": "text : capitalize each word",
                     "input_date_format": ""
                 },
                 "Total_Quantity": {
-                    "actual_datasoure_name": "total Qty",
+                    "actual_datasoure_name": "totalQty",
                     "data_type": "numeric",
                     "is_nullable": 1.0,
                     "output_format": "numeric : no_decimal",
@@ -1509,6 +1488,14 @@
             },
             "Contract_Years": {
                 "actual_datasoure_name": "Contract Years",
+                "output_format": ""
+            },
+            "Upgraded_Monitor": {
+                "actual_datasoure_name": "Upgraded_Monitor",
+                "output_format": ""
+            },
+            "Upgrade_Type": {
+                "actual_datasoure_name": "Upgrade_Type",
                 "output_format": ""
             }
         }

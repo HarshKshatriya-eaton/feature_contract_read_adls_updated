@@ -195,8 +195,6 @@ class InstallBase:
 
             # Format Data
             input_format = self.config['database']['M2M']['Dictionary Format']
-            column_rename = self.config['file']['Raw']['M2M']['column_rename']
-            df_data_install = df_data_install.rename(column_rename, axis=1)
             df_data_install = obj_format.format_data(
                 df_data_install, input_format
             )
@@ -446,8 +444,7 @@ class InstallBase:
             # Read SerialNumber data
             df_bom = IO.read_csv(self.mode,
                                  {'file_dir': self.config['file']['dir_data'],
-                                  'file_name': self.config['file']['Raw']['bom']['file_name'],
-                                  'sep': '\t'}
+                                  'file_name': self.config['file']['Raw']['bom']['file_name']}
                                  )
             # Format Data
             input_format = self.config['database']['bom']['Dictionary Format']

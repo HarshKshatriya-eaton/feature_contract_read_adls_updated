@@ -163,6 +163,7 @@ class Contract:
                     self.config['file']['Raw']['contracts'][
                         'file_name']
                 })
+            df_contract['BillingAddress'] = df_contract['BillingStreet']
             input_format = self.config['database']['contracts'][
                 'Dictionary Format']
             df_contract = self.format.format_data(
@@ -444,13 +445,13 @@ class Contract:
             raise Exception from excp
 
     # ***** Support Codes : Contract *****
-    def id_startup(self, df_startup_org) -> pd.DataFrame:
+    def id_startup(self, df_startup) -> pd.DataFrame:
         """
         Identify if EATON started up the product.
 
-        :param df_startup_org: Dataframe with possible startup date
+        :param df_startup: Dataframe with possible startup date
         fields in the sequence if Priority,
-        :type df_startup_org: pandas DataFrame.
+        :type df_startup: pandas DataFrame.
         :raises Exception: Raised if unknown data type provided.
         :return: Data Frame with two columns:
             was_startedup : Flag indicating if product has StartUp.
@@ -458,6 +459,7 @@ class Contract:
         :rtype: pandas Data Frame
 
         """
+        df_startup_org = df_startup.copy()
         _step = f"{' ' * 5}Identify Start-up"
         try:
             ls_cols_startup = df_startup_org.columns
@@ -871,8 +873,6 @@ class Contract:
         # as key
         _step = 'Query BillTo data'
         try:
-            column_rename = self.config['file']['Raw']['M2M']['column_rename']
-            df_raw_m2m = df_raw_m2m.rename(column_rename, axis=1)
             # M2M data preparation
             dict_rename = {
                 "SO": "key_SO",

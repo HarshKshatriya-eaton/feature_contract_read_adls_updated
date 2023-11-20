@@ -296,8 +296,25 @@ class LeadGeneration:
                 ref_install["product_prodclass"]
             )
 
-            # *** BillTo customer ***
-            # ref_install = self.get_billto_data(ref_install)
+            # Upgraded Monitor check, 10 Nov, 23
+            df_service = IO.read_csv(
+                self.mode, {
+                'file_dir': self.config['file']['dir_results'] +
+                            self.config['file'][
+                            'dir_intermediate'],
+                'file_name': self.config['file']['Processed']['services'][
+                      'file_name']
+            })
+            df_service = df_service[df_service.component == 'Display']
+            df_service = df_service.rename(
+                columns={'SerialNumber': 'SerialNumber_M2M'})
+            ref_install = ref_install.merge(df_service[['type', 'SerialNumber_M2M']],
+                                      on='SerialNumber_M2M', how='left')
+            ref_install = ref_install.rename(columns={'type': 'Upgrade_Type'})
+            ref_install.loc[
+                ref_install.Upgrade_Type.notna(), "Upgraded_Monitor"] = True
+            ref_install.loc[
+                ref_install.Upgrade_Type.isna(), "Upgraded_Monitor"] = False
 
             # *** Strategic account ***
             ref_install = self.update_strategic_account(ref_install)
@@ -499,8 +516,7 @@ class LeadGeneration:
                 self.mode, {
                     'file_dir': self.config['file']['dir_data'],
                     'file_name': self.config['file']['Raw']['bom'][
-                        'file_name'],
-                    'sep': '\t'})
+                        'file_name']})
 
             input_format = self.config['database']['bom']['Dictionary Format']
             df_bom = self.format.format_data(df_bom, input_format)
