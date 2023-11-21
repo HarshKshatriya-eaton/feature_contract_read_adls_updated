@@ -479,13 +479,14 @@ class InstallBase:
                                   }
                                  )
             # Format Data
+            logger.app_info(f'columns of bom data : {df_bom.columns}')
             input_format = self.config['database']['bom']['Dictionary Format']
             df_bom = obj_format.format_data(df_bom, input_format)
             df_bom.reset_index(drop=True, inplace=True)
-
+            logger.app_info('out of format data for BOM')
             # Display Part Numbers
             df_display_parts = self.id_display_parts(df_bom)
-
+            logger.app_info('display parts')
             # Main Breakers
             df_main_breaker = self.id_main_breaker(df_bom)
 
@@ -498,17 +499,17 @@ class InstallBase:
             df_bom = df_bom.drop_duplicates(subset=['Job_Index', 'PartNumber_TLN_BOM']).reset_index(
                 drop=True)
             df_bom = self.id_metadata(df_bom)
-
+            logger.app_info('df_bom duplicates dropped')
             # Merge main breaker data and display part number data
             df_bom = df_bom.merge(df_main_breaker, on='Job_Index', how='left')
             df_bom = df_bom.merge(df_display_parts, on='Job_Index', how='left')
             # df_bom = self.id_metadata(df_bom)
-
+            logger.app_info('merged main breaker')
             # Merge Data
             df_install = df_install.merge(df_bom, on='Job_Index', how=merge_type)
             df_install.loc[:, 'PartNumber_TLN_BOM'] = df_install[
                 'PartNumber_TLN_BOM'].fillna('')
-
+            logger.app_info('merged df_bom with data')
             logger.app_success(self.step_bom_data)
             return df_install
 
