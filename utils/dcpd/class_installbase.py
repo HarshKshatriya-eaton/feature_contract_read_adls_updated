@@ -201,6 +201,8 @@ class InstallBase:
                  }
                  )
             logger.app_info(f'df_data_install from adls-read: {df_data_install.head()}')
+
+            logger.app_info(f'df_data_install columns from adls-read: {df_data_install.columns}')
             # Format Data
             input_format = self.config['database']['M2M']['Dictionary Format']
             logger.app_info('given input format')

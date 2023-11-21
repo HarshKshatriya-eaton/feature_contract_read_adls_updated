@@ -63,10 +63,11 @@ class Format:
             for col_out in dict_col_dtype:
                 col_act = dict_col_dtype[col_out]['actual_datasoure_name']
                 dict_rename[col_act] = col_out
-
+        logger.app_info(f'created rename directory: {dict_rename}')
         # Subset dataset
         df_data = df_data.rename(columns=dict_rename)
         df_data = df_data.loc[:, list(dict_rename.values())]
+        logger.app_info(f'created df_data directory: {df_data}')
         del dict_rename
 
         # Loop through columns
