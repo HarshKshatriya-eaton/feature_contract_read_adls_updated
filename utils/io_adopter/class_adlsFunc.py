@@ -204,7 +204,7 @@ class adlsFunc():
                 file_system=output_container_name)
             #data = bytes(dataset.to_csv(line_terminator='\n',index=False), encoding='utf-8')
             data = dataset.to_csv(index=False).replace('\r\n', '\n').encode('utf-8')
-            logging.info(f'data after converting to bytes: {data}')
+            #logging.info(f'data after converting to bytes: {data}')
             final_file = output_file_name+".csv"
 
             if output_directory_name == '':
