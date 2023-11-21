@@ -257,28 +257,28 @@
         "M2M": {
             "Dictionary Format": {
                 "Shipper_Index": {
-                    "actual_datasoure_name": "Shipper #",
+                    "actual_datasoure_name": "Shipper#",
                     "data_type": "numeric",
                     "is_nullable": 0.0,
                     "output_format": "numeric : no_decimal",
                     "input_date_format": ""
                 },
                 "ShipperItem_Index": {
-                    "actual_datasoure_name": "Shipper Item #",
+                    "actual_datasoure_name": "ShipperItem#",
                     "data_type": "numeric",
                     "is_nullable": 0.0,
                     "output_format": "numeric : no_decimal",
                     "input_date_format": ""
                 },
                 "PartNumber_TLN_Shipment": {
-                    "actual_datasoure_name": "Part Number",
+                    "actual_datasoure_name": "PartNumber",
                     "data_type": "text",
                     "is_nullable": 1.0,
                     "output_format": "text : upper",
                     "input_date_format": ""
                 },
                 "ProductClass": {
-                    "actual_datasoure_name": "Product Class",
+                    "actual_datasoure_name": "ProductClass",
                     "data_type": "text",
                     "is_nullable": 1.0,
                     "output_format": "text : upper",
@@ -313,35 +313,35 @@
                     "input_date_format": ""
                 },
                 "SOStatus": {
-                    "actual_datasoure_name": "Item Status",
+                    "actual_datasoure_name": "ItemStatus",
                     "data_type": "text",
                     "is_nullable": 1.0,
                     "output_format": "text : capitalize each word",
                     "input_date_format": ""
                 },
                 "ShipmentDate": {
-                    "actual_datasoure_name": "Ship Date",
+                    "actual_datasoure_name": "ShipDate",
                     "data_type": "date",
                     "is_nullable": 0.0,
                     "output_format": "date : mm/dd/yyyy",
                     "input_date_format": ""
                 },
                 "OrderDate": {
-                    "actual_datasoure_name": "Order Date",
+                    "actual_datasoure_name": "OrderDate",
                     "data_type": "date",
                     "is_nullable": 1.0,
                     "output_format": "date : mm/dd/yyyy",
                     "input_date_format": ""
                 },
                 "ScheduleDate": {
-                    "actual_datasoure_name": "Schedule Date",
+                    "actual_datasoure_name": "ScheduleDate",
                     "data_type": "date",
                     "is_nullable": 1.0,
                     "output_format": "date : mm/dd/yyyy",
                     "input_date_format": ""
                 },
                 "PromiseDate": {
-                    "actual_datasoure_name": "Promise Date",
+                    "actual_datasoure_name": "PromiseDate",
                     "data_type": "date",
                     "is_nullable": 1.0,
                     "output_format": "date : mm/dd/yyyy",
@@ -355,91 +355,91 @@
                     "input_date_format": ""
                 },
                 "ShipTo_Customer": {
-                    "actual_datasoure_name": "Ship to Customer",
+                    "actual_datasoure_name": "ShiptoCustomer",
                     "data_type": "text",
                     "is_nullable": 1.0,
                     "output_format": "text : upper",
                     "input_date_format": ""
                 },
                 "ShipTo_Street": {
-                    "actual_datasoure_name": "Ship to Street",
+                    "actual_datasoure_name": "ShiptoStreet",
                     "data_type": "text",
                     "is_nullable": 1.0,
                     "output_format": "text : upper",
                     "input_date_format": ""
                 },
                 "ShipTo_City": {
-                    "actual_datasoure_name": "Ship to City",
+                    "actual_datasoure_name": "ShiptoCity",
                     "data_type": "text",
                     "is_nullable": 1.0,
                     "output_format": "text : upper",
                     "input_date_format": ""
                 },
                 "ShipTo_State": {
-                    "actual_datasoure_name": "Ship to State",
+                    "actual_datasoure_name": "ShiptoState",
                     "data_type": "text",
                     "is_nullable": 1.0,
                     "output_format": "text : upper",
                     "input_date_format": ""
                 },
                 "ShipTo_Zip": {
-                    "actual_datasoure_name": "Ship to Zip",
+                    "actual_datasoure_name": "ShiptoZip",
                     "data_type": "numeric",
                     "is_nullable": 1.0,
                     "output_format": "numeric : no_decimal",
                     "input_date_format": ""
                 },
                 "ShipTo_Country": {
-                    "actual_datasoure_name": "Ship to Country",
+                    "actual_datasoure_name": "ShiptoCountry",
                     "data_type": "text",
                     "is_nullable": 1.0,
                     "output_format": "text : upper",
                     "input_date_format": ""
                 },
                 "SoldTo_Street": {
-                    "actual_datasoure_name": "Sold to Street",
+                    "actual_datasoure_name": "SoldtoStreet",
                     "data_type": "text",
                     "is_nullable": 1.0,
                     "output_format": "text : upper",
                     "input_date_format": ""
                 },
                 "SoldTo_City": {
-                    "actual_datasoure_name": "Sold to City",
+                    "actual_datasoure_name": "SoldtoCity",
                     "data_type": "text",
                     "is_nullable": 1.0,
                     "output_format": "text : upper",
                     "input_date_format": ""
                 },
                 "SoldTo_State": {
-                    "actual_datasoure_name": "Sold to State",
+                    "actual_datasoure_name": "SoldtoState",
                     "data_type": "text",
                     "is_nullable": 1.0,
                     "output_format": "text : upper",
                     "input_date_format": ""
                 },
                 "SoldTo_Zip": {
-                    "actual_datasoure_name": "Sold to Zip",
+                    "actual_datasoure_name": "SoldtoZip",
                     "data_type": "text",
                     "is_nullable": 1.0,
                     "output_format": "text : upper",
                     "input_date_format": ""
                 },
                 "SoldTo_Country": {
-                    "actual_datasoure_name": "Sold to Country",
+                    "actual_datasoure_name": "SoldtoCountry",
                     "data_type": "text",
                     "is_nullable": 1.0,
                     "output_format": "text : upper",
                     "input_date_format": ""
                 },
                 "InstallSize": {
-                    "actual_datasoure_name": "Shipped Qty",
+                    "actual_datasoure_name": "ShippedQty",
                     "data_type": "numeric : integer",
                     "is_nullable": 0.0,
                     "output_format": "numeric : no_decimal",
                     "input_date_format": ""
                 },
                 "Job_Index": {
-                    "actual_datasoure_name": "Job #",
+                    "actual_datasoure_name": "Job#",
                     "data_type": "text",
                     "is_nullable": 0.0,
                     "output_format": "text : upper",
@@ -453,7 +453,7 @@
                     "input_date_format": ""
                 },
                 "Model": {
-                    "actual_datasoure_name": "Product Type",
+                    "actual_datasoure_name": "ProductType",
                     "data_type": "text",
                     "is_nullable": 1,
                     "output_format": "text : capitalize each word",
