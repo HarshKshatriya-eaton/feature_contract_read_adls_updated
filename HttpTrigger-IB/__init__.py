@@ -14,10 +14,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         # Read the configuration file
         with open(config_file, 'r') as config_file:
             config = json.load(config_file)
-        logging.info(f'config file: {config}')
+        #logging.info(f'config file: {config}')
         conf_env = config.get("conf.env", "azure-adls")
         # Create an instance of InstallBase and call main_install
-        logging.info(f'mode:{conf_env}\n,config: {config}')
+        logging.info(f'mode:{conf_env}\n')
         obj = InstallBase(conf_env,config)
         logging.info('before calling main_install')
         result = obj.main_install()

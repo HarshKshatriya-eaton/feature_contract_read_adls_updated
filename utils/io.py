@@ -63,20 +63,26 @@ class IO():
             raise e
     @staticmethod    
     def write_csv_adls(config,dataset):
+        logger.app_info('inside write_csv_adls')
         connection_string_key = config['adls_config']['connection_string']
         storage_account_name_key = config['adls_config']['storage_account_name']
         try:
             credentials=io_adls.read_credentials(ls_cred=[connection_string_key,storage_account_name_key])
-            connection_string = credentials.get('ilead_adls_connection_string')
-            storage_account_name = credentials.get('ilead-storage-account')
+            logger.app_info(f'Credentials of write {credentials} is fetched')
+            connection_string = credentials.get('destination_adls_connection_string')
+            #storage_account_name = credentials.get('ilead-storage-account')
             output_container_name=config['adls_dir']['container_name']
             output_directory_name= config['adls_dir']['directory_name']
             file_name= config['adls_dir']['file_name']
             if file_name.endswith(".csv"):
                 file_name = file_name[:-4]
+
+            logger.app_info(f'file name: {file_name}')
             timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
             output_file_name = f"{file_name}_{timestamp}"
-            dataset.to_csv(output_file_name, index=False)
+            #dataset.to_csv(output_file_name, index=False)
+            logger.app_info(f"Type of dataset: {dataset}")
+            logger.app_info(f'connection String: {connection_string}\n, Container name: {output_container_name}\n, file name: {output_file_name}\n,  directory name:{output_directory_name}')
             result= io_adls.output_file_write(connection_string, dataset, output_container_name,output_file_name, output_directory_name)
             return result
         except Exception as e:
@@ -98,10 +104,13 @@ class IO():
 
     @staticmethod
     def write_csv(mode, config, data):
+        logger.app_info('inside write csv function IO module')
 
         if mode == 'local':
             return io_local.write_csv_local(config, data)
         elif mode == 'azure-adls':
+            logger.app_info(f'data {data} is passed to io')
+            logger.app_info(f'config {config} is fetched')
             return IO.write_csv_adls(config,data)
         else:
             logger.app_info(f'Mode {mode} is not implemented')

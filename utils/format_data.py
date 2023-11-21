@@ -54,6 +54,7 @@ class Format:
 
         """
         logger.app_debug('Format data')
+        logger.app_info('inside format_data')
 
         # Pre-process dictionary
         dict_rename = self.create_rename_dictionary(dict_col_dtype)
@@ -216,7 +217,7 @@ class Format:
         """
         # Prep input
         df_data = df_data.reset_index(drop=True)
-
+        logger.app_info('data index dropped')
         # Initialize output
         df_out = pd.DataFrame(index=df_data.index)
 

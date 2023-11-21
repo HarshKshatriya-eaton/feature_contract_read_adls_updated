@@ -155,7 +155,7 @@ class adlsFunc():
                     logging.info('inside parquet')
                     table = pq.read_table(BytesIO(downloaded_bytes))
                     out_df = table.to_pandas()
-                    logging.info(f'after reading parquet\n{out_df}')
+                    logging.info('after reading parquet')
                 except Exception as parquet_error:
                     return parquet_error
             else:
@@ -166,8 +166,6 @@ class adlsFunc():
                 except Exception as csv_error:
                     return csv_error
 
-            logging.info(f"Type of ref_prod_fr_srnum: {type(out_df)}")
-            logging.info("Head of DataFrame:\n%s", out_df.head())
 
             #logging.disable(logging.NOTSET)
 
@@ -196,18 +194,21 @@ class adlsFunc():
         Status and File name.
         """
         try:
-            logging.disable(logging.CRITICAL)
-
+            #logging.disable(logging.CRITICAL)
+            logging.info('inside class_adlsfunc output write')
             dataset = dataset.replace('\n', '')
+            logging.info(f'dataset after replace \n: {dataset}')
             service_client = DataLakeServiceClient.from_connection_string(
                 str(connection_string))
             container_client = service_client.get_file_system_client(
                 file_system=output_container_name)
-            data = bytes(dataset.to_csv(line_terminator='\n',
-                         index=False), encoding='utf-8')
+            #data = bytes(dataset.to_csv(line_terminator='\n',index=False), encoding='utf-8')
+            data = dataset.to_csv(index=False).replace('\r\n', '\n').encode('utf-8')
+            logging.info(f'data after converting to bytes: {data}')
             final_file = output_file_name+".csv"
 
             if output_directory_name == '':
+                logging.info('output directory name empty')
                 output_file_client = container_client.create_file(final_file)
             else:
                 directory_client = container_client.get_directory_client(
@@ -218,11 +219,12 @@ class adlsFunc():
             output_file_client.append_data(data, 0, len(data))
             output_file_client.flush_data(len(data))
 
-            logging.disable(logging.NOTSET)
+            #logging.disable(logging.NOTSET)
 
             logging.info("Successfully exported the file (From ADLS block)")
             return f"Success! File created with name: {final_file}"
         except Exception as e:
+            logging.info('within exception of write class_adls func')
             return e
 
     def list_ADLS_directory_contents(

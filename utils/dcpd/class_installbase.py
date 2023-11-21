@@ -68,7 +68,7 @@ class InstallBase:
     def __init__(self, mode, config) -> pd.DataFrame:
         """Initialise environment variables, class instance and
         variables used throughout the modules."""
-
+        logger.app_info('inside install base init')
         # Insatance of class
         self.mode = mode
 
@@ -103,16 +103,17 @@ class InstallBase:
 
         """
         try:
+            logger.app_info('Inside main_install')
             # Install Base
             df_install = self.pipeline_m2m()
-
+            logger.app_info('fetched df_install {df_install} from adls ')
             # Serial Number : M2M
             df_install = self.pipeline_serialnum(
                 df_install, merge_type='inner')
 
             # BOM
             df_install = self.pipeline_bom(df_install, merge_type='left')
-
+            logger.app_info('before writing')
             # Export
             IO.write_csv(
                 self.mode,
@@ -123,7 +124,7 @@ class InstallBase:
                     'adls_dir': self.config['file']['Processed']['processed_install']
 
                 }, df_install)
-
+            logger.app_info('after writing')
             # Customer Name
             df_install = self.pipeline_customer(df_install)
 
@@ -188,6 +189,7 @@ class InstallBase:
         :rtype: pd.DataFrame
         """
         try:
+            logger.app_info('inside pipeline_m2m')
             logger.app_info('before executing read df_data_install')
             # This method will read csv data into pandas DataFrame
             df_data_install = IO.read_csv(
@@ -198,13 +200,14 @@ class InstallBase:
                  'adls_dir': self.config['file']['Raw']['M2M']
                  }
                  )
-            logger.app_info(f'df_data_install from adls-read: {df_data_install}')
+            logger.app_info(f'df_data_install from adls-read: {df_data_install.head()}')
             # Format Data
             input_format = self.config['database']['M2M']['Dictionary Format']
+            logger.app_info('given input format')
             df_data_install = obj_format.format_data(
                 df_data_install, input_format
             )
-
+            logger.app_info(f'after formatting inout df_data_install {df_data_install}')
             df_data_install = self.get_metadata(df_data_install)
             df_data_install.reset_index(drop=True, inplace=True)
             df_data_install["ST_Cust"] = df_data_install["Customer"].copy()
@@ -214,14 +217,14 @@ class InstallBase:
             df_data_install['Country'] = obj_filters.prioratized_columns(
                 df_data_install[self.ls_priority], self.ls_priority)
             ls_cols = df_data_install.columns.tolist()
-
+            logger.app_info(f'after ShipTo_country df_data_install {df_data_install}')
             # filters are applied as per configurations[config_database.json]
             df_data_install = obj_filters.filter_data(
                 df_data_install, self.config['database']['M2M']['Filters'])
 
             df_data_install = df_data_install.rename(
                 columns={'flag_Country': 'is_in_usa'})
-
+            logger.app_info('before reading ref_prod')
             # Decode product
             ref_prod = IO.read_csv(
                 self.mode,
@@ -230,7 +233,7 @@ class InstallBase:
                  'adls_config': self.config['file']['Reference']['adls_credentials'],
                  'adls_dir': self.config['file']['Reference']['product_class']
                  })
-
+            logger.app_info('after reading ref_prod')
             # filters product class as per configurations[config_database.json]
             df_data_install, ls_cols = self.filter_product_class(
                 ref_prod, df_data_install, ls_cols)
