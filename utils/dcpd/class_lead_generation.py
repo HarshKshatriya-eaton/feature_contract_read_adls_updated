@@ -446,7 +446,6 @@ class LeadGeneration:
 
 
 
-
     def pipeline_add_jcomm_sidecar(self, df_leads: object, service_df=None):
         """
         This module read's services data and joins with the lead data and add jcomm, sidecar fields.
@@ -517,6 +516,7 @@ class LeadGeneration:
                     'file_dir': self.config['file']['dir_data'],
                     'file_name': self.config['file']['Raw']['bom'][
                         'file_name']})
+            df_bom[["Job#", "blank"]] = df_bom["Job#"].str.split("-", expand=True)
 
             input_format = self.config['database']['bom']['Dictionary Format']
             df_bom = self.format.format_data(df_bom, input_format)
@@ -524,6 +524,8 @@ class LeadGeneration:
             # Merge raw bom data with processed_merge_contract_install dataframe
             _step = 'Merge data: Install and BOM'
 
+            df_install[["Job_Index", "blank"]] = df_install["Job_Index"].str.split("-",
+                                                                 expand=True)
             df_bom = self.pipeline_merge(df_bom, df_install, type_='lead_id')
             logger.app_success(_step)
 

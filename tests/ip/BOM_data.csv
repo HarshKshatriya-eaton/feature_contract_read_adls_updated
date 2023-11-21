@@ -1,0 +1,34 @@
+TLN#,TLNRev#,TLNFacility,SO#,BOMPart#,BOMPartRev,BOMFacility,totalQty,PartDescription,Job#
+MEDICAL LINE CONDITIONER ,0,Default             ,244,SP=PNL03672              ,NS ,Default             ,1,,00268-0000
+RCS SERIES SWITCH        ,0,Default             ,135,"SP=3/4"" PVC PIPE         ",NS ,Default             ,10,,00287-0000
+RCS SERIES SWITCH        ,0,Default             ,124,"SP=3/4"" PVC PIPE         ",NS ,Default             ,10,,00288-0000
+HCS                      ,0,Default             ,245,SP=BCB-QOB160            ,NS ,Default             ,2,,00300-0000
+ALLOTMENT OF CABLES      ,0,Default             ,265,SP=S23                   ,NS ,Default             ,1,,00304-0000
+POWER PAK 9000           ,0,Default             ,367,SP=SPRING CLIP           ,NS ,Default             ,24,,00407-0000
+STANDARD PDU             ,0,Default             ,390,SP=SL06237A              ,NS ,Default             ,4,,00421-0000
+POWER PAK 9000           ,0,Default             ,385,MC07287A                 ,NS ,Default             ,2,,00422-0000
+HCS                      ,0,Default             ,416,ISOLATION PADS           ,NS ,Default             ,26,,00453-0000
+HCS                      ,0,Default             ,416,ISOLATION PADS           ,NS ,Default             ,22,,00455-0000
+LINE CONDITIONER         ,0,Default             ,416,ISOLATION PADS           ,NS ,Default             ,34,,00456-0000
+LINE CONDITIONER         ,0,Default             ,416,TCR27034B.O              ,NS ,Default             ,17,,00456-0000
+POWER PAK 9000           ,0,Default             ,383,SL06237A                 ,NS ,Default             ,8,,00457-0000
+POWER PAK 9000           ,0,Default             ,383,FAB01057                 ,NS ,Default             ,3,,00458-0000
+POWER PAK 9000           ,0,Default             ,383,FAC01058                 ,NS ,Default             ,9,,00458-0000
+POWER PAK 9000           ,0,Default             ,383,SL06237A                 ,NS ,Default             ,3,,00458-0000
+POWER PAK 9000           ,0,Default             ,394,FAB01057                 ,NS ,Default             ,1,,00464-0000
+POWER PAK 9000           ,0,Default             ,394,FAC01058                 ,NS ,Default             ,3,,00464-0000
+POWER PAK 9000           ,0,Default             ,426,FAB01057                 ,NS ,Default             ,1,,00465-0000
+POWER PAK 9000           ,0,Default             ,426,FAC01058                 ,NS ,Default             ,3,,00465-0000
+REDUNDANT HCS            ,0,Default             ,392,ISOLATION PADS           ,NS ,Default             ,4,,00473-0000
+REDUNDANT HCS            ,0,Default             ,392,SP=MC09177A              ,NS ,Default             ,8,,00473-0000
+COMPUTER SHIELD 9000     ,0,Default             ,422,D=TCR2S26428             ,NS ,Default             ,4,,00483-0000
+COMPUTER SHIELD 9000     ,0,Default             ,422,D=TCR2S25815             ,NS ,Default             ,0,,00484-0000
+STANDARD PDU             ,0,Default             ,461,SMOOTH DOOR              ,NS ,Default             ,1,,00517-0000
+STANDARD PDU             ,0,Default             ,468,XMR57780                 ,OLD,Default             ,0,,00526-0000
+SPARE PARTS              ,0,Default             ,464,SP=OYSTER 4              ,NS ,Default             ,1,,00530-0000
+STANDARD PDU             ,0,Default             ,490,SP=HUB4100P5W            ,NS ,Default             ,3,,00556-0000
+STANDARD PDU             ,0,Default             ,490,SP=HUBSAD125             ,NS ,Default             ,3,,00556-0000
+STANDARD PDU             ,0,Default             ,457,327-500-034              ,NS ,Default             ,4,,00561-0000
+STANDARD PDU             ,0,Default             ,457,ASB00005                 ,OLD,Default             ,8,,00561-0000
+STANDARD PDU             ,0,Default             ,457,BKT00094                 ,OLD,Default             ,8,,00561-0000
+STANDARD PDU             ,0,Default             ,457,BKT01155                 ,OLD,Default             ,18,,00561-0000
