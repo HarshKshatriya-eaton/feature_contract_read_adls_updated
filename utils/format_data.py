@@ -63,17 +63,18 @@ class Format:
             for col_out in dict_col_dtype:
                 col_act = dict_col_dtype[col_out]['actual_datasoure_name']
                 dict_rename[col_act] = col_out
-
+        logger.app_info(f'created rename directory: {dict_rename}')
         # Subset dataset
         df_data = df_data.rename(columns=dict_rename)
         df_data = df_data.loc[:, list(dict_rename.values())]
+        logger.app_info(f'created df_data directory: {df_data}')
         del dict_rename
 
         # Loop through columns
         for col in dict_col_dtype:
             # col = list(dict_col_dtype.keys())[10]
             logger.app_debug(col, 1)
-
+            logger.app_info(f'{col} started')
             dict_val = dict_col_dtype[col]
 
             # Format DataTypoe
@@ -121,7 +122,7 @@ class Format:
             # Drop NA
             if not dict_val['is_nullable']:
                 df_data = df_data[pd.notna(df_data[col])]
-
+            logger.app_info(f'end of format data : {df_data}')
         return df_data
 
     def format_date(self, dataset, ls_date_formats=[]):

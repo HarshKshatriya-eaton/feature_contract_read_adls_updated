@@ -201,6 +201,8 @@ class InstallBase:
                  }
                  )
             logger.app_info(f'df_data_install from adls-read: {df_data_install.head()}')
+
+            logger.app_info(f'df_data_install columns from adls-read: {df_data_install.columns}')
             # Format Data
             input_format = self.config['database']['M2M']['Dictionary Format']
             logger.app_info('given input format')
@@ -291,6 +293,8 @@ class InstallBase:
             df_srnum_range, df_srnum = self.preprocess_expand_range(
                 df_srnum_all, df_srnum)
 
+            del df_srnum_all
+            #edit later ** suguna - 2023-11
             # gets unique/repeated serial number data
             df_out, df_couldnot = obj_srnum.get_serialnumber(
                 df_srnum_range['SerialNumber'], df_srnum_range['Shipper_Qty'],
@@ -376,9 +380,11 @@ class InstallBase:
         :rtype:  pd.DataFrame
 
         """
-        obj_sc = StrategicCustomer('local')
+        logger.app_info('within pipeline_customer')
+        obj_sc = StrategicCustomer()
+        logger.app_info('created strategic customer object')
         df_customer = obj_sc.main_customer_list(df_leads=df_data_install)
-
+        logger.app_info('within pipeline_customer: 386')
         # Merge customer data with shipment, serial number and BOM data
         df_install_data = self.merge_customdata(df_customer, df_data_install)
 
@@ -425,7 +431,7 @@ class InstallBase:
 
                 """
         df_data = df_data_org.copy()
-
+        del df_data_org
         ref_main_breaker = IO.read_csv(
             self.mode,
             {'file_dir': self.config['file']['dir_ref'],
@@ -477,13 +483,14 @@ class InstallBase:
                                   }
                                  )
             # Format Data
+            logger.app_info(f'columns of bom data : {df_bom.columns}')
             input_format = self.config['database']['bom']['Dictionary Format']
             df_bom = obj_format.format_data(df_bom, input_format)
             df_bom.reset_index(drop=True, inplace=True)
-
+            logger.app_info('out of format data for BOM')
             # Display Part Numbers
             df_display_parts = self.id_display_parts(df_bom)
-
+            logger.app_info('display parts')
             # Main Breakers
             df_main_breaker = self.id_main_breaker(df_bom)
 
@@ -496,17 +503,17 @@ class InstallBase:
             df_bom = df_bom.drop_duplicates(subset=['Job_Index', 'PartNumber_TLN_BOM']).reset_index(
                 drop=True)
             df_bom = self.id_metadata(df_bom)
-
+            logger.app_info('df_bom duplicates dropped')
             # Merge main breaker data and display part number data
             df_bom = df_bom.merge(df_main_breaker, on='Job_Index', how='left')
             df_bom = df_bom.merge(df_display_parts, on='Job_Index', how='left')
             # df_bom = self.id_metadata(df_bom)
-
+            logger.app_info('merged main breaker')
             # Merge Data
             df_install = df_install.merge(df_bom, on='Job_Index', how=merge_type)
             df_install.loc[:, 'PartNumber_TLN_BOM'] = df_install[
                 'PartNumber_TLN_BOM'].fillna('')
-
+            logger.app_info('merged df_bom with data')
             logger.app_success(self.step_bom_data)
             return df_install
 
@@ -724,6 +731,7 @@ class InstallBase:
 
         """
         try:
+            logger.app_info('inside merge customdata')
             df_custom = df_custom.drop_duplicates(subset=['Serial_Number'])
             df_install_data = df_data_install.merge(
                 df_custom[['Serial_Number', 'StrategicCustomer']],
@@ -793,12 +801,15 @@ class InstallBase:
 
         """
         try:
-            df_data = df_data_org.copy()
 
+            df_data = df_data_org.copy()
+            del df_data_org
+            logger.app_info('inside id_display_part')
+            # delete   suguna
             dict_display_parts = self.config['install_base']['dict_display_parts']
 
             df_out = df_data[['Job_Index']].drop_duplicates()
-
+            logger.app_info(f'inside id_display_part  {df_out.shape[0]}')
             for col_name_out in dict_display_parts:
                 # col_name_out =  list(dict_display_parts.keys())[0]
 
@@ -814,9 +825,9 @@ class InstallBase:
                 else:
                     df_sub = df_data
 
-
+                logger.app_info('line 825 of id_display ')
                 ls_parts_of_interest = dict_display_parts[col_name_out]['PartsOfInterest']
-                ls_parts_of_interest = [str.lower(txt) for txt in ls_parts_of_interest]
+                ls_parts_of_interest = [txt.lower() for txt in ls_parts_of_interest]
 
                 df_sub_1 = df_sub.copy()
                 df_sub_1['can_raise_lead'] = df_sub['PartNumber_BOM_BOM'].isin(ls_parts_of_interest)
@@ -824,23 +835,23 @@ class InstallBase:
                     sum).reset_index()
                 df_sub_1 = df_sub_1.rename(
                     columns={'can_raise_lead': f'is_valid_{col_name_out.replace("pn_", "")}_lead'})
-
+                logger.app_info(f' id_display :835 {len(df_sub_1)}')
                 df_sub['can_raise_lead'] = df_sub['PartNumber_BOM_BOM'].isin(
                     ls_parts_of_interest)
 
                 df_sub = df_sub.groupby('Job_Index')['PartNumber_BOM_BOM'].apply(
                     lambda x: self.summarize_part_num(x, ls_parts_of_interest)).reset_index()
-
+                logger.app_info(f' id_display :841 {df_sub.shape[0]}')
                 df_sub = df_sub.rename(columns={'PartNumber_BOM_BOM': col_name_out})
 
                 df_sub = df_sub.merge(df_sub_1, on='Job_Index', how='left')
 
                 df_out = df_out.merge(df_sub, on='Job_Index', how='left')
-
+            logger.app_info(f' id_display :847 {df_out.shape[0]}')
             return df_out
         except Exception as e:
-            logger.app_info("failed in ")
-            raise Exception from e
+            logger.app_fail(f"id_display :{traceback.print_exc()}")
+            raise e
 
     def summarize_part_num(self, part_list, list_of_interest):
         """
