@@ -223,6 +223,7 @@ class SerialNumber:
                 df_out = pd.concat([df_out_known, df_out_unknown])
             else:
                 df_out = df_out_unknown.copy()
+                del df_out_unknown
             loggerObj.app_debug(current_step)
 
         except Exception as e:

@@ -110,37 +110,37 @@ class BusinessLogic:
         #
         return df_data['Product']
 
-    def idetify_product_fr_tln(self, ar_tln):
-        # ar_tln = list(df_bom.TLN_BOM)
+    # def idetify_product_fr_tln(self, ar_tln):
+    #     # ar_tln = list(df_bom.TLN_BOM)
 
-        # Data to classify
-        df_data = pd.DataFrame(data={'key': ar_tln})
+    #     # Data to classify
+    #     df_data = pd.DataFrame(data={'key': ar_tln})
 
-        # Reference Data
-        ref_prod = self.ref_lead_opp.copy()
-        ref_prod = ref_prod[
-            (ref_prod.flag_keep) & (pd.notna(ref_prod.PartNumber_TLN))]
+    #     # Reference Data
+    #     ref_prod = self.ref_lead_opp.copy()
+    #     ref_prod = ref_prod[
+    #         (ref_prod.flag_keep) & (pd.notna(ref_prod.PartNumber_TLN))]
 
-        # Pre-Process Data
-        ls_prod = ref_prod.Product.unique()
-        df_data['Product'] = ''
-        for prod in ls_prod:
-            # prod = ls_prod [0]
-            ls_pattern = ref_prod.loc[
-                (ref_prod.Product == prod), 'PartNumber_TLN']
+    #     # Pre-Process Data
+    #     ls_prod = ref_prod.Product.unique()
+    #     df_data['Product'] = ''
+    #     for prod in ls_prod:
+    #         # prod = ls_prod [0]
+    #         ls_pattern = ref_prod.loc[
+    #             (ref_prod.Product == prod), 'PartNumber_TLN']
 
-            df_data['flag_prod_beg'] = df_data.key.str.startswith(
-                tuple(ls_pattern))
-            df_data['flag_prod_con'] = df_data.key.apply(
-                lambda x: re.search(f'({str.lower(prod)})', x) is not None)
-            df_data['flag_prod'] = (df_data['flag_prod_beg']
-                                    | df_data['flag_prod_con'])
+    #         df_data['flag_prod_beg'] = df_data.key.str.startswith(
+    #             tuple(ls_pattern))
+    #         df_data['flag_prod_con'] = df_data.key.apply(
+    #             lambda x: re.search(f'({str.lower(prod)})', x) is not None)
+    #         df_data['flag_prod'] = (df_data['flag_prod_beg']
+    #                                 | df_data['flag_prod_con'])
 
-            df_data.loc[df_data['flag_prod'], 'Product'] = prod
-            df_data = df_data.drop(
-                ['flag_prod', 'flag_prod_beg', 'flag_prod_con'], axis=1)
+    #         df_data.loc[df_data['flag_prod'], 'Product'] = prod
+    #         df_data = df_data.drop(
+    #             ['flag_prod', 'flag_prod_beg', 'flag_prod_con'], axis=1)
 
-        return df_data['Product']
+    #     return df_data['Product']
 
 
 

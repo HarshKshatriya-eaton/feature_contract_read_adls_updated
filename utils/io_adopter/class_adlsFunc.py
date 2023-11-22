@@ -129,7 +129,7 @@ class adlsFunc():
         be returned.
         """
         try:
-            #logging.disable(logging.CRITICAL)
+            logging.disable(logging.CRITICAL)
             logging.info('inside input file read')
             service_client = DataLakeServiceClient.from_connection_string(
                 str(connection_string))
@@ -167,7 +167,7 @@ class adlsFunc():
                     return csv_error
 
 
-            #logging.disable(logging.NOTSET)
+            logging.disable(logging.NOTSET)
 
             return out_df
         except Exception as e:
@@ -194,7 +194,7 @@ class adlsFunc():
         Status and File name.
         """
         try:
-            #logging.disable(logging.CRITICAL)
+            logging.disable(logging.CRITICAL)
             logging.info('inside class_adlsfunc output write')
             dataset = dataset.replace('\n', '')
             logging.info(f'dataset after replace \n: {dataset}')
@@ -219,7 +219,7 @@ class adlsFunc():
             output_file_client.append_data(data, 0, len(data))
             output_file_client.flush_data(len(data))
 
-            #logging.disable(logging.NOTSET)
+            logging.disable(logging.NOTSET)
 
             logging.info("Successfully exported the file (From ADLS block)")
             return f"Success! File created with name: {final_file}"

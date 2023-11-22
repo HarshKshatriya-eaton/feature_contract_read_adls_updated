@@ -460,6 +460,7 @@ class Contract:
 
         """
         df_startup_org = df_startup.copy()
+        del df_startup
         _step = f"{' ' * 5}Identify Start-up"
         try:
             ls_cols_startup = df_startup_org.columns
