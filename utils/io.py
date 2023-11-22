@@ -40,11 +40,10 @@ class IO():
             logging.info('going to read credentials')
             credentials=io_adls.read_credentials(ls_cred=[connection_string_key,storage_account_name_key])
             logger.app_info(f'Mode {credentials} is fetched')
-            #connection_string = credentials.get('ilead_adls_connection_string')
             formatted_connection_string_key = connection_string_key.replace('-', '_')
             # Accessing values from the credentials dictionary
             connection_string = credentials.get(formatted_connection_string_key)
-            #storage_account_name = credentials.get('ilead-storage-account')
+
             container_name=config['adls_dir']['container_name']
             directory_name= config['adls_dir']['directory_name']
             if 'file_name' in config['adls_dir'] and config['adls_dir']['file_name'] != "":
@@ -71,13 +70,18 @@ class IO():
         try:
             credentials=io_adls.read_credentials(ls_cred=[connection_string_key,storage_account_name_key])
             logger.app_info(f'Credentials of write {credentials} is fetched')
-            connection_string = credentials.get('destination_adls_connection_string')
-            #storage_account_name = credentials.get('ilead-storage-account')
+            formatted_connection_string_key = connection_string_key.replace('-', '_')
+            # Accessing values from the credentials dictionary
+            connection_string = credentials.get(formatted_connection_string_key)
             output_container_name=config['adls_dir']['container_name']
             output_directory_name= config['adls_dir']['directory_name']
-            file_name= config['adls_dir']['file_name']
-            if file_name.endswith(".csv"):
-                file_name = file_name[:-4]
+
+            if 'file_name' in config['adls_dir'] and config['adls_dir']['file_name'] != "":
+                file_name= config['adls_dir']['file_name']
+                if file_name.endswith(".csv"):
+                    file_name = file_name[:-4]
+            else:
+                 file_name = io_adls.list_ADLS_directory_contents(connection_string, output_container_name, output_directory_name)
 
             logger.app_info(f'file name: {file_name}')
             timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
@@ -98,7 +102,7 @@ class IO():
             return io_local.read_csv_local(config)
         elif mode == 'azure-adls':
             logger.app_info(f'Mode {mode} is implemented')
-            logger.app_info(f'Mode {config} is fetched')
+            #logger.app_info(f'Mode {config} is fetched')
             return IO.read_csv_adls(config)
         else:
             logger.app_info(f'Mode {mode} is not implemented')

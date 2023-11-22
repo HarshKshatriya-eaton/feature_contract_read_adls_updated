@@ -74,13 +74,13 @@
             },
             "contact_type":{
                 "container_name": "reference-files",
-                "directory_name": "",
-                "file_name" : "type_of_contact.csv"
+                "directory_name": "contact-type",
+                "file_name" : ""
             },
             "bom":{
                 "container_name": "reference-files",
-                "directory_name": "",
-                "file_name" : "reference_BOM.csv"
+                "directory_name": "bom",
+                "file_name" : ""
             },
             "customer":{
                 "container_name": "reference-files",
@@ -90,7 +90,7 @@
             "lead_opportunities":{
                 "container_name": "reference-files",
                 "directory_name": "",
-                "file_name" : "ref_lead_opportunities.csv"
+                "file_name" : "ref_lead_oppurtunities.csv"
                 
             },
 
@@ -102,7 +102,7 @@
             },
             "decode_sr_num":{
                 "container_name": "reference-files",
-                "directory_name": "",
+                "directory_name": "decode-sr-num",
                 "file_name" : "ref_decode_serialnumber.csv"
                 
             },
@@ -114,13 +114,13 @@
             },
             "area_region":{
                 "container_name": "reference-files",
-                "directory_name": "",
-                "file_name" : "ref_state_region.csv"
+                "directory_name": "area-region",
+                "file_name" : ""
             },
             "chasis":{
                 "container_name": "reference-files",
-                "directory_name": "",
-                "file_name" : "ref_chasis.csv"
+                "directory_name": "chasis",
+                "file_name" : ""
             }
             
         },
@@ -132,9 +132,13 @@
             },
             "customer": {
                 "container_name": "results",
-                "directory_name": "results",
-                "file_name": "customer_list.csv",
-                "validation": "customer_list_validation.csv"
+                "directory_name": "results/customer",
+                "file_name": "",
+                "validation":{
+                    "container_name": "results",
+                    "directory_name": "results/customer-validation",
+                    "file_name": ""
+                }
             },
             "output_iLead": {
                 "container_name": "results",
@@ -152,18 +156,19 @@
             },
             "processed_install": {
                 "container_name": "results",
-                "directory_name": "intermediate",
-                "file_name": "processed_install.csv"
+                "directory_name": "intermediate/processed-install",
+                "file_name": ""
             },
             "processed_m2m_shipment": {
                 "container_name": "results",
-                "directory_name": "validation",
-                "file_name": "processed_m2m_shipment.csv"
+                "directory_name": "validation/processed-m2m-shipment",
+                "file_name":""
+
             },
             "processed_serialnum": {
                 "container_name": "results",
-                "directory_name": "validation",
-                "file_name": "processed_serialnum.csv"
+                "directory_name": "validation/processed-serialnum",
+                "file_name": ""
             },
             "contracts": {
                 "container_name": "results",
@@ -179,18 +184,31 @@
             },
             "services": {
                 "container_name": "results",
-                "directory_name": "results/intermediate",
+                "directory_name": "intermediate/services",
                 "file_name": "processed_services.csv",
-                "validation": "processed_services_validation.csv",
+                "validation": {
+                    "container_name": "results",
+                    "directory_name": "intermediate/services-validation",
+                    "file_name":"processed_services_validation.csv"
+                },
                 "intermediate": "proceesed_services_jcomm_sidecar.csv",
-                "serial_number_services": "Raw_Services_Data_SerialNum_Expanded.csv",
+                "serial_number_services": {
+                    "container_name": "results",
+                    "directory_name": "intermediate/serial-number-services",
+                    "file_name":""
+                },
                 "validated_sr_num": "validated_sr_num.csv"
             },
             "contact": {
                 "container_name": "results",
-                "directory_name": "",
-                "file_name": "contact_contracts.csv",
-                "events_sr_num": "events_sr_num.csv"
+                "directory_name": "contact",
+                "file_name": "",
+                "events_sr_num": {
+                    "container_name": "results",
+                    "directory_name": "contact-event-sr-num",
+                    "file_name":""
+
+                }
             }
         }
     },

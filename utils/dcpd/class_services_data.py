@@ -229,7 +229,7 @@ class ProcessServiceIncidents:
         try:
 
             df_out = df_hardware_changes.copy()
-
+            del df_hardware_changes
             # ClosedDate column changed as per input data file.
             # df_temp = df_services_raw[['Id', 'Status', 'Closed_Date']]
             df_temp = df_services_raw[['Id', 'Status', 'ClosedDate']]

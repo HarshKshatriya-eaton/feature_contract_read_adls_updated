@@ -74,7 +74,7 @@ class Format:
         for col in dict_col_dtype:
             # col = list(dict_col_dtype.keys())[10]
             logger.app_debug(col, 1)
-
+            logger.app_info(f'{col} started')
             dict_val = dict_col_dtype[col]
 
             # Format DataTypoe
@@ -122,7 +122,7 @@ class Format:
             # Drop NA
             if not dict_val['is_nullable']:
                 df_data = df_data[pd.notna(df_data[col])]
-
+            logger.app_info(f'end of format data : {df_data}')
         return df_data
 
     def format_date(self, dataset, ls_date_formats=[]):

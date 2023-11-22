@@ -42,7 +42,7 @@ logger = AppLogger(__name__, level='Debug')
 class StrategicCustomer:
 
     def __init__(self):
-        config_dir = os.path.join(os.path.dirname(__file__), "../references")
+        config_dir = os.path.join(os.path.dirname(__file__), "../config")
         config_file = os.path.join(config_dir, "config_dcpd.json") 
         try:
         # Read the configuration file
@@ -72,6 +72,7 @@ class StrategicCustomer:
         """
         # Read Data
         try:
+            logger.app_info('indside main_customer')
             _step = 'Read data : reference'
             ref_df = self.read_ref_data()
             logger.app_success(_step)
@@ -125,13 +126,18 @@ class StrategicCustomer:
         """
 
         try:
-
+            logger.app_info('inside read reference data')
             # Read: Reference Data
             _step = "Read reference data"
 
             if ref_ac_manager is not None:
                 ref_ac_manager = ref_ac_manager
+                logger.app_info('line:135-read ac manager')
             else:
+                logger.app_info('line:137-read ac manager')
+                logger.app_info(f'mode: {self.mode}')
+                adls_config = self.config['file']['Reference']['adls_credentials']
+                adls_dir= self.config['file']['Reference']['customer']
                 ref_ac_manager = IO.read_csv(
                     self.mode,
                     {'file_dir': self.config['file']['dir_ref'],
@@ -141,6 +147,7 @@ class StrategicCustomer:
                      'sep': '\t'
                      }
                 )
+            logger.app_info(f'read ac manager {ref_ac_manager.head()}')
 
             if ref_ac_manager.columns[0] != "Display":
                 ref_ac_manager = ref_ac_manager.reset_index()
@@ -152,7 +159,7 @@ class StrategicCustomer:
             ref_ac_manager = ref_ac_manager[pd.notna(
                 ref_ac_manager.MatchType_01)]
             ref_ac_manager = ref_ac_manager.fillna('')
-            ref_ac_manager = ref_ac_manager.fillna('')
+           # ref_ac_manager = ref_ac_manager.fillna('')
 
             # Format data
             for col in ref_ac_manager.columns:
@@ -165,7 +172,7 @@ class StrategicCustomer:
 
         except Exception as e:
             logger.app_fail(_step, f"{traceback.print_exc()}")
-            raise Exception from e
+            raise e
 
     def read_processed_m2m(self, df_leads=None):
         """
@@ -196,7 +203,7 @@ class StrategicCustomer:
                      'adls_dir': self.config['file']['Processed']['processed_install']
                     }
                 )
-
+            logger.app_info('strategic customer processed install')
             if 'Serial_Number' in df_leads.columns:
                 dict_cols = {
                     'Customer': 'CompanyName',
