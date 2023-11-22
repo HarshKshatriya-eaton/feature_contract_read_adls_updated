@@ -41,9 +41,9 @@ class IO():
             credentials=io_adls.read_credentials(ls_cred=[connection_string_key,storage_account_name_key])
             logger.app_info(f'Mode {credentials} is fetched')
             #connection_string = credentials.get('ilead_adls_connection_string')
-            connection-string-key = connection_string_key.replace("-", "_")
-            logger.app_info(f'Connection String: {connection-string-key}')
-            connection_string = credentials.get(str(connection-string-key))
+            formatted_connection_string_key = connection_string_key.replace('-', '_')
+            # Accessing values from the credentials dictionary
+            connection_string = credentials.get(formatted_connection_string_key)
             #storage_account_name = credentials.get('ilead-storage-account')
             container_name=config['adls_dir']['container_name']
             directory_name= config['adls_dir']['directory_name']
