@@ -22,26 +22,27 @@ import sys
 import traceback
 import pandas as pd
 from utils import IO
+from utils import AppLogger
 import logging
 #import utils.json_creator as js
-
+logger = AppLogger(__name__)
 
 class BusinessLogic:
 
     def __init__(self):
-        logging.info('inside Business Logic')
+        logger.app_info('inside Business Logic')
         config_dir = os.path.join(os.path.dirname(__file__), "../../config")
         config_file = os.path.join(config_dir, "config_dcpd.json") 
-        logging.info('config file path fetched')
+        logger.app_info('config file path fetched')
         # Read the configuration file
         with open(config_file,'r') as config_file:
-            self.config = json.load(config_file)#
+            config = json.load(config_file)
         #self.config=js.read_json(config_file)
-        
-        #logging.info("'config':config")
+        self.config = config
+        logger.app_info("'config':config")
         self.mode = self.config.get("conf.env", "azure-adls")
 
-        logging.info('read reference file initiated')
+        logger.app_info('read reference file initiated')
         # Read Reference: Product from Serial Number
         ref_prod_fr_srnum = IO.read_csv(
                 self.mode,
@@ -61,11 +62,12 @@ class BusinessLogic:
         # else:
         #     logging.error(f"Unexpected type for ref_prod_fr_srnum: {type(ref_prod_fr_srnum)}")
 
-        logging.error(f"Type for ref_prod_fr_srnum: {type(ref_prod_fr_srnum)}")
+        logger.app_info(f"Type for ref_prod_fr_srnum: {type(ref_prod_fr_srnum)}")
         ref_prod_fr_srnum['SerialNumberPattern'] = ref_prod_fr_srnum['SerialNumberPattern'].str.lower()
         self.ref_prod_fr_srnum = ref_prod_fr_srnum
 
         # Read Reference: Product from TLN
+        logger.app_info("Reading the file ref_lead_opportunities")
         ref_lead_opp = IO.read_csv(
                 self.mode,
                 {'file_dir': self.config['file']['dir_ref'],
@@ -73,6 +75,7 @@ class BusinessLogic:
                  'adls_config': self.config['file']['Reference']['adls_credentials'],
                  'adls_dir': self.config['file']['Reference']['lead_opportunities']
                  })
+        logger.app_info(f'ref_lead_opp in business logic: 76: {ref_lead_opp.columns}')
         
 
 

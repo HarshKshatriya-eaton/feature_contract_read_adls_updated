@@ -90,7 +90,7 @@
             "lead_opportunities":{
                 "container_name": "reference-files",
                 "directory_name": "",
-                "file_name" : "ref_lead_oppurtunities.csv"
+                "file_name" : "ref_lead_opportunities.csv"
                 
             },
 

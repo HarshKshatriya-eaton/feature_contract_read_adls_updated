@@ -27,14 +27,14 @@ direct written permission from Eaton Corporation.
 import re
 import traceback
 import pandas as pd
-
+import sys
 from utils import AppLogger
 
 loggerObj = AppLogger(__name__)
 
 
 # %%
-
+#ensure_execution=True
 
 class SerialNumber:
     """
@@ -60,6 +60,20 @@ class SerialNumber:
         self.ref_data = ref_data.copy()
 
         self.dict_mapping = {}
+
+    def check_var_size(self, local_vars, log):
+        df_size = pd.DataFrame(columns=['Var', 'Size'])
+        i = 0
+        for var, obj in local_vars:
+            df_size.loc[i, ] = [var, sys.getsizeof(obj)]
+            i += 1
+        
+        df_size = df_size.sort_values(by=['Size'], ascending=False)
+        if log:
+            loggerObj.app_info(df_size.head(10))
+            loggerObj.app_info(df_size.Size.sum())
+        del df_size
+        #return "success"
 
     def validate_srnum(self, ar_serialnum):
         """
@@ -219,10 +233,11 @@ class SerialNumber:
             # Change made: 2023-27-9 Expand AB suffix for specific cases
             # Change made for correct expansion
             df_input[col] = df_input.apply(lambda row: self.modify_sr_num(row), axis=1)
-
+            loggerObj.app_info(f"the content of df_input is {df_input}")
             loggerObj.app_debug(current_step)
 
         except Exception as e:
+            loggerObj.app_info(f"The error message generated is {str(e)}")
             loggerObj.app_fail(current_step, f"{traceback.print_exc()}")
             raise Exception from e
         return df_input[col]
@@ -253,7 +268,10 @@ class SerialNumber:
         """
 
         current_step = "Serial number initialization and segregation"
-
+        loggerObj.app_info(f"The value of ar_serialnum is {ar_serialnum}")
+        loggerObj.app_info(f"The value of ar_installsize is {ar_installsize}")
+        loggerObj.app_info(f"The value of ar_installsize is {ar_key_serial}")
+        
         try:
             self.data_type = data_type
 
@@ -265,25 +283,38 @@ class SerialNumber:
                 }
             )
 
+            loggerObj.app_info(f"The content of df_org is {df_org}")
+            #loggerObj.app_info(f"The column names of df_org is {df_org.columns}")
             df_org["known_sr_num"] = False
-
+            loggerObj.app_info(f"The content of df_org after adding new column known_sr_num is {df_org}")
+            #loggerObj.app_info(f"The column names of df_org is {df_org.columns}")
+            
             # UnKnown ranges
             df_subset = df_org.loc[
                 df_org["known_sr_num"] == False,
                 ["SerialNumberOrg", "InstallSize", "KeySerial"],
             ]
+            #loggerObj.app_info("The objects along with their memory consumption in class_serial_number.py are") 
+            #self.check_var_size(list(locals().items()), log=True)
+            loggerObj.app_info("Number of rows in df_org in function get_serialnumber in class_serial_number.py are {0} Number of rows in df_subset is {1}".format(len(df_org), len(df_subset)))
+
+            loggerObj.app_info(f"The content of data frame df_subset is {df_subset}")
             df_out_unknown, df_could_not = self.unknown_range(df_subset)
             del df_subset
-
+            loggerObj.app_info("Finished calling unknown_range method defined inside class_serial_number.py")
+            loggerObj.app_info("Before clubbing df_could_not and df_out_unknown")
             # Club Data
             if False:
-                df_out = pd.concat([df_out_known, df_out_unknown])
+                #df_out = pd.concat([df_out_known, df_out_unknown])
+                df_out = pd.concat([df_could_not, df_out_unknown])
             else:
+                loggerObj.app_info("Inside else")
                 df_out = df_out_unknown.copy()
                 del df_out_unknown
             loggerObj.app_debug(current_step)
-
+            loggerObj.app_info("Now returning from get_serialnumber method defined inside class_serial_number.py")
         except Exception as e:
+            loggerObj.app_info(f"The error message generated is {str(e)}")
             loggerObj.app_fail(current_step, f"{traceback.print_exc()}")
             raise Exception from e
 
@@ -342,7 +373,8 @@ class SerialNumber:
 
         """
         current_step = "Unknown range of serial numbers"
-
+        loggerObj.app_info(f"Inside unknown range method with df_input as {df_input}")
+        #global ensure_execution
         try:
             ls_results = [
                 "f_analyze",
@@ -354,34 +386,58 @@ class SerialNumber:
             ]
 
             # Clean Serial Number
-            df_input["SerialNumber"] = self.prep_srnum(df_input)
+            loggerObj.app_info("Calling prep_srnum in class_serial_number.py")
+            #loggerObj.app_info("The objects along with their memory consumption in class_serial_number.py are")
+            #self.check_var_size(list(locals().items()), log=True)
 
+            loggerObj.app_info(f"Number of rows in dataframe df_input inside function unknown_range in class_serial_number.py before calling prep_srnum in class_serial_number.py are {len(df_input)}")
+            df_input["SerialNumber"] = self.prep_srnum(df_input)
+            loggerObj.app_info(f"After Calling prep_srnum in class_serial_number.py the content of df_input is {df_input}")
+            loggerObj.app_info(f"Number of rows in dataframe df_input inside function unknown_range in class_serial_number.py after calling prep_srnum in class_serial_number.py are {len(df_input)}")
             # Identify Type of Sequence:
             cols = ["SerialNumberOrg", "InstallSize", "KeySerial"]
 
+            #loggerObj.app_info("The objects along with their memory consumption in class_serial_number.py are")
+            #self.check_var_size(list(locals().items()), log=True)
+            loggerObj.app_info("Calling identify_seq_type in class_serial_number.py")
+            loggerObj.app_info(f"Number of rows in dataframe df_input inside function unknown_range in class_serial_number.py before calling identify_seq_type in class_serial_number.py are {len(df_input)}")
             df_input["out"] = df_input[cols].apply(
                 lambda x: self.identify_seq_type(x), axis=1
             )
-
+            loggerObj.app_info("Finished Calling identify_seq_type in class_serial_number.py")
+            loggerObj.app_info(f"Number of rows in dataframe df_input inside function unknown_range in class_serial_number.py after calling identify_seq_type in class_serial_number.py are {len(df_input)}")
             ix = 0
             for col in ls_results:
                 df_input[col] = df_input["out"].apply(lambda x: x[ix])
                 ix += 1
-
+            
+            loggerObj.app_info(f"Number of rows in dataframe df_input inside function unknown_range in class_serial_number.py before calling generate_seq in class_serial_number.py are {len(df_input)}")
+            loggerObj.app_info("Calling generate_seq method defined in class_serial_number.py")
             # Generate Sequence
+            # if ensure_execution:
+            #     df_input = df_input.iloc[27390:27400]
+            #     #df_input = df_input[df_input['SerialNumberOrg'] != '110-0333-A-B']
+            #     ensure_execution=False
+            
+            #loggerObj.app_info(f"Now calling generate_seq function defined in class_serial_number.py with number of rows = {df_input.index.stop}")
+            loggerObj.app_info(f"Now calling generate_seq function defined in class_serial_number.py with number of rows = {len(df_input)}")
             ls_seq_out_unknown = df_input[
                 ["out", "SerialNumberOrg", "InstallSize", "KeySerial"]
             ].apply(lambda x: self.generate_seq(x[0], x[1], x[2], x[3]), axis=1)
-
+            #loggerObj.app_info(f"Number of rows processed by calling generate_seq function defined in class_serial_number.py are = {df_input.index.stop}")
+            loggerObj.app_info(f"Number of rows processed by calling generate_seq function defined in class_serial_number.py are = {len(df_input)}")
+            loggerObj.app_info("Completed execution of generate_seq in the class class_serial_number.py")
             df_out_unknown = pd.concat(ls_seq_out_unknown.tolist())
 
             could_not = df_input.loc[df_input["f_analyze"] == False, :]
             loggerObj.app_debug(current_step)
 
         except Exception as e:
+            loggerObj.app_info(str(e))
             loggerObj.app_fail(current_step, f"{traceback.print_exc()}")
             raise Exception from e
 
+        loggerObj.app_info("Now returning from function unknown_range defined in class_serial_number.py")
         return df_out_unknown, could_not
 
     def generate_seq_list(self, dict_data):
@@ -390,7 +446,7 @@ class SerialNumber:
         number with list type.
         It is a sub-module under generate_seq function.
 
-        :param dict_data:Inputs a dictionary containing parameters values.
+        :param dict_data:Inputs a dictionary containing parameters values. 
         :type dict_data: Dictionary.
         :raises Exception: Throws ValueError exception for Invalid values
         passed to function.
@@ -444,9 +500,11 @@ class SerialNumber:
 
         df_out = pd.DataFrame(columns=["SerialNumberOrg", "SerialNumber"])
         try:
+            #Fix for cannot access local variable 'rge_sr_num' where it is not associated with a value
+            rge_sr_num = []
             ls_out_n = ["f_analyze", "type", "ix_beg", "ix_end", "pre_fix", "post_fix"]
             dict_data = dict(zip(ls_out_n, out))
-
+            loggerObj.app_info(f"The key and values of the dictionary dict_data are {dict_data.keys()} and {dict_data.values()}")
             if dict_data["type"] == "list":
                 rge_sr_num = self.generate_seq_list(dict_data)
 
@@ -457,9 +515,14 @@ class SerialNumber:
                     rge_sr_num = self.generate_seq_list(dict_data)
 
             if dict_data["type"] in ["num", "num_count"]:
-                rge_sr_num = range(
-                    int(dict_data["ix_beg"]), int(dict_data["ix_end"]) + 1
-                )
+                #To handle invalid serial number for e.g. 213-327-1247-8435663127
+                if int(dict_data["ix_end"]) - int(dict_data["ix_beg"]) > 150:
+                    loggerObj.app_info(f"Discarding serial number {sr_num}")
+                    rge_sr_num = []
+                else:
+                    rge_sr_num = range(
+                        int(dict_data["ix_beg"]), int(dict_data["ix_end"]) + 1
+                    )
 
             if dict_data["type"] == "alpha":
                 filter_size = 100
@@ -470,15 +533,18 @@ class SerialNumber:
                 if (
                     count_sr < filter_size
                 ):  # BugFix: Consider the expansion where count is not greater than size
+                    loggerObj.app_info(f"The serial number for which letter_range function is called is {sr_num}")
                     rge_sr_num = self.letter_range(dict_data["ix_beg"], count_sr)
 
             ls_srnum = [
                 (dict_data["pre_fix"] + str(ix_sr) + dict_data["post_fix"])
                 for ix_sr in rge_sr_num
             ]
-            # loggerObj.app_debug(current_step)
+            #loggerObj.app_debug(current_step)
 
-        except:
+        except Exception as e:
+            loggerObj.app_info(f"The serial number for which the issue has been reported is {sr_num}")
+            loggerObj.app_info(str(e))
             ls_srnum = []
 
         if (
@@ -500,6 +566,10 @@ class SerialNumber:
         df_out["SerialNumberOrg"] = [sr_num] * len(ls_srnum)
         df_out["KeySerial"] = key_serial
 
+        #loggerObj.app_info("The objects along with their memory consumption in generate_seq in class_serial_number.py are")
+        
+        #self.check_var_size(list(locals().items()), log=True)
+        loggerObj.app_info("Reached end of generate_seq method in class_serial_number.py")
         return df_out
 
     def identify_seq_type(self, vals):
@@ -514,7 +584,7 @@ class SerialNumber:
         :raises Exception: Throws ValueError exception for Invalid values
         passed to function.
         :return : Returns a List containing type of sequence as
-        alphanumeric or numeric data tyep along with the prefix and postfix
+        alphanumeric or numeric data type along with the prefix and postfix
         values of the data from serial number..
         :rtype:  Python List
 
@@ -540,6 +610,7 @@ class SerialNumber:
             sr_num = str.replace(str(sr_num), "/", "-")
             sr_num = str.replace(str(sr_num), "--", "-")
             split_sr_num = str.split(str(sr_num), "-")
+            pre_fix = post_fix = ix_beg = ix_end = ''
 
             # Type = num_count
             # Example : SrNum : 110-115; InstallSize = 10
@@ -572,7 +643,7 @@ class SerialNumber:
 
             if ("," in split_sr_num[-2]) and (len(split_sr_num[-2].split(",")) == 2):
                 first_val = split_sr_num[-2].split(",")[0]
-                print("The serial number ", sr_num)
+                loggerObj.app_info(f"The serial number is {sr_num}")
                 second_val = split_sr_num[-2].split(",")[1]
                 split_sr_num.pop(-2)
                 split_sr_num.insert(1, second_val)
@@ -648,7 +719,10 @@ class SerialNumber:
                         f_analyze = False
                 else:
                     f_analyze = False
-            except:
+            except Exception as e:
+                loggerObj.app_info(f"Error message inside inner except block is {str(e)}")
+                loggerObj.app_info(f"The serial number for which the max() error is reported is {sr_num}")
+                loggerObj.app_info(f"Error message generated is {str(e)}")
                 return [False] + list(dict_out.values())
 
             if f_analyze:
@@ -673,9 +747,13 @@ class SerialNumber:
             loggerObj.app_debug(current_step)
 
         except Exception as e:
+            loggerObj.app_info(f"Error message in outer except block is {str(e)}")
+            loggerObj.app_info(f"Error message in outer except block is due to the serial number {sr_num}")
             loggerObj.app_fail(current_step, f"{traceback.print_exc()}")
-            raise Exception from e
+            raise e
 
+        #loggerObj.app_info("The objects along with their memory consumption in class_serial_number.py are")
+        #self.check_var_size(list(locals().items()), log=True)
         return [f_analyze] + list(dict_out.values())
 
     def letter_range(self, seq_, size):
@@ -710,6 +788,7 @@ class SerialNumber:
             loggerObj.app_debug(current_step)
 
         except Exception as e:
+            loggerObj.app_info(str(e))
             loggerObj.app_fail(current_step, f"{traceback.print_exc()}")
             raise Exception from e
 
@@ -743,6 +822,7 @@ class SerialNumber:
             loggerObj.app_debug(current_step)
 
         except Exception as e:
+            loggerObj.app_info(str(e))
             loggerObj.app_fail(current_step, f"{traceback.print_exc()}")
             raise Exception from e
 
@@ -767,15 +847,17 @@ class SerialNumber:
         current_step = "Convert Index value"
 
         try:
+            loggerObj.app_info(f"Inside the function convert_index with arguments {ix_n} and {pwr}")
             total_txt = ""
             for loc in list(range(pwr, 0, -1)):
                 # loc = list(range(pwr, 0, -1))[1]
                 val = ix_n // (26 ** (loc - 1))
                 total_txt = total_txt + chr(96 + val)
                 ix_n = ix_n % (26 ** (loc - 1))
-                loggerObj.app_info(current_step)
+            #loggerObj.app_info(current_step)
 
         except Exception as e:
+            loggerObj.app_info(str(e))
             loggerObj.app_fail(current_step, f"{traceback.print_exc()}")
             raise Exception from e
 

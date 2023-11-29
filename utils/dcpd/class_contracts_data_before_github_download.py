@@ -56,7 +56,7 @@ punctuation = punctuation + " "
 class Contract:
     """Class will extract and process contract data and renewal data."""
 
-    def __init__(self, mode='', config=''):  # ='local'
+    def __init__(self):  # ='local'
         """Initialise environment variables, class instance and variables used
         throughout the modules."""
 
@@ -65,21 +65,21 @@ class Contract:
         self.bus_logic = BusinessLogic()
         self.srnum_ops = SearchSrnum()
         self.format = Format()
-        if mode != '' and config != '':
-            self.mode = mode
-            self.config = config
-        else:
-            logger.app_info('inside Contract Class')
-            config_dir = os.path.join(os.path.dirname(__file__), "../../config")
-            config_file = os.path.join(config_dir, "config_dcpd.json")
-            logger.app_info('config file path fetched')
-            # Read the configuration file
-            with open(config_file,'r') as config_file:
-                config = json.load(config_file)
-            #self.config=js.read_json(config_file)
-            self.config=config
-            #logging.info("'config':config")
-            self.mode = self.config.get("conf.env", "azure-adls")
+        #self.mode = mode
+        #self.config = config
+
+        logger.app_info('inside Contract Class')
+        config_dir = os.path.join(os.path.dirname(__file__), "../../config")
+        config_file = os.path.join(config_dir, "config_dcpd.json")
+        logger.app_info('config file path fetched')
+        # Read the configuration file
+        with open(config_file,'r') as config_file:
+            self.config = json.load(config_file)#
+        #self.config=js.read_json(config_file)
+        
+        #logging.info("'config':config")
+        self.mode = self.config.get("conf.env", "azure-adls")
+
         # variables
         # self.config = IO.read_json(mode="local", config={
         #     "file_dir": "./references/", "file_name": "config_dcpd.json"})
@@ -125,8 +125,8 @@ class Contract:
                 logger.app_info(f"{str(df_size.Size.sum())}")
                 #loggerObj.app_info("Executed two statements inside the If block")
         except Exception as e:
-            logger.app_info(str(e))                                  
-
+            logger.app_info(str(e))    
+    
     #  ***** Main *****
     def main_contracts(self) -> None:  # pragma: no cover
         """
@@ -158,7 +158,9 @@ class Contract:
                         "validation"
                     ],
                     "adls_config": self.config["file"]["Processed"]["adls_credentials"],
-                    "adls_dir": self.config["file"]["Processed"]["contracts"]["validation"],
+                    "adls_dir": self.config["file"]["Processed"]["contracts"][
+                        "validation"
+                    ],
                 },
                 df_contract,
             )
@@ -180,9 +182,8 @@ class Contract:
                 },
                 df_install_contract_merge,
             )
-            logger.app_info('Successfully executed')
+
         except Exception as excp:
-            logger.app_info(f" main function failed, {excp} ")
             logger.app_fail(self.main_contract, f"{traceback.print_exc()}")
             raise Exception('f"{self.main_contract}: Failed') from excp
 
@@ -204,7 +205,6 @@ class Contract:
         try:
             # Read raw contracts data
             _step = "Read raw contracts data"
-            logger.app_info(" in pipeline contract ")
             df_contract = IO.read_csv(
                 self.mode,
                 {
@@ -214,22 +214,16 @@ class Contract:
                     "adls_dir": self.config["file"]["Raw"]["contracts"],
                 },
             )
-            logger.app_info(f" read df_contract {df_contract.shape[0]} ")
-            logger.app_info(f" read df_contract {df_contract.columns} ")
             df_contract["BillingAddress"] = df_contract["BillingStreet"]
-            logger.app_info(f" read df_contract {df_contract.columns} ")
             input_format = self.config["database"]["contracts"]["Dictionary Format"]
-            logger.app_info(f"input format{input_format}")
             df_contract = self.format.format_data(df_contract, input_format)
             df_contract.reset_index(drop=True, inplace=True)
-            logger.app_info(f" read df_contract after format data: 192 {df_contract.columns} ")
             logger.app_success(_step)
             # Identify Startups
             _step = "Identify Startups"
             df_contract.loc[:, ["was_startedup", "startup_date"]] = self.id_startup(
                 df_contract[self.ls_cols_startup]
             )
-            logger.app_info(f" read df_contract  :199 {df_contract.columns} ")
             logger.app_success(_step)
 
             # Identify Serial Numbers
@@ -242,8 +236,8 @@ class Contract:
                     "file_dir": self.config["file"]["dir_results"]
                     + self.config["file"]["dir_validation"],
                     "file_name": "contract_sr_num_validation.csv",
-                    "adls_config": self.config["file"]["Processed"]["adls_credentials"],
-                    "adls_dir": self.config["file"]["Processed"]["contracts"]["contract_srnum_validation"],
+                    "adls_config": self.config["file"]["Raw"]["adls_credentials"],
+                    "adls_dir": self.config["file"]["Raw"]["contracts"],
                 },
                 df_contract_srnum,
             )
@@ -264,10 +258,8 @@ class Contract:
             logger.app_success(self.preprocess_contract)
 
         except Exception as excp:
-            logger.app_info(" Pipeline cotract failed ")
             logger.app_fail(self.preprocess_contract, f"{traceback.print_exc()}")
             raise Exception('f"{self.preprocess_contract}: Failed') from excp
-        logger.app_info(" Pipeline contract ran ")
 
         return df_contract
 
@@ -286,14 +278,12 @@ class Contract:
         _step = f"{' ' * 5}Extract Serial Numbers from contract"
 
         try:
-            logger.app_info('Inside Pipeline id srnum :256')
-            
             # Search Serial Numbers based on pattern for SerialNumber
             df_serialnum = self.srnum_ops.search_srnum(df_contract)
-            logger.app_info(f'df_serial number from search sr num: {df_serialnum.columns}')
+
             # Filter out non-serial numbers
             df_serialnum = self.filter_srnum(df_serialnum)
-            logger.app_info(f'df_serial number after filter 263: {df_serialnum.columns}')
+
             # Use serial number as is if its not a arange
             df_serialnum.loc[:, "is_single"] = self.flag_serialnumber_wid_range(
                 df_serialnum
@@ -319,11 +309,8 @@ class Contract:
             logger.app_success(_step)
 
         except Exception as excp:
-            logger.app_info(" Pipeline id_srnum failed ")
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception('f"{_step}: Failed') from excp
-
-        logger.app_info(" Pipeline id_srnum ran ")
 
         return df_out
 
@@ -341,14 +328,13 @@ class Contract:
         try:
             logger.app_info("Now calling read_processed_installbase() function defined in class_contracts_data.py")
             df_install = self.read_processed_installbase()
-            logger.app_info("Finished calling read_processed_installbase() function defined in class_contracts_data.py")                                             
+            logger.app_info("Finished calling read_processed_installbase() function defined in class_contracts_data.py")
             df_install.loc[:, "SerialNumber"] = df_install.SerialNumber_M2M.astype(str)
             # handling single character case in SerialNumber col "111-0000-1a"
             df_install["SerialNumber"] = df_install["SerialNumber"].apply(
                 lambda x: re.sub(r"-(\d{1})[a-zA-Z]$", r"-\1", x)
             )
 
-            logger.app_info("Reading csv file from function validate_contract_install_sr_num defined inside class_contracts_data.py")
             df = IO.read_csv(
                 self.mode,
                 {
@@ -358,7 +344,7 @@ class Contract:
                     "adls_dir": self.config["file"]["Reference"]["decode_sr_num"],
                 },
             )
-            logger.app_info("Finished reading csv file from function validate_contract_install_sr_num defined inside class_contracts_data.py")
+
             # List of Customer for which we need only exact match.
             ls_exact_match = self.config["install_base"]["sr_num_validation"][
                 "exact_match_filter"
@@ -382,7 +368,7 @@ class Contract:
             df_filtered = df_install[
                 ~df_install["StrategicCustomer"].isin(ls_exact_match)
             ]
-            logger.app_info("Beginning with the for loop inside the function validate_contract_install_sr_num defined inside class_contracts_data.py")
+
             # Step 3: Partial Match
             for index, row in df_contract[
                 df_contract["match_flag"] == False
@@ -408,8 +394,7 @@ class Contract:
                     else:
                         df_contract.at[index, "match_flag"] = False
                         df_contract.at[index, "partial_match"] = ""
-            
-            logger.app_info("Outside the for loop inside the function validate_contract_install_sr_num defined inside class_contracts_data.py")
+
             # Step 4: Update remaining unmatched rows
             df_contract.loc[df_contract["match_flag"] == False, "match_flag"] = False
 
@@ -439,7 +424,6 @@ class Contract:
             else:
                 df_contract["SerialNumber_Partial"] = df_contract["SerialNumber"].copy()
 
-            logger.app_info("Writing csv file from function validate_contract_install_sr_num defined inside class_contracts_data.py")
             IO.write_csv(
                 self.mode,
                 {
@@ -455,13 +439,12 @@ class Contract:
                 },
                 df_contract,
             )
-            logger.app_info("Finsihed writing csv file from function validate_contract_install_sr_num defined inside class_contracts_data.py")
+
             logger.app_success(_step)
         except Exception as excp:
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception from excp
 
-        logger.app_info("Now returning from function validate_contract_install_sr_num defined inside class_contracts_data.py ")
         return df_contract
 
     def pipeline_renewal(self) -> pd.DataFrame:  # pragma: no cover
@@ -536,10 +519,8 @@ class Contract:
             df_contract = self.decode_installbase_data(df_install_temp, df_contract)
 
             logger.app_success(_step)
-            logger.app_info(" Pipeline contract decode success ")
             return df_contract
         except Exception as excp:
-            logger.app_info(" Pipeline contract decode failed ")
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception from excp
 
@@ -558,12 +539,10 @@ class Contract:
         :rtype: pandas Data Frame
 
         """
-
         df_startup_org = df_startup.copy()
         del df_startup
         _step = f"{' ' * 5}Identify Start-up"
         try:
-            logger.app_info("entered id_startup")
             ls_cols_startup = df_startup_org.columns
             for ix_col in range(len(ls_cols_startup)):
                 col = ls_cols_startup[ix_col]
@@ -589,8 +568,8 @@ class Contract:
                     "file_dir": self.config["file"]["dir_results"]
                     + self.config["file"]["dir_validation"],
                     "file_name": "contract_startup_validation.csv",
-                    "adls_config": self.config["file"]["Processed"]["adls_credentials"],
-                    "adls_dir": self.config["file"]["Processed"]["contracts"]["contract_startup_validation"],
+                    "adls_config": self.config["file"]["Raw"]["adls_credentials"],
+                    "adls_dir": self.config["file"]["Raw"]["contracts"],
                 },
                 df_startup_org,
             )
@@ -636,8 +615,8 @@ class Contract:
                     "file_dir": self.config["file"]["dir_results"]
                     + self.config["file"]["dir_validation"],
                     "file_name": "contract_decode_validation.csv",
-                    "adls_config": self.config["file"]["Processed"]["adls_credentials"],
-                    "adls_dir": self.config["file"]["Processed"]["contracts"]["contract_decode_validation"],
+                    "adls_config": self.config["file"]["Raw"]["adls_credentials"],
+                    "adls_dir": self.config["file"]["Raw"]["contracts"],
                 },
                 df_contract,
             )
@@ -732,10 +711,9 @@ class Contract:
         # Read : Installbase Processed data
         _step = "Read raw data : BOM"
         try:
-            logger.app_info("Reading csv file from function read_processed_installbase defined inside class_contracts_data.py")
             df_install = IO.read_csv(
                 self.mode,
-                {
+                 {
                     "file_dir": self.config["file"]["dir_results"]
                     + self.config["file"]["dir_intermediate"],
                     "file_name": self.config["file"]["Processed"]["processed_install"][
@@ -750,7 +728,6 @@ class Contract:
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception('f"{_step}: Failed') from excp
 
-        logger.app_info("Finished reading csv file from function read_processed_installbase defined inside class_contracts_data.py")
         return df_install
 
     #  ***** Support Codes : Serial Number *****
@@ -810,7 +787,7 @@ class Contract:
             return df_out
         except Exception as excp:
             raise Exception from excp
-
+    
     def get_range_srum(self, df_temp_org) -> pd.DataFrame:
         """
         Clean and Merge expanded serial number to contract data.
@@ -849,7 +826,7 @@ class Contract:
             df_temp_org["SerialNumberOrg"] = df_temp_org["SerialNumberOrg"].apply(
                 lambda x: x.lstrip(punctuation).rstrip(punctuation)
             )
-            df_temp_org = df_temp_org[df_temp_org["SerialNumberOrg"] != '110-0333-a-b']
+
             # Get Range
             logger.app_info("NOw calling get_serialnumber method in class_serial_number.py")
             logger.app_info(f"The columns of the data frame df_temp_org is {df_temp_org.columns}")
@@ -857,9 +834,9 @@ class Contract:
             logger.app_info(f"The content of df_temp_org.Qty is {df_temp_org.Qty}")
             logger.app_info(f"Number of rows in df_temp_org.Qty is {len(df_temp_org.Qty)} and Number of rows in df_temp_org.SerialNumberOrg are {len(df_temp_org.SerialNumberOrg)} and number of rows in df_temp_org are {len(df_temp_org)}")
             #logger.app_info("The objects along with their memory consumption in class_contracts_data.py are")
-            #self.check_var_size(list(locals().items()), log=True)          
+            #self.check_var_size(list(locals().items()), log=True)
             df_expanded_srnum, _ = self.srnum.get_serialnumber(
-                df_temp_org.SerialNumberOrg, df_temp_org.Qty, "contract", "contracts"
+                df_temp_org.SerialNumberOrg, df_temp_org.Qty, "contract"
             )
 
             df_expanded_srnum["SerialNumberOrg"] = (
@@ -873,7 +850,6 @@ class Contract:
             logger.app_success(_step)
 
         except Exception as excp:
-            logger.app_info(f"The error message is {str(excp)}")
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception('f"{_step}: Failed') from excp
 
@@ -938,7 +914,6 @@ class Contract:
         """
         _step = "Filter Serial Numbers"
         try:
-            logger.app_info('Inside filter sr num')
             df_temp_org = df_temp_org[pd.notna(df_temp_org.SerialNumber)]
 
             # Filter : Limit to DCPD products : STS / RPP / PDU
@@ -996,14 +971,10 @@ class Contract:
 
         """
         try:
-            logger.app_info('inside merge_contract_and_renewal: 945')
-            logger.app_info(f'df_contract: {df_contract.columns}\n df_renewal : {df_renewal.columns}')
             df_contract = df_contract.merge(df_renewal, on="Contract", how="left")
-            logger.app_info('after merge of df_contract with on df_renewal ')
-            logger.app_info(f'df_contract after merge: {df_contract.columns}')
             logger.app_success(self.merge_data)
 
-            # Read Raw M2M Data   ## might need to work with comma for error
+            # Read Raw M2M Data
             df_raw_m2m = IO.read_csv(
                 self.mode,
                 {
@@ -1013,15 +984,11 @@ class Contract:
                     "adls_dir": self.config["file"]["Raw"]["M2M"],
                 },
             )
-            logger.app_info(f'read df_raw_m2m: {df_raw_m2m.columns}')
+
             df_contract = self.get_billto_data(df_contract, df_raw_m2m)
-            logger.app_info('after get_billto_data ')
-            logger.app_info('done merge contract and renewal')
         except Exception as excp:
-            logger.app_info(f" Pipeline contract  renewal failed {str(excp)} ")
             logger.app_fail(self.merge_data, f"{traceback.print_exc()}")
             raise Exception from excp
-        logger.app_info(" Pipeline id_srnum Success ")
 
         return df_contract
 
@@ -1040,44 +1007,38 @@ class Contract:
         # as key
         _step = "Query BillTo data"
         try:
-            logger.app_info('inside bill to data')
             # M2M data preparation
             dict_rename = {
                 "SO": "key_SO",
                 "Customer": "BillingCustomer",
-                # removed spaces example:  Sold to Street - SoldtoStreet
-                "SoldtoStreet": "BillingAddress",
-                "SoldtoCity": "BillingCity",
-                "SoldtoState": "BillingState",
-                "SoldtoZip": "BillingPostalCode",
-                "SoldtoCountry": "BillingCountry",
+                "Sold to Street": "BillingAddress",
+                "Sold to City": "BillingCity",
+                "Sold to State": "BillingState",
+                "Sold to Zip": "BillingPostalCode",
+                "Sold to Country": "BillingCountry",
             }
 
             df_raw_m2m = df_raw_m2m.rename(columns=dict_rename)
-            logger.app_info(f'df_raw_m2m columns after rename: {df_raw_m2m.columns}')
             ls_cols = list(dict_rename.values())
             df_raw_m2m = df_raw_m2m.loc[:, ls_cols]
-            logger.app_info('line 1004')
             del ls_cols, dict_rename
 
             # Rename existing "BillTO" columns from contracts for validation
             ls_cols = df_contract.columns[
                 df_contract.columns.str.contains("bill", case=False)
             ]
-            logger.app_info('line 1011 : ')
             dict_rename = {}
             for col in ls_cols:
                 if col in df_contract.columns:
                     dict_rename[col] = col + "_old"
             df_contract = df_contract.rename(dict_rename, axis=1)
             del dict_rename
-            logger.app_info(f'line 1018 : {df_contract.columns}')
+
             # Query BillTo Information from M2M data
             obj_filt = Filter()
             df_contract.loc[:, "key_contract"] = obj_filt.prioratized_columns(
                 df_contract, ["Contract_Sales_Order__c", "Original_Sales_Order__c"]
             )
-            logger.app_info(f'line 1024 : {df_contract.columns}')
 
             df_raw_m2m["key_SO"] = df_raw_m2m["key_SO"].astype(str)
             df_contract = df_contract.merge(
@@ -1096,7 +1057,6 @@ class Contract:
 
             logger.app_success(_step)
         except Exception as excp:
-            logger.app_info(f'exception raised in bill to {excp}')
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception from excp
 
@@ -1233,10 +1193,8 @@ class Contract:
             )
 
             logger.app_success(_step)
-            logger.app_info(" merge contracts success ")
             return merge_df
         except Exception as excp:
-            logger.app_info(" merge contracts failed ")
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception('f"{_step}: Failed') from excp
 

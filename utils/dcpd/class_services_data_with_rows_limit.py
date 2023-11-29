@@ -196,10 +196,13 @@ class ProcessServiceIncidents:
 
             # # Serial number validation and output data
             _step = 'Expand serial numbers'
+
             loggerObj.app_info("Now calling get_range_srum method defined in class_contract_data.py")
             expand_srnumdf = contractObj.get_range_srum(df_sr_num)
             loggerObj.app_info("Finished calling get_range_srum method defined in class_contract_data.py")
             # Removing the rows with none values
+            
+
             expand_srnumdf['SerialNumber'].replace('', np.nan, inplace=True)
             expand_srnumdf.dropna(subset=['SerialNumber'], inplace=True)
 
@@ -349,8 +352,8 @@ class ProcessServiceIncidents:
             #loggerObj.app_info("The objects along with their memory consumption in class_services_data.py are") 
             #self.check_var_size(list(locals().items()), log=True)
             loggerObj.app_info("Now calling get_range_srum method defined in class_contracts_data.py")
-            #df_out = df_out.loc[(df_out['SerialNumber'].str.replace('-','').str.isnumeric()) | \
-            #                    (df_out['SerialNumber'].str.contains('/'))]
+            df_out = df_out.loc[(df_out['SerialNumber'].str.replace('-','').str.isnumeric()) | \
+                                (df_out['SerialNumber'].str.contains('/'))]
             #df_out = df_out[df_out["SerialNumber"].str != "213-327-1247-8435663127"]
 
             # list_of_expanded_data_frames = []

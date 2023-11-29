@@ -129,7 +129,7 @@ class IO():
         if mode == 'local':
             return io_local.read_json_local(config)
         elif mode == 'azure-adls':
-            return read_json_adls(config)
+            return io_local.read_json_local(config)
         else:
             logger.app_info(f'Mode {mode} is not implemented')
             raise ValueError ('Not implemented or unknow mode')

@@ -29,7 +29,7 @@ import numpy as np
 from datetime import datetime
 import re
 import json
-
+import sys
 from utils import AppLogger
 logger = AppLogger(__name__)
 
@@ -108,6 +108,8 @@ class Filter:
 
             df_data.drop(['f_valid'], axis=1, inplace=True)
 
+        #logger.app_info("The objects along with their memory consumption in class_services_data.py are") 
+        #self.check_var_size(list(locals().items()), log=True)
         return df_data
 
     def validate_date(self, list_date, dict_filters):

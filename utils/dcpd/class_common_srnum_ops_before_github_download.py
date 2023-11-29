@@ -23,8 +23,7 @@ from string import punctuation
 import numpy as np
 import pandas as pd
 from utils import IO
-import os
-import json
+
 from utils import AppLogger
 
 logger = AppLogger(__name__)
@@ -33,20 +32,15 @@ logger = AppLogger(__name__)
 class SearchSrnum:
     """Class process and expands Contract Serial NUmber."""
 
-    def __init__(self):
+    def __init__(self, mode="local"):
         """Class will extract and process contract data and renewal data."""
-        logger.app_info('inside SearchSrnum')
-        config_dir = os.path.join(os.path.dirname(__file__), "../../config")
-        config_file = os.path.join(config_dir, "config_dcpd.json") 
-        logger.app_info('config file path fetched')
-        # Read the configuration file
-        with open(config_file,'r') as config_file:
-            self.config = json.load(config_file)
-        #self.config=js.read_json(config_file)
-        
-        #logging.info("'config':config")
-        self.mode = self.config.get("conf.env", "azure-adls")
-        logger.app_info(f'mode fetched in SearchSrnum: {self.mode}')
+
+        # self.config = IO.read_json(
+        #     mode="local", config={"file_dir": "config", "file_name": "config_dcpd.json"}
+        # )
+
+        self.config = IO.read_json(mode="azure-adls", config={"file_dir": 'config/', "file_name": 'config_dcpd.json'})
+
         self.pat_srnum1 = self.config["contracts"]["srnum_pattern"]["pat_srnum1"]
         self.pat_srnum_services = self.config["contracts"]["srnum_pattern"][
             "pat_srnum_services"
@@ -107,7 +101,6 @@ class SearchSrnum:
         _step = "Extract Serial Number from fields"
 
         try:
-            logger.app_info('Inside Search Sr Num: search_srnum')
             # Input
             sep = " "
 
@@ -152,7 +145,7 @@ class SearchSrnum:
                 del ls_dfs, df_data, df_ls_collapse
 
             df_serialnum = df_serialnum.reset_index(drop=True)
-            logger.app_info('exiting Search sr num')
+
             logger.app_success(_step)
 
         except Exception as excp:
@@ -264,7 +257,6 @@ class SearchSrnum:
         """
         _step = "Prepare Srnum Data"
         try:
-            logger.app_info('Inside prepare sr num data Search srnum:267')
             data[self.prep_srnum_cols] = data[self.prep_srnum_cols].fillna(0)
             data["Qty_comment"] = data[self.prep_srnum_cols].apply(
                 lambda x: x[3] - (x[0] + x[1] + x[2]), axis=1
@@ -295,9 +287,9 @@ class SearchSrnum:
             df_serialnum = pd.DataFrame()
 
             # Prepare Data
-            logger.app_info("Calling the method prepare_srnum_data_services defined in class_common_srnum_ops.py")
+            logger.app_info("Calling the method prepare_srnum_data_services")
             df_temp_org = self.prepare_srnum_data_services(df_temp_org)
-            logger.app_info("Finished Calling the method prepare_srnum_data_services defined in class_common_srnum_ops.py")
+            logger.app_info("Finished Calling the method prepare_srnum_data_services")
             # PDI Salesforce has 4 fields with SerialNumber data.
             # Extract SerialNumber data from these fields.
             for cur_field in self.dict_cols_srnum:
@@ -309,22 +301,20 @@ class SearchSrnum:
 
                 # Format - Punctuation
                 # df_data = self.clean_serialnum(df_data)
-                logger.app_info("Calling the method prep_data_services defined in class_common_srnum_ops.py")
+
                 df_data.loc[:, "SerialNumber"] = self.prep_data_services(
                     df_data[["SerialNumberContract"]], sep
                 )
-                logger.app_info("Finished Calling the method prep_data_services defined in class_common_srnum_ops.py")
 
                 df_data.loc[:, "is_serialnum"] = df_data["SerialNumber"].apply(
                     lambda x: re.search("|".join(self.pat_srnum_services), str(x))
                     is not None
                 )
-                logger.app_info("Calling the method expand_srnum defined in class_common_srnum_ops.py")
+                
                 # Expand Serial number
                 ls_dfs = df_data.apply(
                     lambda x: self.expand_srnum(x, self.pat_srnum_services), axis=1
                 ).tolist()
-                logger.app_info("Finished Calling the method expand_srnum defined in class_common_srnum_ops.py")
                 # Results
                 df_ls_collapse = pd.concat(ls_dfs)
                 df_ls_collapse["src"] = cur_field
@@ -342,7 +332,6 @@ class SearchSrnum:
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception('f"{_step}: Failed') from excp
 
-        logger.app_info("Now returning from the method search_srnum_services defined in class_common_srnum_ops.py")
         return df_serialnum
 
     def prepare_srnum_data_services(self, data):
