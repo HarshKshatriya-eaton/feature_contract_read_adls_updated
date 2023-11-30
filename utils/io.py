@@ -79,13 +79,14 @@ class IO():
             if 'file_name' in config['adls_dir'] and config['adls_dir']['file_name'] != "":
                 file_name= config['adls_dir']['file_name']
                 if file_name.endswith(".csv"):
-                    file_name = file_name[:-4]
+                    file_name = file_name[:-4]+'dev'
             else:
                  file_name = io_adls.list_ADLS_directory_contents(connection_string, output_container_name, output_directory_name)
 
             logger.app_info(f'file name: {file_name}')
-            timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-            output_file_name = f"{file_name}_{timestamp}"
+            #timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+            #output_file_name = f"{file_name}_{timestamp}"
+            output_file_name = f"{file_name}"
             #dataset.to_csv(output_file_name, index=False)
             logger.app_info(f"Type of dataset: {dataset}")
             logger.app_info(f'connection String: {connection_string}\n, Container name: {output_container_name}\n, file name: {output_file_name}\n,  directory name:{output_directory_name}')

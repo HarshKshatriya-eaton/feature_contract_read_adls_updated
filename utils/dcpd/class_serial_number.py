@@ -35,7 +35,8 @@ loggerObj = AppLogger(__name__)
 
 # %%
 #ensure_execution=True
-
+count = 0
+function_call_count = 0
 class SerialNumber:
     """
     This class implements logic for processing various types of range of serial
@@ -266,13 +267,20 @@ class SerialNumber:
         :rtype: Pandas Data Frame
 
         """
-
+        global function_call_count
+        global count
+        
         current_step = "Serial number initialization and segregation"
         loggerObj.app_info(f"The value of ar_serialnum is {ar_serialnum}")
         loggerObj.app_info(f"The value of ar_installsize is {ar_installsize}")
         loggerObj.app_info(f"The value of ar_installsize is {ar_key_serial}")
         
         try:
+            if function_call_count == 0:
+                function_call_count = 1
+            elif function_call_count == 1 and count != 0:
+                function_call_count = 2
+
             self.data_type = data_type
 
             df_org = pd.DataFrame(
@@ -457,24 +465,23 @@ class SerialNumber:
 
         current_step = "Generating list of sequence of serial numbers"
 
-        # try:
+        try:
+            temp_sr = str.split(dict_data["ix_end"], ",")
+            rge_sr_num = []
+            for sr in temp_sr:
+                if "-" not in sr:
+                    rge_sr_num = rge_sr_num + [int(sr)]
+                else:
+                    split_sr = sr.split("-")
+                    rge_sr_num = rge_sr_num + list(
+                        range(int(split_sr[0]), int(split_sr[1]) + 1)
+                    )
 
-        temp_sr = str.split(dict_data["ix_end"], ",")
-        rge_sr_num = []
-        for sr in temp_sr:
-            if "-" not in sr:
-                rge_sr_num = rge_sr_num + [int(sr)]
-            else:
-                split_sr = sr.split("-")
-                rge_sr_num = rge_sr_num + list(
-                    range(int(split_sr[0]), int(split_sr[1]) + 1)
-                )
-
-            loggerObj.app_debug(current_step)
-
-        # except Exception as e:
-        #     loggerObj.app_fail(current_step, f"{traceback.print_exc()}")
-        # raise Exception from e
+                loggerObj.app_debug(current_step)
+        except Exception as e:
+            loggerObj.app_info(f"Error message generated in generate_seq_list is {str(e)}")
+            loggerObj.app_fail(current_step, f"{traceback.print_exc()}")
+            raise e
 
         return rge_sr_num
 
@@ -500,11 +507,19 @@ class SerialNumber:
 
         df_out = pd.DataFrame(columns=["SerialNumberOrg", "SerialNumber"])
         try:
+            global count
+            global function_call_count
+            
+            if function_call_count == 2:
+                count = 0
+            
             #Fix for cannot access local variable 'rge_sr_num' where it is not associated with a value
             rge_sr_num = []
             ls_out_n = ["f_analyze", "type", "ix_beg", "ix_end", "pre_fix", "post_fix"]
             dict_data = dict(zip(ls_out_n, out))
-            loggerObj.app_info(f"The key and values of the dictionary dict_data are {dict_data.keys()} and {dict_data.values()}")
+            loggerObj.app_info(f"The key and values of the dictionary dict_data are {dict_data.keys()} and {dict_data.values()} and Index number is {count}")
+            count = count + 1
+
             if dict_data["type"] == "list":
                 rge_sr_num = self.generate_seq_list(dict_data)
 

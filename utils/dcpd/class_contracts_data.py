@@ -458,6 +458,7 @@ class Contract:
             logger.app_info("Finsihed writing csv file from function validate_contract_install_sr_num defined inside class_contracts_data.py")
             logger.app_success(_step)
         except Exception as excp:
+            logger.app_info(f"The error message generated inside function validate_contract_install_sr_num inside class_contracts_data.py is {str(excp)} ")
             logger.app_fail(_step, f"{traceback.print_exc()}")
             raise Exception from excp
 

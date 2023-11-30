@@ -16,8 +16,8 @@
 
         "Raw": {
             "adls_credentials": {
-                "connection_string": "IB-St-Connection-String",
-                "storage_account_name": "Name-IB-adls"
+                "connection_string": "CS-IT-saileadseastusdev001-adls",
+                "storage_account_name": "Name-IT-adls"
             },
             "services": {
                 "container_name": "sf-pdi-dataset",
@@ -68,8 +68,8 @@
         },
         "Reference": {
             "adls_credentials": {
-                "connection_string": "IB-St-Connection-String",
-                "storage_account_name": "Name-IB-adls"
+                "connection_string": "CS-IT-saileadseastusdev001-adls",
+                "storage_account_name": "Name-IT-adls"
 
             },
             "contact_type":{
@@ -126,8 +126,8 @@
         },
         "Processed": {
             "adls_credentials": {
-                "connection_string": "teststorage-cs",
-                "storage_account_name": "name-teststorage"
+                "connection_string": "destination-adls-connection-string",
+                "storage_account_name": "destination-storage-account-name-cip"
 
             },
             "customer": {
@@ -172,31 +172,15 @@
             },
             "contracts": {
                 "container_name": "results",
-                "directory_name": "intermediate/processed-contract",
+                "directory_name": "intermediate",
                 "file_name": "processed_contract.csv",
                 "validation": {
                     "container_name": "results",
-                    "directory_name": "validation/processed-contract-b4-install-validation",
+                    "directory_name": "validation",
                     "file_name": "processed_contract_b4_install_validation.csv"
- 
                 },
-                "contract_startup_validation":{
-                    "container_name": "results",
-                    "directory_name": "validation/contract-startup-validation",
-                    "file_name":"contract_startup_validation.csv"
- 
-                },
-                "contract_decode_validation":{
-                    "container_name": "results",
-                    "directory_name": "validation/contract-decode-validation",
-                    "file_name":"contract_decode_validation.csv"
- 
-                },
-                "contract_srnum_validation":{
-                    "container_name": "results",
-                    "directory_name": "validation/contract-install-srnum-validation",
-                    "file_name": "contract_install_srnum_validation.csv"
-                }
+                
+                "contract_srnum_validation": "contract_install_srnum_validation.csv"
             },
             "services": {
                 "container_name": "results",
@@ -275,7 +259,7 @@
         "result_adls": {
             "container_name": "destination_container",
             "credentials": {
-                "connection_string": "teststorage-cs",
+                "connection_string": "destination-adls-connection-string",
                 "storage_account_name": "destination-storage-account-name"
             },
             "Processed": {

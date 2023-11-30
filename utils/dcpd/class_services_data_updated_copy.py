@@ -353,8 +353,7 @@ class ProcessServiceIncidents:
             #                    (df_out['SerialNumber'].str.contains('/'))]
             #df_out = df_out[df_out["SerialNumber"].str != "213-327-1247-8435663127"]
 
-            loggerObj.app_info(f"Total number of records to process {len(df_out)}")
-            list_of_expanded_data_frames = []
+            #list_of_expanded_data_frames = []
             total_number_of_rows = len(df_out)
             i=1
             old = 0
@@ -364,54 +363,76 @@ class ProcessServiceIncidents:
                 while new <= total_number_of_rows:
                     loggerObj.app_info(f"Now calling get_range_srum method defined in class_contract_data.py with indexes {old} and {new}")
                     intermediate_expanded_temp_df = contractObj.get_range_srum(df_out.iloc[old:new])
-                    list_of_expanded_data_frames.append(intermediate_expanded_temp_df)
+                    #list_of_expanded_data_frames.append(intermediate_expanded_temp_df)
                     loggerObj.app_info(f"Finished calling get_range_srum method defined in class_contract_data.py with indexes {old} and {new}")
                     old = new
                     i = i + 1
                     new = i*temp
+
+                    loggerObj.app_info("Finished calling get_range_srum method defined in class_contracts_data.py for all rows in df_out")
+                    # loggerObj.app_info(f"Before calling get_range_srum method defined in class_contracts_data.py the number of rows in df_out are {len(df_out)}")
+                    # expanded_sr_num = contractObj.get_range_srum(df_out)
+                    # loggerObj.app_info("Finished calling get_range_srum method defined in class_contracts_data.py")
+                    
+                    #expanded_sr_num = pd.concat(list_of_expanded_data_frames)
+                    expanded_sr_num = intermediate_expanded_temp_df
+                    #loggerObj.app_info(f"Concatentation of data frames from the list has been completed.\nThe contents of the data frame expanded_sr_num are {expanded_sr_num}")
+
+                    expanded_sr_num['SerialNumber'].replace(
+                        '', np.nan, inplace=True
+                    )
+                    loggerObj.app_info("Now calling validate_contract_install_sr_num method defined in class_contracts_data.py")
+                    expanded_sr_num.dropna(subset=['SerialNumber'], inplace=True)
+                    validated_sr_num = contractObj.validate_contract_install_sr_num(
+                        expanded_sr_num
+                    )
+                    loggerObj.app_info("Finished calling validate_contract_install_sr_num method defined in class_contracts_data.py")
+                    validated_sr_num = validated_sr_num.loc[
+                        validated_sr_num.flag_validinstall
+                    ]
+                    IO.write_csv(
+                        self.mode,
+                        {'file_dir': (
+                                self.config['file']['dir_results']
+                                + self.config['file']['dir_intermediate']),
+                            'file_name': self.config['file']['Processed']['services'][
+                                'validated_sr_num'],
+                            'adls_config': self.config['file']['Processed']['adls_credentials'],
+                                'adls_dir': self.config['file']['Processed']['services']
+                        }, validated_sr_num)
             
             if (old < total_number_of_rows and new - total_number_of_rows > 0):
                 loggerObj.app_info(f"Now calling get_range_srum method defined in class_contract_data.py with indexes {old} and {new}")
                 intermediate_expanded_temp_df = contractObj.get_range_srum(df_out.iloc[old:new])
-                list_of_expanded_data_frames.append(intermediate_expanded_temp_df)
+                #list_of_expanded_data_frames.append(intermediate_expanded_temp_df)
                 loggerObj.app_info(f"Finished calling get_range_srum method defined in class_contract_data.py with indexes {old} and {new}")
-            
-            loggerObj.app_info("Finished calling get_range_srum method defined in class_contracts_data.py for all rows in df_out")
-            
-            # loggerObj.app_info(f"Before calling get_range_srum method defined in class_contracts_data.py the number of rows in df_out are {len(df_out)}")
-            # expanded_sr_num = contractObj.get_range_srum(df_out)
-            # loggerObj.app_info("Finished calling get_range_srum method defined in class_contracts_data.py")
-            
-            expanded_sr_num = pd.concat(list_of_expanded_data_frames)
-            #expanded_sr_num = intermediate_expanded_temp_df
-            loggerObj.app_info(f"Concatentation of data frames from the list has been completed.\nThe contents of the data frame expanded_sr_num are {expanded_sr_num}")
 
-            expanded_sr_num['SerialNumber'].replace(
-                '', np.nan, inplace=True
-            )
-            loggerObj.app_info("Now calling validate_contract_install_sr_num method defined in class_contracts_data.py")
-            expanded_sr_num.dropna(subset=['SerialNumber'], inplace=True)
+                expanded_sr_num = intermediate_expanded_temp_df
+                #loggerObj.app_info(f"Concatentation of data frames from the list has been completed.\nThe contents of the data frame expanded_sr_num are {expanded_sr_num}")
 
-            loggerObj.app_info(f"Total number of records to processed before calling validate_contract_install_sr_num are {len(df_out)}")
-            
-            validated_sr_num = contractObj.validate_contract_install_sr_num(
-                expanded_sr_num
-            )
-            loggerObj.app_info("Finished calling validate_contract_install_sr_num method defined in class_contracts_data.py")
-            validated_sr_num = validated_sr_num.loc[
-                validated_sr_num.flag_validinstall
-            ]
-            IO.write_csv(
-                self.mode,
-                {'file_dir': (
-                        self.config['file']['dir_results']
-                        + self.config['file']['dir_intermediate']),
-                    'file_name': self.config['file']['Processed']['services'][
-                        'validated_sr_num'],
-                    'adls_config': self.config['file']['Processed']['adls_credentials'],
-                        'adls_dir': self.config['file']['Processed']['services']
-                }, validated_sr_num)
-                
+                expanded_sr_num['SerialNumber'].replace(
+                    '', np.nan, inplace=True
+                )
+                loggerObj.app_info("Now calling validate_contract_install_sr_num method defined in class_contracts_data.py")
+                expanded_sr_num.dropna(subset=['SerialNumber'], inplace=True)
+                validated_sr_num = contractObj.validate_contract_install_sr_num(
+                    expanded_sr_num
+                )
+                loggerObj.app_info("Finished calling validate_contract_install_sr_num method defined in class_contracts_data.py")
+                validated_sr_num = validated_sr_num.loc[
+                    validated_sr_num.flag_validinstall
+                ]
+                IO.write_csv(
+                    self.mode,
+                    {'file_dir': (
+                            self.config['file']['dir_results']
+                            + self.config['file']['dir_intermediate']),
+                        'file_name': self.config['file']['Processed']['services'][
+                            'validated_sr_num'],
+                        'adls_config': self.config['file']['Processed']['adls_credentials'],
+                            'adls_dir': self.config['file']['Processed']['services']
+                    }, validated_sr_num)
+
         except Exception as excep:
             loggerObj.app_info(f"The error message inside function pipeline_serial_number is {str(excep)}")
             loggerObj.app_fail(_step, f'{traceback.print_exc()}')
