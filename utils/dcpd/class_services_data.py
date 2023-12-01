@@ -124,29 +124,27 @@ class ProcessServiceIncidents:
             df_services_raw = IO.read_csv(self.mode, file_dir)
 
             _step = 'Filter raw services data'
-
             dict_config_params = dict_config_serv['services'][
                 'services_data_overall']
-            upgrade_component = \
-                dict_config_serv['services']['UpgradeComponents'][
-                    'ComponentName']
+            
             #loggerObj.app_info("The objects along with their memory consumption in class_services_data.py are") 
             
             #self.check_var_size(list(locals().items()), log=True)
             loggerObj.app_info("Calling filter_data method defined Filter class.")
             df_services_raw = filterObj.filter_data(
                 df_services_raw, dict_config_params)
-            loggerObj.app_info("Completed calling filter_data method defined Filter class.")
+            loggerObj.app_info("Completed calling filter_data method defined in Filter class.")
             df_services_raw = df_services_raw[df_services_raw.f_all]
             loggerObj.app_success(_step)
 
             # Identify Hardware Changes
-
-            # Read raw contracts data
             _step = 'Identify hardware replacements'
             #loggerObj.app_info("The objects along with their memory consumption in class_services_data.py are")
             #self.check_var_size(list(locals().items()), log=True)
             loggerObj.app_info("Calling pipeline_id_hardwarechanges method in class_services_data.py")
+            upgrade_component = \
+                dict_config_serv['services']['UpgradeComponents'][
+                    'ComponentName']
             df_hardware_changes = self.pipeline_id_hardwarechanges(
                 df_services_raw,
                 dict_config_serv['services']['Component_replacement'],
@@ -239,12 +237,16 @@ class ProcessServiceIncidents:
             IO.write_csv(self.mode, output_dir, validate_srnum)
             loggerObj.app_info("Finished writing the contents of dataframe validate_srnum from function main_services defined inside class_services_data.py")
             # Identify if sidecar or jcomm comp is present and save results to an intermediate file.
-            #df_serv_input = validate_srnum  # For testing purposes
+            # df_serv_input = validate_srnum  # For testing purposes
+            # loggerObj.app_info("Now calling pipline_component_identify function defined in class_services_data.py")
+            # jcomm_sidecar_obj = self.pipline_component_identify(df_serv_input)
+            # loggerObj.app_info("Now calling pipline_component_identify function defined in class_services_data.py")
+            # loggerObj.app_info(f"The content of dataframe jcomm_sidecar_obj is \n{str(jcomm_sidecar_obj)}")
 
             loggerObj.app_success(_step)
 
         except Exception as excep:
-            loggerObj.app_info(str(excep))
+            loggerObj.app_info(f"The exception message reported from main_services function defined inside class_services_data.py is {str(excep)}")
             loggerObj.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from excep
 
@@ -343,7 +345,8 @@ class ProcessServiceIncidents:
                               self.config['file']['Processed']['services'][
                                   'serial_number_services'],
                         'adls_config': self.config['file']['Processed']['adls_credentials'],
-                            'adls_dir': self.config['file']['Processed']['services']
+                            'adls_dir': self.config['file']['Processed']['services'][
+                                  'serial_number_services']
                           }
             IO.write_csv(self.mode, output_dir, df_out)
             #loggerObj.app_info("The objects along with their memory consumption in class_services_data.py are") 
@@ -376,14 +379,15 @@ class ProcessServiceIncidents:
                 list_of_expanded_data_frames.append(intermediate_expanded_temp_df)
                 loggerObj.app_info(f"Finished calling get_range_srum method defined in class_contract_data.py with indexes {old} and {new}")
             
-            loggerObj.app_info("Finished calling get_range_srum method defined in class_contracts_data.py for all rows in df_out")
+            loggerObj.app_info(f"Finished calling get_range_srum method defined in class_contracts_data.py for all rows in df_out for {total_number_of_rows}")
             
             # loggerObj.app_info(f"Before calling get_range_srum method defined in class_contracts_data.py the number of rows in df_out are {len(df_out)}")
+            # expanded_sr_num = contractObj.get_range_srum(df_out.iloc[20000:40000])
             # expanded_sr_num = contractObj.get_range_srum(df_out)
             # loggerObj.app_info("Finished calling get_range_srum method defined in class_contracts_data.py")
             
             expanded_sr_num = pd.concat(list_of_expanded_data_frames)
-            #expanded_sr_num = intermediate_expanded_temp_df
+            expanded_sr_num = intermediate_expanded_temp_df
             loggerObj.app_info(f"Concatentation of data frames from the list has been completed.\nThe contents of the data frame expanded_sr_num are {expanded_sr_num}")
 
             expanded_sr_num['SerialNumber'].replace(
@@ -409,7 +413,8 @@ class ProcessServiceIncidents:
                     'file_name': self.config['file']['Processed']['services'][
                         'validated_sr_num'],
                     'adls_config': self.config['file']['Processed']['adls_credentials'],
-                        'adls_dir': self.config['file']['Processed']['services']
+                        'adls_dir': self.config['file']['Processed']['services'][
+                        'validated_sr_num']
                 }, validated_sr_num)
                 
         except Exception as excep:
@@ -451,19 +456,22 @@ class ProcessServiceIncidents:
             for component in dict_filt:
                 # component = list(dict_filt.keys())[0]
 
-                # Check if any case for component was recorded
+                # Check if any case for component was recorded (this will include upgrade, replace, maintain)
                 comp_filters = dict_filt[component]
-
                 df_data = filterObj.filter_data(df_data, comp_filters)
 
                 # Update output
                 if any(df_data.f_all):
                     df_data_comp = df_data.loc[df_data.f_all, ls_cols_interest]
 
-                    if component == upgrade_component:
+                    # Upgrade is available only for a few components (listed in config).
+                    # Following logic will classify if its upgrade or replace
+
+                    if component == upgrade_component: #TODO: evaluate 'in' option with list
                         filter_disp_col = df_data_comp.Customer_Issue_Summary__c.str.contains(
                             'upgrade', case=False)
                         df_data_comp['f_upgrade'] = filter_disp_col
+
                     else:
                         df_data_comp['f_upgrade'] = False
 
@@ -494,7 +502,7 @@ class ProcessServiceIncidents:
                 df_data.drop(['f_all'], axis=1, inplace=True)
                 loggerObj.app_debug(f"{_step}: {component}: SUCCEEDED", 1)
         except Exception as excep:
-
+            loggerObj.app_info(f"The exception message reported from pipeline_id_hardwarechanges function defined inside class_services_data.py is {str(excep)}")
             loggerObj.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from excep
 
@@ -514,6 +522,7 @@ class ProcessServiceIncidents:
         _step = 'Read raw services data and perform serial number mapping'
 
         try:
+            loggerObj.app_info("Inside the function pipline_component_identify defined inside class_services_data.py")
             if df_services_raw is None or df_services_serialnum is None:
                 # Read raw services data
 
@@ -533,7 +542,8 @@ class ProcessServiceIncidents:
                                 self.config['file']['Processed']['services'][
                                     'serial_number_services'],
                             'adls_config': self.config['file']['Processed']['adls_credentials'],
-                           'adls_dir': self.config['file']['Processed']['services']
+                           'adls_dir': self.config['file']['Processed']['services'][
+                                    'serial_number_services']
                             }
                 df_services_serialnum = IO.read_csv(self.mode, file_dir)
 
@@ -578,15 +588,19 @@ class ProcessServiceIncidents:
             # df_out_rename = df_out.astype({"SerialNumber": str})
 
             # Serial number validation - Expand serial numbers
+            loggerObj.app_info("Calling function get_range_srum defined inside class_contracts_data.py from function pipline_component_identify defined inside class_services_data.py")
             expand_srnumdf = contractObj.get_range_srum(df_out)
+            loggerObj.app_info("Finished calling function get_range_srum defined inside class_contracts_data.py from function pipline_component_identify defined inside class_services_data.py")
 
             # Removing the rows with none values
             expand_srnumdf['SerialNumber'].replace('', np.nan, inplace=True)
             expand_srnumdf.dropna(subset=['SerialNumber'], inplace=True)
 
             # Validate serial number data
+            loggerObj.app_info("Calling function validate_contract_install_sr_num defined inside class_contracts_data.py from function pipline_component_identify defined inside class_services_data.py")
             validate_srnum = contractObj.validate_contract_install_sr_num(
                 expand_srnumdf)
+            loggerObj.app_info("Finished calling function validate_contract_install_sr_num defined inside class_contracts_data.py from function pipline_component_identify defined inside class_services_data.py")
 
             # Filter rows with valid serial number
             validate_srnum = validate_srnum.loc[
@@ -621,17 +635,19 @@ class ProcessServiceIncidents:
                                   self.config['file']['Processed']['services'][
                                       'intermediate'],
                                 'adls_config': self.config['file']['Processed']['adls_credentials'],
-			                    'adls_dir': self.config['file']['Processed']['services']
+			                    'adls_dir': self.config['file']['Processed']['services'][
+                                      'intermediate']
                               }
                 IO.write_csv(self.mode, output_dir, validate_srnum)
 
             loggerObj.app_success(_step)
 
         except Exception as excep:
-
+            loggerObj.app_info(f"The exception raised inside the function pipline_component_identify in class_services_data.py is {str(excep)}")
             loggerObj.app_fail(_step, f'{traceback.print_exc()}')
             raise Exception('f"{_step}: Failed') from excep
 
+        loggerObj.app_info("Now returning from function pipline_component_identify defined inside class_services_data.py")
         return validate_srnum
 
     def services_raw_serial_num(self):

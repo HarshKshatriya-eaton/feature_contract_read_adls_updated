@@ -29,4 +29,4 @@ def main(mytimer: func.TimerRequest) -> None:
             result = obj.main_services()
             logging.info(f"Inside function main defined in __init__.py file with result = {result}")
         except Exception as e:
-            logging.info(f"str(e)")
+            logging.info(f"{str(e)}")

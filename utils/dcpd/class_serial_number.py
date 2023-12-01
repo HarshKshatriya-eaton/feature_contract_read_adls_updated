@@ -36,7 +36,7 @@ loggerObj = AppLogger(__name__)
 # %%
 #ensure_execution=True
 count = 0
-function_call_count = 0
+
 class SerialNumber:
     """
     This class implements logic for processing various types of range of serial
@@ -267,8 +267,6 @@ class SerialNumber:
         :rtype: Pandas Data Frame
 
         """
-        global function_call_count
-        global count
         
         current_step = "Serial number initialization and segregation"
         loggerObj.app_info(f"The value of ar_serialnum is {ar_serialnum}")
@@ -276,11 +274,6 @@ class SerialNumber:
         loggerObj.app_info(f"The value of ar_installsize is {ar_key_serial}")
         
         try:
-            if function_call_count == 0:
-                function_call_count = 1
-            elif function_call_count == 1 and count != 0:
-                function_call_count = 2
-
             self.data_type = data_type
 
             df_org = pd.DataFrame(
@@ -508,11 +501,7 @@ class SerialNumber:
         df_out = pd.DataFrame(columns=["SerialNumberOrg", "SerialNumber"])
         try:
             global count
-            global function_call_count
-            
-            if function_call_count == 2:
-                count = 0
-            
+        
             #Fix for cannot access local variable 'rge_sr_num' where it is not associated with a value
             rge_sr_num = []
             ls_out_n = ["f_analyze", "type", "ix_beg", "ix_end", "pre_fix", "post_fix"]

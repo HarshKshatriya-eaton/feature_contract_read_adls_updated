@@ -207,13 +207,21 @@
                     "directory_name": "intermediate/services-validation",
                     "file_name":"processed_services_validation.csv"
                 },
-                "intermediate": "proceesed_services_jcomm_sidecar.csv",
+                "intermediate": {
+                    "container_name": "results",
+                    "directory_name": "intermediate/services",
+                    "file_name":"proceesed_services_jcomm_sidecar.csv"
+                },
                 "serial_number_services": {
                     "container_name": "results",
                     "directory_name": "intermediate/serial-number-services",
-                    "file_name":""
+                    "file_name":"Raw_Services_Data_SerialNum_Expanded.csv"
                 },
-                "validated_sr_num": "validated_sr_num.csv"
+                "validated_sr_num":{
+                    "container_name": "results",
+                    "directory_name": "intermediate/validate-sr-num",
+                    "file_name": "validated_sr_num.csv"
+                }
             },
             "contact": {
                 "container_name": "results",
