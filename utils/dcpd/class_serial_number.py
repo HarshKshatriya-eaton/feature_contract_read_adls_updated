@@ -28,6 +28,7 @@ import re
 import traceback
 import pandas as pd
 import sys
+from decimal import Decimal #to deal with Decimal values (determined from the value of dictionary dict_mapping)
 from utils import AppLogger
 
 loggerObj = AppLogger(__name__)
@@ -597,6 +598,7 @@ class SerialNumber:
         current_step = "Identifying sequence of serial numbers"
 
         try:
+            #loggerObj.app_info(f"The contents of dict_mapping are {self.dict_mapping}")
             # vals = ['12017004-51-59,61', 10]       110-1900-12,14,17,19
             sr_num = vals[0]
             install_size = vals[1]
@@ -622,20 +624,26 @@ class SerialNumber:
             # Therefore, sequence with length of InstallSize starting from 1
             # should be created
 
+            #A conversion to float type is performed/incorporated in this python file to prevent the execution failing due to the error message - unsupported operand type(s) for +: 'decimal.Decimal' and 'float'
             if (len(split_sr_num) == 2) and ("," not in sr_num):
                 if sr_num in self.dict_mapping:
-                    ix_beg = self.dict_mapping[sr_num] + 1
-                    ix_end = self.dict_mapping[sr_num] + install_size
+                    #loggerObj.app_info("Inside if started")
+                    ix_beg = float(self.dict_mapping[sr_num]) +float(1)
+                    ix_end = float(self.dict_mapping[sr_num]) + float(install_size)
                     self.dict_mapping[sr_num] = ix_end
+                    #loggerObj.app_info("Inside if completed")
                 else:
+                    #loggerObj.app_info("Inside else started")
                     self.dict_mapping[sr_num] = install_size
                     ix_beg = 1
                     ix_end = install_size
+                    #loggerObj.app_info("Inside else completed")
                 dict_out["type"] = "num_count"
                 dict_out["ix_beg"] = ix_beg
                 dict_out["ix_end"] = ix_end
                 dict_out["pre_fix"] = sr_num + "-"
                 ls_out = [True] + list(dict_out.values())
+                #loggerObj.app_info(f"The value of ls_out is {ls_out}")
                 return ls_out
 
             # If there are only one component in serial number; then its not a valid
@@ -737,7 +745,7 @@ class SerialNumber:
                     and sr_num in self.dict_mapping
                 ):
                     temp = int(ix_end) - int(ix_beg)
-                    ix_beg = self.dict_mapping[sr_num] + 1
+                    ix_beg = float(self.dict_mapping[sr_num]) + float(1)
                     ix_end = ix_beg + temp
                     self.dict_mapping[sr_num] = int(ix_end)
                 else:

@@ -27,6 +27,7 @@ def main(mytimer: func.TimerRequest) -> None:
             obj = ProcessServiceIncidents(conf_env)
             logging.info('before calling main_services')
             result = obj.main_services()
+            #result = obj.pipline_component_identify()
             logging.info(f"Inside function main defined in __init__.py file with result = {result}")
         except Exception as e:
             logging.info(f"{str(e)}")

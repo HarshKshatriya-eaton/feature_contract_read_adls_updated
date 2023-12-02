@@ -238,10 +238,11 @@ class ProcessServiceIncidents:
             loggerObj.app_info("Finished writing the contents of dataframe validate_srnum from function main_services defined inside class_services_data.py")
             # Identify if sidecar or jcomm comp is present and save results to an intermediate file.
             # df_serv_input = validate_srnum  # For testing purposes
-            # loggerObj.app_info("Now calling pipline_component_identify function defined in class_services_data.py")
-            # jcomm_sidecar_obj = self.pipline_component_identify(df_serv_input)
-            # loggerObj.app_info("Now calling pipline_component_identify function defined in class_services_data.py")
-            # loggerObj.app_info(f"The content of dataframe jcomm_sidecar_obj is \n{str(jcomm_sidecar_obj)}")
+            loggerObj.app_info("Now calling pipline_component_identify function defined in class_services_data.py")
+            #jcomm_sidecar_obj = self.pipline_component_identify(df_serv_input)
+            jcomm_sidecar_obj = self.pipeline_component_identify()
+            loggerObj.app_info("Now calling pipline_component_identify function defined in class_services_data.py")
+            loggerObj.app_info(f"The content of dataframe jcomm_sidecar_obj is \n{str(jcomm_sidecar_obj)}")
 
             loggerObj.app_success(_step)
 
@@ -509,7 +510,7 @@ class ProcessServiceIncidents:
         loggerObj.app_info("Now returning from function pipeline_id_hardwarechanges defined in class_servivces_data.py")
         return df_out
 
-    def pipline_component_identify(self, df_services_raw=None,
+    def pipeline_component_identify(self, df_services_raw=None,
                                    df_services_serialnum=None):
         """
         Function identifies if JCOMM and Sidecar fields are present in the raw services data.
@@ -555,31 +556,38 @@ class ProcessServiceIncidents:
             # Read and identify JCOMM keyword data
             df_services_jcomm = df_services_raw_merged
 
-            # JCOMM field processing
-            filter_jcomm = df_services_jcomm.Customer_Issue_Summary__c.str.contains(
-                'JCOMM',
-                na=False,
-                case=False)
-            df_services_jcomm['Has_JCOMM'] = filter_jcomm
-            df_services_jcomm = df_services_jcomm.loc[
-                df_services_jcomm.Has_JCOMM]
-            df_jcomm_output = df_services_jcomm[
-                ['Id', 'Customer_Issue_Summary__c', 'SerialNumber',
-                 'Has_JCOMM', 'Qty']]
-
+            try:
+                # JCOMM field processing
+                filter_jcomm = df_services_jcomm.Customer_Issue_Summary__c.str.contains(
+                    'JCOMM',
+                    na=False,
+                    case=False)
+                df_services_jcomm['Has_JCOMM'] = filter_jcomm
+                df_services_jcomm = df_services_jcomm.loc[
+                    df_services_jcomm.Has_JCOMM]
+                df_jcomm_output = df_services_jcomm[
+                    ['Id', 'Customer_Issue_Summary__c', 'SerialNumber',
+                    'Has_JCOMM', 'Qty']]
+            except Exception as e:
+                loggerObj.app_info(f"The message for the exception generated (JCOMM) is {str(e)}")
+            
             # Sidecar field processing
             df_services_sidecar = df_services_raw_merged
-            filter_sidecar = df_services_sidecar.Customer_Issue_Summary__c.str.contains(
-                'Sidecar',
-                na=False,
-                case=False)
-            df_services_sidecar['Has_Sidecar'] = filter_sidecar
-            df_services_sidecar = df_services_sidecar.loc[
-                df_services_sidecar.Has_Sidecar]
-            df_sidecar_output = df_services_sidecar[
-                ['Id', 'Customer_Issue_Summary__c', 'SerialNumber',
-                 'Has_Sidecar', 'Qty']]
-
+            
+            try:
+                filter_sidecar = df_services_sidecar.Customer_Issue_Summary__c.str.contains(
+                    'Sidecar',
+                    na=False,
+                    case=False)
+                df_services_sidecar['Has_Sidecar'] = filter_sidecar
+                df_services_sidecar = df_services_sidecar.loc[
+                    df_services_sidecar.Has_Sidecar]
+                df_sidecar_output = df_services_sidecar[
+                    ['Id', 'Customer_Issue_Summary__c', 'SerialNumber',
+                    'Has_Sidecar', 'Qty']]
+            except Exception as e:
+                loggerObj.app_info(f"The message for the exception generated (sidecar) is {str(e)}")
+            
             # Concatenate data for Sidecar and JCOMM df
             df_out = pd.concat([df_jcomm_output, df_sidecar_output])
 

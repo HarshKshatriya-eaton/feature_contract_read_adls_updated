@@ -79,7 +79,8 @@ class IO():
             if 'file_name' in config['adls_dir'] and config['adls_dir']['file_name'] != "":
                 file_name= config['adls_dir']['file_name']
                 if file_name.endswith(".csv"):
-                    file_name = file_name[:-4]+'dev'
+                    #file_name = file_name[:-4]+'dev'
+                    file_name = file_name[:-4]
             else:
                  file_name = io_adls.list_ADLS_directory_contents(connection_string, output_container_name, output_directory_name)
 
