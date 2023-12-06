@@ -859,8 +859,11 @@ class Contract:
             logger.app_info(f"Number of rows in df_temp_org.Qty is {len(df_temp_org.Qty)} and Number of rows in df_temp_org.SerialNumberOrg are {len(df_temp_org.SerialNumberOrg)} and number of rows in df_temp_org are {len(df_temp_org)}")
             #logger.app_info("The objects along with their memory consumption in class_contracts_data.py are")
             #self.check_var_size(list(locals().items()), log=True)          
+            # df_expanded_srnum, _ = self.srnum.get_serialnumber(
+            #     df_temp_org.SerialNumberOrg, df_temp_org.Qty, "contract", "contracts"
+            # )
             df_expanded_srnum, _ = self.srnum.get_serialnumber(
-                df_temp_org.SerialNumberOrg, df_temp_org.Qty, "contract", "contracts"
+                df_temp_org.SerialNumberOrg, df_temp_org.Qty, "services", "contracts"
             )
 
             df_expanded_srnum["SerialNumberOrg"] = (
