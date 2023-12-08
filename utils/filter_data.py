@@ -204,7 +204,7 @@ class Filter:
                 df_text[filt_flag] = df_text[filt_flag] <= filt_val
             elif filt_type == 'text_regex':
                 df_text[filt_flag] = df_text['data'].str.contains(
-                    filt_val, regex=True)
+                    filt_val, regex=True, case=False)
             else:
                 raise ValueError('Unknown filter type')
 

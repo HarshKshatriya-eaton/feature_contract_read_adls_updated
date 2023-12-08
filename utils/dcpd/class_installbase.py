@@ -107,6 +107,7 @@ class InstallBase:
             # Install Base
             df_install = self.pipeline_m2m()
             logger.app_info('fetched df_install {df_install} from adls ')
+            
             # Serial Number : M2M
             df_install = self.pipeline_serialnum(
                 df_install, merge_type='inner')
