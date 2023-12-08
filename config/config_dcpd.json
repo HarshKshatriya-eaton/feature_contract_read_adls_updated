@@ -1774,14 +1774,14 @@
                 "Customer_Issue_Summary__c": {
                     "report": "no",
                     "type": "text",
-                    "text_match_pattern": "PCB, PCA, PBA"
+                    "text_match_pattern": " PCB , PCA , PBA , PC board "
                 }
             },
             "SPD": {
                 "Customer_Issue_Summary__c": {
                     "report": "no",
                     "type": "text",
-                    "text_match_pattern": "tvss, spd, surge"
+                    "text_match_pattern": " tvss , spd , surge "
                 }
             }
         },
@@ -1796,7 +1796,7 @@
             "ContractNumber": "Id"
         },
         "UpgradeComponents": {
-            "ComponentName": "Display"
+            "ComponentName": ["Display"]
         }
     },
     "contracts": {

@@ -3,7 +3,7 @@ import logging
 import json
 import os
 import azure.functions as func
-from utils.dcpd.class_services_data import ProcessServiceIncidents
+from utils.dcpd.class_services_data_to_work import ProcessServiceIncidents
 
 
 def main(mytimer: func.TimerRequest) -> None:
