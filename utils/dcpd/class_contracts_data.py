@@ -852,7 +852,7 @@ class Contract:
             )
             #df_temp_org = df_temp_org[df_temp_org["SerialNumberOrg"] != '110-0333-a-b']
             # Get Range
-            logger.app_info("NOw calling get_serialnumber method in class_serial_number.py")
+            logger.app_info("Now calling get_serialnumber method in class_serial_number.py")
             logger.app_info(f"The columns of the data frame df_temp_org is {df_temp_org.columns}")
             logger.app_info(f"The content of df_temp_org.SerialNumberOrg is {df_temp_org.SerialNumberOrg}")
             logger.app_info(f"The content of df_temp_org.Qty is {df_temp_org.Qty}")

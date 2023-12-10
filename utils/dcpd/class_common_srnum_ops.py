@@ -88,7 +88,7 @@ class SearchSrnum:
             df_srnum["SerialNumberContract"] = df_srnum["SerialNumberContract"].apply(
                 lambda x: x.lstrip(punctuation).rstrip(punctuation)
             )
-            print("in clean serialnum")
+
             return df_srnum
         except Exception as excp:
             raise ValueError from excp
@@ -205,7 +205,7 @@ class SearchSrnum:
         Expand SerialNumbers.
 
         :param col_data: Serial Number data
-        :type col_data: TYPE
+        :type col_data: Row of the dataframe
         :param pat_srnum: Pattern to identify Serial Number
         :type pat_srnum: String
         :raises Exception: Raised if unknown data type provided.

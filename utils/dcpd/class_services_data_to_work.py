@@ -67,8 +67,12 @@ class ProcessServiceIncidents:
     """
 
     def __init__(self, mode='local'):
+        """ 
+            Set config variable and the mode to adls
+            to read and write files. 
+        """
         config_dir = os.path.join(os.path.dirname(__file__), "../../config")
-        config_file = os.path.join(config_dir, "config_dcpd.json") 
+        config_file = os.path.join(config_dir, "config_dcpd.json")
         # Read the configuration file
         with open(config_file,'r') as config_file:
             config = json.load(config_file)
