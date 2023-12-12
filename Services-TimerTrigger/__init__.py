@@ -3,7 +3,7 @@ import logging
 import json
 import os
 import azure.functions as func
-from utils.dcpd.class_services_data_to_work import ProcessServiceIncidents
+from utils.dcpd.class_services_data_past_release import ProcessServiceIncidents
 
 
 def main(mytimer: func.TimerRequest) -> None:
@@ -15,6 +15,7 @@ def main(mytimer: func.TimerRequest) -> None:
     else:
         logging.info('Python timer trigger function ran at %s', utc_timestamp)
         config_dir = os.path.join(os.path.dirname(__file__), "../config")
+        #config_dir = r'C:\Users\E0778583\OneDrive - Eaton\Documents\feature_contract_read_adls_updated\config'
         config_file = os.path.join(config_dir, "config_dcpd.json")
         try:
             # Read the configuration file
